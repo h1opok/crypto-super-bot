@@ -192,7 +192,7 @@
                 ctx.fillRect(rx, ry, 2, 2);
             }
 
-            // Пульсация цели
+            // Пульсация цели (используем HEX вместо var() для надежности в Canvas)
             ctx.fillStyle = '#f7931a';
             ctx.beginPath(); ctx.arc(targetX, targetY, 6, 0, Math.PI * 2); ctx.fill();
             
