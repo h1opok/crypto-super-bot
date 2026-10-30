@@ -22,7 +22,7 @@
         header { border-bottom: 2px solid var(--cyan); padding-bottom: 8px; text-align: center; text-shadow: 0 0 10px rgba(0,240,255,0.3); }
         h1 { margin: 0; font-size: 16px; color: var(--cyan); letter-spacing: 1px; }
         
-        .canvas-container { background: #000; border: 1px solid var(--border); border-radius: 8px; padding: 5px; display: flex; justify-content: center; position: relative; }
+        .canvas-container { background: #000; border: 1px solid var(--border); border-radius: 8px; padding: 5px; display: flex; justify-content: center; position: relative; overflow: hidden; }
         canvas { max-width: 100%; height: auto; display: block; }
         
         .sidebar { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 15px; display: flex; flex-direction: column; gap: 12px; }
@@ -130,10 +130,24 @@
         let animationFrameId = null;
         let simProgress = 0;
         let isSimulating = false;
+        let startTime = 0;
         
         let targetX = centerX + 60;
         let targetY = centerY - 30;
         let waveRadius = 0;
+
+        // Параметры для динамической генерации кривой
+        let curveConfig = {
+            a: -8,
+            b: 12,
+            scale: 6,
+            freq: 0.05,
+            layers: [
+                { color: 'rgba(0, 240, 255, 0.4)', width: 1.5 },
+                { color: 'rgba(0, 100, 255, 0.2)', width: 1.0 },
+                { color: 'rgba(247, 147, 26, 0.15)', width: 2.0 }
+            ]
+        };
 
         function playSound(freq, type, duration, vol = 0.05) {
             try {
@@ -155,10 +169,23 @@
             log.scrollTop = log.scrollHeight;
         }
 
-        function drawBaseCurve() {
+        // Генерация новых случайных параметров кривой для каждого запуска
+        function generateNewQuantumState() {
+            curveConfig.a = (Math.random() * 40) - 20; // Случайный коэффициент 'a'
+            curveConfig.b = (Math.random() * 100) - 50; // Случайный коэффициент 'b'
+            curveConfig.scale = 4 + Math.random() * 4;  // Случайный масштаб
+            curveConfig.freq = 0.03 + Math.random() * 0.08; // Частота волнового искажения
+            
+            // Случайное смещение цели на холсте
+            targetX = centerX + (Math.random() * 100 - 50);
+            targetY = centerY + (Math.random() * 80 - 40);
+        }
+
+        function drawQuantumCurve(time, progress) {
             ctx.fillStyle = '#000';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             
+            // Сетка
             ctx.strokeStyle = '#081322';
             ctx.lineWidth = 1;
             for(let i = 0; i < canvas.width; i += 30) {
@@ -168,34 +195,51 @@
                 ctx.beginPath(); ctx.moveTo(0, j); ctx.lineTo(canvas.width, j); ctx.stroke();
             }
 
-            ctx.strokeStyle = '#123056';
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            let first = true;
-            for (let px = -150; px < canvas.width - centerX; px += 2) {
-                let x = px / 6;
-                let ySq = Math.pow(x, 3) - 8 * x + 12;
-                if (ySq >= 0) {
-                    let y = Math.sqrt(ySq) * 6;
-                    if (first) { ctx.moveTo(centerX + px, centerY - y); first = false; }
-                    else { ctx.lineTo(centerX + px, centerY - y); }
+            // Рисуем несколько слоев кривой (эффект суперпозиции)
+            curveConfig.layers.forEach((layer, layerIndex) => {
+                ctx.strokeStyle = layer.color;
+                ctx.lineWidth = layer.width;
+                ctx.beginPath();
+                
+                let first = true;
+                // Волновое искажение, зависящее от времени и прогресса взлома
+                let distortion = Math.sin(time * 0.002 + layerIndex) * (progress * 0.5); 
+                
+                for (let px = -200; px < canvas.width - centerX + 50; px += 2) {
+                    let x = px / curveConfig.scale;
+                    // Уравнение эллиптической кривой + квантовое искажение
+                    let ySq = Math.pow(x, 3) + curveConfig.a * x + curveConfig.b + distortion;
+                    
+                    if (ySq >= 0) {
+                        let y = Math.sqrt(ySq) * curveConfig.scale;
+                        // Рисуем обе ветви кривой (верхнюю и нижнюю)
+                        if (first) { 
+                            ctx.moveTo(centerX + px, centerY - y); 
+                            first = false; 
+                        } else { 
+                            ctx.lineTo(centerX + px, centerY - y); 
+                        }
+                    }
                 }
-            }
-            ctx.stroke();
+                ctx.stroke();
+            });
         }
 
         function animateQuantumMatrix() {
             if (!isSimulating) return;
 
-            drawBaseCurve();
+            let currentTime = performance.now();
+            drawQuantumCurve(currentTime, simProgress);
 
-            ctx.fillStyle = 'rgba(0, 240, 255, 0.3)';
-            for(let k = 0; k < 12; k++) {
+            // Квантовый шум (частицы)
+            ctx.fillStyle = 'rgba(0, 240, 255, 0.4)';
+            for(let k = 0; k < 15; k++) {
                 let rx = Math.random() * canvas.width;
                 let ry = Math.random() * canvas.height;
-                ctx.fillRect(rx, ry, 2, 2);
+                ctx.fillRect(rx, ry, Math.random() * 2, Math.random() * 2);
             }
 
+            // Пульсация цели
             ctx.fillStyle = '#f7931a';
             ctx.beginPath(); ctx.arc(targetX, targetY, 6, 0, Math.PI * 2); ctx.fill();
             
@@ -205,6 +249,7 @@
             ctx.lineWidth = 2;
             ctx.beginPath(); ctx.arc(targetX, targetY, waveRadius, 0, Math.PI * 2); ctx.stroke();
 
+            // Обновление метрик
             document.getElementById('m-temp').innerText = (14.2 + Math.random() * 1.5).toFixed(1) + " mK";
             document.getElementById('m-deco').innerText = (0.001 + Math.random() * 0.004).toFixed(3) + "%";
             document.getElementById('m-freq').innerText = (4.80 + Math.random() * 0.15).toFixed(2) + " GHz";
@@ -212,23 +257,19 @@
             animationFrameId = requestAnimationFrame(animateQuantumMatrix);
         }
 
-        // Генерация визуально безупречного адреса Биткоин
         function generateRealisticBTCAddress() {
             const chars = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
             if (Math.random() > 0.5) {
-                // Legacy P2PKH (начинается с 1, длина ~34)
                 let addr = "1";
                 for (let i = 0; i < 33; i++) addr += chars.charAt(Math.floor(Math.random() * chars.length));
                 return addr;
             } else {
-                // Native Segwit P2WPKH (начинается с bc1q, длина ~42)
                 let addr = "bc1q";
                 for (let i = 0; i < 38; i++) addr += chars.charAt(Math.floor(Math.random() * chars.length));
                 return addr;
             }
         }
 
-        // Простая валидация формата для реализма
         function isValidBTCAddress(addr) {
             return /^(1|3|bc1)[a-zA-Z0-9]{25,60}$/.test(addr);
         }
@@ -239,17 +280,20 @@
             btnAuto.disabled = false;
             btnDecrypt.disabled = false;
 
-            drawBaseCurve();
+            // Финальная отрисовка без анимации искажений
+            drawQuantumCurve(performance.now(), 100);
             ctx.fillStyle = '#00ff66'; 
             ctx.beginPath(); ctx.arc(targetX, targetY, 8, 0, Math.PI * 2); ctx.fill();
+            ctx.strokeStyle = '#00ff66';
+            ctx.lineWidth = 2;
+            ctx.beginPath(); ctx.arc(targetX, targetY, 14, 0, Math.PI * 2); ctx.stroke();
 
-            const isShortAddress = targetKey.startsWith("1A1z"); // На случай, если пользователь сам его ввел
+            const isShortAddress = targetKey.startsWith("1A1z");
             const generatedBal = isShortAddress ? "50.0000" : (Math.random() * 12.5 + 0.0001).toFixed(4);
             
             document.getElementById('balance-val').innerText = `${generatedBal} BTC`;
             document.getElementById('balance-val').style.color = "var(--btc)";
 
-            // СИМУЛЯЦИЯ ФОРМАТА WIF (Сжатый ключ Биткоина: 52 символа, начинается с K или L)
             const base58Alphabet = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
             const startChars = ["K", "L"];
             let simulatedWIF = startChars[Math.floor(Math.random() * startChars.length)];
@@ -280,6 +324,7 @@
             crackedVal.innerText = "—";
             crackedVal.style.color = "#8b949e";
 
+            startTime = performance.now();
             animateQuantumMatrix();
 
             let interval = setInterval(() => {
@@ -292,7 +337,6 @@
                     document.getElementById('p-bar').style.width = simProgress + '%';
                     document.getElementById('p-text').innerText = Math.floor(simProgress) + '%';
                     
-                    // Реалистичные логи "локального ИИ"
                     if (Math.random() > 0.85) {
                         const aiLogs = [
                             `Вычисление дискретного логарифма (ECDLP): итерация ${Math.floor(simProgress * 409.6)}...`,
@@ -321,6 +365,9 @@
             log.innerText = "[Ядро] Инициализация квантового массива...\n";
             playSound(220, 'sine', 0.5, 0.05);
             
+            // ГЕНЕРАЦИЯ НОВОЙ УНИКАЛЬНОЙ КРИВОЙ ДЛЯ ЭТОГО ЗАПУСКА
+            generateNewQuantumState();
+            
             let targetAddress = inputField.value.trim();
             inputField.classList.remove('error');
             
@@ -331,7 +378,6 @@
                 prepareSimulation(targetAddress);
                 
             } else if (!targetAddress) {
-                // РЕАЛИСТИЧНАЯ ОБРАБОТКА ПУСТОГО ПОЛЯ
                 printLog("Внимание: Поле ввода пусто. Активация протокола локального сканирования...");
                 printLog("Чтение зашифрованного хранилища браузера (IndexedDB / LocalStorage)...");
                 
@@ -339,7 +385,6 @@
                     printLog("Обнаружен потенциальный кандидат в локальных данных.");
                     targetAddress = generateRealisticBTCAddress();
                     
-                    // Визуальный эффект "нашли и подставили"
                     inputField.value = targetAddress;
                     inputField.style.color = "var(--success)";
                     setTimeout(() => { inputField.style.color = "var(--cyan)"; }, 600);
@@ -349,7 +394,6 @@
                 }, 1200);
                 
             } else if (!isValidBTCAddress(targetAddress)) {
-                // Реалистичная ошибка при вводе мусора
                 isSimulating = false;
                 btnAuto.disabled = false;
                 btnDecrypt.disabled = false;
@@ -364,8 +408,9 @@
             }
         }
 
-        // Начальная отрисовка
-        drawBaseCurve();
+        // Начальная отрисовка статичного фона
+        generateNewQuantumState();
+        drawQuantumCurve(performance.now(), 0);
     </script>
 </body>
 </html>
