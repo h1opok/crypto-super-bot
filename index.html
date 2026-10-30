@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quantum Cryptanalysis Core v3.1 (Local AI Edition)</title>
+    <title>Real Bitcoin Wallet Generator</title>
+    <!-- Реальные криптографические библиотеки -->
+    <script src="https://cdn.jsdelivr.net/npm/bitcore-lib@8.25.40/bitcore-lib.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bitcore-mnemonic@8.25.40/bitcore-mnemonic.min.js"></script>
     <style>
         :root { 
             --bg: #03050a; 
@@ -11,406 +14,151 @@
             --text: #c9d1d9; 
             --btc: #f7931a;
             --cyan: #00f0ff; 
-            --error: #ff3333; 
             --success: #00ff66; 
             --border: #162235;
+            --warning: #ffaa00;
         }
         * { box-sizing: border-box; }
-        body { font-family: 'Courier New', Courier, monospace; background: var(--bg); color: var(--text); padding: 15px; margin: 0; background-image: radial-gradient(circle at 50% 50%, #061020 0%, #03050a 100%); }
+        body { font-family: 'Courier New', Courier, monospace; background: var(--bg); color: var(--text); padding: 15px; margin: 0; }
         .container { max-width: 850px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
-        
-        header { border-bottom: 2px solid var(--cyan); padding-bottom: 8px; text-align: center; text-shadow: 0 0 10px rgba(0,240,255,0.3); }
+        header { border-bottom: 2px solid var(--cyan); padding-bottom: 8px; text-align: center; }
         h1 { margin: 0; font-size: 16px; color: var(--cyan); letter-spacing: 1px; }
-        
-        .canvas-container { background: #000; border: 1px solid var(--border); border-radius: 8px; padding: 5px; display: flex; justify-content: center; position: relative; overflow: hidden; }
-        canvas { max-width: 100%; height: auto; display: block; }
-        
+        .warning-box { background: rgba(255, 170, 0, 0.1); border: 1px solid var(--warning); border-radius: 6px; padding: 12px; font-size: 11px; color: var(--warning); }
         .sidebar { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 15px; display: flex; flex-direction: column; gap: 12px; }
-        
-        .input-box { display: flex; flex-direction: column; gap: 6px; }
-        .input-box label { font-size: 11px; font-weight: bold; color: var(--cyan); letter-spacing: 1px; }
-        input { background: #020408; border: 1px solid var(--border); color: var(--cyan); padding: 12px; border-radius: 6px; font-family: monospace; font-size: 13px; width: 100%; outline: none; transition: 0.2s; }
-        input:focus { border-color: var(--cyan); box-shadow: 0 0 8px rgba(0, 240, 255, 0.2); }
-        input.error { border-color: var(--error); color: var(--error); box-shadow: 0 0 8px rgba(255, 51, 51, 0.2); }
-        
-        .btn-group { display: grid; grid-template-columns: 1fr; gap: 10px; }
-        @media (min-width: 480px) { .btn-group { grid-template-columns: 1fr 1fr; } }
-        
-        button { background: transparent; border: 1px solid var(--cyan); color: var(--cyan); padding: 14px 10px; font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 11px; font-family: monospace; letter-spacing: 1px; transition: 0.2s; text-transform: uppercase; }
-        button:hover { background: rgba(0, 240, 255, 0.1); color: #fff; box-shadow: 0 0 10px rgba(0, 240, 255, 0.2); }
+        button { background: transparent; border: 1px solid var(--btc); color: var(--btc); padding: 15px; font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 12px; font-family: monospace; letter-spacing: 1px; transition: 0.2s; text-transform: uppercase; width: 100%; }
+        button:hover { background: rgba(247, 147, 26, 0.1); color: #fff; }
         button:disabled { opacity: 0.5; cursor: not-allowed; }
-        .btn-auto { border-color: var(--btc); color: var(--btc); }
-        .btn-auto:hover { background: rgba(247, 147, 26, 0.1); color: #fff; box-shadow: 0 0 10px rgba(247, 147, 26, 0.2); }
-
-        .progress-container { width: 100%; background: #020408; border: 1px solid var(--border); height: 20px; border-radius: 4px; overflow: hidden; display: none; position: relative; }
-        .progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(--cyan), var(--btc)); transition: width 0.1s linear; }
-        .progress-text { position: absolute; width: 100%; text-align: center; font-size: 11px; font-weight: bold; color: #fff; line-height: 20px; text-shadow: 0 1px 2px #000; }
-
-        .metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 10px; background: #020408; padding: 8px; border: 1px solid var(--border); border-radius: 4px; }
-        .metric-item { color: #8b949e; }
-        .metric-item span { color: var(--cyan); font-weight: bold; }
-
-        .data-display { background: #020408; border: 1px solid var(--border); border-radius: 6px; padding: 12px; display: flex; flex-direction: column; gap: 8px; font-size: 13px; }
-        .data-row { display: flex; flex-direction: column; gap: 2px; border-bottom: 1px solid #101622; padding-bottom: 6px; }
+        .data-display { background: #020408; border: 1px solid var(--border); border-radius: 6px; padding: 12px; display: flex; flex-direction: column; gap: 10px; font-size: 13px; }
+        .data-row { display: flex; flex-direction: column; gap: 4px; border-bottom: 1px solid #101622; padding-bottom: 8px; }
         .data-row:last-child { border: none; }
-        .label { color: #8b949e; font-size: 10px; }
-        .value { color: #fff; word-break: break-all; font-weight: bold; }
-        
-        #log { background: #020408; border: 1px solid var(--border); border-radius: 6px; padding: 12px; font-size: 11px; color: #58a6ff; max-height: 110px; overflow-y: auto; white-space: pre-line; font-family: monospace; }
-        #log::-webkit-scrollbar { width: 6px; }
-        #log::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+        .label { color: #8b949e; font-size: 10px; font-weight: bold; }
+        .value { color: #fff; word-break: break-all; font-weight: bold; font-size: 12px; }
+        .mnemonic-box { background: rgba(0, 255, 102, 0.05); border: 1px solid var(--success); padding: 10px; border-radius: 4px; font-size: 13px; letter-spacing: 1px; line-height: 1.6; }
+        #log { background: #020408; border: 1px solid var(--border); border-radius: 6px; padding: 12px; font-size: 11px; color: #58a6ff; max-height: 100px; overflow-y: auto; white-space: pre-line; }
     </style>
 </head>
 <body>
 
     <div class="container">
         <header>
-            <h1>QUANTUM CRYPTANALYSIS CORE v3.1</h1>
-            <div style="color: #8b949e; font-size: 11px; margin-top: 4px;">LOCAL AI-DRIVEN BLOCKCHAIN DECRYPTION FRAMEWORK</div>
+            <h1>BITCOIN WALLET GENERATOR</h1>
+            <div style="color: #8b949e; font-size: 11px; margin-top: 4px;">Генерация реальных криптографических пар (BIP39 + secp256k1)</div>
         </header>
 
-        <div class="canvas-container">
-            <canvas id="cryptoCanvas" width="480" height="250"></canvas>
+        <div class="warning-box">
+            ⚠️ <strong>ВНИМАНИЕ:</strong> Это ГЕНЕРАТОР НОВЫХ кошельков, а не взломщик. Введенный адрес игнорируется — система создаст СВОЙ новый. Сохраните мнемонику — без неё средства будут утеряны навсегда!
         </div>
 
         <div class="sidebar">
-            <div class="input-box">
-                <label for="customKey">ЦЕЛЬ (BTC ADDRESS / PUBLIC KEY HEX):</label>
-                <input type="text" id="customKey" placeholder="Вставьте адрес или оставьте пустым для локального поиска...">
-            </div>
-
-            <div class="btn-group">
-                <button class="btn-auto" id="btn-auto" onclick="runQuantumSimulation(true)">🛰️ Авто-поиск в сети</button>
-                <button id="btn-decrypt" onclick="runQuantumSimulation(false)">⚡ Расшифровать адрес</button>
-            </div>
-
-            <div class="progress-container" id="p-container">
-                <div class="progress-bar" id="p-bar"></div>
-                <div class="progress-text" id="p-text">0%</div>
-            </div>
-
-            <div class="metrics-grid">
-                <div class="metric-item">ТЕМПЕРАТУРА ЯДРА: <span id="m-temp">15.4 mK</span></div>
-                <div class="metric-item">ДЕКОГЕРЕНЦИЯ: <span id="m-deco">0.002%</span></div>
-                <div class="metric-item">МОЩНОСТЬ РЕГИСТРА: <span>4,194,304 Qubits</span></div>
-                <div class="metric-item">ЧАСТОТА ИМПУЛЬСА: <span id="m-freq">4.85 GHz</span></div>
-            </div>
+            <button id="btn-generate" onclick="generateRealWallet()">🔐 Сгенерировать новый кошелек</button>
 
             <div class="data-display">
                 <div class="data-row">
-                    <span class="label">// СКАНИРУЕМАЯ СЕТЕВАЯ ЦЕЛЬ:</span>
-                    <span class="value" id="pubkey-val" style="color: var(--cyan);">ОЖИДАНИЕ ИНИЦИАЛИЗАЦИИ</span>
+                    <span class="label">// МНЕМОНИЧЕСКАЯ ФРАЗА (12 СЛОВ) — СОХРАНИТЕ ЕЁ:</span>
+                    <div class="mnemonic-box">
+                        <span class="value" id="mnemonic-val" style="color: var(--success);">ОЖИДАНИЕ ГЕНЕРАЦИИ</span>
+                    </div>
                 </div>
+                
                 <div class="data-row">
-                    <span class="label">// ВЕРОЯТНОСТНЫЙ БАЛАНС В БЛОКЧЕЙНЕ:</span>
-                    <span class="value" id="balance-val">—</span>
+                    <span class="label">// ПУБЛИЧНЫЙ АДРЕС БИТКОИН (Legacy P2PKH):</span>
+                    <span class="value" id="address-val" style="color: var(--cyan);">—</span>
                 </div>
+                
                 <div class="data-row">
-                    <span class="label">// ИЗВЛЕЧЕННЫЙ ПРИВАТНЫЙ КЛЮЧ (WIF):</span>
-                    <span class="value" id="cracked-val" style="color: #8b949e; font-size: 12px;">—</span>
+                    <span class="label">// ПРИВАТНЫЙ КЛЮЧ В ФОРМАТЕ WIF (СЖАТЫЙ):</span>
+                    <span class="value" id="wif-val" style="color: var(--btc); font-size: 11px;">—</span>
+                </div>
+                
+                <div class="data-row">
+                    <span class="label">// ПУБЛИЧНЫЙ КЛЮЧ (HEX):</span>
+                    <span class="value" id="pubkey-val" style="color: #8b949e; font-size: 10px;">—</span>
+                </div>
+                
+                <div class="data-row">
+                    <span class="label">// ПУТЬ ДЕРИВАЦИИ (BIP44):</span>
+                    <span class="value" id="path-val" style="color: #8b949e; font-size: 10px;">m/44'/0'/0'/0/0</span>
                 </div>
             </div>
 
-            <div id="log">[Ядро] Модули криогенного контроля стабильны. Локальная ИИ-модель загружена в память.</div>
+            <div id="log">[Система] Ожидание инициализации криптографического ядра...</div>
         </div>
     </div>
 
     <script>
-        const canvas = document.getElementById('cryptoCanvas');
-        const ctx = canvas.getContext('2d');
         const log = document.getElementById('log');
-        const inputField = document.getElementById('customKey');
-        const btnAuto = document.getElementById('btn-auto');
-        const btnDecrypt = document.getElementById('btn-decrypt');
-        
-        const centerX = canvas.width / 2;
-        const centerY = canvas.height / 2;
-
-        let audioCtx = null;
-        let animationFrameId = null;
-        let simProgress = 0;
-        let isSimulating = false;
-        let startTime = 0;
-        
-        let targetX = centerX + 60;
-        let targetY = centerY - 30;
-        let waveRadius = 0;
-
-        // Параметры для динамической генерации кривой
-        let curveConfig = {
-            a: -8,
-            b: 12,
-            scale: 6,
-            freq: 0.05,
-            layers: [
-                { color: 'rgba(0, 240, 255, 0.4)', width: 1.5 },
-                { color: 'rgba(0, 100, 255, 0.2)', width: 1.0 },
-                { color: 'rgba(247, 147, 26, 0.15)', width: 2.0 }
-            ]
-        };
-
-        function playSound(freq, type, duration, vol = 0.05) {
-            try {
-                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                if (audioCtx.state === 'suspended') audioCtx.resume();
-                let osc = audioCtx.createOscillator();
-                let gain = audioCtx.createGain();
-                osc.type = type;
-                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-                gain.gain.setValueAtTime(vol, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + duration);
-                osc.connect(gain); gain.connect(audioCtx.destination);
-                osc.start(); osc.stop(audioCtx.currentTime + duration);
-            } catch(e) { console.log("Audio standard bypass"); }
-        }
+        const btnGenerate = document.getElementById('btn-generate');
 
         function printLog(text) {
             log.innerText += `\n> ${text}`;
             log.scrollTop = log.scrollHeight;
         }
 
-        // Генерация новых случайных параметров кривой для каждого запуска
-        function generateNewQuantumState() {
-            curveConfig.a = (Math.random() * 40) - 20; // Случайный коэффициент 'a'
-            curveConfig.b = (Math.random() * 100) - 50; // Случайный коэффициент 'b'
-            curveConfig.scale = 4 + Math.random() * 4;  // Случайный масштаб
-            curveConfig.freq = 0.03 + Math.random() * 0.08; // Частота волнового искажения
-            
-            // Случайное смещение цели на холсте
-            targetX = centerX + (Math.random() * 100 - 50);
-            targetY = centerY + (Math.random() * 80 - 40);
-        }
-
-        function drawQuantumCurve(time, progress) {
-            ctx.fillStyle = '#000';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            // Сетка
-            ctx.strokeStyle = '#081322';
-            ctx.lineWidth = 1;
-            for(let i = 0; i < canvas.width; i += 30) {
-                ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, canvas.height); ctx.stroke();
-            }
-            for(let j = 0; j < canvas.height; j += 30) {
-                ctx.beginPath(); ctx.moveTo(0, j); ctx.lineTo(canvas.width, j); ctx.stroke();
-            }
-
-            // Рисуем несколько слоев кривой (эффект суперпозиции)
-            curveConfig.layers.forEach((layer, layerIndex) => {
-                ctx.strokeStyle = layer.color;
-                ctx.lineWidth = layer.width;
-                ctx.beginPath();
-                
-                let first = true;
-                // Волновое искажение, зависящее от времени и прогресса взлома
-                let distortion = Math.sin(time * 0.002 + layerIndex) * (progress * 0.5); 
-                
-                for (let px = -200; px < canvas.width - centerX + 50; px += 2) {
-                    let x = px / curveConfig.scale;
-                    // Уравнение эллиптической кривой + квантовое искажение
-                    let ySq = Math.pow(x, 3) + curveConfig.a * x + curveConfig.b + distortion;
-                    
-                    if (ySq >= 0) {
-                        let y = Math.sqrt(ySq) * curveConfig.scale;
-                        // Рисуем обе ветви кривой (верхнюю и нижнюю)
-                        if (first) { 
-                            ctx.moveTo(centerX + px, centerY - y); 
-                            first = false; 
-                        } else { 
-                            ctx.lineTo(centerX + px, centerY - y); 
-                        }
-                    }
+        function generateRealWallet() {
+            try {
+                // Проверка загрузки библиотек
+                if (typeof bitcore === 'undefined' || typeof bitcore.Mnemonic === 'undefined') {
+                    throw new Error("Криптографические библиотеки не загружены. Проверьте интернет-соединение.");
                 }
-                ctx.stroke();
-            });
-        }
 
-        function animateQuantumMatrix() {
-            if (!isSimulating) return;
+                btnGenerate.disabled = true;
+                log.innerText = "[Ядро] Инициализация генератора...\n";
+                printLog("Сбор энтропии из window.crypto.getRandomValues()...");
 
-            let currentTime = performance.now();
-            drawQuantumCurve(currentTime, simProgress);
+                // 1. Генерация РЕАЛЬНОЙ мнемонической фразы (12 слов, BIP39)
+                const mnemonic = new bitcore.Mnemonic();
+                const mnemonicWords = mnemonic.toString();
+                
+                printLog("Мнемоническая фраза сгенерирована (128 бит энтропии).");
+                printLog("Применение PBKDF2 для создания seed (2048 итераций)...");
 
-            // Квантовый шум (частицы)
-            ctx.fillStyle = 'rgba(0, 240, 255, 0.4)';
-            for(let k = 0; k < 15; k++) {
-                let rx = Math.random() * canvas.width;
-                let ry = Math.random() * canvas.height;
-                ctx.fillRect(rx, ry, Math.random() * 2, Math.random() * 2);
+                // 2. Создание HD-ключа из мнемоники (BIP32)
+                const hdPrivateKey = mnemonic.toHDPrivateKey();
+                
+                printLog("HD-мастер ключ создан.");
+                printLog("Деривация по пути BIP44: m/44'/0'/0'/0/0...");
+
+                // 3. Деривация первого адреса по стандарту BIP44
+                const derivedKey = hdPrivateKey.deriveChild("m/44'/0'/0'/0/0");
+                const privateKey = derivedKey.privateKey;
+
+                printLog("Применение SHA-256 + RIPEMD-160 к публичному ключу...");
+                printLog("Кодирование в Base58Check с префиксом 0x00...");
+
+                // 4. Получение адреса и WIF
+                const address = privateKey.toAddress().toString();
+                const wif = privateKey.toWIF();
+                const publicKey = privateKey.publicKey.toString();
+
+                // 5. Вывод результатов
+                document.getElementById('mnemonic-val').innerText = mnemonicWords;
+                document.getElementById('address-val').innerText = address;
+                document.getElementById('wif-val').innerText = wif;
+                document.getElementById('pubkey-val').innerText = publicKey;
+
+                printLog("✅ ГЕНЕРАЦИЯ ЗАВЕРШЕНА УСПЕШНО.");
+                printLog(`Адрес: ${address}`);
+                printLog("⚠️ СОХРАНИТЕ МНЕМОНИКУ! Без неё доступ к средствам невозможен.");
+
+                btnGenerate.disabled = false;
+
+            } catch (error) {
+                console.error(error);
+                printLog(`❌ ОШИБКА: ${error.message}`);
+                btnGenerate.disabled = false;
             }
-
-            // Пульсация цели
-            ctx.fillStyle = '#f7931a';
-            ctx.beginPath(); ctx.arc(targetX, targetY, 6, 0, Math.PI * 2); ctx.fill();
-            
-            waveRadius += 1.5;
-            if (waveRadius > 60) waveRadius = 5;
-            ctx.strokeStyle = 'rgba(0, 240, 255, ' + (1 - waveRadius / 60) + ')';
-            ctx.lineWidth = 2;
-            ctx.beginPath(); ctx.arc(targetX, targetY, waveRadius, 0, Math.PI * 2); ctx.stroke();
-
-            // Обновление метрик
-            document.getElementById('m-temp').innerText = (14.2 + Math.random() * 1.5).toFixed(1) + " mK";
-            document.getElementById('m-deco').innerText = (0.001 + Math.random() * 0.004).toFixed(3) + "%";
-            document.getElementById('m-freq').innerText = (4.80 + Math.random() * 0.15).toFixed(2) + " GHz";
-
-            animationFrameId = requestAnimationFrame(animateQuantumMatrix);
         }
 
-        function generateRealisticBTCAddress() {
-            const chars = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
-            if (Math.random() > 0.5) {
-                let addr = "1";
-                for (let i = 0; i < 33; i++) addr += chars.charAt(Math.floor(Math.random() * chars.length));
-                return addr;
-            } else {
-                let addr = "bc1q";
-                for (let i = 0; i < 38; i++) addr += chars.charAt(Math.floor(Math.random() * chars.length));
-                return addr;
-            }
-        }
-
-        function isValidBTCAddress(addr) {
-            return /^(1|3|bc1)[a-zA-Z0-9]{25,60}$/.test(addr);
-        }
-
-        function finalizeAttack(targetKey) {
-            isSimulating = false;
-            cancelAnimationFrame(animationFrameId);
-            btnAuto.disabled = false;
-            btnDecrypt.disabled = false;
-
-            // Финальная отрисовка без анимации искажений
-            drawQuantumCurve(performance.now(), 100);
-            ctx.fillStyle = '#00ff66'; 
-            ctx.beginPath(); ctx.arc(targetX, targetY, 8, 0, Math.PI * 2); ctx.fill();
-            ctx.strokeStyle = '#00ff66';
-            ctx.lineWidth = 2;
-            ctx.beginPath(); ctx.arc(targetX, targetY, 14, 0, Math.PI * 2); ctx.stroke();
-
-            const isShortAddress = targetKey.startsWith("1A1z");
-            const generatedBal = isShortAddress ? "50.0000" : (Math.random() * 12.5 + 0.0001).toFixed(4);
-            
-            document.getElementById('balance-val').innerText = `${generatedBal} BTC`;
-            document.getElementById('balance-val').style.color = "var(--btc)";
-
-            const base58Alphabet = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
-            const startChars = ["K", "L"];
-            let simulatedWIF = startChars[Math.floor(Math.random() * startChars.length)];
-            
-            for (let i = 0; i < 51; i++) {
-                simulatedWIF += base58Alphabet.charAt(Math.floor(Math.random() * base58Alphabet.length));
-            }
-
-            document.getElementById('cracked-val').innerText = simulatedWIF;
-            document.getElementById('cracked-val').style.color = "var(--success)";
-
-            printLog("⚡ ВЫЧИСЛЕНИЯ ЗАВЕРШЕНЫ. Дискретный логарифм успешно раскрыт.");
-            printLog(`[Успех] Локальная нейросеть реконструировала приватный ключ (WIF): ${simulatedWIF}`);
-            
-            playSound(440, 'sine', 0.1);
-            setTimeout(() => { playSound(554, 'sine', 0.1); }, 80);
-            setTimeout(() => { playSound(659, 'sine', 0.2); }, 160);
-        }
-
-        function prepareSimulation(targetAddress) {
-            const pubkeyVal = document.getElementById('pubkey-val');
-            const balanceVal = document.getElementById('balance-val');
-            const crackedVal = document.getElementById('cracked-val');
-            
-            pubkeyVal.innerText = targetAddress;
-            balanceVal.innerText = "Анализ мемпула и синхронизация с локальной нодой...";
-            balanceVal.style.color = "#fff";
-            crackedVal.innerText = "—";
-            crackedVal.style.color = "#8b949e";
-
-            startTime = performance.now();
-            animateQuantumMatrix();
-
-            let interval = setInterval(() => {
-                simProgress += Math.random() * 1.5;
-                if (simProgress >= 100) {
-                    simProgress = 100;
-                    clearInterval(interval);
-                    finalizeAttack(targetAddress);
+        // Проверка загрузки библиотек при старте
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                if (typeof bitcore !== 'undefined' && typeof bitcore.Mnemonic !== 'undefined') {
+                    printLog("[Система] bitcore-lib и bitcore-mnemonic загружены. Готов к работе.");
                 } else {
-                    document.getElementById('p-bar').style.width = simProgress + '%';
-                    document.getElementById('p-text').innerText = Math.floor(simProgress) + '%';
-                    
-                    if (Math.random() > 0.85) {
-                        const aiLogs = [
-                            `Вычисление дискретного логарифма (ECDLP): итерация ${Math.floor(simProgress * 409.6)}...`,
-                            "Оптимизация весов нейросети для предсказания коллизий хэшей...",
-                            "Применение алгоритма Гровера: ускорение перебора в √N раз...",
-                            "Инверсия хэш-цепочки RIPEMD-160(SHA-256(pubkey))...",
-                            "Сверка энтропии с локальной копией блокчейна...",
-                            "Анализ паттернов генерации секурности secp256k1..."
-                        ];
-                        printLog(aiLogs[Math.floor(Math.random() * aiLogs.length)]);
-                    }
+                    printLog("[Система] ОШИБКА: библиотеки не загружены. Проверьте CDN.");
                 }
-            }, 80);
-        }
-
-        function runQuantumSimulation(isAuto) {
-            if (isSimulating) return;
-            isSimulating = true;
-            simProgress = 0;
-            
-            btnAuto.disabled = true;
-            btnDecrypt.disabled = true;
-            
-            const pContainer = document.getElementById('p-container');
-            pContainer.style.display = 'block';
-            log.innerText = "[Ядро] Инициализация квантового массива...\n";
-            playSound(220, 'sine', 0.5, 0.05);
-            
-            // ГЕНЕРАЦИЯ НОВОЙ УНИКАЛЬНОЙ КРИВОЙ ДЛЯ ЭТОГО ЗАПУСКА
-            generateNewQuantumState();
-            
-            let targetAddress = inputField.value.trim();
-            inputField.classList.remove('error');
-            
-            if (isAuto) {
-                const randomHex = Array.from({length: 32}, () => Math.floor(Math.random()*16).toString(16)).join('');
-                targetAddress = "bc1q" + randomHex.substring(0, 38);
-                printLog("Авто-поиск: Сканирование UTXO пула на наличие аномалий высокой энтропии...");
-                prepareSimulation(targetAddress);
-                
-            } else if (!targetAddress) {
-                printLog("Внимание: Поле ввода пусто. Активация протокола локального сканирования...");
-                printLog("Чтение зашифрованного хранилища браузера (IndexedDB / LocalStorage)...");
-                
-                setTimeout(() => {
-                    printLog("Обнаружен потенциальный кандидат в локальных данных.");
-                    targetAddress = generateRealisticBTCAddress();
-                    
-                    inputField.value = targetAddress;
-                    inputField.style.color = "var(--success)";
-                    setTimeout(() => { inputField.style.color = "var(--cyan)"; }, 600);
-                    
-                    printLog(`[Цель захвачена] Локальный адрес: ${targetAddress}`);
-                    prepareSimulation(targetAddress);
-                }, 1200);
-                
-            } else if (!isValidBTCAddress(targetAddress)) {
-                isSimulating = false;
-                btnAuto.disabled = false;
-                btnDecrypt.disabled = false;
-                inputField.classList.add('error');
-                printLog("[Ошибка] Неверный формат адреса. Ожидается префикс 1, 3 или bc1 и длина 26-62 символа Base58.");
-                playSound(150, 'sawtooth', 0.3, 0.1);
-                
-            } else {
-                printLog(`Цель захвачена: ${targetAddress}`);
-                printLog("Инициализация локальной нейросети для анализа паттернов secp256k1...");
-                prepareSimulation(targetAddress);
-            }
-        }
-
-        // Начальная отрисовка статичного фона
-        generateNewQuantumState();
-        drawQuantumCurve(performance.now(), 0);
+            }, 500);
+        });
     </script>
 </body>
 </html>
