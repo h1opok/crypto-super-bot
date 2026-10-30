@@ -3,62 +3,182 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Постквантовый Симулятор Решёток</title>
+    <title>Постквантовый Симулятор Решёток Pro</title>
     <style>
-        :root { --bg: #0b0f19; --panel: #161b26; --text: #f0f6fc; --accent: #58a6ff; --error: #f85149; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); padding: 20px; margin: 0; }
-        .container { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 1fr 350px; gap: 20px; }
-        header { grid-column: 1 / -1; border-bottom: 1px solid #21263d; padding-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
-        .canvas-container { background: #000; border: 1px solid #21263d; border-radius: 8px; display: flex; justify-content: center; align-items: center; padding: 10px; position: relative; }
-        canvas { background: #05070f; display: block; }
-        .sidebar { background: var(--panel); border: 1px solid #21263d; border-radius: 8px; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
-        button { background: #21262d; border: 1px solid #30363d; color: var(--text); padding: 12px; font-weight: bold; border-radius: 6px; cursor: pointer; transition: 0.2s; }
-        button:hover { background: #30363d; border-color: #8b949e; }
+        :root { 
+            --bg: #0d1117; 
+            --panel: #161b22; 
+            --text: #c9d1d9; 
+            --accent: #58a6ff; 
+            --success: #238636;
+            --error: #da3633; 
+            --border: #30363d;
+        }
+        
+        * { box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            padding: 15px; 
+            margin: 0; 
+        }
+        
+        .container { 
+            max-width: 1100px; 
+            margin: 0 auto; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 15px; 
+        }
+        
+        header { 
+            border-bottom: 1px solid var(--border); 
+            padding-bottom: 15px; 
+            text-align: center;
+        }
+        h1 { margin: 0; font-size: 20px; color: #fff; }
+        
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+        
+        .canvas-container { 
+            background: #05070f; 
+            border: 1px solid var(--border); 
+            border-radius: 8px; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            padding: 5px; 
+            width: 100%;
+            overflow: hidden;
+        }
+        canvas { 
+            max-width: 100%; 
+            height: auto; 
+            background: #05070f; 
+        }
+        
+        .sidebar { 
+            background: var(--panel); 
+            border: 1px solid var(--border); 
+            border-radius: 8px; 
+            padding: 15px; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 12px; 
+        }
+        
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        input, select {
+            background: #0d1117;
+            border: 1px solid var(--border);
+            color: #fff;
+            padding: 10px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 14px;
+            width: 100%;
+        }
+        
+        .grid-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+        button { 
+            background: #21262d; 
+            border: 1px solid var(--border); 
+            color: var(--text); 
+            padding: 12px 8px; 
+            font-weight: bold; 
+            border-radius: 6px; 
+            cursor: pointer; 
+            font-size: 13px;
+            transition: 0.15s;
+        }
+        button:hover { background: #30363d; }
         .btn-accent { background: var(--accent); color: #000; border: none; }
         .btn-accent:hover { background: #79c0ff; }
-        .info-box { font-size: 14px; line-height: 1.5; color: #8b949e; background: #0d1117; padding: 12px; border-radius: 6px; border-left: 3px solid var(--accent); }
-        .stat { display: flex; justify-content: space-between; font-size: 14px; border-bottom: 1px solid #21263d; padding-bottom: 5px; }
+        .btn-success { background: var(--success); color: #fff; border: none; }
+        .btn-success:hover { background: #2ea043; }
+        
+        .info-box { 
+            font-size: 13px; 
+            line-height: 1.4; 
+            color: #8b949e; 
+            background: #0d1117; 
+            padding: 10px; 
+            border-radius: 6px; 
+            border-left: 3px solid var(--accent); 
+        }
+        .stat { display: flex; justify-content: space-between; font-size: 13px; border-bottom: 1px solid var(--border); padding-bottom: 4px; }
         .stat span:last-child { font-family: monospace; color: #fff; }
-        @media print {
-            body { background: white; color: black; }
-            .sidebar, header button { display: none; }
-            .container { grid-template-columns: 1fr; }
-            canvas { border: 1px solid #000; }
+        
+        #log { 
+            background: #0d1117; 
+            border: 1px solid var(--border); 
+            border-radius: 6px; 
+            padding: 10px; 
+            font-family: monospace; 
+            font-size: 12px; 
+            color: #58a6ff; 
+            max-height: 140px; 
+            overflow-y: auto;
+            white-space: pre-line;
+        }
+
+        /* Адаптация под планшеты и десктопы */
+        @media (min-width: 768px) {
+            h1 { font-size: 24px; text-align: left; }
+            header { text-align: left; display: flex; justify-content: space-between; align-items: center; }
+            .main-layout { grid-template-columns: 1fr 380px; }
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <div>
-            <h1 style="margin:0; font-size:24px;">🛡️ Постквантовая Криптография: Геометрия Решёток</h1>
-            <p style="margin:5px 0 0 0; color:#8b949e;">Визуализация защиты от квантового алгоритма Шора</p>
-        </div>
-        <button onclick="window.print()">🖨️ Экспорт схемы в PDF</button>
-    </header>
-
     <div class="container">
-        <div class="canvas-container">
-            <canvas id="latticeCanvas" width="600" height="500"></canvas>
-        </div>
+        <header>
+            <div>
+                <h1>🛡️ Постквантовая Криптография: Решётки Pro</h1>
+                <div style="color: #8b949e; font-size: 13px; margin-top: 4px;">Математическое шифрование (LWE) с защитой от квантовых ПК</div>
+            </div>
+            <button onclick="window.print()" style="margin-top: 10px; width: auto;">🖨️ Экспорт в PDF</button>
+        </header>
 
-        <div class="sidebar">
-            <h3>Панель Управления</h3>
-            
-            <div class="info-box">
-                Квантовый компьютер легко взламывает ECDSA, вычисляя траекторию на кривой. Но в решётках точка данных маскируется случайным геометрическим шумом (вектором ошибки).
+        <div class="main-layout">
+            <div class="canvas-container">
+                <canvas id="latticeCanvas" width="500" height="400"></canvas>
             </div>
 
-            <div class="stat"><span>Размерность:</span> <span id="dim-val">2D (Для наглядности)</span></div>
-            <div class="stat"><span>Текущий Базис:</span> <span id="basis-val">Секретный (Ортогональный)</span></div>
+            <div class="sidebar">
+                <div class="input-group">
+                    <label style="font-size: 13px; font-weight: bold;">Введите секретное число (от -4 до 4):</label>
+                    <input type="number" id="secretInput" value="2" min="-4" max="4">
+                </div>
 
-            <button class="btn-accent" onclick="generateLattice()">1. Сгенерировать Ключи (Решётку)</button>
-            <button onclick="encryptData()">2. Зашифровать Точку (+Шум)</button>
-            <button onclick="quantumAttack()">3. Эмуляция атаки Шора (Провал)</button>
-            <button onclick="decryptData()" style="border-color: #238636;">4. Расшифровать (Секретный Базис)</button>
+                <div class="info-box">
+                    Введите число и нажмите <b>Шифровать</b>. Алгоритм умножит его на публичный базис решётки и добавит случайную ошибку (шум). Квантовый компьютер не сможет угадать точку без секретного базиса.
+                </div>
 
-            <div id="status-log" style="font-family:monospace; font-size:12px; color:#58a6ff; margin-top:10px; max-height:100px; overflow-y:auto;">
-                [Система] Готова к генерации ключей.
+                <div class="stat"><span>Текущий Базис:</span> <span id="basis-val">Публичный (Искажённый)</span></div>
+                <div class="stat"><span>Результат дешифрования:</span> <span id="decrypted-val">—</span></div>
+
+                <div class="grid-buttons">
+                    <button class="btn-accent" onclick="encryptCustomData()">1. Шифровать</button>
+                    <button onclick="quantumAttack()">2. Атака Шора</button>
+                    <button class="btn-success" onclick="decryptCustomData()" style="grid-column: span 2;">3. Расшифровать секретным ключом</button>
+                </div>
+
+                <div id="log">[Система] Введите секрет и запустите шифрование.</div>
             </div>
         </div>
     </div>
@@ -66,32 +186,33 @@
     <script>
         const canvas = document.getElementById('latticeCanvas');
         const ctx = canvas.getContext('2d');
-        const log = document.getElementById('status-log');
-
-        // Векторы базиса (Секретный ключ — ортогональный/хороший базис)
-        let v1 = {x: 40, y: 0};
-        let v2 = {x: 0, y: 40};
+        const log = document.getElementById('log');
         
-        let pointX = 0;
-        let pointY = 0;
-        let cipherX = 0;
-        let cipherY = 0;
-        let step = 0;
+        // Математические параметры решётки (LWE-принцип)
+        // Плохой (публичный) базис
+        const v1 = {x: 40, y: 15};
+        const v2 = {x: 35, y: 35};
+        
+        // Хороший (секретный ортогональный) базис для идеального округления
+        const s1 = {x: 45, y: 0};
+        const s2 = {x: 0, y: 45};
+
+        let secretMultiplier = 0;
+        let cipherX = 0, cipherY = 0;
+        let actualPointX = 0, actualPointY = 0;
+        let hasEncrypted = false;
 
         function printLog(text) {
-            log.innerHTML += `<br>> ${text}`;
+            log.innerText += `\n> ${text}`;
             log.scrollTop = log.scrollHeight;
         }
 
-        function drawGrid() {
+        function drawLattice() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.strokeStyle = '#161b26';
-            ctx.lineWidth = 1;
-
-            // Рисуем узлы решётки (Публичный ключ)
-            for (let i = -15; i < 15; i++) {
-                for (let j = -15; j < 15; j++) {
-                    // Трансформация базиса в "плохой" (узлы под углом)
+            
+            // Сетка узлов публичной решётки
+            for (let i = -10; i <= 10; i++) {
+                for (let j = -10; j <= 10; j++) {
                     let x = canvas.width/2 + i * v1.x + j * v2.x;
                     let y = canvas.height/2 + i * v1.y + j * v2.y;
                     
@@ -103,79 +224,51 @@
             }
         }
 
-        function generateLattice() {
-            // Делаем базис "плохим" (косоугольным) для публичного ключа
-            v1 = {x: 50, y: 15};
-            v2 = {x: 45, y: 35};
-            drawGrid();
-            step = 1;
-            printLog("Ключи созданы. Сгенерирована многомерная решётка.");
-            document.getElementById('basis-val').innerText = "Публичный (Искажённый)";
-        }
+        function encryptCustomData() {
+            const inputVal = parseInt(document.getElementById('secretInput').value);
+            if (isNaN(inputVal) || inputVal < -4 || inputVal > 4) {
+                alert("Пожалуйста, введите число в диапазоне от -4 до 4 для корректного отображения на графике.");
+                return;
+            }
 
-        function encryptData() {
-            if(step < 1) return printLog("Сначала сгенерируйте решётку!");
+            secretMultiplier = inputVal;
             
-            // Выбираем случайный узел решётки (Данные)
-            let i = 2; let j = 3;
-            pointX = canvas.width/2 + i * v1.x + j * v1.y;
-            pointY = canvas.height/2 + i * v2.x + j * v2.y;
+            // Настоящая точка на решётке (Секрет * Базис)
+            actualPointX = canvas.width/2 + secretMultiplier * v1.x;
+            actualPointY = canvas.height/2 + secretMultiplier * v1.y;
 
-            // Добавляем вектор ошибки (Шум)
-            let errorX = 18;
-            let errorY = -12;
-            cipherX = pointX + errorX;
-            cipherY = pointY + errorY;
-
-            drawGrid();
-
-            // Рисуем исходную точку
-            ctx.fillStyle = '#58a6ff';
-            ctx.beginPath(); ctx.arc(pointX, pointY, 6, 0, Math.PI*2); ctx.fill();
+            // Генерируем реальный случайный шум (вектор ошибки)
+            const errorX = Math.floor(Math.random() * 16) + 10; // от 10 до 25
+            const errorY = -(Math.floor(Math.random() * 16) + 10);
             
-            // Рисуем зашифрованную точку с шумом
+            // Зашифрованная точка со смещением
+            cipherX = actualPointX + errorX;
+            cipherY = actualPointY + errorY;
+
+            drawLattice();
+
+            // Рисуем точку шифра (Жёлтая)
             ctx.fillStyle = '#f2c744';
             ctx.beginPath(); ctx.arc(cipherX, cipherY, 6, 0, Math.PI*2); ctx.fill();
 
-            // Линия ошибки
-            ctx.strokeStyle = '#f2c744';
+            // Линия до оригинальной точки (скрыта для имитации шифрования)
+            ctx.strokeStyle = 'rgba(242, 243, 68, 0.4)';
             ctx.setLineDash([4, 4]);
-            ctx.beginPath(); ctx.moveTo(pointX, pointY); ctx.lineTo(cipherX, cipherY); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(actualPointX, actualPointY); ctx.lineTo(cipherX, cipherY); ctx.stroke();
             ctx.setLineDash([]);
 
-            step = 2;
-            printLog("Данные скрыты в векторе. Добавлен геометрический шум.");
+            hasEncrypted = true;
+            document.getElementById('decrypted-val').innerText = "—";
+            document.getElementById('basis-val').innerText = "Публичный (Искажённый)";
+            
+            log.innerText = "[Система] Генерация ключей успешна.";
+            printLog(`Данные [${secretMultiplier}] зашифрованы.`);
+            printLog(`Координаты шифра: X:${Math.round(cipherX)}, Y:${Math.round(cipherY)}`);
+            printLog(`Внедрён геометрический шум (Вектор ошибки: X:${errorX}, Y:${errorY}).`);
         }
 
         function quantumAttack() {
-            if(step < 2) return printLog("Нет данных для атаки.");
-            printLog("Запуск алгоритма Шора на суперкомпьютере...");
-            setTimeout(() => {
-                printLog("⚠️ Сбой: Алгоритм Шора не может разложить решётку на множители.");
-                printLog("❌ Квантовый перебор застрял в задаче CVP (Ближайший вектор).");
-            }, 800);
-        }
-
-        function decryptData() {
-            if(step < 2) return printLog("Нечего дешифровать.");
+            if (!hasEncrypted) return alert("Сначала зашифруйте данные!");
+            printLog("Запуск квантового алгоритма Шора на суперпроцессоре...");
             
-            // Показываем секретный (хороший ортогональный базис) который легко убирает шум
-            ctx.strokeStyle = '#238636';
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.moveTo(cipherX, cipherY);
-            ctx.lineTo(pointX, pointY);
-            ctx.stroke();
-
-            ctx.fillStyle = '#238636';
-            ctx.beginPath(); ctx.arc(pointX, pointY, 7, 0, Math.PI*2); ctx.fill();
-
-            printLog("✅ Успех! Секретный базис мгновенно округлил шум. Данные восстановлены.");
-            document.getElementById('basis-val').innerText = "Секретный (Очищенный)";
-        }
-
-        // Первичный запуск
-        drawGrid();
-    </script>
-</body>
-</html>
+            setTimeout(() => {
