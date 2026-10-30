@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bitcoin Quantum Hacking Terminal</title>
+    <title>Bitcoin Quantum Hacking Terminal v2</title>
     <style>
         :root { 
             --bg: #060913; 
@@ -26,6 +26,11 @@
         
         .sidebar { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 15px; display: flex; flex-direction: column; gap: 12px; }
         
+        .input-box { display: flex; flex-direction: column; gap: 6px; }
+        .input-box label { font-size: 12px; font-weight: bold; color: var(--btc); text-transform: uppercase; }
+        input { background: #02040a; border: 1px solid var(--border); color: #fff; padding: 12px; border-radius: 6px; font-family: monospace; font-size: 13px; width: 100%; }
+        input:focus { border-color: var(--btc); outline: none; }
+
         .data-display { background: #02040a; border: 1px solid var(--border); border-radius: 6px; padding: 12px; display: flex; flex-direction: column; gap: 8px; font-size: 13px; }
         .data-row { display: flex; flex-direction: column; gap: 2px; border-bottom: 1px solid #161b26; padding-bottom: 6px; }
         .data-row:last-child { border: none; }
@@ -42,8 +47,8 @@
 
     <div class="container">
         <header>
-            <h1>⚡ КВАНТОВЫЙ ТЕРМИНАЛ: ВЗЛОМ ECDSA ⚡</h1>
-            <div style="color: #8b949e; font-size: 12px; margin-top: 4px;">Перехват приватных ключей Биткоина через алгоритм Шора</div>
+            <h1>⚡ КВАНТОВЫЙ ТЕРМИНАЛ: АТАКА ПО КЛЮЧУ ⚡</h1>
+            <div style="color: #8b949e; font-size: 12px; margin-top: 4px;">Дешифрование пользовательских ECDSA-целей через алгоритм Шора</div>
         </header>
 
         <div class="canvas-container">
@@ -51,24 +56,33 @@
         </div>
 
         <div class="sidebar">
+            <div class="input-box">
+                <label for="customKey">Вставьте Открытый Ключ или Адрес BTC:</label>
+                <input type="text" id="customKey" placeholder="Например: 041A2B3C... или 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa">
+            </div>
+
+            <button onclick="startCustomQuantumAttack()">Запустить анализ и атаку</button>
+
             <div class="data-display">
                 <div class="data-row">
-                    <span class="label">1. Публичный адрес BTC (Цель из сети):</span>
-                    <span class="value" id="pubkey-val">Нажмите кнопку для сканирования сети...</span>
+                    <span class="label">Текущая цель в обработке:</span>
+                    <span class="value" id="pubkey-val" style="color: var(--accent);">Ожидание ввода...</span>
                 </div>
                 <div class="data-row">
-                    <span class="label">2. Статус вычислений суперкомпьютера:</span>
-                    <span class="value" id="status-val" style="color: #8b949e;">Ожидание запуска</span>
+                    <span class="label">Квантовое сканирование кривой secp256k1:</span>
+                    <span class="value" id="status-val" style="color: #8b949e;">Пассивно</span>
                 </div>
                 <div class="data-row">
-                    <span class="label">3. ИТОГОВЫЙ ПЕРЕХВАЧЕННЫЙ ПРИВАТНЫЙ КЛЮЧ:</span>
-                    <span class="value" id="cracked-val" style="color: var(--error); font-size: 15px;">—</span>
+                    <span class="label">Симулированный баланс кошелька:</span>
+                    <span class="value" id="balance-val" style="color: #fff;">—</span>
+                </div>
+                <div class="data-row">
+                    <span class="label">Итоговый перехваченный приватный ключ:</span>
+                    <span class="value" id="cracked-val" style="color: var(--error); font-size: 14px;">—</span>
                 </div>
             </div>
 
-            <button onclick="startQuantumProcess()">Запустить квантовую атаку Шора</button>
-
-            <div id="log">[Система] Квантовые регистры охлаждены до -273°C. Готовы к симуляции.</div>
+            <div id="log">[Система] Готова к импорту публичных данных. Введите ключ и нажмите кнопку запуска.</div>
         </div>
     </div>
 
@@ -87,9 +101,7 @@
 
         function drawSystem() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            // Рисуем математическую модель кривой secp256k1
-            ctx.strokeStyle = '#1f2430';
+            ctx.strokeStyle = '#161b26';
             ctx.beginPath(); ctx.moveTo(0, centerY); ctx.lineTo(canvas.width, centerY); ctx.stroke();
             ctx.beginPath(); ctx.moveTo(centerX, 0); ctx.lineTo(centerX, canvas.height); ctx.stroke();
 
@@ -123,63 +135,59 @@
             ctx.lineWidth = 1;
         }
 
-        function startQuantumProcess() {
-            // Очищаем старые данные
+        function startCustomQuantumAttack() {
+            const inputKey = document.getElementById('customKey').value.trim();
+            
+            if (!inputKey) {
+                alert("Пожалуйста, сначала введите открытый ключ или адрес в текстовое поле!");
+                return;
+            }
+
+            // Очистка и сброс индикаторов
             document.getElementById('cracked-val').innerText = "—";
-            document.getElementById('status-val').innerText = "Перехват транзакции...";
+            document.getElementById('balance-val').innerText = "Считывание баланса...";
+            document.getElementById('status-val').innerText = "Анализ структуры данных...";
             document.getElementById('status-val').style.color = "var(--accent)";
+            document.getElementById('pubkey-val').innerText = inputKey;
             
-            // 1. Имитируем реальный публичный ключ Биткоина в блокчейне
-            const fakePubKey = "04" + Array.from({length: 30}, () => Math.floor(Math.random()*16).toString(16)).join('').toUpperCase();
-            document.getElementById('pubkey-val').innerText = fakePubKey;
-            
-            log.innerText = "[Блокчейн] Сканирование сети... Обнаружен публичный ключ транзакции.";
-            printLog("Точка Q зафиксирована на эллиптической кривой.");
-            
-            // Рисуем цель на графике
+            log.innerText = `[Входные данные] Ключ импортирован. Длина: ${inputKey.length} символов.`;
+            printLog("Поиск математического соответствия на эллиптической кривой...");
+
             drawSystem();
-            let targetX = centerX + 60;
-            let targetY = centerY - 50;
+            let targetX = centerX + 45;
+            let targetY = centerY + 65;
             ctx.fillStyle = 'var(--btc)';
             ctx.beginPath(); ctx.arc(targetX, targetY, 8, 0, Math.PI*2); ctx.fill();
             ctx.fillStyle = '#fff';
-            ctx.fillText("Q (Target)", targetX + 12, targetY - 5);
+            ctx.fillText("Target Point", targetX + 12, targetY + 15);
 
-            // 2. Симуляция работы Алгоритма Шора (вычисление периода)
+            // Шаг 2: Симуляция сканирования баланса блокчейна
             setTimeout(() => {
-                document.getElementById('status-val').innerText = "Запуск Алгоритма Шора...";
+                // Генерируем случайный красивый симуляционный баланс для наглядности
+                const simulatedBalance = (Math.random() * 2.5).toFixed(4);
+                document.getElementById('balance-val').innerText = `${simulatedBalance} BTC`;
+                document.getElementById('status-val').innerText = "Квантовое вычисление периода...";
                 document.getElementById('status-val').style.color = "var(--btc)";
-                printLog("Вычисление квантового преобразования Фурье (QFT)...");
-                printLog("Разложение циклической группы точек на множители...");
                 
-                // Эффект сканирования кривой на графике
-                ctx.strokeStyle = 'var(--accent)';
+                printLog(`[Блокчейн] Сканирование завершено. Обнаружен виртуальный баланс: ${simulatedBalance} BTC.`);
+                printLog("Инициализация квантового регистра Шора. Преобразование Фурье запущено.");
+                
+                ctx.strokeStyle = 'var(--error)';
                 ctx.lineWidth = 1.5;
-                ctx.beginPath(); ctx.arc(targetX, targetY, 20, 0, Math.PI*2); ctx.stroke();
-            }, 1000);
+                ctx.beginPath(); ctx.arc(targetX, targetY, 22, 0, Math.PI*2); ctx.stroke();
+            }, 1200);
 
-            // 3. Выдача готового приватного ключа
+            // Шаг 3: Генерация "приватного ключа" на основе введенного открытого
             setTimeout(() => {
-                document.getElementById('status-val').innerText = "Дискретный логарифм вычислен!";
+                document.getElementById('status-val').innerText = "ВЗЛОМ ЗАВЕРШЕН. Период совпал.";
                 document.getElementById('status-val').style.color = "var(--success)";
                 
-                // Генерируем фейковый приватный ключ (как исходный секрет)
-                const fakePrivKey = "KwDiBvN" + Array.from({length: 25}, () => Math.floor(Math.random()*16).toString(16)).join('');
+                // Делаем псевдо-приватный ключ, визуально зависящий от первых букв ввода, для интерактивности
+                const seed = inputKey.slice(0, 4).toUpperCase();
+                const fakePrivKey = "pQC_" + seed + "_" + Array.from({length: 20}, () => Math.floor(Math.random()*16).toString(16)).join('');
                 document.getElementById('cracked-val').innerText = fakePrivKey;
                 
-                // Подсвечиваем взлом на графике
-                ctx.strokeStyle = 'var(--error)';
-                ctx.lineWidth = 3;
-                ctx.beginPath(); ctx.arc(targetX, targetY, 12, 0, Math.PI*2); ctx.stroke();
+                ctx.fillStyle = 'var(--error)';
+                ctx.beginPath(); ctx.arc(targetX, targetY, 14, 0, Math.PI*2); ctx.stroke();
                 
-                printLog("⚡ ПЕРИОД НАЙДЕН! Математическая защита Биткоина ECDSA сломана.");
-                printLog(`[УСПЕХ] Извлечен приватный ключ: ${fakePrivKey}`);
-                printLog("Доступ к кошельку открыт. Симуляция завершена.");
-            }, 2500);
-        }
-
-        // Инициализация
-        drawSystem();
-    </script>
-</body>
-</html>
+                printLog(`[Успех Шора] Дискретный логарифм успешно раскрыт.`);
