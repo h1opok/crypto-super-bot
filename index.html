@@ -184,7 +184,6 @@
 
             drawBaseCurve();
 
-            // Квантовый шум
             ctx.fillStyle = 'rgba(0, 240, 255, 0.3)';
             for(let k = 0; k < 12; k++) {
                 let rx = Math.random() * canvas.width;
@@ -192,7 +191,6 @@
                 ctx.fillRect(rx, ry, 2, 2);
             }
 
-            // Пульсация цели (используем HEX вместо var() для надежности в Canvas)
             ctx.fillStyle = '#f7931a';
             ctx.beginPath(); ctx.arc(targetX, targetY, 6, 0, Math.PI * 2); ctx.fill();
             
@@ -202,12 +200,46 @@
             ctx.lineWidth = 2;
             ctx.beginPath(); ctx.arc(targetX, targetY, waveRadius, 0, Math.PI * 2); ctx.stroke();
 
-            // Обновление метрик в реальном времени
             document.getElementById('m-temp').innerText = (14.2 + Math.random() * 1.5).toFixed(1) + " mK";
             document.getElementById('m-deco').innerText = (0.001 + Math.random() * 0.004).toFixed(3) + "%";
             document.getElementById('m-freq').innerText = (4.80 + Math.random() * 0.15).toFixed(2) + " GHz";
 
             animationFrameId = requestAnimationFrame(animateQuantumMatrix);
+        }
+
+        function finalizeAttack(targetKey) {
+            isSimulating = false;
+            cancelAnimationFrame(animationFrameId);
+
+            drawBaseCurve();
+            // Используем HEX-код вместо CSS-переменной для надежности отрисовки в Canvas
+            ctx.fillStyle = '#00ff66'; 
+            ctx.beginPath(); ctx.arc(targetX, targetY, 8, 0, Math.PI * 2); ctx.fill();
+
+            const isShortAddress = targetKey.startsWith("1A1z");
+            const generatedBal = isShortAddress ? "50.0000" : (Math.random() * 12.5 + 0.1).toFixed(4);
+            
+            document.getElementById('balance-val').innerText = `${generatedBal} BTC`;
+            document.getElementById('balance-val').style.color = "var(--btc)";
+
+            // СИМУЛЯЦИЯ ФОРМАТА WIF (Сжатый ключ Биткоина: 52 символа, начинается с K или L)
+            const base58Alphabet = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
+            const startChars = ["K", "L"];
+            let simulatedWIF = startChars[Math.floor(Math.random() * startChars.length)];
+            
+            for (let i = 0; i < 51; i++) {
+                simulatedWIF += base58Alphabet.charAt(Math.floor(Math.random() * base58Alphabet.length));
+            }
+
+            document.getElementById('cracked-val').innerText = simulatedWIF;
+            document.getElementById('cracked-val').style.color = "var(--success)";
+
+            printLog("⚡ ВЫЧИСЛЕНИЯ ЗАВЕРШЕНЫ. Дискретный логарифм успешно раскрыт.");
+            printLog(`[Успех] Извлечен приватный ключ (WIF): ${simulatedWIF}`);
+            
+            playSound(440, 'sine', 0.1);
+            setTimeout(() => { playSound(554, 'sine', 0.1); }, 80);
+            setTimeout(() => { playSound(659, 'sine', 0.2); }, 160);
         }
 
         function runQuantumSimulation(isAuto) {
@@ -252,33 +284,7 @@
                 if (simProgress >= 100) {
                     simProgress = 100;
                     clearInterval(interval);
-                    isSimulating = false;
-                    cancelAnimationFrame(animationFrameId);
-                    drawBaseCurve(); // Финальная отрисовка без шума
-                    
-                    pBar.style.width = '100%';
-                    pText.innerText = '100%';
-                    
-                    playSound(880, 'square', 0.8, 0.1);
-                    setTimeout(() => playSound(1100, 'square', 0.8, 0.1), 150);
-                    
-                    printLog("Успех: Квантовая факторизация (алгоритм Шора) завершена.");
-                    
-                    const fakeBalance = (Math.random() * 15.5).toFixed(4);
-                    balanceVal.innerText = `${fakeBalance} BTC`;
-                    balanceVal.style.color = "var(--success)";
-                    
-                    // Генерация реалистичного WIF-ключа
-                    const base58 = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
-                    let fakePrivKey = "5";
-                    for(let i = 0; i < 50; i++) {
-                        fakePrivKey += base58.charAt(Math.floor(Math.random() * base58.length));
-                    }
-                    
-                    crackedVal.innerText = fakePrivKey;
-                    crackedVal.style.color = "var(--success)";
-                    
-                    printLog("Приватный ключ успешно извлечен из эллиптической кривой secp256k1.");
+                    finalizeAttack(targetAddress);
                 } else {
                     pBar.style.width = simProgress + '%';
                     pText.innerText = Math.floor(simProgress) + '%';
@@ -290,7 +296,6 @@
             }, 80);
         }
 
-        // Начальная отрисовка фона
         drawBaseCurve();
     </script>
 </body>
