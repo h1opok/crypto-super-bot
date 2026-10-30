@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quantum Cryptanalysis Core v3.1</title>
+    <title>Quantum Cryptanalysis Core v3.1 (Local AI Edition)</title>
     <style>
         :root { 
             --bg: #03050a; 
@@ -31,12 +31,14 @@
         .input-box label { font-size: 11px; font-weight: bold; color: var(--cyan); letter-spacing: 1px; }
         input { background: #020408; border: 1px solid var(--border); color: var(--cyan); padding: 12px; border-radius: 6px; font-family: monospace; font-size: 13px; width: 100%; outline: none; transition: 0.2s; }
         input:focus { border-color: var(--cyan); box-shadow: 0 0 8px rgba(0, 240, 255, 0.2); }
+        input.error { border-color: var(--error); color: var(--error); box-shadow: 0 0 8px rgba(255, 51, 51, 0.2); }
         
         .btn-group { display: grid; grid-template-columns: 1fr; gap: 10px; }
         @media (min-width: 480px) { .btn-group { grid-template-columns: 1fr 1fr; } }
         
         button { background: transparent; border: 1px solid var(--cyan); color: var(--cyan); padding: 14px 10px; font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 11px; font-family: monospace; letter-spacing: 1px; transition: 0.2s; text-transform: uppercase; }
         button:hover { background: rgba(0, 240, 255, 0.1); color: #fff; box-shadow: 0 0 10px rgba(0, 240, 255, 0.2); }
+        button:disabled { opacity: 0.5; cursor: not-allowed; }
         .btn-auto { border-color: var(--btc); color: var(--btc); }
         .btn-auto:hover { background: rgba(247, 147, 26, 0.1); color: #fff; box-shadow: 0 0 10px rgba(247, 147, 26, 0.2); }
 
@@ -64,7 +66,7 @@
     <div class="container">
         <header>
             <h1>QUANTUM CRYPTANALYSIS CORE v3.1</h1>
-            <div style="color: #8b949e; font-size: 11px; margin-top: 4px;">AUTOMATED BLOCKCHAIN DECRYPTION FRAMEWORK</div>
+            <div style="color: #8b949e; font-size: 11px; margin-top: 4px;">LOCAL AI-DRIVEN BLOCKCHAIN DECRYPTION FRAMEWORK</div>
         </header>
 
         <div class="canvas-container">
@@ -73,13 +75,13 @@
 
         <div class="sidebar">
             <div class="input-box">
-                <label for="customKey">РУЧНОЙ ВВОД ЦЕЛИ (BTC ADDRESS / PUBLIC KEY):</label>
-                <input type="text" id="customKey" placeholder="Вставьте адрес вручную для расшифрования...">
+                <label for="customKey">ЦЕЛЬ (BTC ADDRESS / PUBLIC KEY HEX):</label>
+                <input type="text" id="customKey" placeholder="Вставьте адрес или оставьте пустым для локального поиска...">
             </div>
 
             <div class="btn-group">
-                <button class="btn-auto" onclick="runQuantumSimulation(true)">🛰️ Авто-поиск кошелька с балансом</button>
-                <button onclick="runQuantumSimulation(false)">⚡ Расшифровать мой адрес</button>
+                <button class="btn-auto" id="btn-auto" onclick="runQuantumSimulation(true)">🛰️ Авто-поиск в сети</button>
+                <button id="btn-decrypt" onclick="runQuantumSimulation(false)">⚡ Расшифровать адрес</button>
             </div>
 
             <div class="progress-container" id="p-container">
@@ -109,7 +111,7 @@
                 </div>
             </div>
 
-            <div id="log">[Ядро] Модули криогенного контроля стабильны. Ожидание выбора режима.</div>
+            <div id="log">[Ядро] Модули криогенного контроля стабильны. Локальная ИИ-модель загружена в память.</div>
         </div>
     </div>
 
@@ -117,6 +119,9 @@
         const canvas = document.getElementById('cryptoCanvas');
         const ctx = canvas.getContext('2d');
         const log = document.getElementById('log');
+        const inputField = document.getElementById('customKey');
+        const btnAuto = document.getElementById('btn-auto');
+        const btnDecrypt = document.getElementById('btn-decrypt');
         
         const centerX = canvas.width / 2;
         const centerY = canvas.height / 2;
@@ -207,17 +212,39 @@
             animationFrameId = requestAnimationFrame(animateQuantumMatrix);
         }
 
+        // Генерация визуально безупречного адреса Биткоин
+        function generateRealisticBTCAddress() {
+            const chars = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
+            if (Math.random() > 0.5) {
+                // Legacy P2PKH (начинается с 1, длина ~34)
+                let addr = "1";
+                for (let i = 0; i < 33; i++) addr += chars.charAt(Math.floor(Math.random() * chars.length));
+                return addr;
+            } else {
+                // Native Segwit P2WPKH (начинается с bc1q, длина ~42)
+                let addr = "bc1q";
+                for (let i = 0; i < 38; i++) addr += chars.charAt(Math.floor(Math.random() * chars.length));
+                return addr;
+            }
+        }
+
+        // Простая валидация формата для реализма
+        function isValidBTCAddress(addr) {
+            return /^(1|3|bc1)[a-zA-Z0-9]{25,60}$/.test(addr);
+        }
+
         function finalizeAttack(targetKey) {
             isSimulating = false;
             cancelAnimationFrame(animationFrameId);
+            btnAuto.disabled = false;
+            btnDecrypt.disabled = false;
 
             drawBaseCurve();
-            // Используем HEX-код вместо CSS-переменной для надежности отрисовки в Canvas
             ctx.fillStyle = '#00ff66'; 
             ctx.beginPath(); ctx.arc(targetX, targetY, 8, 0, Math.PI * 2); ctx.fill();
 
-            const isShortAddress = targetKey.startsWith("1A1z");
-            const generatedBal = isShortAddress ? "50.0000" : (Math.random() * 12.5 + 0.1).toFixed(4);
+            const isShortAddress = targetKey.startsWith("1A1z"); // На случай, если пользователь сам его ввел
+            const generatedBal = isShortAddress ? "50.0000" : (Math.random() * 12.5 + 0.0001).toFixed(4);
             
             document.getElementById('balance-val').innerText = `${generatedBal} BTC`;
             document.getElementById('balance-val').style.color = "var(--btc)";
@@ -235,44 +262,20 @@
             document.getElementById('cracked-val').style.color = "var(--success)";
 
             printLog("⚡ ВЫЧИСЛЕНИЯ ЗАВЕРШЕНЫ. Дискретный логарифм успешно раскрыт.");
-            printLog(`[Успех] Извлечен приватный ключ (WIF): ${simulatedWIF}`);
+            printLog(`[Успех] Локальная нейросеть реконструировала приватный ключ (WIF): ${simulatedWIF}`);
             
             playSound(440, 'sine', 0.1);
             setTimeout(() => { playSound(554, 'sine', 0.1); }, 80);
             setTimeout(() => { playSound(659, 'sine', 0.2); }, 160);
         }
 
-        function runQuantumSimulation(isAuto) {
-            if (isSimulating) return;
-            isSimulating = true;
-            simProgress = 0;
-            
-            const pContainer = document.getElementById('p-container');
-            const pBar = document.getElementById('p-bar');
-            const pText = document.getElementById('p-text');
+        function prepareSimulation(targetAddress) {
             const pubkeyVal = document.getElementById('pubkey-val');
             const balanceVal = document.getElementById('balance-val');
             const crackedVal = document.getElementById('cracked-val');
             
-            pContainer.style.display = 'block';
-            log.innerText = "[Ядро] Инициализация квантового массива...\n";
-            playSound(220, 'sine', 0.5, 0.05);
-            
-            let targetAddress = document.getElementById('customKey').value.trim();
-            
-            if (isAuto) {
-                const randomHex = Array.from({length: 32}, () => Math.floor(Math.random()*16).toString(16)).join('');
-                targetAddress = "bc1q" + randomHex.substring(0, 38);
-                printLog("Авто-поиск: Сканирование UTXO пула на наличие аномалий...");
-            } else if (!targetAddress) {
-                targetAddress = "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa";
-                printLog("Внимание: Цель не указана. Используется демо-адрес (Genesis Block).");
-            } else {
-                printLog(`Цель захвачена: ${targetAddress}`);
-            }
-            
             pubkeyVal.innerText = targetAddress;
-            balanceVal.innerText = "Сканирование мемпула...";
+            balanceVal.innerText = "Анализ мемпула и синхронизация с локальной нодой...";
             balanceVal.style.color = "#fff";
             crackedVal.innerText = "—";
             crackedVal.style.color = "#8b949e";
@@ -286,16 +289,82 @@
                     clearInterval(interval);
                     finalizeAttack(targetAddress);
                 } else {
-                    pBar.style.width = simProgress + '%';
-                    pText.innerText = Math.floor(simProgress) + '%';
+                    document.getElementById('p-bar').style.width = simProgress + '%';
+                    document.getElementById('p-text').innerText = Math.floor(simProgress) + '%';
+                    
+                    // Реалистичные логи "локального ИИ"
                     if (Math.random() > 0.85) {
-                        const iter = Math.floor(simProgress * 409.6);
-                        printLog(`Вычисление дискретного логарифма: итерация ${iter}...`);
+                        const aiLogs = [
+                            `Вычисление дискретного логарифма (ECDLP): итерация ${Math.floor(simProgress * 409.6)}...`,
+                            "Оптимизация весов нейросети для предсказания коллизий хэшей...",
+                            "Применение алгоритма Гровера: ускорение перебора в √N раз...",
+                            "Инверсия хэш-цепочки RIPEMD-160(SHA-256(pubkey))...",
+                            "Сверка энтропии с локальной копией блокчейна...",
+                            "Анализ паттернов генерации секурности secp256k1..."
+                        ];
+                        printLog(aiLogs[Math.floor(Math.random() * aiLogs.length)]);
                     }
                 }
             }, 80);
         }
 
+        function runQuantumSimulation(isAuto) {
+            if (isSimulating) return;
+            isSimulating = true;
+            simProgress = 0;
+            
+            btnAuto.disabled = true;
+            btnDecrypt.disabled = true;
+            
+            const pContainer = document.getElementById('p-container');
+            pContainer.style.display = 'block';
+            log.innerText = "[Ядро] Инициализация квантового массива...\n";
+            playSound(220, 'sine', 0.5, 0.05);
+            
+            let targetAddress = inputField.value.trim();
+            inputField.classList.remove('error');
+            
+            if (isAuto) {
+                const randomHex = Array.from({length: 32}, () => Math.floor(Math.random()*16).toString(16)).join('');
+                targetAddress = "bc1q" + randomHex.substring(0, 38);
+                printLog("Авто-поиск: Сканирование UTXO пула на наличие аномалий высокой энтропии...");
+                prepareSimulation(targetAddress);
+                
+            } else if (!targetAddress) {
+                // РЕАЛИСТИЧНАЯ ОБРАБОТКА ПУСТОГО ПОЛЯ
+                printLog("Внимание: Поле ввода пусто. Активация протокола локального сканирования...");
+                printLog("Чтение зашифрованного хранилища браузера (IndexedDB / LocalStorage)...");
+                
+                setTimeout(() => {
+                    printLog("Обнаружен потенциальный кандидат в локальных данных.");
+                    targetAddress = generateRealisticBTCAddress();
+                    
+                    // Визуальный эффект "нашли и подставили"
+                    inputField.value = targetAddress;
+                    inputField.style.color = "var(--success)";
+                    setTimeout(() => { inputField.style.color = "var(--cyan)"; }, 600);
+                    
+                    printLog(`[Цель захвачена] Локальный адрес: ${targetAddress}`);
+                    prepareSimulation(targetAddress);
+                }, 1200);
+                
+            } else if (!isValidBTCAddress(targetAddress)) {
+                // Реалистичная ошибка при вводе мусора
+                isSimulating = false;
+                btnAuto.disabled = false;
+                btnDecrypt.disabled = false;
+                inputField.classList.add('error');
+                printLog("[Ошибка] Неверный формат адреса. Ожидается префикс 1, 3 или bc1 и длина 26-62 символа Base58.");
+                playSound(150, 'sawtooth', 0.3, 0.1);
+                
+            } else {
+                printLog(`Цель захвачена: ${targetAddress}`);
+                printLog("Инициализация локальной нейросети для анализа паттернов secp256k1...");
+                prepareSimulation(targetAddress);
+            }
+        }
+
+        // Начальная отрисовка
         drawBaseCurve();
     </script>
 </body>
