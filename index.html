@@ -29,19 +29,20 @@
         
         .input-box { display: flex; flex-direction: column; gap: 6px; }
         .input-box label { font-size: 11px; font-weight: bold; color: var(--cyan); letter-spacing: 1px; }
-        input { background: #020408; border: 1px solid var(--border); color: var(--cyan); padding: 12px; border-radius: 6px; font-family: monospace; font-size: 13px; width: 100%; }
+        input { background: #020408; border: 1px solid var(--border); color: var(--cyan); padding: 12px; border-radius: 6px; font-family: monospace; font-size: 13px; width: 100%; outline: none; transition: 0.2s; }
+        input:focus { border-color: var(--cyan); box-shadow: 0 0 8px rgba(0, 240, 255, 0.2); }
         
         .btn-group { display: grid; grid-template-columns: 1fr; gap: 10px; }
         @media (min-width: 480px) { .btn-group { grid-template-columns: 1fr 1fr; } }
         
         button { background: transparent; border: 1px solid var(--cyan); color: var(--cyan); padding: 14px 10px; font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 11px; font-family: monospace; letter-spacing: 1px; transition: 0.2s; text-transform: uppercase; }
-        button:hover { background: rgba(0, 240, 255, 0.1); color: #fff; }
+        button:hover { background: rgba(0, 240, 255, 0.1); color: #fff; box-shadow: 0 0 10px rgba(0, 240, 255, 0.2); }
         .btn-auto { border-color: var(--btc); color: var(--btc); }
-        .btn-auto:hover { background: rgba(247, 147, 26, 0.1); }
+        .btn-auto:hover { background: rgba(247, 147, 26, 0.1); color: #fff; box-shadow: 0 0 10px rgba(247, 147, 26, 0.2); }
 
         .progress-container { width: 100%; background: #020408; border: 1px solid var(--border); height: 20px; border-radius: 4px; overflow: hidden; display: none; position: relative; }
-        .progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(--cyan), var(--btc)); }
-        .progress-text { position: absolute; width: 100%; text-align: center; font-size: 11px; font-weight: bold; color: #fff; line-height: 20px; }
+        .progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(--cyan), var(--btc)); transition: width 0.1s linear; }
+        .progress-text { position: absolute; width: 100%; text-align: center; font-size: 11px; font-weight: bold; color: #fff; line-height: 20px; text-shadow: 0 1px 2px #000; }
 
         .metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 10px; background: #020408; padding: 8px; border: 1px solid var(--border); border-radius: 4px; }
         .metric-item { color: #8b949e; }
@@ -53,7 +54,9 @@
         .label { color: #8b949e; font-size: 10px; }
         .value { color: #fff; word-break: break-all; font-weight: bold; }
         
-        #log { background: #020408; border: 1px solid var(--border); border-radius: 6px; padding: 12px; font-size: 11px; color: #58a6ff; max-height: 110px; overflow-y: auto; white-space: pre-line; }
+        #log { background: #020408; border: 1px solid var(--border); border-radius: 6px; padding: 12px; font-size: 11px; color: #58a6ff; max-height: 110px; overflow-y: auto; white-space: pre-line; font-family: monospace; }
+        #log::-webkit-scrollbar { width: 6px; }
+        #log::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
     </style>
 </head>
 <body>
@@ -101,8 +104,8 @@
                     <span class="value" id="balance-val">—</span>
                 </div>
                 <div class="data-row">
-                    <span class="label">// ИЗВЛЕЧЕННЫЙ ПРИВАТНЫЙ КЛЮЧ:</span>
-                    <span class="value" id="cracked-val" style="color: var(--success); font-size: 14px;">—</span>
+                    <span class="label">// ИЗВЛЕЧЕННЫЙ ПРИВАТНЫЙ КЛЮЧ (WIF):</span>
+                    <span class="value" id="cracked-val" style="color: #8b949e; font-size: 12px;">—</span>
                 </div>
             </div>
 
@@ -127,7 +130,7 @@
         let targetY = centerY - 30;
         let waveRadius = 0;
 
-        function playSound(freq, type, duration, vol=0.05) {
+        function playSound(freq, type, duration, vol = 0.05) {
             try {
                 if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                 if (audioCtx.state === 'suspended') audioCtx.resume();
@@ -153,10 +156,10 @@
             
             ctx.strokeStyle = '#081322';
             ctx.lineWidth = 1;
-            for(let i=0; i<canvas.width; i+=30) {
+            for(let i = 0; i < canvas.width; i += 30) {
                 ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, canvas.height); ctx.stroke();
             }
-            for(let j=0; j<canvas.height; j+=30) {
+            for(let j = 0; j < canvas.height; j += 30) {
                 ctx.beginPath(); ctx.moveTo(0, j); ctx.lineTo(canvas.width, j); ctx.stroke();
             }
 
@@ -181,19 +184,114 @@
 
             drawBaseCurve();
 
-            ctx.fillStyle = 'rgba(0, 240, 255, 0.2)';
-            for(let k=0; k<8; k++) {
+            // Квантовый шум
+            ctx.fillStyle = 'rgba(0, 240, 255, 0.3)';
+            for(let k = 0; k < 12; k++) {
                 let rx = Math.random() * canvas.width;
                 let ry = Math.random() * canvas.height;
                 ctx.fillRect(rx, ry, 2, 2);
             }
 
-            ctx.fillStyle = 'var(--btc)';
-            ctx.beginPath(); ctx.arc(targetX, targetY, 6, 0, Math.PI*2); ctx.fill();
+            // Пульсация цели
+            ctx.fillStyle = '#f7931a';
+            ctx.beginPath(); ctx.arc(targetX, targetY, 6, 0, Math.PI * 2); ctx.fill();
             
-            waveRadius += 2;
-            if (waveRadius > 50) waveRadius = 5;
-            ctx.strokeStyle = 'rgba(0, 240, 255, ' + (1 - waveRadius/50) + ')';
-            ctx.beginPath(); ctx.arc(targetX, targetY, waveRadius, 0, Math.PI*2); ctx.stroke();
+            waveRadius += 1.5;
+            if (waveRadius > 60) waveRadius = 5;
+            ctx.strokeStyle = 'rgba(0, 240, 255, ' + (1 - waveRadius / 60) + ')';
+            ctx.lineWidth = 2;
+            ctx.beginPath(); ctx.arc(targetX, targetY, waveRadius, 0, Math.PI * 2); ctx.stroke();
 
-            document.getElementById('m-temp').innerText = (14.2 + Math.random()*2).toFixed(1) + " mK";
+            // Обновление метрик в реальном времени
+            document.getElementById('m-temp').innerText = (14.2 + Math.random() * 1.5).toFixed(1) + " mK";
+            document.getElementById('m-deco').innerText = (0.001 + Math.random() * 0.004).toFixed(3) + "%";
+            document.getElementById('m-freq').innerText = (4.80 + Math.random() * 0.15).toFixed(2) + " GHz";
+
+            animationFrameId = requestAnimationFrame(animateQuantumMatrix);
+        }
+
+        function runQuantumSimulation(isAuto) {
+            if (isSimulating) return;
+            isSimulating = true;
+            simProgress = 0;
+            
+            const pContainer = document.getElementById('p-container');
+            const pBar = document.getElementById('p-bar');
+            const pText = document.getElementById('p-text');
+            const pubkeyVal = document.getElementById('pubkey-val');
+            const balanceVal = document.getElementById('balance-val');
+            const crackedVal = document.getElementById('cracked-val');
+            
+            pContainer.style.display = 'block';
+            log.innerText = "[Ядро] Инициализация квантового массива...\n";
+            playSound(220, 'sine', 0.5, 0.05);
+            
+            let targetAddress = document.getElementById('customKey').value.trim();
+            
+            if (isAuto) {
+                const randomHex = Array.from({length: 32}, () => Math.floor(Math.random()*16).toString(16)).join('');
+                targetAddress = "bc1q" + randomHex.substring(0, 38);
+                printLog("Авто-поиск: Сканирование UTXO пула на наличие аномалий...");
+            } else if (!targetAddress) {
+                targetAddress = "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa";
+                printLog("Внимание: Цель не указана. Используется демо-адрес (Genesis Block).");
+            } else {
+                printLog(`Цель захвачена: ${targetAddress}`);
+            }
+            
+            pubkeyVal.innerText = targetAddress;
+            balanceVal.innerText = "Сканирование мемпула...";
+            balanceVal.style.color = "#fff";
+            crackedVal.innerText = "—";
+            crackedVal.style.color = "#8b949e";
+
+            animateQuantumMatrix();
+
+            let interval = setInterval(() => {
+                simProgress += Math.random() * 1.5;
+                if (simProgress >= 100) {
+                    simProgress = 100;
+                    clearInterval(interval);
+                    isSimulating = false;
+                    cancelAnimationFrame(animationFrameId);
+                    drawBaseCurve(); // Финальная отрисовка без шума
+                    
+                    pBar.style.width = '100%';
+                    pText.innerText = '100%';
+                    
+                    playSound(880, 'square', 0.8, 0.1);
+                    setTimeout(() => playSound(1100, 'square', 0.8, 0.1), 150);
+                    
+                    printLog("Успех: Квантовая факторизация (алгоритм Шора) завершена.");
+                    
+                    const fakeBalance = (Math.random() * 15.5).toFixed(4);
+                    balanceVal.innerText = `${fakeBalance} BTC`;
+                    balanceVal.style.color = "var(--success)";
+                    
+                    // Генерация реалистичного WIF-ключа
+                    const base58 = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
+                    let fakePrivKey = "5";
+                    for(let i = 0; i < 50; i++) {
+                        fakePrivKey += base58.charAt(Math.floor(Math.random() * base58.length));
+                    }
+                    
+                    crackedVal.innerText = fakePrivKey;
+                    crackedVal.style.color = "var(--success)";
+                    
+                    printLog("Приватный ключ успешно извлечен из эллиптической кривой secp256k1.");
+                } else {
+                    pBar.style.width = simProgress + '%';
+                    pText.innerText = Math.floor(simProgress) + '%';
+                    if (Math.random() > 0.85) {
+                        const iter = Math.floor(simProgress * 409.6);
+                        printLog(`Вычисление дискретного логарифма: итерация ${iter}...`);
+                    }
+                }
+            }, 80);
+        }
+
+        // Начальная отрисовка фона
+        drawBaseCurve();
+    </script>
+</body>
+</html>
