@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quantum Cryptanalysis Core v3.1</title>
+    <title>Real Bitcoin Key Generator & Quantum Simulator</title>
+    <!-- Подключаем реальную браузерную сборку библиотеки bitcore-lib для криптографии Биткоина -->
+    <script src="https://cdn.jsdelivr.net/npm/bitcore-lib@8.25.40/bitcore-lib.min.js"></script>
     <style>
         :root { 
             --bg: #03050a; 
@@ -11,50 +13,23 @@
             --text: #c9d1d9; 
             --btc: #f7931a;
             --cyan: #00f0ff; 
-            --error: #ff3333; 
             --success: #00ff66; 
             --border: #162235;
         }
         * { box-sizing: border-box; }
         body { font-family: 'Courier New', Courier, monospace; background: var(--bg); color: var(--text); padding: 15px; margin: 0; background-image: radial-gradient(circle at 50% 50%, #061020 0%, #03050a 100%); }
         .container { max-width: 850px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
-        
-        header { border-bottom: 2px solid var(--cyan); padding-bottom: 8px; text-align: center; text-shadow: 0 0 10px rgba(0,240,255,0.3); }
+        header { border-bottom: 2px solid var(--cyan); padding-bottom: 8px; text-align: center; }
         h1 { margin: 0; font-size: 16px; color: var(--cyan); letter-spacing: 1px; }
-        
-        .canvas-container { background: #000; border: 1px solid var(--border); border-radius: 8px; padding: 5px; display: flex; justify-content: center; position: relative; }
-        canvas { max-width: 100%; height: auto; display: block; }
-        
         .sidebar { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 15px; display: flex; flex-direction: column; gap: 12px; }
-        
-        .input-box { display: flex; flex-direction: column; gap: 6px; }
-        .input-box label { font-size: 11px; font-weight: bold; color: var(--cyan); letter-spacing: 1px; }
-        input { background: #020408; border: 1px solid var(--border); color: var(--cyan); padding: 12px; border-radius: 6px; font-family: monospace; font-size: 13px; width: 100%; outline: none; transition: 0.2s; }
-        input:focus { border-color: var(--cyan); box-shadow: 0 0 8px rgba(0, 240, 255, 0.2); }
-        
-        .btn-group { display: grid; grid-template-columns: 1fr; gap: 10px; }
-        @media (min-width: 480px) { .btn-group { grid-template-columns: 1fr 1fr; } }
-        
-        button { background: transparent; border: 1px solid var(--cyan); color: var(--cyan); padding: 14px 10px; font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 11px; font-family: monospace; letter-spacing: 1px; transition: 0.2s; text-transform: uppercase; }
-        button:hover { background: rgba(0, 240, 255, 0.1); color: #fff; box-shadow: 0 0 10px rgba(0, 240, 255, 0.2); }
-        .btn-auto { border-color: var(--btc); color: var(--btc); }
-        .btn-auto:hover { background: rgba(247, 147, 26, 0.1); color: #fff; box-shadow: 0 0 10px rgba(247, 147, 26, 0.2); }
-
-        .progress-container { width: 100%; background: #020408; border: 1px solid var(--border); height: 20px; border-radius: 4px; overflow: hidden; display: none; position: relative; }
-        .progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(--cyan), var(--btc)); transition: width 0.1s linear; }
-        .progress-text { position: absolute; width: 100%; text-align: center; font-size: 11px; font-weight: bold; color: #fff; line-height: 20px; text-shadow: 0 1px 2px #000; }
-
-        .metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 10px; background: #020408; padding: 8px; border: 1px solid var(--border); border-radius: 4px; }
-        .metric-item { color: #8b949e; }
-        .metric-item span { color: var(--cyan); font-weight: bold; }
-
+        button { background: transparent; border: 1px solid var(--btc); color: var(--btc); padding: 15px; font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 12px; font-family: monospace; letter-spacing: 1px; transition: 0.2s; text-transform: uppercase; width: 100%; }
+        button:hover { background: rgba(247, 147, 26, 0.1); color: #fff; box-shadow: 0 0 10px rgba(247, 147, 26, 0.2); }
         .data-display { background: #020408; border: 1px solid var(--border); border-radius: 6px; padding: 12px; display: flex; flex-direction: column; gap: 8px; font-size: 13px; }
         .data-row { display: flex; flex-direction: column; gap: 2px; border-bottom: 1px solid #101622; padding-bottom: 6px; }
         .data-row:last-child { border: none; }
         .label { color: #8b949e; font-size: 10px; }
         .value { color: #fff; word-break: break-all; font-weight: bold; }
-        
-        #log { background: #020408; border: 1px solid var(--border); border-radius: 6px; padding: 12px; font-size: 11px; color: #58a6ff; max-height: 110px; overflow-y: auto; white-space: pre-line; font-family: monospace; }
+        #log { background: #020408; border: 1px solid var(--border); border-radius: 6px; padding: 12px; font-size: 11px; color: #58a6ff; max-height: 110px; overflow-y: auto; white-space: pre-line; }
         #log::-webkit-scrollbar { width: 6px; }
         #log::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
     </style>
@@ -63,240 +38,84 @@
 
     <div class="container">
         <header>
-            <h1>QUANTUM CRYPTANALYSIS CORE v3.1</h1>
-            <div style="color: #8b949e; font-size: 11px; margin-top: 4px;">AUTOMATED BLOCKCHAIN DECRYPTION FRAMEWORK</div>
+            <h1>BITCOIN CRYPTOGRAPHY GENERATOR & SIMULATOR</h1>
+            <div style="color: #8b949e; font-size: 11px; margin-top: 4px;">Генерация подлинных криптографических пар по стандартам Blockchain</div>
         </header>
 
-        <div class="canvas-container">
-            <canvas id="cryptoCanvas" width="480" height="250"></canvas>
-        </div>
-
         <div class="sidebar">
-            <div class="input-box">
-                <label for="customKey">РУЧНОЙ ВВОД ЦЕЛИ (BTC ADDRESS / PUBLIC KEY):</label>
-                <input type="text" id="customKey" placeholder="Вставьте адрес вручную для расшифрования...">
-            </div>
-
-            <div class="btn-group">
-                <button class="btn-auto" onclick="runQuantumSimulation(true)">🛰️ Авто-поиск кошелька с балансом</button>
-                <button onclick="runQuantumSimulation(false)">⚡ Расшифровать мой адрес</button>
-            </div>
-
-            <div class="progress-container" id="p-container">
-                <div class="progress-bar" id="p-bar"></div>
-                <div class="progress-text" id="p-text">0%</div>
-            </div>
-
-            <div class="metrics-grid">
-                <div class="metric-item">ТЕМПЕРАТУРА ЯДРА: <span id="m-temp">15.4 mK</span></div>
-                <div class="metric-item">ДЕКОГЕРЕНЦИЯ: <span id="m-deco">0.002%</span></div>
-                <div class="metric-item">МОЩНОСТЬ РЕГИСТРА: <span>4,194,304 Qubits</span></div>
-                <div class="metric-item">ЧАСТОТА ИМПУЛЬСА: <span id="m-freq">4.85 GHz</span></div>
-            </div>
+            <button onclick="generateRealBitcoinKeyPair()">✨ Сгенерировать настоящую пару ключей</button>
 
             <div class="data-display">
                 <div class="data-row">
-                    <span class="label">// СКАНИРУЕМАЯ СЕТЕВАЯ ЦЕЛЬ:</span>
-                    <span class="value" id="pubkey-val" style="color: var(--cyan);">ОЖИДАНИЕ ИНИЦИАЛИЗАЦИИ</span>
+                    <span class="label">// НАСТОЯЩИЙ СГЕНЕРИРОВАННЫЙ АДРЕС БИТКОИН (ПУБЛИЧНЫЙ):</span>
+                    <span class="value" id="address-val" style="color: var(--cyan);">ОЖИДАНИЕ ГЕНЕРАЦИИ</span>
                 </div>
                 <div class="data-row">
-                    <span class="label">// ВЕРОЯТНОСТНЫЙ БАЛАНС В БЛОКЧЕЙНЕ:</span>
-                    <span class="value" id="balance-val">—</span>
+                    <span class="label">// РЕАЛЬНЫЙ БАЛАНС В СЕТИ (ДЛЯ НОВЫХ КЛЮЧЕЙ ВСЕГДА 0):</span>
+                    <span class="value" id="balance-val" style="color: var(--btc);">0.0000 BTC</span>
                 </div>
                 <div class="data-row">
-                    <span class="label">// ИЗВЛЕЧЕННЫЙ ПРИВАТНЫЙ КЛЮЧ (WIF):</span>
-                    <span class="value" id="cracked-val" style="color: #8b949e; font-size: 12px;">—</span>
+                    <span class="label">// ПОДЛИННЫЙ СООТВЕТСТВУЮЩИЙ ПРИВАТНЫЙ КЛЮЧ (WIF):</span>
+                    <span class="value" id="wif-val" style="color: var(--success); font-size: 13px;">—</span>
                 </div>
             </div>
 
-            <div id="log">[Ядро] Модули криогенного контроля стабильны. Ожидание выбора режима.</div>
+            <div id="log">[Система] Инициализация окружения...</div>
         </div>
     </div>
 
     <script>
-        const canvas = document.getElementById('cryptoCanvas');
-        const ctx = canvas.getContext('2d');
         const log = document.getElementById('log');
-        
-        const centerX = canvas.width / 2;
-        const centerY = canvas.height / 2;
-
-        let audioCtx = null;
-        let animationFrameId = null;
-        let simProgress = 0;
-        let isSimulating = false;
-        
-        let targetX = centerX + 60;
-        let targetY = centerY - 30;
-        let waveRadius = 0;
-
-        function playSound(freq, type, duration, vol = 0.05) {
-            try {
-                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                if (audioCtx.state === 'suspended') audioCtx.resume();
-                let osc = audioCtx.createOscillator();
-                let gain = audioCtx.createGain();
-                osc.type = type;
-                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-                gain.gain.setValueAtTime(vol, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + duration);
-                osc.connect(gain); gain.connect(audioCtx.destination);
-                osc.start(); osc.stop(audioCtx.currentTime + duration);
-            } catch(e) { console.log("Audio standard bypass"); }
-        }
 
         function printLog(text) {
             log.innerText += `\n> ${text}`;
             log.scrollTop = log.scrollHeight;
         }
 
-        function drawBaseCurve() {
-            ctx.fillStyle = '#000';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            ctx.strokeStyle = '#081322';
-            ctx.lineWidth = 1;
-            for(let i = 0; i < canvas.width; i += 30) {
-                ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, canvas.height); ctx.stroke();
-            }
-            for(let j = 0; j < canvas.height; j += 30) {
-                ctx.beginPath(); ctx.moveTo(0, j); ctx.lineTo(canvas.width, j); ctx.stroke();
-            }
-
-            ctx.strokeStyle = '#123056';
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            let first = true;
-            for (let px = -150; px < canvas.width - centerX; px += 2) {
-                let x = px / 6;
-                let ySq = Math.pow(x, 3) - 8 * x + 12;
-                if (ySq >= 0) {
-                    let y = Math.sqrt(ySq) * 6;
-                    if (first) { ctx.moveTo(centerX + px, centerY - y); first = false; }
-                    else { ctx.lineTo(centerX + px, centerY - y); }
+        function generateRealBitcoinKeyPair() {
+            try {
+                if (typeof bitcore === 'undefined') {
+                    throw new Error("Библиотека bitcore-lib не загрузилась. Проверьте интернет-соединение.");
                 }
+                
+                log.innerText = "[Ядро] Сбор энтропии из window.crypto...";
+                
+                // 1. Генерация настоящего случайного приватного ключа (256 бит)
+                const privateKey = new bitcore.PrivateKey();
+                
+                // 2. Вычисление публичного ключа и генерация адреса (Base58Check P2PKH)
+                const address = privateKey.toAddress().toString();
+                
+                // 3. Экспорт приватного ключа в стандартный формат WIF
+                const wifKey = privateKey.toWIF();
+
+                // Вывод реальных математически связанных данных на экран
+                document.getElementById('address-val').innerText = address;
+                document.getElementById('wif-val').innerText = wifKey;
+                document.getElementById('balance-val').innerText = "0.0000 BTC (Новый кошелек)";
+
+                printLog("Хеширование SHA-256 выполнено.");
+                printLog("Хеширование RIPEMD-160 выполнено.");
+                printLog("Кодирование в Base58Check успешно завершено.");
+                printLog(`[Успех] Создана реальная валидная пара ключей блокчейна.`);
+                printLog(`ВНИМАНИЕ: Храните WIF-ключ в секрете! Любой, у кого он есть, контролирует средства.`);
+                
+            } catch (error) {
+                console.error(error);
+                printLog(`[Ошибка] ${error.message}`);
             }
-            ctx.stroke();
         }
-
-        function animateQuantumMatrix() {
-            if (!isSimulating) return;
-
-            drawBaseCurve();
-
-            ctx.fillStyle = 'rgba(0, 240, 255, 0.3)';
-            for(let k = 0; k < 12; k++) {
-                let rx = Math.random() * canvas.width;
-                let ry = Math.random() * canvas.height;
-                ctx.fillRect(rx, ry, 2, 2);
-            }
-
-            ctx.fillStyle = '#f7931a';
-            ctx.beginPath(); ctx.arc(targetX, targetY, 6, 0, Math.PI * 2); ctx.fill();
-            
-            waveRadius += 1.5;
-            if (waveRadius > 60) waveRadius = 5;
-            ctx.strokeStyle = 'rgba(0, 240, 255, ' + (1 - waveRadius / 60) + ')';
-            ctx.lineWidth = 2;
-            ctx.beginPath(); ctx.arc(targetX, targetY, waveRadius, 0, Math.PI * 2); ctx.stroke();
-
-            document.getElementById('m-temp').innerText = (14.2 + Math.random() * 1.5).toFixed(1) + " mK";
-            document.getElementById('m-deco').innerText = (0.001 + Math.random() * 0.004).toFixed(3) + "%";
-            document.getElementById('m-freq').innerText = (4.80 + Math.random() * 0.15).toFixed(2) + " GHz";
-
-            animationFrameId = requestAnimationFrame(animateQuantumMatrix);
-        }
-
-        function finalizeAttack(targetKey) {
-            isSimulating = false;
-            cancelAnimationFrame(animationFrameId);
-
-            drawBaseCurve();
-            // Используем HEX-код вместо CSS-переменной для надежности отрисовки в Canvas
-            ctx.fillStyle = '#00ff66'; 
-            ctx.beginPath(); ctx.arc(targetX, targetY, 8, 0, Math.PI * 2); ctx.fill();
-
-            const isShortAddress = targetKey.startsWith("1A1z");
-            const generatedBal = isShortAddress ? "50.0000" : (Math.random() * 12.5 + 0.1).toFixed(4);
-            
-            document.getElementById('balance-val').innerText = `${generatedBal} BTC`;
-            document.getElementById('balance-val').style.color = "var(--btc)";
-
-            // СИМУЛЯЦИЯ ФОРМАТА WIF (Сжатый ключ Биткоина: 52 символа, начинается с K или L)
-            const base58Alphabet = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
-            const startChars = ["K", "L"];
-            let simulatedWIF = startChars[Math.floor(Math.random() * startChars.length)];
-            
-            for (let i = 0; i < 51; i++) {
-                simulatedWIF += base58Alphabet.charAt(Math.floor(Math.random() * base58Alphabet.length));
-            }
-
-            document.getElementById('cracked-val').innerText = simulatedWIF;
-            document.getElementById('cracked-val').style.color = "var(--success)";
-
-            printLog("⚡ ВЫЧИСЛЕНИЯ ЗАВЕРШЕНЫ. Дискретный логарифм успешно раскрыт.");
-            printLog(`[Успех] Извлечен приватный ключ (WIF): ${simulatedWIF}`);
-            
-            playSound(440, 'sine', 0.1);
-            setTimeout(() => { playSound(554, 'sine', 0.1); }, 80);
-            setTimeout(() => { playSound(659, 'sine', 0.2); }, 160);
-        }
-
-        function runQuantumSimulation(isAuto) {
-            if (isSimulating) return;
-            isSimulating = true;
-            simProgress = 0;
-            
-            const pContainer = document.getElementById('p-container');
-            const pBar = document.getElementById('p-bar');
-            const pText = document.getElementById('p-text');
-            const pubkeyVal = document.getElementById('pubkey-val');
-            const balanceVal = document.getElementById('balance-val');
-            const crackedVal = document.getElementById('cracked-val');
-            
-            pContainer.style.display = 'block';
-            log.innerText = "[Ядро] Инициализация квантового массива...\n";
-            playSound(220, 'sine', 0.5, 0.05);
-            
-            let targetAddress = document.getElementById('customKey').value.trim();
-            
-            if (isAuto) {
-                const randomHex = Array.from({length: 32}, () => Math.floor(Math.random()*16).toString(16)).join('');
-                targetAddress = "bc1q" + randomHex.substring(0, 38);
-                printLog("Авто-поиск: Сканирование UTXO пула на наличие аномалий...");
-            } else if (!targetAddress) {
-                targetAddress = "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa";
-                printLog("Внимание: Цель не указана. Используется демо-адрес (Genesis Block).");
-            } else {
-                printLog(`Цель захвачена: ${targetAddress}`);
-            }
-            
-            pubkeyVal.innerText = targetAddress;
-            balanceVal.innerText = "Сканирование мемпула...";
-            balanceVal.style.color = "#fff";
-            crackedVal.innerText = "—";
-            crackedVal.style.color = "#8b949e";
-
-            animateQuantumMatrix();
-
-            let interval = setInterval(() => {
-                simProgress += Math.random() * 1.5;
-                if (simProgress >= 100) {
-                    simProgress = 100;
-                    clearInterval(interval);
-                    finalizeAttack(targetAddress);
+        
+        // Проверка готовности библиотеки при загрузке страницы
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                if (typeof bitcore !== 'undefined') {
+                    printLog("[Система] Криптографическое ядро bitcore-lib успешно загружено. Готово к расчетам.");
                 } else {
-                    pBar.style.width = simProgress + '%';
-                    pText.innerText = Math.floor(simProgress) + '%';
-                    if (Math.random() > 0.85) {
-                        const iter = Math.floor(simProgress * 409.6);
-                        printLog(`Вычисление дискретного логарифма: итерация ${iter}...`);
-                    }
+                    printLog("[Система] Ошибка загрузки CDN библиотеки. Убедитесь, что вы не в offline режиме.");
                 }
-            }, 80);
-        }
-
-        drawBaseCurve();
+            }, 500);
+        });
     </script>
 </body>
 </html>
