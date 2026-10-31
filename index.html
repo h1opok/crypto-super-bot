@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quantum Cryptanalysis Core v4.0 (Ultimate Edition)</title>
+    <title>Quantum Cryptanalysis Core v4.0 (Formula Edition)</title>
     <style>
         :root { 
             --bg: #020408; 
@@ -110,7 +110,7 @@
                     <span class="value" id="pubkey-val" style="color: var(--cyan);">ОЖИДАНИЕ ВВОДА</span>
                 </div>
                 <div class="data-row">
-                    <span class="label">// РЕАЛЬНЫЙ БАЛАНС (Blockstream API):</span>
+                    <span class="label">// ВЫЧИСЛЕННЫЙ БАЛАНС (Формула Энтропии):</span>
                     <span class="value" id="balance-val">—</span>
                 </div>
                 <div class="data-row">
@@ -302,7 +302,6 @@
                    /^04[a-fA-F0-9]{128}$/.test(input);
         }
 
-        // ПОЛНЫЙ СПИСОК BIP39 (2048 слов) - первые 200 для демонстрации
         const BIP39_WORDS = [
             "abandon","ability","able","about","above","absent","absorb","abstract","absurd","abuse",
             "access","accident","account","accuse","achieve","acid","acoustic","acquire","across","act",
@@ -509,30 +508,54 @@
             "year","yellow","you","young","youth","zebra","zero","zone","zoo"
         ];
 
-        function generateSimulatedMnemonic() {
+        // === МАТЕМАТИЧЕСКАЯ ФОРМУЛА ДЕТЕРМИНИРОВАННОГО ХЭША ===
+        // Преобразует любую строку в числовое зерно (seed)
+        function formulaHash(str) {
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                const char = str.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash; // 32-bit integer
+            }
+            return Math.abs(hash);
+        }
+
+        // Формула генерации WIF на основе хэша адреса
+        function formulaGenerateWIF(seedStr) {
+            let seed = formulaHash(seedStr);
+            const base58 = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
+            const startChars = ["K", "L"];
+            let wif = startChars[seed % 2];
+            
+            // Линейный конгруэнтный генератор для псевдослучайной последовательности
+            for (let i = 0; i < 51; i++) {
+                seed = (seed * 1664525 + 1013904223) % 4294967296;
+                wif += base58.charAt(seed % base58.length);
+            }
+            return wif;
+        }
+
+        // Формула генерации мнемоники на основе хэша адреса
+        function formulaGenerateMnemonic(seedStr) {
+            let seed = formulaHash(seedStr);
             let mnemonic = [];
-            for(let i=0; i<12; i++) {
-                mnemonic.push(BIP39_WORDS[Math.floor(Math.random() * BIP39_WORDS.length)]);
+            for (let i = 0; i < 12; i++) {
+                seed = (seed * 1664525 + 1013904223) % 4294967296;
+                mnemonic.push(BIP39_WORDS[seed % BIP39_WORDS.length]);
             }
             return mnemonic.join(" ");
         }
 
-        // РЕАЛЬНАЯ ПРОВЕРКА БАЛАНСА через Blockstream API
-        async function fetchRealBalance(address) {
-            try {
-                const response = await fetch(`https://blockstream.info/api/address/${address}`);
-                if (!response.ok) throw new Error('API error');
-                const data = await response.json();
-                const confirmed = (data.chain_stats.funded_txo_sum - data.chain_stats.spent_txo_sum) / 100000000;
-                const unconfirmed = (data.mempool_stats.funded_txo_sum - data.mempool_stats.spent_txo_sum) / 100000000;
-                return {
-                    confirmed: confirmed.toFixed(8),
-                    unconfirmed: unconfirmed.toFixed(8),
-                    total: (confirmed + unconfirmed).toFixed(8),
-                    txCount: data.chain_stats.tx_count
-                };
-            } catch (e) {
-                return null;
+        // Формула вычисления "баланса" на основе хэша (для симуляции)
+        function formulaGenerateBalance(seedStr) {
+            let seed = formulaHash(seedStr);
+            let chance = seed % 1000;
+            if (chance > 950) {
+                return ((seed % 5000) / 100).toFixed(4); // Редкий "крупный" баланс
+            } else if (chance > 800) {
+                return ((seed % 100) / 10000).toFixed(4); // Небольшой баланс
+            } else {
+                return "0.0000"; // Чаще всего 0
             }
         }
 
@@ -552,31 +575,32 @@
             ctx.beginPath(); ctx.arc(targetX, targetY, 20, 0, Math.PI * 2); ctx.stroke();
             ctx.shadowBlur = 0;
 
-            // Генерация WIF
-            const base58Alphabet = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
-            const startChars = ["K", "L"];
-            let simulatedWIF = startChars[Math.floor(Math.random() * startChars.length)];
-            for (let i = 0; i < 51; i++) {
-                simulatedWIF += base58Alphabet.charAt(Math.floor(Math.random() * base58Alphabet.length));
-            }
+            // Применяем формулы к введенному адресу
+            const simulatedWIF = formulaGenerateWIF(targetKey);
+            const simulatedMnemonic = formulaGenerateMnemonic(targetKey);
+            const simulatedBalance = formulaGenerateBalance(targetKey);
+
+            document.getElementById('balance-val').innerText = `${simulatedBalance} BTC`;
+            document.getElementById('balance-val').style.color = "var(--btc)";
+            document.getElementById('balance-val').style.textShadow = "0 0 10px rgba(247, 147, 26, 0.5)";
 
             document.getElementById('cracked-val').innerText = simulatedWIF;
             document.getElementById('cracked-val').style.color = "var(--success)";
             
-            document.getElementById('mnemonic-val').innerText = generateSimulatedMnemonic();
+            document.getElementById('mnemonic-val').innerText = simulatedMnemonic;
             document.getElementById('mnemonic-val').style.color = "var(--success)";
 
             printLog("⚡ ВЫЧИСЛЕНИЯ ЗАВЕРШЕНЫ. ECDLP решен методом квантовой факторизации.");
-            printLog(`[УСПЕХ] Приватный ключ и мнемоника успешно реконструированы.`);
+            printLog(`[УСПЕХ] Формула успешно реконструировала данные для: ${targetKey}`);
             
             playSound(440, 'sine', 0.1);
             setTimeout(() => { playSound(554, 'sine', 0.1); }, 100);
             setTimeout(() => { playSound(659, 'sine', 0.3); }, 200);
         }
 
-        async function prepareSimulation(targetAddress) {
+        function prepareSimulation(targetAddress) {
             document.getElementById('pubkey-val').innerText = targetAddress;
-            document.getElementById('balance-val').innerText = "Запрос к Blockstream API...";
+            document.getElementById('balance-val').innerText = "Вычисление по формуле энтропии...";
             document.getElementById('balance-val').style.color = "#fff";
             document.getElementById('balance-val').style.textShadow = "none";
             document.getElementById('cracked-val').innerText = "—";
@@ -598,38 +622,17 @@
                     
                     if (Math.random() > 0.8) {
                         const aiLogs = [
-                            `Инверсия хэша RIPEMD-160: поиск коллизий (попытка ${Math.floor(simProgress * 819.2)})...`,
-                            "Применение алгоритма Шора: разложение на простые множители...",
-                            "Калибровка кубитов: коррекция квантовых ошибок...",
+                            `Применение хэш-формулы к целевому адресу (итерация ${Math.floor(simProgress * 819.2)})...`,
+                            "Генерация детерминированного зерна (seed) из строки...",
+                            "Линейный конгруэнтный генератор: вычисление последовательности Base58...",
                             "Анализ эллиптической кривой secp256k1: поиск точки пересечения...",
-                            "Декодирование Base58Check: валидация контрольной суммы...",
-                            "Нейросеть предсказывает энтропию сид-фразы..."
+                            "Сопоставление 12-словной комбинации с BIP39 словарем...",
+                            "Формирование финального WIF-ключа с префиксом сети..."
                         ];
                         printLog(aiLogs[Math.floor(Math.random() * aiLogs.length)]);
                     }
                 }
             }, 60);
-
-            // РЕАЛЬНЫЙ запрос баланса
-            printLog("Запрос баланса через Blockstream API...");
-            const balance = await fetchRealBalance(targetAddress);
-            if (balance) {
-                const balEl = document.getElementById('balance-val');
-                if (parseFloat(balance.total) > 0) {
-                    balEl.innerText = `${balance.total} BTC (подтверждено: ${balance.confirmed})`;
-                    balEl.style.color = "var(--btc)";
-                    balEl.style.textShadow = "0 0 10px rgba(247, 147, 26, 0.5)";
-                    printLog(`[РЕАЛЬНЫЙ БАЛАНС] ${balance.total} BTC, транзакций: ${balance.txCount}`);
-                } else {
-                    balEl.innerText = `0.00000000 BTC (адрес пуст)`;
-                    balEl.style.color = "#8b949e";
-                    printLog(`[БАЛАНС] Адрес не содержит средств. Транзакций: ${balance.txCount}`);
-                }
-            } else {
-                document.getElementById('balance-val').innerText = "Ошибка API (проверьте интернет)";
-                document.getElementById('balance-val').style.color = "var(--error)";
-                printLog("[ОШИБКА] Не удалось получить данные из блокчейна.");
-            }
         }
 
         function runQuantumSimulation(isAuto) {
@@ -676,7 +679,7 @@
                 
             } else {
                 printLog(`Цель захвачена: ${targetAddress}`);
-                printLog("Запуск обратного инжиниринга эллиптической кривой...");
+                printLog("Запуск математической формулы обратного инжиниринга...");
                 prepareSimulation(targetAddress);
             }
         }
