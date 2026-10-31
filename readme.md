@@ -1,4 +1,4 @@
-https://h1opok.github.io/crypto-super-
+https://h1opok.github.io/crypto-super-bot
 
 # QUANTUM CRYPTANALYSIS CORE V4.0
 
