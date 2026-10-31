@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quantum Cryptanalysis Core v4.0 (Offline Formula Edition)</title>
+    <title>Quantum Cryptanalysis Core v4.0 (Perfect Offline Edition)</title>
     <style>
         :root { 
             --bg: #020408; 
@@ -16,7 +16,15 @@
             --border: #162235;
         }
         * { box-sizing: border-box; }
-        body { font-family: 'Courier New', Courier, monospace; background: var(--bg); color: var(--text); padding: 20px; margin: 0; background-image: radial-gradient(circle at 50% 30%, #0a1525 0%, #020408 70%); }
+        body { 
+            font-family: 'Courier New', Courier, monospace; 
+            background: var(--bg); 
+            color: var(--text); 
+            padding: 20px; 
+            margin: 0; 
+            background-image: radial-gradient(circle at 50% 30%, #0a1525 0%, #020408 70%);
+            min-height: 100vh;
+        }
         .container { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px; }
         
         header { border-bottom: 2px solid var(--cyan); padding-bottom: 10px; text-align: center; text-shadow: 0 0 15px rgba(0,240,255,0.4); }
@@ -302,6 +310,7 @@
                    /^04[a-fA-F0-9]{128}$/.test(input);
         }
 
+        // Полный стандартный список BIP39 (2048 слов)
         const BIP39_WORDS = [
             "abandon","ability","able","about","above","absent","absorb","abstract","absurd","abuse",
             "access","accident","account","accuse","achieve","acid","acoustic","acquire","across","act",
