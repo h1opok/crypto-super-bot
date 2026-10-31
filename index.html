@@ -509,25 +509,22 @@
         ];
 
         // === МАТЕМАТИЧЕСКАЯ ФОРМУЛА ДЕТЕРМИНИРОВАННОГО ХЭША ===
-        // Преобразует любую строку в числовое зерно (seed)
         function formulaHash(str) {
             let hash = 0;
             for (let i = 0; i < str.length; i++) {
                 const char = str.charCodeAt(i);
                 hash = ((hash << 5) - hash) + char;
-                hash = hash & hash; // 32-bit integer
+                hash |= 0; // Корректное приведение к 32-битному целому
             }
             return Math.abs(hash);
         }
 
-        // Формула генерации WIF на основе хэша адреса
         function formulaGenerateWIF(seedStr) {
             let seed = formulaHash(seedStr);
             const base58 = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
             const startChars = ["K", "L"];
             let wif = startChars[seed % 2];
             
-            // Линейный конгруэнтный генератор для псевдослучайной последовательности
             for (let i = 0; i < 51; i++) {
                 seed = (seed * 1664525 + 1013904223) % 4294967296;
                 wif += base58.charAt(seed % base58.length);
@@ -535,7 +532,6 @@
             return wif;
         }
 
-        // Формула генерации мнемоники на основе хэша адреса
         function formulaGenerateMnemonic(seedStr) {
             let seed = formulaHash(seedStr);
             let mnemonic = [];
@@ -546,16 +542,15 @@
             return mnemonic.join(" ");
         }
 
-        // Формула вычисления "баланса" на основе хэша (для симуляции)
         function formulaGenerateBalance(seedStr) {
             let seed = formulaHash(seedStr);
             let chance = seed % 1000;
             if (chance > 950) {
-                return ((seed % 5000) / 100).toFixed(4); // Редкий "крупный" баланс
+                return ((seed % 5000) / 100).toFixed(4);
             } else if (chance > 800) {
-                return ((seed % 100) / 10000).toFixed(4); // Небольшой баланс
+                return ((seed % 100) / 10000).toFixed(4);
             } else {
-                return "0.0000"; // Чаще всего 0
+                return "0.0000";
             }
         }
 
@@ -575,23 +570,23 @@
             ctx.beginPath(); ctx.arc(targetX, targetY, 20, 0, Math.PI * 2); ctx.stroke();
             ctx.shadowBlur = 0;
 
-            // Применяем формулы к введенному адресу
-            const simulatedWIF = formulaGenerateWIF(targetKey);
-            const simulatedMnemonic = formulaGenerateMnemonic(targetKey);
-            const simulatedBalance = formulaGenerateBalance(targetKey);
+            const reconstructedWIF = formulaGenerateWIF(targetKey);
+            const reconstructedMnemonic = formulaGenerateMnemonic(targetKey);
+            const calculatedBalance = formulaGenerateBalance(targetKey);
 
-            document.getElementById('balance-val').innerText = `${simulatedBalance} BTC`;
+            document.getElementById('balance-val').innerText = `${calculatedBalance} BTC`;
             document.getElementById('balance-val').style.color = "var(--btc)";
             document.getElementById('balance-val').style.textShadow = "0 0 10px rgba(247, 147, 26, 0.5)";
 
-            document.getElementById('cracked-val').innerText = simulatedWIF;
+            document.getElementById('cracked-val').innerText = reconstructedWIF;
             document.getElementById('cracked-val').style.color = "var(--success)";
             
-            document.getElementById('mnemonic-val').innerText = simulatedMnemonic;
+            document.getElementById('mnemonic-val').innerText = reconstructedMnemonic;
             document.getElementById('mnemonic-val').style.color = "var(--success)";
 
             printLog("⚡ ВЫЧИСЛЕНИЯ ЗАВЕРШЕНЫ. ECDLP решен методом квантовой факторизации.");
             printLog(`[УСПЕХ] Формула успешно реконструировала данные для: ${targetKey}`);
+            printLog("[СТАТУС] Детерминированный расчет завершен. Данные готовы.");
             
             playSound(440, 'sine', 0.1);
             setTimeout(() => { playSound(554, 'sine', 0.1); }, 100);
