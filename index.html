@@ -1,756 +1,154 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quake Crypto Engine v4.0 (0x5f3759df)</title>
-    <style>
-        :root { 
-            --bg: #020408; 
-            --panel: #080c14; 
-            --text: #c9d1d9; 
-            --btc: #f7931a;
-            --cyan: #00f0ff; 
-            --error: #ff3333; 
-            --success: #00ff66; 
-            --border: #162235;
-            --quake: #ff9900;
-        }
-        * { box-sizing: border-box; }
-        body { 
-            font-family: 'Courier New', Courier, monospace; 
-            background: var(--bg); 
-            color: var(--text); 
-            padding: 20px; 
-            margin: 0; 
-            background-image: radial-gradient(circle at 50% 30%, #0a1525 0%, #020408 70%);
-        }
-        .container { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px; }
-        
-        header { border-bottom: 2px solid var(--quake); padding-bottom: 10px; text-align: center; text-shadow: 0 0 15px rgba(255, 153, 0, 0.4); }
-        h1 { margin: 0; font-size: 18px; color: var(--quake); letter-spacing: 2px; text-transform: uppercase; }
-        
-        .canvas-container { 
-            background: #000; border: 1px solid var(--border); border-radius: 8px; padding: 2px; 
-            display: flex; justify-content: center; position: relative; overflow: hidden;
-            box-shadow: 0 0 30px rgba(255, 153, 0, 0.1), inset 0 0 50px rgba(0,0,0,0.8);
-        }
-        canvas { max-width: 100%; height: auto; display: block; }
-        
-        .sidebar { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 20px; display: flex; flex-direction: column; gap: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        
-        .input-box { display: flex; flex-direction: column; gap: 8px; }
-        .input-box label { font-size: 11px; font-weight: bold; color: var(--quake); letter-spacing: 1px; }
-        input { background: #010306; border: 1px solid var(--border); color: var(--quake); padding: 14px; border-radius: 6px; font-family: monospace; font-size: 13px; width: 100%; outline: none; transition: 0.3s; }
-        input:focus { border-color: var(--quake); box-shadow: 0 0 15px rgba(255, 153, 0, 0.15); }
-        input.error { border-color: var(--error); color: var(--error); box-shadow: 0 0 15px rgba(255, 51, 51, 0.15); animation: shake 0.3s; }
-        
-        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
-
-        .btn-group { display: grid; grid-template-columns: 1fr; gap: 12px; }
-        @media (min-width: 480px) { .btn-group { grid-template-columns: 1fr 1fr; } }
-        
-        button { background: transparent; border: 1px solid var(--quake); color: var(--quake); padding: 16px 10px; font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 11px; font-family: monospace; letter-spacing: 1.5px; transition: 0.3s; text-transform: uppercase; position: relative; overflow: hidden; }
-        button::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255, 153, 0, 0.2), transparent); transition: 0.5s; }
-        button:hover::before { left: 100%; }
-        button:hover { background: rgba(255, 153, 0, 0.05); color: #fff; box-shadow: 0 0 20px rgba(255, 153, 0, 0.2); }
-        button:disabled { opacity: 0.4; cursor: not-allowed; filter: grayscale(1); }
-        .btn-auto { border-color: var(--cyan); color: var(--cyan); }
-        .btn-auto:hover { background: rgba(0, 240, 255, 0.05); box-shadow: 0 0 20px rgba(0, 240, 255, 0.2); }
-
-        .progress-container { width: 100%; background: #010306; border: 1px solid var(--border); height: 24px; border-radius: 4px; overflow: hidden; display: none; position: relative; box-shadow: inset 0 2px 5px rgba(0,0,0,0.5); }
-        .progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(--quake), var(--cyan)); transition: width 0.1s linear; box-shadow: 0 0 15px var(--quake); }
-        .progress-text { position: absolute; width: 100%; text-align: center; font-size: 11px; font-weight: bold; color: #fff; line-height: 24px; text-shadow: 0 1px 3px #000; letter-spacing: 1px; }
-
-        .metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 10px; background: #010306; padding: 12px; border: 1px solid var(--border); border-radius: 6px; }
-        .metric-item { color: #8b949e; display: flex; justify-content: space-between; }
-        .metric-item span { color: var(--quake); font-weight: bold; text-shadow: 0 0 5px rgba(255, 153, 0, 0.3); }
-
-        .data-display { background: #010306; border: 1px solid var(--border); border-radius: 6px; padding: 15px; display: flex; flex-direction: column; gap: 12px; font-size: 13px; }
-        .data-row { display: flex; flex-direction: column; gap: 4px; border-bottom: 1px solid #101622; padding-bottom: 8px; }
-        .data-row:last-child { border: none; }
-        .label { color: #8b949e; font-size: 10px; letter-spacing: 0.5px; }
-        .value { color: #fff; word-break: break-all; font-weight: bold; font-family: monospace; }
-        
-        #log { background: #010306; border: 1px solid var(--border); border-radius: 6px; padding: 12px; font-size: 11px; color: var(--quake); max-height: 120px; overflow-y: auto; white-space: pre-line; font-family: monospace; line-height: 1.4; }
-        #log::-webkit-scrollbar { width: 6px; }
-        #log::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QUANTUM BREACH — аркада</title>
+<style>
+:root{--bg:#020408;--panel:#080c14;--text:#c9d1d9;--cyan:#00f0ff;--orange:#ff9900;--green:#00ff66;--red:#ff3333;--border:#162235}
+*{box-sizing:border-box}
+body{font-family:'Courier New',monospace;background:var(--bg);color:var(--text);padding:16px;margin:0;background-image:radial-gradient(circle at 50% 30%,#0a1525 0%,#020408 70%);min-height:100vh}
+.container{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
+header{border-bottom:2px solid var(--orange);padding-bottom:8px;text-align:center}
+h1{margin:0;font-size:18px;color:var(--orange);letter-spacing:2px;text-shadow:0 0 15px rgba(255,153,0,.4)}
+.badge{display:inline-block;margin-top:6px;padding:3px 10px;border:1px solid var(--cyan);border-radius:20px;color:var(--cyan);font-size:10px;letter-spacing:2px}
+.canvas-wrap{background:#000;border:1px solid var(--border);border-radius:8px;overflow:hidden;box-shadow:0 0 30px rgba(255,153,0,.08);touch-action:manipulation}
+canvas{display:block;width:100%;height:auto;cursor:pointer}
+.hud{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+@media(min-width:520px){.hud{grid-template-columns:repeat(4,1fr)}}
+.hud-item{background:#010306;border:1px solid var(--border);border-radius:6px;padding:10px;font-size:10px;color:#8b949e;letter-spacing:1px}
+.hud-item span{display:block;margin-top:4px;font-size:16px;font-weight:bold;color:var(--cyan);text-shadow:0 0 8px rgba(0,240,255,.3)}
+#hud-int span{color:var(--red)}
+.node-row{background:#010306;border:1px solid var(--border);border-radius:6px;padding:10px;font-size:12px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+.node-row b{color:var(--orange)}
+.node-row .cr{color:var(--green)}
+button{background:transparent;border:1px solid var(--orange);color:var(--orange);padding:15px;font:bold 12px 'Courier New',monospace;letter-spacing:2px;border-radius:6px;cursor:pointer;text-transform:uppercase;transition:.25s;width:100%}
+button:hover{background:rgba(255,153,0,.08);color:#fff;box-shadow:0 0 20px rgba(255,153,0,.25)}
+.hint{font-size:11px;color:#8b949e;text-align:center}
+#log{background:#010306;border:1px solid var(--border);border-radius:6px;padding:10px;font-size:11px;color:var(--orange);max-height:110px;overflow-y:auto;white-space:pre-line;line-height:1.4}
+footer{font-size:10px;color:#5b6570;text-align:center;line-height:1.5}
+</style>
 </head>
 <body>
+<div class="container">
+<header>
+<h1>QUANTUM BREACH</h1>
+<div class="badge">АРКАДНАЯ СИМУЛЯЦИЯ • GAME</div>
+</header>
 
-    <div class="container">
-        <header>
-            <h1>QUAKE CRYPTO ENGINE v4.0</h1>
-            <div style="color: #8b949e; font-size: 11px; margin-top: 6px; letter-spacing: 1px;">HEURISTIC INVERSE SQUARE ROOT DECRYPTION [0x5f3759df]</div>
-        </header>
+<div class="canvas-wrap"><canvas id="cv" width="800" height="340"></canvas></div>
 
-        <div class="canvas-container">
-            <canvas id="cryptoCanvas" width="800" height="300"></canvas>
-        </div>
+<div class="hud">
+<div class="hud-item">СЧЁТ<span id="hud-score">0</span></div>
+<div class="hud-item">РЕКОРД<span id="hud-best">0</span></div>
+<div class="hud-item">УРОВЕНЬ<span id="hud-level">1</span></div>
+<div class="hud-item" id="hud-int">ЦЕЛОСТНОСТЬ<span id="hud-hp">♥♥♥</span></div>
+</div>
 
-        <div class="sidebar">
-            <div class="input-box">
-                <label for="customKey">ЦЕЛЬ (BTC ADDRESS или PUBLIC KEY HEX):</label>
-                <input type="text" id="customKey" placeholder="1..., 3..., bc1... или 02/03/04 HEX">
-            </div>
+<div class="node-row">
+<div>УЗЕЛ: <b id="node-id">—</b></div>
+<div>ЗАМКИ: <b id="node-locks">0/3</b></div>
+<div class="cr">⚡ <span id="hud-credits">0</span> кредитов</div>
+</div>
 
-            <div class="btn-group">
-                <button class="btn-auto" id="btn-auto" onclick="runQuantumSimulation(true)">🛰️ Авто-поиск аномалий</button>
-                <button id="btn-decrypt" onclick="runQuantumSimulation(false)">⚡ Инициировать 0x5f3759df</button>
-            </div>
+<button id="btn">▶ Новая игра</button>
+<div class="hint">Тап по кольцу / ПРОБЕЛ — зафиксировать маркер в зелёной зоне. Центр зоны = PERFECT ×2.</div>
+<div id="log">[Система] Добро пожаловать в QUANTUM BREACH. Нажми «Новая игра».</div>
+<footer>Все узлы, кредиты и события вымышлены. Это аркадная игра на реакцию, а не инструмент для работы с криптовалютой.</footer>
+</div>
 
-            <div class="progress-container" id="p-container">
-                <div class="progress-bar" id="p-bar"></div>
-                <div class="progress-text" id="p-text">0%</div>
-            </div>
+<script>
+const cv=document.getElementById('cv'),ctx=cv.getContext('2d');
+const W=cv.width,H=cv.height,CX=W/2,CY=H/2+10,R=118;
+const $=id=>document.getElementById(id);
+const logEl=$('log');
+let audioCtx=null;
+function snd(f,t,d,v=.06){try{if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume();const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=t;o.frequency.setValueAtTime(f,audioCtx.currentTime);g.gain.setValueAtTime(v,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.00001,audioCtx.currentTime+d);o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+d);}catch(e){}}
+function log(t){const lines=(logEl.innerText+'\n> '+t).split('\n');logEl.innerText=lines.slice(-30).join('\n');logEl.scrollTop=logEl.scrollHeight;}
 
-            <div class="metrics-grid">
-                <div class="metric-item">FPS ЯДРА: <span id="m-temp">999</span></div>
-                <div class="metric-item">ДЕКОГЕРЕНЦИЯ: <span id="m-deco">0.002%</span></div>
-                <div class="metric-item">МАГИЧЕСКАЯ КОНСТАНТА: <span>0x5f3759df</span></div>
-                <div class="metric-item">ЧАСТОТА ШУМА: <span id="m-freq">4.85 GHz</span></div>
-            </div>
+let state='idle',score=0,best=+(localStorage.getItem('qb_best')||0),level=1,hp=3,credits=0,locks=0,combo=0;
+let angle=0,speed=1.7,tStart=0,tWidth=.5,nodeId='—';
+let flash=0,shake=0,particles=[],last=0;
+$('hud-best').textContent=best;
 
-            <div class="data-display">
-                <div class="data-row">
-                    <span class="label">// ЦЕЛЬ ДЕКОДИРОВАНИЯ:</span>
-                    <span class="value" id="pubkey-val" style="color: var(--quake);">ОЖИДАНИЕ ВВОДА</span>
-                </div>
-                <div class="data-row">
-                    <span class="label">// ВЫЧИСЛЕННЫЙ БАЛАНС (Эвристика):</span>
-                    <span class="value" id="balance-val">—</span>
-                </div>
-                <div class="data-row">
-                    <span class="label">// РЕКОНСТРУИРОВАННЫЙ WIF (СЖАТЫЙ):</span>
-                    <span class="value" id="cracked-val" style="color: #8b949e; font-size: 12px;">—</span>
-                </div>
-                <div class="data-row">
-                    <span class="label">// ДВЕНАДЦАТИСЛОВНАЯ МНЕМОНИКА (BIP39):</span>
-                    <span class="value" id="mnemonic-val" style="color: #8b949e; font-size: 12px; letter-spacing: 1px;">—</span>
-                </div>
-            </div>
+class P{constructor(x,y,burst){this.x=x;this.y=y;const a=Math.random()*6.283,s=burst?2+Math.random()*4:.3+Math.random();this.vx=Math.cos(a)*s;this.vy=Math.sin(a)*s;this.life=this.max=40+Math.random()*60;this.sz=1+Math.random()*2;this.c=burst?'0,255,102':'255,153,0';}
+u(){this.x+=this.vx;this.y+=this.vy;this.vx*=.985;this.vy*=.985;this.life--;if(this.life<=0){this.x=Math.random()*W;this.y=Math.random()*H;this.vx=(Math.random()-.5);this.vy=(Math.random()-.5);this.life=this.max=60+Math.random()*80;this.c='255,153,0';}}
+d(){ctx.fillStyle=`rgba(${this.c},${(this.life/this.max)*.8})`;ctx.beginPath();ctx.arc(this.x,this.y,this.sz,0,6.283);ctx.fill();}}
+for(let i=0;i<120;i++)particles.push(new P(Math.random()*W,Math.random()*H,false));
+function burst(x,y){for(let i=0;i<26;i++)particles.push(new P(x,y,true));if(particles.length>320)particles.splice(0,particles.length-320);}
 
-            <div id="log">[Движок] Инициализация быстрой инверсии... Ожидание цели.</div>
-        </div>
-    </div>
+const norm=a=>((a%6.283)+6.283)%6.283;
+function hex(n){let s='';for(let i=0;i<n;i++)s+='0123456789ABCDEF'[Math.random()*16|0];return s;}
+function placeTarget(){tStart=Math.random()*6.283;tWidth=Math.max(.16,.55-level*.035);speed=(1.7+level*.3)*(level>=4&&Math.random()<.4?-1:1);}
+function newNode(){locks=0;nodeId='NODE-'+hex(4);placeTarget();$('node-id').textContent=nodeId;$('node-locks').textContent='0/3';log(`Узел ${nodeId} обнаружен. Замков: 3.`);}
+function hud(){$('hud-score').textContent=score;$('hud-best').textContent=best;$('hud-level').textContent=level;$('hud-hp').textContent='♥'.repeat(hp)+'♡'.repeat(3-hp);$('hud-credits').textContent=credits;$('node-locks').textContent=locks+'/3';}
 
-    <script>
-        const canvas = document.getElementById('cryptoCanvas');
-        const ctx = canvas.getContext('2d');
-        const log = document.getElementById('log');
-        const inputField = document.getElementById('customKey');
-        const btnAuto = document.getElementById('btn-auto');
-        const btnDecrypt = document.getElementById('btn-decrypt');
-        
-        const centerX = canvas.width / 2;
-        const centerY = canvas.height / 2;
+function start(){state='playing';score=0;level=1;hp=3;credits=0;combo=0;angle=0;newNode();hud();$('btn').textContent='↻ Заново';log('Сессия начата. Лови маркер в зелёной зоне!');snd(220,'sawtooth',.4);}
+function gameOver(){state='over';if(score>best){best=score;localStorage.setItem('qb_best',best);log('🏆 НОВЫЙ РЕКОРД: '+score);}log('Сессия завершена. Счёт: '+score+'. Узлов вскрыто: '+(level-1)+'.');snd(330,'sawtooth',.3);setTimeout(()=>snd(220,'sawtooth',.4),150);setTimeout(()=>snd(147,'sawtooth',.6),330);hud();}
 
-        let audioCtx = null;
-        let animationFrameId = null;
-        let simProgress = 0;
-        let isSimulating = false;
-        
-        let targetX = centerX;
-        let targetY = centerY;
-        let waveRadius = 0;
-        let particles = [];
+function attempt(){
+ if(state!=='playing')return;
+ const rel=norm(norm(angle)-tStart);
+ if(rel<=tWidth){
+   const perfect=Math.abs(rel-tWidth/2)<=tWidth*.18;
+   combo=perfect?combo+1:0;
+   const pts=100*level*(perfect?2:1)+combo*15;
+   score+=pts;locks++;
+   const mx=CX+Math.cos(angle)*R,my=CY+Math.sin(angle)*R;burst(mx,my);
+   if(perfect){log(`PERFECT! +${pts} (комбо ×${combo})`);snd(880,'sine',.12);setTimeout(()=>snd(1174,'sine',.15),70);}
+   else{log(`Замок ${locks}/3 вскрыт. +${pts}`);snd(659,'sine',.12);}
+   if(locks>=3){const c=10*level+(Math.random()*20|0);credits+=c;level++;log(`⚡ УЗЕЛ ВСКРЫТ! +${c} кредитов. Уровень ${level}.`);snd(523,'square',.1);setTimeout(()=>snd(659,'square',.1),90);setTimeout(()=>snd(784,'square',.2),180);newNode();}
+   else{placeTarget();speed*=1.08;}
+ }else{
+   hp--;combo=0;flash=1;shake=9;log('ПРОМАХ! Целостность −1.');snd(120,'sawtooth',.25,.09);
+   if(hp<=0)gameOver();
+ }
+ hud();
+}
 
-        let curveConfig = {
-            a: -10, b: 15, scale: 8, freq: 0.04,
-            layers: [
-                { color: 'rgba(255, 153, 0, 0.6)', width: 2, glow: 15 },
-                { color: 'rgba(0, 240, 255, 0.3)', width: 4, glow: 25 },
-                { color: 'rgba(255, 51, 51, 0.2)', width: 1, glow: 10 }
-            ]
-        };
+$('btn').addEventListener('click',start);
+cv.addEventListener('pointerdown',e=>{e.preventDefault();attempt();});
+window.addEventListener('keydown',e=>{if(e.code==='Space'){e.preventDefault();state==='playing'?attempt():start();}});
 
-        // === ПРАВИЛЬНЫЕ АЛФАВИТЫ БИТКОИНА ===
-        const BECH32_ALPHABET = "qpzry9x8gf2tvdw0s3jn54khce6mua7l"; // 32 символа, без b,i,o,1
-        const BASE58_ALPHABET = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"; // без 0,O,I,l
-
-        class Particle {
-            constructor() { this.reset(); }
-            reset() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.vx = (Math.random() - 0.5) * 3;
-                this.vy = (Math.random() - 0.5) * 3;
-                this.size = Math.random() * 2 + 0.5;
-                this.life = Math.random() * 100 + 50;
-                this.maxLife = this.life;
-            }
-            update(progress) {
-                this.x += this.vx;
-                this.y += this.vy;
-                this.life--;
-                if (progress > 70) {
-                    let dx = targetX - this.x;
-                    let dy = targetY - this.y;
-                    let dist = Math.sqrt(dx*dx + dy*dy);
-                    if (dist < 150) {
-                        this.x += dx * 0.08;
-                        this.y += dy * 0.08;
-                    }
-                }
-                if (this.life <= 0 || this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
-                    this.reset();
-                }
-            }
-            draw() {
-                let alpha = (this.life / this.maxLife) * 0.8;
-                ctx.fillStyle = `rgba(255, 153, 0, ${alpha})`;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-
-        for(let i = 0; i < 200; i++) particles.push(new Particle());
-
-        function playSound(freq, type, duration, vol = 0.05) {
-            try {
-                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                if (audioCtx.state === 'suspended') audioCtx.resume();
-                let osc = audioCtx.createOscillator();
-                let gain = audioCtx.createGain();
-                osc.type = type;
-                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-                gain.gain.setValueAtTime(vol, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + duration);
-                osc.connect(gain); gain.connect(audioCtx.destination);
-                osc.start(); osc.stop(audioCtx.currentTime + duration);
-            } catch(e) {}
-        }
-
-        function printLog(text) {
-            log.innerText += `\n> ${text}`;
-            log.scrollTop = log.scrollHeight;
-        }
-
-        function generateNewQuantumState() {
-            curveConfig.a = (Math.random() * 60) - 30;
-            curveConfig.b = (Math.random() * 150) - 75;
-            curveConfig.scale = 6 + Math.random() * 6;
-            curveConfig.freq = 0.02 + Math.random() * 0.06;
-            targetX = centerX + (Math.random() * 200 - 100);
-            targetY = centerY + (Math.random() * 100 - 50);
-        }
-
-        function drawQuantumCurve(time, progress) {
-            ctx.fillStyle = 'rgba(2, 4, 8, 0.3)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            ctx.strokeStyle = 'rgba(22, 34, 53, 0.5)';
-            ctx.lineWidth = 1;
-            ctx.shadowBlur = 0;
-            for(let i = 0; i < canvas.width; i += 40) {
-                ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, canvas.height); ctx.stroke();
-            }
-            for(let j = 0; j < canvas.height; j += 40) {
-                ctx.beginPath(); ctx.moveTo(0, j); ctx.lineTo(canvas.width, j); ctx.stroke();
-            }
-
-            curveConfig.layers.forEach((layer, layerIndex) => {
-                ctx.strokeStyle = layer.color;
-                ctx.lineWidth = layer.width;
-                ctx.shadowBlur = layer.glow + (progress * 0.3);
-                ctx.shadowColor = layer.color;
-                ctx.beginPath();
-                
-                let first = true;
-                let distortion = Math.sin(time * 0.002 + layerIndex) * (progress * 0.8); 
-                
-                for (let px = -300; px < canvas.width - centerX + 100; px += 3) {
-                    let x = px / curveConfig.scale;
-                    let ySq = Math.pow(x, 3) + curveConfig.a * x + curveConfig.b + distortion;
-                    
-                    if (ySq >= 0) {
-                        let y = Math.sqrt(ySq) * curveConfig.scale;
-                        if (first) { ctx.moveTo(centerX + px, centerY - y); first = false; }
-                        else { ctx.lineTo(centerX + px, centerY - y); }
-                    }
-                }
-                ctx.stroke();
-            });
-            ctx.shadowBlur = 0;
-        }
-
-        function animateQuantumMatrix() {
-            if (!isSimulating) return;
-
-            let currentTime = performance.now();
-            drawQuantumCurve(currentTime, simProgress);
-
-            particles.forEach(p => {
-                p.update(simProgress);
-                p.draw();
-            });
-
-            ctx.fillStyle = '#f7931a';
-            ctx.shadowBlur = 20;
-            ctx.shadowColor = '#f7931a';
-            ctx.beginPath(); ctx.arc(targetX, targetY, 6 + Math.sin(currentTime * 0.01)*2, 0, Math.PI * 2); ctx.fill();
-            
-            waveRadius += 2;
-            if (waveRadius > 80) waveRadius = 5;
-            ctx.strokeStyle = `rgba(255, 153, 0, ${1 - waveRadius / 80})`;
-            ctx.lineWidth = 2;
-            ctx.shadowBlur = 10;
-            ctx.shadowColor = '#ff9900';
-            ctx.beginPath(); ctx.arc(targetX, targetY, waveRadius, 0, Math.PI * 2); ctx.stroke();
-            ctx.shadowBlur = 0;
-
-            document.getElementById('m-temp').innerText = Math.floor(900 + Math.random() * 99);
-            document.getElementById('m-deco').innerText = (0.001 + Math.random() * 0.004).toFixed(3) + "%";
-            document.getElementById('m-freq').innerText = (4.80 + Math.random() * 0.15).toFixed(2) + " GHz";
-
-            animationFrameId = requestAnimationFrame(animateQuantumMatrix);
-        }
-
-        // === ВАЛИДАЦИЯ ФОРМАТОВ БИТКОИНА ===
-        function isValidTarget(input) {
-            // Legacy P2PKH: 1 + 25-33 символа Base58
-            if (/^1[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{25,33}$/.test(input)) return true;
-            // P2SH: 3 + 25-33 символа Base58
-            if (/^3[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{25,33}$/.test(input)) return true;
-            // Bech32 P2WPKH: bc1q + 38 символов Bech32 (всего 42)
-            if (/^bc1q[qpzry9x8gf2tvdw0s3jn54khce6mua7l]{38}$/.test(input)) return true;
-            // Bech32 P2WSH: bc1q + 58 символов Bech32 (всего 62)
-            if (/^bc1q[qpzry9x8gf2tvdw0s3jn54khce6mua7l]{58}$/.test(input)) return true;
-            // Compressed pubkey: 02/03 + 64 hex
-            if (/^0[23][a-fA-F0-9]{64}$/.test(input)) return true;
-            // Uncompressed pubkey: 04 + 128 hex
-            if (/^04[a-fA-F0-9]{128}$/.test(input)) return true;
-            return false;
-        }
-
-        // === ГЕНЕРАЦИЯ ВАЛИДНЫХ АДРЕСОВ ===
-        function generateBech32Address(seed) {
-            // bc1q + 38 символов из Bech32 алфавита = 42 символа (P2WPKH)
-            let addr = "bc1q";
-            for (let i = 0; i < 38; i++) {
-                seed = (seed * 1664525 + 1013904223) % 4294967296;
-                addr += BECH32_ALPHABET.charAt(seed % BECH32_ALPHABET.length);
-            }
-            return addr;
-        }
-
-        function generateLegacyAddress(seed) {
-            // 1 + 33 символа Base58 = 34 символа (P2PKH)
-            let addr = "1";
-            for (let i = 0; i < 33; i++) {
-                seed = (seed * 1664525 + 1013904223) % 4294967296;
-                addr += BASE58_ALPHABET.charAt(seed % BASE58_ALPHABET.length);
-            }
-            return addr;
-        }
-
-        function generateP2SHAddress(seed) {
-            // 3 + 33 символа Base58 = 34 символа (P2SH)
-            let addr = "3";
-            for (let i = 0; i < 33; i++) {
-                seed = (seed * 1664525 + 1013904223) % 4294967296;
-                addr += BASE58_ALPHABET.charAt(seed % BASE58_ALPHABET.length);
-            }
-            return addr;
-        }
-
-        function generateValidAddress(seed) {
-            // Случайный выбор формата адреса
-            let type = seed % 3;
-            if (type === 0) return generateBech32Address(seed);
-            if (type === 1) return generateLegacyAddress(seed);
-            return generateP2SHAddress(seed);
-        }
-
-        const BIP39_WORDS = [
-            "abandon","ability","able","about","above","absent","absorb","abstract","absurd","abuse",
-            "access","accident","account","accuse","achieve","acid","acoustic","acquire","across","act",
-            "action","actor","actress","actual","adapt","add","addict","address","adjust","admit",
-            "adult","advance","advice","aerobic","affair","afford","afraid","again","age","agent",
-            "agree","ahead","aim","air","airport","aisle","alarm","album","alcohol","alert",
-            "alien","all","alley","allow","almost","alone","alpha","already","also","alter",
-            "always","amateur","amazing","among","amount","amused","analyst","anchor","ancient","anger",
-            "angle","angry","animal","ankle","announce","annual","another","answer","antenna","antique",
-            "anxiety","any","apart","apology","appear","apple","approve","april","arch","arctic",
-            "area","arena","argue","arm","armed","armor","army","around","arrange","arrest",
-            "arrive","arrow","art","artefact","artist","artwork","ask","aspect","assault","asset",
-            "assist","assume","asthma","athlete","atom","attack","attend","attitude","attract","auction",
-            "audit","august","aunt","author","auto","autumn","average","avocado","avoid","awake",
-            "aware","awesome","awful","awkward","axis","baby","bachelor","bacon","badge","bag",
-            "balance","balcony","ball","bamboo","banana","banner","bar","barely","bargain","barrel",
-            "base","basic","basket","battle","beach","bean","beauty","because","become","beef",
-            "before","begin","behave","behind","believe","below","belt","bench","benefit","best",
-            "betray","better","between","beyond","bicycle","bid","bike","bind","biology","bird",
-            "birth","bitter","black","blade","blame","blanket","blast","bleak","bless","blind",
-            "blood","blossom","blow","blue","blur","blush","board","boat","body","boil",
-            "bomb","bone","bonus","book","boost","border","boring","borrow","boss","bottom",
-            "bounce","box","boy","bracket","brain","brand","brass","brave","bread","breeze",
-            "brick","bridge","brief","bright","bring","brisk","broccoli","broken","bronze","broom",
-            "brother","brown","brush","bubble","buddy","budget","buffalo","build","bulb","bulk",
-            "bullet","bundle","bunny","burden","burger","burst","bus","business","busy","butter",
-            "buyer","buzz","cabbage","cabin","cable","cactus","cage","cake","call","calm",
-            "camera","camp","can","canal","cancel","candy","cannon","canoe","canvas","canyon",
-            "capable","capital","captain","car","carbon","card","cargo","carpet","carry","cart",
-            "case","cash","casino","castle","casual","cat","catalog","catch","category","cattle",
-            "caught","cause","caution","cave","ceiling","celery","cement","census","century","cereal",
-            "certain","chair","chalk","champion","change","chaos","chapter","charge","chase","cheap",
-            "check","cheese","chef","cherry","chest","chicken","chief","child","chimney","choice",
-            "choose","chronic","chuckle","chunk","churn","citizen","city","civil","claim","clap",
-            "clarify","claw","clay","clean","clerk","clever","click","client","cliff","climb",
-            "clinic","clip","clock","clog","close","cloth","cloud","clown","club","clump",
-            "cluster","clutch","coach","coast","coconut","code","coffee","coil","coin","collect",
-            "color","column","combine","come","comfort","comic","common","company","concert","conduct",
-            "confirm","congress","connect","consider","control","convince","cook","cool","copper","copy",
-            "coral","core","corn","correct","cost","cotton","couch","country","couple","course",
-            "cousin","cover","coyote","crack","cradle","craft","cram","crane","crash","crater",
-            "crawl","crazy","cream","credit","creek","crew","cricket","crime","crisp","critic",
-            "crop","cross","crouch","crowd","crucial","cruel","cruise","crumble","crush","cry",
-            "crystal","cube","culture","cup","cupboard","curious","current","curtain","curve","cushion",
-            "custom","cute","cycle","dad","damage","damp","dance","danger","daring","dash",
-            "daughter","dawn","day","deal","debate","debris","decade","december","decide","decline",
-            "decorate","decrease","deer","defense","define","defy","degree","delay","deliver","demand",
-            "demise","denial","dentist","deny","depart","depend","deposit","depth","deputy","derive",
-            "describe","desert","design","desk","despair","destroy","detail","detect","develop","device",
-            "devote","diagram","dial","diamond","diary","dice","diesel","diet","differ","digital",
-            "dignity","dilemma","dinner","dinosaur","direct","dirt","disagree","discover","disease","dish",
-            "dismiss","disorder","display","distance","divert","divide","divorce","dizzy","doctor","document",
-            "dog","doll","dolphin","domain","donate","donkey","donor","door","dose","double",
-            "dove","draft","dragon","drama","drastic","draw","dream","dress","drift","drill",
-            "drink","drip","drive","drop","drum","dry","duck","dumb","dune","during",
-            "dust","dutch","duty","dwarf","dynamic","eager","eagle","early","earn","earth",
-            "easily","east","easy","echo","ecology","economy","edge","edit","educate","effort",
-            "egg","eight","either","elbow","elder","electric","elegant","element","elephant","elevator",
-            "elite","else","embark","embody","embrace","emerge","emotion","employ","empower","empty",
-            "enable","encourage","end","endless","endorse","enemy","energy","enforce","engage","engine",
-            "enhance","enjoy","enlist","enough","enrich","enroll","ensure","enter","entire","entry",
-            "envelope","episode","equal","equip","era","erase","erode","erosion","error","erupt",
-            "escape","essay","essence","estate","eternal","ethics","evidence","evil","evoke","evolve",
-            "exact","example","excess","exchange","excite","exclude","excuse","execute","exercise","exhaust",
-            "exhibit","exile","exist","exit","exotic","expand","expect","expire","explain","expose",
-            "express","extend","extra","eye","eyebrow","fabric","face","faculty","fade","faint",
-            "faith","fall","false","fame","family","famous","fan","fancy","fantasy","farm",
-            "fashion","fat","fatal","father","fatigue","fault","favorite","feature","february","federal",
-            "fee","feed","feel","female","fence","festival","fetch","fever","few","fiber",
-            "fiction","field","figure","file","film","filter","final","find","fine","finger",
-            "finish","fire","firm","fiscal","fish","fit","fitness","fix","flag","flame",
-            "flash","flat","flavor","flee","flight","flip","float","flock","floor","flower",
-            "fluid","flush","fly","foam","focus","fog","foil","fold","follow","food",
-            "foot","force","forest","forget","fork","fortune","forum","forward","fossil","foster",
-            "found","fox","fragile","frame","frequent","fresh","friend","fringe","frog","front",
-            "frost","frown","frozen","fruit","fuel","fun","funny","furnace","fury","future",
-            "gadget","gain","galaxy","gallery","game","gap","garage","garbage","garden","garlic",
-            "garment","gas","gasp","gate","gather","gauge","gaze","general","genius","genre",
-            "gentle","genuine","gesture","ghost","giant","gift","giggle","ginger","giraffe","girl",
-            "give","glad","glance","glare","glass","glide","glimpse","globe","gloom","glory",
-            "glove","glow","glue","goat","goddess","gold","good","goose","gorilla","gospel",
-            "gossip","govern","gown","grab","grace","grain","grant","grape","grass","gravity",
-            "great","green","grid","grief","grit","grocery","group","grow","grunt","guard",
-            "guess","guide","guilt","guitar","gun","gym","habit","hair","half","hammer",
-            "hamster","hand","happy","harbor","hard","harsh","harvest","hat","have","hawk",
-            "hazard","head","health","heart","heavy","hedgehog","height","hello","helmet","help",
-            "hen","hero","hip","hire","history","hobby","hockey","hold","hole","holiday",
-            "hollow","home","honey","hood","hope","horn","horror","horse","hospital","host",
-            "hotel","hour","hover","hub","huge","human","humble","humor","hundred","hungry",
-            "hunt","hurdle","hurry","hurt","husband","hybrid","ice","icon","idea","identify",
-            "idle","ignore","ill","illegal","illness","image","imitate","immense","immune","impact",
-            "impose","improve","impulse","inch","include","income","increase","index","indicate","indoor",
-            "industry","infant","inflict","inform","initial","inject","inmate","inner","innocent","input",
-            "inquiry","insane","insect","inside","inspire","install","intact","interest","into","invest",
-            "invite","involve","iron","island","isolate","issue","item","ivory","jacket","jaguar",
-            "jar","jazz","jealous","jeans","jelly","jewel","job","join","joke","journey",
-            "joy","judge","juice","jump","jungle","junior","junk","just","kangaroo","keen",
-            "keep","ketchup","key","kick","kid","kidney","kind","kingdom","kiss","kit",
-            "kitchen","kite","kitten","kiwi","knee","knife","knock","know","lab","label",
-            "labor","ladder","lady","lake","lamp","language","laptop","large","later","latin",
-            "laugh","laundry","lava","law","lawn","lawsuit","layer","lazy","leader","leaf",
-            "learn","leave","lecture","left","leg","legal","legend","leisure","lemon","lend",
-            "length","lens","leopard","lesson","letter","level","liberty","library","license","life",
-            "lift","light","like","limb","limit","link","lion","liquid","list","little",
-            "live","lizard","load","loan","lobster","local","lock","logic","lonely","long",
-            "loop","lottery","loud","lounge","love","loyal","lucky","luggage","lumber","lunar",
-            "lunch","luxury","lyrics","machine","mad","magic","magnet","maid","mail","main",
-            "major","make","mammal","man","manage","mandate","mango","mansion","manual","maple",
-            "marble","march","margin","marine","market","marriage","mask","mass","master","match",
-            "material","math","matrix","matter","maximum","maze","meadow","mean","measure","meat",
-            "mechanic","medal","media","melody","melt","member","memory","mention","menu","mercy",
-            "merge","merit","merry","mesh","message","metal","method","middle","midnight","milk",
-            "million","mimic","mind","minimum","minor","minute","miracle","mirror","misery","miss",
-            "mistake","mix","mixed","mixture","mobile","model","modify","mom","moment","monitor",
-            "monkey","monster","month","moon","moral","more","morning","mosquito","mother","motion",
-            "motor","mountain","mouse","move","movie","much","muffin","mule","multiply","muscle",
-            "museum","mushroom","music","must","mutual","myself","mystery","myth","naive","name",
-            "napkin","narrow","nasty","nation","nature","near","neck","need","negative","neglect",
-            "neither","nephew","nerve","nest","net","network","neutral","never","news","next",
-            "nice","night","noble","noise","nominee","noodle","normal","north","nose","notable",
-            "nothing","notice","novel","now","nuclear","number","nurse","nut","oak","obey",
-            "object","oblige","obscure","observe","obtain","obvious","occur","ocean","october","odor",
-            "off","offer","office","often","oil","okay","old","olive","olympic","omit",
-            "once","one","onion","online","only","open","opera","opinion","oppose","option",
-            "orange","orbit","orchard","order","ordinary","organ","orient","original","orphan","ostrich",
-            "other","outdoor","outer","output","outside","oval","oven","over","own","owner",
-            "oxygen","oyster","ozone","pact","paddle","page","pair","palace","palm","panda",
-            "panel","panic","panther","paper","parade","parent","park","parrot","party","pass",
-            "patch","path","patient","patrol","pattern","pause","pave","payment","peace","peanut",
-            "pear","peasant","pelican","pen","penalty","pencil","people","pepper","perfect","permit",
-            "person","pet","phone","photo","phrase","physical","piano","picnic","picture","piece",
-            "pig","pigeon","pill","pilot","pink","pioneer","pipe","pistol","pitch","pizza",
-            "place","planet","plastic","plate","play","please","pledge","pluck","plug","plunge",
-            "poem","poet","point","polar","pole","police","pond","pony","pool","popular",
-            "portion","position","possible","post","potato","pottery","poverty","powder","power","practice",
-            "praise","predict","prefer","prepare","present","pretty","prevent","price","pride","primary",
-            "print","priority","prison","private","prize","problem","process","produce","profit","program",
-            "project","promote","proof","property","prosper","protect","proud","provide","public","pudding",
-            "pull","pulp","pulse","pumpkin","punch","pupil","puppy","purchase","purity","purpose",
-            "purse","push","put","puzzle","pyramid","quality","quantum","quarter","question","quick",
-            "quit","quiz","quote","rabbit","raccoon","race","rack","radar","radio","rage",
-            "rail","rain","raise","rally","ramp","ranch","random","range","rapid","rare",
-            "rate","rather","raven","raw","razor","ready","real","reason","rebel","rebuild",
-            "recall","receive","recipe","record","recycle","reduce","reflect","reform","region","regret",
-            "regular","reject","relax","release","relief","rely","remain","remember","remind","remove",
-            "render","renew","rent","reopen","repair","repeat","replace","report","require","rescue",
-            "resemble","resist","resource","response","result","retire","retreat","return","reunion","reveal",
-            "review","reward","rhythm","rib","ribbon","rice","rich","ride","ridge","rifle",
-            "right","rigid","ring","riot","ripple","risk","ritual","rival","river","road",
-            "roast","robot","robust","rocket","romance","roof","rookie","room","rose","rotate",
-            "rough","round","route","royal","rubber","rude","rug","rule","run","runway",
-            "rural","sad","saddle","sadness","safe","sail","salad","salmon","salon","salt",
-            "salute","same","sample","sand","satisfy","satoshi","sauce","sausage","save","say",
-            "scale","scan","scare","scatter","scene","scheme","school","science","scissors","scorpion",
-            "scout","scrap","screen","script","scrub","sea","search","season","seat","second",
-            "secret","section","security","seed","seek","segment","select","sell","seminar","senior",
-            "sense","sentence","series","service","session","settle","setup","seven","shadow","shaft",
-            "shallow","share","shed","shell","sheriff","shield","shift","shine","ship","shiver",
-            "shock","shoe","shoot","shop","short","shoulder","shove","shrimp","shrug","shuffle",
-            "shy","sibling","sick","side","siege","sight","sign","silent","silk","silly",
-            "silver","similar","simple","since","sing","siren","sister","situate","six","size",
-            "skate","sketch","ski","skill","skin","skirt","skull","slab","slam","sleep",
-            "slender","slice","slide","slight","slim","slogan","slot","slow","slush","small",
-            "smart","smile","smoke","smooth","snack","snake","snap","sniff","snow","soap",
-            "soccer","social","sock","soda","soft","solar","soldier","solid","solution","solve",
-            "someone","song","soon","sorry","sort","soul","sound","soup","source","south",
-            "space","spare","spatial","spawn","speak","special","speed","spell","spend","sphere",
-            "spice","spider","spike","spin","spirit","split","sponsor","spoon","sport","spot",
-            "spray","spread","spring","spy","square","squeeze","squirrel","stable","stadium","staff",
-            "stage","stairs","stamp","stand","start","state","stay","steak","steel","stem",
-            "step","stereo","stick","still","sting","stock","stomach","stone","stool","story",
-            "stove","strategy","street","strike","strong","struggle","student","stuff","stumble","style",
-            "subject","submit","subway","success","such","sudden","suffer","sugar","suggest","suit",
-            "summer","sun","sunny","sunset","super","supply","supreme","sure","surface","surge",
-            "surprise","surround","survey","suspect","sustain","swallow","swamp","swap","swarm","swear",
-            "sweet","swim","swing","switch","sword","symbol","symptom","syrup","system","table",
-            "tackle","tag","tail","talent","talk","tank","tape","target","task","taste",
-            "tattoo","taxi","teach","team","tell","ten","tenant","tennis","tent","term",
-            "test","text","thank","that","theme","then","theory","there","they","thing",
-            "this","thought","three","thrive","throw","thumb","thunder","ticket","tide","tiger",
-            "tilt","timber","time","tiny","tip","tired","tissue","title","toast","tobacco",
-            "today","toddler","toe","together","toilet","token","tomato","tomorrow","tone","tongue",
-            "tonight","tool","tooth","top","topic","topple","torch","tornado","tortoise","toss",
-            "total","tourist","toward","tower","town","toy","track","trade","traffic","tragic",
-            "train","transfer","trap","trash","travel","tray","treat","tree","trend","trial",
-            "tribe","trick","trigger","trim","trip","trophy","trouble","truck","true","truly",
-            "trumpet","trust","truth","try","tube","tuna","tunnel","turkey","turn","turtle",
-            "twelve","twenty","twice","twin","twist","two","type","typical","ugly","umbrella",
-            "unable","unaware","uncle","uncover","under","undo","unfair","unfold","unhappy","uniform",
-            "union","unique","unit","universe","unknown","unlock","until","unusual","unveil","update",
-            "upgrade","uphold","upon","upper","upset","urban","usage","use","used","useful",
-            "useless","usual","utility","vacant","vacuum","vague","valid","valley","valve","van",
-            "vanish","vapor","various","vast","vault","vehicle","velvet","vendor","venture","venue",
-            "verb","verify","version","very","vessel","veteran","viable","vibrant","vicious","victory",
-            "video","view","village","vintage","violin","virtual","virus","visa","visit","visual",
-            "vital","vivid","vocal","voice","void","volcano","volume","vote","voyage","wage",
-            "wagon","wait","walk","wall","walnut","want","warfare","warm","warrior","wash",
-            "wasp","waste","water","wave","way","wealth","weapon","wear","weasel","weather",
-            "web","wedding","weekend","weird","welcome","well","west","wet","whale","what",
-            "wheat","wheel","when","where","whip","whisper","wide","width","wife","wild",
-            "will","win","window","wine","wing","wink","winner","winter","wire","wisdom",
-            "wise","wish","witness","wolf","woman","wonder","wood","wool","word","work",
-            "world","worry","worth","wrap","wreck","wrestle","wrist","write","wrong","yard",
-            "year","yellow","you","young","youth","zebra","zero","zone","zoo"
-        ];
-
-        // === МАГИЧЕСКАЯ ФОРМУЛА (Детерминированный хэш с 0x5f3759df) ===
-        function formulaHash(str) {
-            let hash = 0;
-            for (let i = 0; i < str.length; i++) {
-                const char = str.charCodeAt(i);
-                hash = ((hash << 5) - hash) + char;
-                hash |= 0; 
-            }
-            hash = (hash ^ 0x5f3759df) >>> 0; 
-            return Math.abs(hash);
-        }
-
-        function formulaGenerateWIF(seedStr) {
-            let seed = formulaHash(seedStr);
-            const startChars = ["K", "L"];
-            let wif = startChars[seed % 2];
-            
-            for (let i = 0; i < 51; i++) {
-                seed = (seed * 1664525 + 1013904223) % 4294967296;
-                wif += BASE58_ALPHABET.charAt(seed % BASE58_ALPHABET.length);
-            }
-            return wif;
-        }
-
-        function formulaGenerateMnemonic(seedStr) {
-            let seed = formulaHash(seedStr);
-            let mnemonic = [];
-            for (let i = 0; i < 12; i++) {
-                seed = (seed * 1664525 + 1013904223) % 4294967296;
-                mnemonic.push(BIP39_WORDS[seed % BIP39_WORDS.length]);
-            }
-            return mnemonic.join(" ");
-        }
-
-        function formulaGenerateBalance(seedStr) {
-            let seed = formulaHash(seedStr);
-            let chance = seed % 1000;
-            if (chance > 950) {
-                return ((seed % 5000) / 100).toFixed(4);
-            } else if (chance > 800) {
-                return ((seed % 100) / 10000).toFixed(4);
-            } else {
-                return "0.0000";
-            }
-        }
-
-        function finalizeAttack(targetKey) {
-            isSimulating = false;
-            cancelAnimationFrame(animationFrameId);
-            btnAuto.disabled = false;
-            btnDecrypt.disabled = false;
-
-            drawQuantumCurve(performance.now(), 100);
-            ctx.fillStyle = '#00ff66'; 
-            ctx.shadowBlur = 30;
-            ctx.shadowColor = '#00ff66';
-            ctx.beginPath(); ctx.arc(targetX, targetY, 10, 0, Math.PI * 2); ctx.fill();
-            ctx.strokeStyle = '#00ff66';
-            ctx.lineWidth = 3;
-            ctx.beginPath(); ctx.arc(targetX, targetY, 20, 0, Math.PI * 2); ctx.stroke();
-            ctx.shadowBlur = 0;
-
-            const reconstructedWIF = formulaGenerateWIF(targetKey);
-            const reconstructedMnemonic = formulaGenerateMnemonic(targetKey);
-            const calculatedBalance = formulaGenerateBalance(targetKey);
-
-            document.getElementById('balance-val').innerText = `${calculatedBalance} BTC`;
-            document.getElementById('balance-val').style.color = "var(--btc)";
-            document.getElementById('balance-val').style.textShadow = "0 0 10px rgba(247, 147, 26, 0.5)";
-
-            document.getElementById('cracked-val').innerText = reconstructedWIF;
-            document.getElementById('cracked-val').style.color = "var(--success)";
-            
-            document.getElementById('mnemonic-val').innerText = reconstructedMnemonic;
-            document.getElementById('mnemonic-val').style.color = "var(--success)";
-
-            printLog("⚡ 0x5f3759df ПРИМЕНЕН УСПЕШНО.");
-            printLog(`[УСПЕХ] Эвристическая инверсия завершена для: ${targetKey}`);
-            printLog("[СТАТУС] Данные реконструированы и готовы.");
-            
-            playSound(440, 'sine', 0.1);
-            setTimeout(() => { playSound(554, 'sine', 0.1); }, 100);
-            setTimeout(() => { playSound(659, 'sine', 0.3); }, 200);
-        }
-
-        function prepareSimulation(targetAddress) {
-            document.getElementById('pubkey-val').innerText = targetAddress;
-            document.getElementById('balance-val').innerText = "Применение быстрой инверсии...";
-            document.getElementById('balance-val').style.color = "#fff";
-            document.getElementById('balance-val').style.textShadow = "none";
-            document.getElementById('cracked-val').innerText = "—";
-            document.getElementById('cracked-val').style.color = "#8b949e";
-            document.getElementById('mnemonic-val').innerText = "—";
-            document.getElementById('mnemonic-val').style.color = "#8b949e";
-
-            animateQuantumMatrix();
-
-            let interval = setInterval(() => {
-                simProgress += Math.random() * 1.2;
-                if (simProgress >= 100) {
-                    simProgress = 100;
-                    clearInterval(interval);
-                    finalizeAttack(targetAddress);
-                } else {
-                    document.getElementById('p-bar').style.width = simProgress + '%';
-                    document.getElementById('p-text').innerText = Math.floor(simProgress) + '%';
-                    
-                    if (Math.random() > 0.8) {
-                        const aiLogs = [
-                            `Инициализация константы 0x5f3759df...`,
-                            `Быстрый обратный квадратный корень: итерация ${Math.floor(simProgress * 819.2)}...`,
-                            "Линейный конгруэнтный генератор: вычисление последовательности Base58...",
-                            "Обход функции с ловушкой secp256k1 через эвристическую догадку...",
-                            "Сопоставление 12-словной комбинации с BIP39 словарем...",
-                            "Формирование финального WIF-ключа с префиксом сети...",
-                            "Валидация формата Bech32/Base58Check..."
-                        ];
-                        printLog(aiLogs[Math.floor(Math.random() * aiLogs.length)]);
-                    }
-                }
-            }, 60);
-        }
-
-        function runQuantumSimulation(isAuto) {
-            if (isSimulating) return;
-            isSimulating = true;
-            simProgress = 0;
-            
-            btnAuto.disabled = true;
-            btnDecrypt.disabled = true;
-            
-            document.getElementById('p-container').style.display = 'block';
-            log.innerText = "[Движок] Инициализация быстрой инверсии...\n";
-            playSound(220, 'sawtooth', 0.5, 0.05);
-            
-            generateNewQuantumState();
-            
-            let targetAddress = inputField.value.trim();
-            inputField.classList.remove('error');
-            
-            if (isAuto) {
-                // Генерируем ВАЛИДНЫЙ адрес для авто-поиска
-                const randomSeed = Math.floor(Math.random() * 4294967296);
-                targetAddress = generateValidAddress(randomSeed);
-                printLog(`Авто-поиск: Обнаружен адрес ${targetAddress.substring(0, 12)}...`);
-                printLog("Сканирование на наличие аномалий высокой энтропии...");
-                prepareSimulation(targetAddress);
-                
-            } else if (!targetAddress) {
-                printLog("Внимание: Поле ввода пусто. Активация протокола локального сканирования...");
-                setTimeout(() => {
-                    const randomSeed = Math.floor(Math.random() * 4294967296);
-                    targetAddress = generateValidAddress(randomSeed);
-                    inputField.value = targetAddress;
-                    inputField.style.color = "var(--success)";
-                    setTimeout(() => { inputField.style.color = "var(--quake)"; }, 600);
-                    printLog(`[Цель захвачена] Обнаружен валидный адрес в локальной памяти.`);
-                    prepareSimulation(targetAddress);
-                }, 1200);
-                
-            } else if (!isValidTarget(targetAddress)) {
-                isSimulating = false;
-                btnAuto.disabled = false;
-                btnDecrypt.disabled = false;
-                inputField.classList.add('error');
-                printLog("[ОШИБКА] Неверный формат. Ожидается:");
-                printLog("  • Legacy: 1 + 25-33 символа Base58");
-                printLog("  • P2SH: 3 + 25-33 символа Base58");
-                printLog("  • Bech32: bc1q + 38 символов (всего 42)");
-                printLog("  • PubKey: 02/03 + 64 hex или 04 + 128 hex");
-                playSound(150, 'sawtooth', 0.3, 0.1);
-                
-            } else {
-                printLog(`Цель захвачена: ${targetAddress}`);
-                printLog("Запуск эвристической инверсии с константой 0x5f3759df...");
-                prepareSimulation(targetAddress);
-            }
-        }
-
-        generateNewQuantumState();
-        drawQuantumCurve(performance.now(), 0);
-    </script>
+function draw(ts){
+ const dt=Math.min(.05,(ts-last)/1000||0);last=ts;
+ if(state==='playing')angle=norm(angle+speed*dt);
+ ctx.setTransform(1,0,0,1,0,0);
+ if(shake>0){ctx.translate((Math.random()-.5)*shake,(Math.random()-.5)*shake);shake*=.85;if(shake<.3)shake=0;}
+ ctx.fillStyle='rgba(2,4,8,.35)';ctx.fillRect(-20,-20,W+40,H+40);
+ // сетка
+ ctx.strokeStyle='rgba(22,34,53,.5)';ctx.lineWidth=1;ctx.shadowBlur=0;
+ for(let x=0;x<W;x+=40){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+ for(let y=0;y<H;y+=40){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+ // декоративная кривая
+ ctx.strokeStyle='rgba(0,240,255,.15)';ctx.lineWidth=2;ctx.beginPath();let f=true;
+ for(let px=-CX;px<W-CX;px+=4){const x=px/9,y2=x*x*x-9*x+6;if(y2>=0){const y=Math.sqrt(y2)*9;f?ctx.moveTo(CX+px,CY-y):ctx.lineTo(CX+px,CY-y);f=false;}}
+ ctx.stroke();
+ particles.forEach(p=>{p.u();p.d();});
+ // кольцо
+ ctx.strokeStyle='rgba(120,130,140,.35)';ctx.lineWidth=6;ctx.shadowBlur=0;
+ ctx.beginPath();ctx.arc(CX,CY,R,0,6.283);ctx.stroke();
+ // зелёная зона
+ ctx.strokeStyle='#00ff66';ctx.lineWidth=8;ctx.shadowBlur=18;ctx.shadowColor='#00ff66';
+ ctx.beginPath();ctx.arc(CX,CY,R,tStart,tStart+tWidth);ctx.stroke();
+ // центр зоны (perfect)
+ ctx.strokeStyle='rgba(255,255,255,.8)';ctx.lineWidth=3;ctx.shadowBlur=8;
+ ctx.beginPath();ctx.arc(CX,CY,R,tStart+tWidth*.32,tStart+tWidth*.68);ctx.stroke();
+ // маркер
+ if(state==='playing'){const mx=CX+Math.cos(angle)*R,my=CY+Math.sin(angle)*R;
+ ctx.fillStyle='#ff9900';ctx.shadowBlur=22;ctx.shadowColor='#ff9900';
+ ctx.beginPath();ctx.arc(mx,my,8+Math.sin(ts*.02)*2,0,6.283);ctx.fill();}
+ ctx.shadowBlur=0;
+ // индикаторы замков
+ for(let i=0;i<3;i++){ctx.fillStyle=i<locks?'#00ff66':'rgba(120,130,140,.4)';ctx.beginPath();ctx.arc(CX-24+i*24,CY,6,0,6.283);ctx.fill();}
+ // оверлеи
+ ctx.textAlign='center';
+ if(state==='idle'){ctx.fillStyle='#00f0ff';ctx.font='bold 20px Courier New';ctx.fillText('QUANTUM BREACH',CX,CY-6);ctx.fillStyle='#8b949e';ctx.font='12px Courier New';ctx.fillText('нажми «Новая игра» или ПРОБЕЛ',CX,CY+18);}
+ if(state==='over'){ctx.fillStyle='rgba(2,4,8,.75)';ctx.fillRect(0,0,W,H);ctx.fillStyle='#ff3333';ctx.font='bold 22px Courier New';ctx.fillText('СЕССИЯ ПРОВАЛЕНА',CX,CY-14);ctx.fillStyle='#fff';ctx.font='14px Courier New';ctx.fillText('Счёт: '+score+'   Рекорд: '+best,CX,CY+12);ctx.fillStyle='#8b949e';ctx.font='12px Courier New';ctx.fillText('ПРОБЕЛ / кнопка — заново',CX,CY+34);}
+ if(flash>0){ctx.fillStyle=`rgba(255,51,51,${flash*.25})`;ctx.fillRect(-20,-20,W+40,H+40);flash*=.88;if(flash<.02)flash=0;}
+ requestAnimationFrame(draw);
+}
+requestAnimationFrame(draw);
+</script>
 </body>
 </html>
