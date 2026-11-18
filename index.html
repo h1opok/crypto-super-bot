@@ -3,152 +3,234 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QUANTUM BREACH — аркада</title>
+<title>Testnet Wallet Lab — настоящий Bitcoin (тестовая сеть)</title>
+<script src="https://cdn.jsdelivr.net/npm/bitcore-lib@8.25.40/bitcore-lib.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bitcore-mnemonic@8.25.40/bitcore-mnemonic.min.js"></script>
 <style>
-:root{--bg:#020408;--panel:#080c14;--text:#c9d1d9;--cyan:#00f0ff;--orange:#ff9900;--green:#00ff66;--red:#ff3333;--border:#162235}
+:root{--bg:#020408;--panel:#080c14;--text:#c9d1d9;--btc:#f7931a;--cyan:#00f0ff;--green:#00ff66;--red:#ff3333;--border:#162235;--quake:#ff9900}
 *{box-sizing:border-box}
 body{font-family:'Courier New',monospace;background:var(--bg);color:var(--text);padding:16px;margin:0;background-image:radial-gradient(circle at 50% 30%,#0a1525 0%,#020408 70%);min-height:100vh}
-.container{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
-header{border-bottom:2px solid var(--orange);padding-bottom:8px;text-align:center}
-h1{margin:0;font-size:18px;color:var(--orange);letter-spacing:2px;text-shadow:0 0 15px rgba(255,153,0,.4)}
-.badge{display:inline-block;margin-top:6px;padding:3px 10px;border:1px solid var(--cyan);border-radius:20px;color:var(--cyan);font-size:10px;letter-spacing:2px}
-.canvas-wrap{background:#000;border:1px solid var(--border);border-radius:8px;overflow:hidden;box-shadow:0 0 30px rgba(255,153,0,.08);touch-action:manipulation}
-canvas{display:block;width:100%;height:auto;cursor:pointer}
+.container{max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+header{border-bottom:2px solid var(--quake);padding-bottom:10px;text-align:center}
+h1{margin:0;font-size:18px;color:var(--quake);letter-spacing:2px;text-shadow:0 0 15px rgba(255,153,0,.4)}
+.badge{display:inline-block;margin-top:6px;padding:3px 12px;border:1px solid var(--cyan);border-radius:20px;color:var(--cyan);font-size:10px;letter-spacing:2px}
+.canvas-wrap{background:#000;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+canvas{display:block;width:100%;height:auto}
+.note{background:rgba(0,240,255,.05);border:1px solid var(--cyan);border-radius:6px;padding:10px;font-size:11px;color:var(--cyan);line-height:1.5}
+.section{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.section h2{margin:0;font-size:13px;color:var(--quake);letter-spacing:1px;border-bottom:1px solid var(--border);padding-bottom:8px}
+button{background:transparent;border:1px solid var(--quake);color:var(--quake);padding:14px;font:bold 11px 'Courier New',monospace;letter-spacing:1.5px;border-radius:6px;cursor:pointer;text-transform:uppercase;transition:.25s;width:100%}
+button:hover{background:rgba(255,153,0,.08);color:#fff;box-shadow:0 0 18px rgba(255,153,0,.25)}
+button:disabled{opacity:.4;cursor:not-allowed}
+button.cy{border-color:var(--cyan);color:var(--cyan)}
+button.cy:hover{background:rgba(0,240,255,.08);box-shadow:0 0 18px rgba(0,240,255,.25)}
+button.danger{border-color:var(--red);color:var(--red);padding:10px;font-size:10px}
+textarea{background:#010306;border:1px solid var(--border);color:var(--cyan);padding:12px;border-radius:6px;font:13px monospace;width:100%;resize:vertical;outline:none}
+textarea:focus{border-color:var(--cyan)}
+.row{background:#010306;border:1px solid var(--border);border-radius:6px;padding:10px;display:flex;flex-direction:column;gap:5px}
+.label{color:#8b949e;font-size:10px;letter-spacing:.5px}
+.value{color:#fff;word-break:break-all;font-weight:bold;font-size:12px}
+.value.addr{color:var(--cyan);font-size:14px}
+.value.mn{color:var(--green);letter-spacing:1px;line-height:1.7}
+.copy{align-self:flex-start;background:transparent;border:1px solid var(--border);color:var(--cyan);padding:4px 10px;font-size:10px;border-radius:4px;cursor:pointer;width:auto}
+.copy:hover{background:rgba(0,240,255,.1)}
 .hud{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
-@media(min-width:520px){.hud{grid-template-columns:repeat(4,1fr)}}
-.hud-item{background:#010306;border:1px solid var(--border);border-radius:6px;padding:10px;font-size:10px;color:#8b949e;letter-spacing:1px}
-.hud-item span{display:block;margin-top:4px;font-size:16px;font-weight:bold;color:var(--cyan);text-shadow:0 0 8px rgba(0,240,255,.3)}
-#hud-int span{color:var(--red)}
-.node-row{background:#010306;border:1px solid var(--border);border-radius:6px;padding:10px;font-size:12px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
-.node-row b{color:var(--orange)}
-.node-row .cr{color:var(--green)}
-button{background:transparent;border:1px solid var(--orange);color:var(--orange);padding:15px;font:bold 12px 'Courier New',monospace;letter-spacing:2px;border-radius:6px;cursor:pointer;text-transform:uppercase;transition:.25s;width:100%}
-button:hover{background:rgba(255,153,0,.08);color:#fff;box-shadow:0 0 20px rgba(255,153,0,.25)}
-.hint{font-size:11px;color:#8b949e;text-align:center}
-#log{background:#010306;border:1px solid var(--border);border-radius:6px;padding:10px;font-size:11px;color:var(--orange);max-height:110px;overflow-y:auto;white-space:pre-line;line-height:1.4}
-footer{font-size:10px;color:#5b6570;text-align:center;line-height:1.5}
+@media(min-width:560px){.hud{grid-template-columns:repeat(4,1fr)}}
+.hud-item{background:#010306;border:1px solid var(--border);border-radius:6px;padding:10px;font-size:9px;color:#8b949e;letter-spacing:1px}
+.hud-item span{display:block;margin-top:4px;font-size:15px;font-weight:bold;color:var(--cyan)}
+.hud-item.total span{color:var(--btc);text-shadow:0 0 8px rgba(247,147,26,.4)}
+.tx{display:flex;justify-content:space-between;gap:8px;align-items:center;background:#010306;border:1px solid var(--border);border-radius:6px;padding:8px 10px;font-size:11px;flex-wrap:wrap}
+.tx a{color:#58a6ff;text-decoration:none}
+.tx .amt{font-weight:bold}
+.plus{color:var(--green)}.minus{color:var(--red)}
+.st{font-size:9px;padding:2px 6px;border-radius:10px;border:1px solid}
+.ok{color:var(--green);border-color:var(--green)}
+.pend{color:var(--quake);border-color:var(--quake)}
+.faucets a{display:block;color:var(--cyan);font-size:12px;padding:8px;border:1px solid var(--border);border-radius:6px;text-decoration:none;margin-bottom:6px}
+.faucets a:hover{background:rgba(0,240,255,.06)}
+#log{background:#010306;border:1px solid var(--border);border-radius:6px;padding:10px;font-size:11px;color:var(--quake);max-height:130px;overflow-y:auto;white-space:pre-line;line-height:1.45}
+footer{font-size:10px;color:#5b6570;text-align:center;line-height:1.6}
+.hidden{display:none}
 </style>
 </head>
 <body>
 <div class="container">
 <header>
-<h1>QUANTUM BREACH</h1>
-<div class="badge">АРКАДНАЯ СИМУЛЯЦИЯ • GAME</div>
+<h1>TESTNET WALLET LAB</h1>
+<div class="badge">REAL CRYPTO • BITCOIN TESTNET • tBTC</div>
 </header>
 
-<div class="canvas-wrap"><canvas id="cv" width="800" height="340"></canvas></div>
+<div class="canvas-wrap"><canvas id="cv" width="800" height="140"></canvas></div>
 
+<div class="note">Это настоящая криптография Bitcoin в тестовой сети. Адреса валидны, баланс — реальные данные сети. Монеты tBTC бесплатны и не имеют ценности. Не используй этот кошелёк для реальных средств: ключи отображаются в браузере.</div>
+
+<div class="section">
+<h2>1. КОШЕЛЁК</h2>
+<button id="btn-gen">✨ Сгенерировать новый testnet-кошелёк</button>
+<textarea id="mn-in" rows="2" placeholder="…или вставь свою мнемонику (12/24 слова) для восстановления"></textarea>
+<button id="btn-rec" class="cy">🔐 Восстановить из мнемоники</button>
+
+<div id="wallet-box" class="hidden">
+<div class="row"><span class="label">// АДРЕС (TESTNET P2PKH, версия 0x6F):</span><span class="value addr" id="w-addr"></span><button class="copy" data-t="w-addr">📋 копировать</button></div>
+<div class="row" style="margin-top:8px"><span class="label">// МНЕМОНИКА BIP39 — СОХРАНИ:</span><span class="value mn" id="w-mn"></span><button class="copy" data-t="w-mn">📋 копировать</button></div>
+<div class="row" style="margin-top:8px"><span class="label">// WIF (testnet, префикс 0xEF → «c»):</span><span class="value" id="w-wif"></span><button class="copy" data-t="w-wif">📋 копировать</button></div>
+<div class="row" style="margin-top:8px"><span class="label">// ПУБЛИЧНЫЙ КЛЮЧ (HEX):</span><span class="value" id="w-pk" style="font-size:10px;color:#8b949e"></span></div>
+<div class="row" style="margin-top:8px"><span class="label">// ПУТЬ ДЕРИВАЦИИ (BIP44, coin type 1 = testnet):</span><span class="value" id="w-path" style="color:#8b949e"></span></div>
+<button id="btn-wipe" class="danger" style="margin-top:10px">🗑 Стереть кошелёк из браузера</button>
+</div>
+</div>
+
+<div class="section faucets">
+<h2>2. ПОЛУЧИТЬ БЕСПЛАТНЫЕ tBTC (FAUCET)</h2>
+<div style="font-size:11px;color:#8b949e">Скопируй адрес выше и вставь на одном из сайтов. Может быть капча и суточный лимит.</div>
+<a href="https://coinfaucet.eu/en/btc-testnet/" target="_blank" rel="noopener">🚰 coinfaucet.eu — btc-testnet</a>
+<a href="https://testnet-faucet.mempool.co/" target="_blank" rel="noopener">🚰 testnet-faucet.mempool.co</a>
+<a href="https://bitcoinfaucet.uo1.net/" target="_blank" rel="noopener">🚰 bitcoinfaucet.uo1.net</a>
+</div>
+
+<div class="section">
+<h2>3. РЕАЛЬНЫЙ БАЛАНС ИЗ СЕТИ</h2>
+<button id="btn-bal" class="cy">📊 Обновить баланс</button>
 <div class="hud">
-<div class="hud-item">СЧЁТ<span id="hud-score">0</span></div>
-<div class="hud-item">РЕКОРД<span id="hud-best">0</span></div>
-<div class="hud-item">УРОВЕНЬ<span id="hud-level">1</span></div>
-<div class="hud-item" id="hud-int">ЦЕЛОСТНОСТЬ<span id="hud-hp">♥♥♥</span></div>
+<div class="hud-item">ПОДТВЕРЖДЕНО<span id="b-conf">—</span></div>
+<div class="hud-item">В МЕМПУЛЕ<span id="b-memp">—</span></div>
+<div class="hud-item total">ИТОГО tBTC<span id="b-total">—</span></div>
+<div class="hud-item">ТРАНЗАКЦИЙ<span id="b-tx">—</span></div>
+</div>
+<div id="txs"></div>
 </div>
 
-<div class="node-row">
-<div>УЗЕЛ: <b id="node-id">—</b></div>
-<div>ЗАМКИ: <b id="node-locks">0/3</b></div>
-<div class="cr">⚡ <span id="hud-credits">0</span> кредитов</div>
-</div>
-
-<button id="btn">▶ Новая игра</button>
-<div class="hint">Тап по кольцу / ПРОБЕЛ — зафиксировать маркер в зелёной зоне. Центр зоны = PERFECT ×2.</div>
-<div id="log">[Система] Добро пожаловать в QUANTUM BREACH. Нажми «Новая игра».</div>
-<footer>Все узлы, кредиты и события вымышлены. Это аркадная игра на реакцию, а не инструмент для работы с криптовалютой.</footer>
+<div id="log">[Система] Загрузка криптографического ядра…</div>
+<footer>Testnet Wallet Lab • Настоящие BIP39/BIP32/secp256k1 • Данные сети: mempool.space / blockstream.info (testnet)<br>Монеты testnet не имеют ценности. Учебный инструмент.</footer>
 </div>
 
 <script>
-const cv=document.getElementById('cv'),ctx=cv.getContext('2d');
-const W=cv.width,H=cv.height,CX=W/2,CY=H/2+10,R=118;
 const $=id=>document.getElementById(id);
 const logEl=$('log');
+function log(t){const l=(logEl.innerText+'\n> '+t).split('\n');logEl.innerText=l.slice(-40).join('\n');logEl.scrollTop=logEl.scrollHeight;}
 let audioCtx=null;
-function snd(f,t,d,v=.06){try{if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume();const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=t;o.frequency.setValueAtTime(f,audioCtx.currentTime);g.gain.setValueAtTime(v,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.00001,audioCtx.currentTime+d);o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+d);}catch(e){}}
-function log(t){const lines=(logEl.innerText+'\n> '+t).split('\n');logEl.innerText=lines.slice(-30).join('\n');logEl.scrollTop=logEl.scrollHeight;}
+function snd(f,t,d,v=.05){try{if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume();const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=t;o.frequency.setValueAtTime(f,audioCtx.currentTime);g.gain.setValueAtTime(v,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.00001,audioCtx.currentTime+d);o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+d);}catch(e){}}
 
-let state='idle',score=0,best=+(localStorage.getItem('qb_best')||0),level=1,hp=3,credits=0,locks=0,combo=0;
-let angle=0,speed=1.7,tStart=0,tWidth=.5,nodeId='—';
-let flash=0,shake=0,particles=[],last=0;
-$('hud-best').textContent=best;
-
-class P{constructor(x,y,burst){this.x=x;this.y=y;const a=Math.random()*6.283,s=burst?2+Math.random()*4:.3+Math.random();this.vx=Math.cos(a)*s;this.vy=Math.sin(a)*s;this.life=this.max=40+Math.random()*60;this.sz=1+Math.random()*2;this.c=burst?'0,255,102':'255,153,0';}
-u(){this.x+=this.vx;this.y+=this.vy;this.vx*=.985;this.vy*=.985;this.life--;if(this.life<=0){this.x=Math.random()*W;this.y=Math.random()*H;this.vx=(Math.random()-.5);this.vy=(Math.random()-.5);this.life=this.max=60+Math.random()*80;this.c='255,153,0';}}
-d(){ctx.fillStyle=`rgba(${this.c},${(this.life/this.max)*.8})`;ctx.beginPath();ctx.arc(this.x,this.y,this.sz,0,6.283);ctx.fill();}}
-for(let i=0;i<120;i++)particles.push(new P(Math.random()*W,Math.random()*H,false));
-function burst(x,y){for(let i=0;i<26;i++)particles.push(new P(x,y,true));if(particles.length>320)particles.splice(0,particles.length-320);}
-
-const norm=a=>((a%6.283)+6.283)%6.283;
-function hex(n){let s='';for(let i=0;i<n;i++)s+='0123456789ABCDEF'[Math.random()*16|0];return s;}
-function placeTarget(){tStart=Math.random()*6.283;tWidth=Math.max(.16,.55-level*.035);speed=(1.7+level*.3)*(level>=4&&Math.random()<.4?-1:1);}
-function newNode(){locks=0;nodeId='NODE-'+hex(4);placeTarget();$('node-id').textContent=nodeId;$('node-locks').textContent='0/3';log(`Узел ${nodeId} обнаружен. Замков: 3.`);}
-function hud(){$('hud-score').textContent=score;$('hud-best').textContent=best;$('hud-level').textContent=level;$('hud-hp').textContent='♥'.repeat(hp)+'♡'.repeat(3-hp);$('hud-credits').textContent=credits;$('node-locks').textContent=locks+'/3';}
-
-function start(){state='playing';score=0;level=1;hp=3;credits=0;combo=0;angle=0;newNode();hud();$('btn').textContent='↻ Заново';log('Сессия начата. Лови маркер в зелёной зоне!');snd(220,'sawtooth',.4);}
-function gameOver(){state='over';if(score>best){best=score;localStorage.setItem('qb_best',best);log('🏆 НОВЫЙ РЕКОРД: '+score);}log('Сессия завершена. Счёт: '+score+'. Узлов вскрыто: '+(level-1)+'.');snd(330,'sawtooth',.3);setTimeout(()=>snd(220,'sawtooth',.4),150);setTimeout(()=>snd(147,'sawtooth',.6),330);hud();}
-
-function attempt(){
- if(state!=='playing')return;
- const rel=norm(norm(angle)-tStart);
- if(rel<=tWidth){
-   const perfect=Math.abs(rel-tWidth/2)<=tWidth*.18;
-   combo=perfect?combo+1:0;
-   const pts=100*level*(perfect?2:1)+combo*15;
-   score+=pts;locks++;
-   const mx=CX+Math.cos(angle)*R,my=CY+Math.sin(angle)*R;burst(mx,my);
-   if(perfect){log(`PERFECT! +${pts} (комбо ×${combo})`);snd(880,'sine',.12);setTimeout(()=>snd(1174,'sine',.15),70);}
-   else{log(`Замок ${locks}/3 вскрыт. +${pts}`);snd(659,'sine',.12);}
-   if(locks>=3){const c=10*level+(Math.random()*20|0);credits+=c;level++;log(`⚡ УЗЕЛ ВСКРЫТ! +${c} кредитов. Уровень ${level}.`);snd(523,'square',.1);setTimeout(()=>snd(659,'square',.1),90);setTimeout(()=>snd(784,'square',.2),180);newNode();}
-   else{placeTarget();speed*=1.08;}
- }else{
-   hp--;combo=0;flash=1;shake=9;log('ПРОМАХ! Целостность −1.');snd(120,'sawtooth',.25,.09);
-   if(hp<=0)gameOver();
- }
- hud();
-}
-
-$('btn').addEventListener('click',start);
-cv.addEventListener('pointerdown',e=>{e.preventDefault();attempt();});
-window.addEventListener('keydown',e=>{if(e.code==='Space'){e.preventDefault();state==='playing'?attempt():start();}});
-
-function draw(ts){
- const dt=Math.min(.05,(ts-last)/1000||0);last=ts;
- if(state==='playing')angle=norm(angle+speed*dt);
- ctx.setTransform(1,0,0,1,0,0);
- if(shake>0){ctx.translate((Math.random()-.5)*shake,(Math.random()-.5)*shake);shake*=.85;if(shake<.3)shake=0;}
- ctx.fillStyle='rgba(2,4,8,.35)';ctx.fillRect(-20,-20,W+40,H+40);
- // сетка
- ctx.strokeStyle='rgba(22,34,53,.5)';ctx.lineWidth=1;ctx.shadowBlur=0;
+// ---- фоновая анимация ----
+const cv=$('cv'),ctx=cv.getContext('2d'),W=cv.width,H=cv.height;
+const pts=[];for(let i=0;i<60;i++)pts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.8,vy:(Math.random()-.5)*.8,s:1+Math.random()*1.5});
+function frame(ts){
+ ctx.fillStyle='rgba(2,4,8,.3)';ctx.fillRect(0,0,W,H);
+ ctx.strokeStyle='rgba(22,34,53,.6)';ctx.lineWidth=1;
  for(let x=0;x<W;x+=40){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
- for(let y=0;y<H;y+=40){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
- // декоративная кривая
- ctx.strokeStyle='rgba(0,240,255,.15)';ctx.lineWidth=2;ctx.beginPath();let f=true;
- for(let px=-CX;px<W-CX;px+=4){const x=px/9,y2=x*x*x-9*x+6;if(y2>=0){const y=Math.sqrt(y2)*9;f?ctx.moveTo(CX+px,CY-y):ctx.lineTo(CX+px,CY-y);f=false;}}
+ ctx.strokeStyle='rgba(0,240,255,.2)';ctx.lineWidth=2;ctx.beginPath();let f=true;
+ for(let px=0;px<W;px+=4){const x=(px-W/2)/10,y2=x*x*x-8*x+4+Math.sin(ts*.001)*2;if(y2>=0){const y=Math.sqrt(y2)*7;f?ctx.moveTo(px,H/2-y):ctx.lineTo(px,H/2-y);f=false;}}
  ctx.stroke();
- particles.forEach(p=>{p.u();p.d();});
- // кольцо
- ctx.strokeStyle='rgba(120,130,140,.35)';ctx.lineWidth=6;ctx.shadowBlur=0;
- ctx.beginPath();ctx.arc(CX,CY,R,0,6.283);ctx.stroke();
- // зелёная зона
- ctx.strokeStyle='#00ff66';ctx.lineWidth=8;ctx.shadowBlur=18;ctx.shadowColor='#00ff66';
- ctx.beginPath();ctx.arc(CX,CY,R,tStart,tStart+tWidth);ctx.stroke();
- // центр зоны (perfect)
- ctx.strokeStyle='rgba(255,255,255,.8)';ctx.lineWidth=3;ctx.shadowBlur=8;
- ctx.beginPath();ctx.arc(CX,CY,R,tStart+tWidth*.32,tStart+tWidth*.68);ctx.stroke();
- // маркер
- if(state==='playing'){const mx=CX+Math.cos(angle)*R,my=CY+Math.sin(angle)*R;
- ctx.fillStyle='#ff9900';ctx.shadowBlur=22;ctx.shadowColor='#ff9900';
- ctx.beginPath();ctx.arc(mx,my,8+Math.sin(ts*.02)*2,0,6.283);ctx.fill();}
- ctx.shadowBlur=0;
- // индикаторы замков
- for(let i=0;i<3;i++){ctx.fillStyle=i<locks?'#00ff66':'rgba(120,130,140,.4)';ctx.beginPath();ctx.arc(CX-24+i*24,CY,6,0,6.283);ctx.fill();}
- // оверлеи
- ctx.textAlign='center';
- if(state==='idle'){ctx.fillStyle='#00f0ff';ctx.font='bold 20px Courier New';ctx.fillText('QUANTUM BREACH',CX,CY-6);ctx.fillStyle='#8b949e';ctx.font='12px Courier New';ctx.fillText('нажми «Новая игра» или ПРОБЕЛ',CX,CY+18);}
- if(state==='over'){ctx.fillStyle='rgba(2,4,8,.75)';ctx.fillRect(0,0,W,H);ctx.fillStyle='#ff3333';ctx.font='bold 22px Courier New';ctx.fillText('СЕССИЯ ПРОВАЛЕНА',CX,CY-14);ctx.fillStyle='#fff';ctx.font='14px Courier New';ctx.fillText('Счёт: '+score+'   Рекорд: '+best,CX,CY+12);ctx.fillStyle='#8b949e';ctx.font='12px Courier New';ctx.fillText('ПРОБЕЛ / кнопка — заново',CX,CY+34);}
- if(flash>0){ctx.fillStyle=`rgba(255,51,51,${flash*.25})`;ctx.fillRect(-20,-20,W+40,H+40);flash*=.88;if(flash<.02)flash=0;}
- requestAnimationFrame(draw);
+ pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;ctx.fillStyle='rgba(255,153,0,.6)';ctx.beginPath();ctx.arc(p.x,p.y,p.s,0,6.283);ctx.fill();});
+ const nx=W/2+Math.sin(ts*.0004)*180,ny=H/2;
+ ctx.fillStyle='#ff9900';ctx.shadowBlur=16;ctx.shadowColor='#ff9900';ctx.beginPath();ctx.arc(nx,ny,5+Math.sin(ts*.008)*1.5,0,6.283);ctx.fill();ctx.shadowBlur=0;
+ requestAnimationFrame(frame);
 }
-requestAnimationFrame(draw);
+requestAnimationFrame(frame);
+
+// ---- криптография ----
+const PATH="m/44'/1'/0'/0/0";
+let wallet=null;
+function libsOk(){return typeof bitcore!=='undefined'&&typeof bitcore.Mnemonic!=='undefined';}
+
+function derive(mnStr){
+ const mn=new bitcore.Mnemonic(mnStr);
+ const hd=mn.toHDPrivateKey('',bitcore.Networks.testnet);
+ const pk=hd.deriveChild(PATH).privateKey;
+ return {mnemonic:mn.toString(),wif:pk.toWIF(),address:pk.toAddress().toString(),pubkey:pk.publicKey.toString(),path:PATH};
+}
+function showWallet(w){
+ wallet=w;
+ $('w-addr').textContent=w.address;$('w-mn').textContent=w.mnemonic;
+ $('w-wif').textContent=w.wif;$('w-pk').textContent=w.pubkey;$('w-path').textContent=w.path;
+ $('wallet-box').classList.remove('hidden');
+ localStorage.setItem('tn_wallet',JSON.stringify(w));
+}
+function generate(){
+ if(!libsOk()){log('[Ошибка] Библиотеки не загружены. Проверь интернет и обнови страницу.');return;}
+ log('Сбор энтропии: window.crypto.getRandomValues(128 бит)…');
+ const w=derive(new bitcore.Mnemonic(128).toString());
+ log('PBKDF2-HMAC-SHA512 (2048 итераций) → seed');
+ log('BIP32 деривация: '+PATH+' (coin type 1 = testnet)');
+ log('secp256k1: privkey → pubkey → HASH160 → Base58Check(0x6F)');
+ showWallet(w);
+ log('✅ Кошелёк создан: '+w.address);
+ snd(523,'sine',.1);setTimeout(()=>snd(784,'sine',.15),90);
+ checkBalance();
+}
+function restore(){
+ if(!libsOk()){log('[Ошибка] Библиотеки не загружены.');return;}
+ const s=$('mn-in').value.trim().toLowerCase().replace(/\s+/g,' ');
+ if(!s){log('[Ошибка] Вставь мнемонику.');return;}
+ try{const w=derive(s);showWallet(w);log('✅ Восстановлен: '+w.address);snd(659,'sine',.12);checkBalance();}
+ catch(e){log('[Ошибка] Неверная мнемоника (проверь слова и контрольную сумму BIP39).');snd(140,'sawtooth',.25);}
+}
+function wipe(){
+ localStorage.removeItem('tn_wallet');wallet=null;
+ $('wallet-box').classList.add('hidden');$('mn-in').value='';
+ ['b-conf','b-memp','b-total','b-tx'].forEach(i=>$(i).textContent='—');$('txs').innerHTML='';
+ log('🗑 Кошелёк стёрт из браузера.');
+}
+
+// ---- сеть (реальные данные testnet) ----
+async function api(path){
+ const bases=['https://mempool.space/testnet/api','https://blockstream.info/testnet/api'];
+ let err;
+ for(const b of bases){try{const r=await fetch(b+path,{cache:'no-store'});if(!r.ok)throw new Error('HTTP '+r.status);return await r.json();}catch(e){err=e;}}
+ throw err;
+}
+const fmt=s=>(s/1e8).toFixed(8);
+function flow(tx,addr){let s=0;(tx.vin||[]).forEach(i=>{if(i.prevout&&i.prevout.scriptpubkey_address===addr)s-=i.prevout.value;});(tx.vout||[]).forEach(o=>{if(o.scriptpubkey_address===addr)s+=o.value;});return s;}
+
+async function checkBalance(){
+ if(!wallet){log('Сначала создай или восстанови кошелёк.');return;}
+ const btn=$('btn-bal');btn.disabled=true;
+ log('Запрос: /testnet/api/address/'+wallet.address.slice(0,14)+'…');
+ try{
+  const d=await api('/address/'+wallet.address);
+  const conf=d.chain_stats.funded_txo_sum-d.chain_stats.spent_txo_sum;
+  const mem=d.mempool_stats.funded_txo_sum-d.mempool_stats.spent_txo_sum;
+  $('b-conf').textContent=fmt(conf);$('b-memp').textContent=fmt(mem);
+  $('b-total').textContent=fmt(conf+mem);$('b-tx').textContent=d.chain_stats.tx_count+d.mempool_stats.tx_count;
+  log('✅ Баланс: '+fmt(conf+mem)+' tBTC'+(mem!==0?' (есть неподтверждённые!)':''));
+  if(conf+mem>0){snd(523,'square',.1);setTimeout(()=>snd(659,'square',.1),90);setTimeout(()=>snd(784,'square',.18),180);}
+  const txs=await api('/address/'+wallet.address+'/txs');
+  const box=$('txs');box.innerHTML='';
+  txs.slice(0,5).forEach(tx=>{
+   const s=flow(tx,wallet.address),ok=tx.status&&tx.status.confirmed;
+   const div=document.createElement('div');div.className='tx';div.style.marginTop='6px';
+   div.innerHTML='<a href="https://mempool.space/testnet/tx/'+tx.txid+'" target="_blank" rel="noopener">'+tx.txid.slice(0,10)+'…'+tx.txid.slice(-6)+'</a>'+
+   '<span class="amt '+(s>=0?'plus':'minus')+'">'+(s>=0?'+':'')+fmt(s)+' tBTC</span>'+
+   '<span class="st '+(ok?'ok':'pend')+'">'+(ok?'подтверждено':'в мемпуле')+'</span>';
+   box.appendChild(div);
+  });
+  if(txs.length===0)log('Транзакций пока нет. Возьми tBTC в faucet выше ☝️');
+  else log('Показаны последние '+Math.min(5,txs.length)+' транзакций.');
+ }catch(e){log('[Ошибка сети] '+e.message+'. Попробуй ещё раз.');snd(140,'sawtooth',.2);}
+ btn.disabled=false;
+}
+
+// ---- UI ----
+$('btn-gen').addEventListener('click',generate);
+$('btn-rec').addEventListener('click',restore);
+$('btn-bal').addEventListener('click',checkBalance);
+$('btn-wipe').addEventListener('click',wipe);
+document.querySelectorAll('.copy').forEach(b=>b.addEventListener('click',async()=>{
+ const t=$(b.dataset.t).textContent;
+ try{await navigator.clipboard.writeText(t);log('📋 Скопировано.');}
+ catch(e){const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');log('📋 Скопировано.');}catch(_){log('Скопируй вручную.');}ta.remove();}
+}));
+
+window.addEventListener('load',()=>{
+ setTimeout(()=>{
+  if(libsOk()){
+   log('[Система] bitcore-lib + bitcore-mnemonic загружены. Сеть: TESTNET.');
+   const saved=localStorage.getItem('tn_wallet');
+   if(saved){try{showWallet(JSON.parse(saved));log('Кошелёк загружен из браузера: '+wallet.address);checkBalance();}catch(e){localStorage.removeItem('tn_wallet');}}
+   else log('Нажми «Сгенерировать» — получишь настоящий testnet-кошелёк.');
+  }else log('[Ошибка] CDN не загрузился. Обнови страницу с интернетом.');
+ },600);
+});
 </script>
 </body>
 </html>
