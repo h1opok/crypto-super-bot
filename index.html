@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quantum Cryptanalysis Core v4.0 (Perfect Offline Edition)</title>
+    <title>Quake Crypto Engine v4.0 (0x5f3759df)</title>
     <style>
         :root { 
             --bg: #020408; 
@@ -14,6 +14,7 @@
             --error: #ff3333; 
             --success: #00ff66; 
             --border: #162235;
+            --quake: #ff9900;
         }
         * { box-sizing: border-box; }
         body { 
@@ -23,26 +24,25 @@
             padding: 20px; 
             margin: 0; 
             background-image: radial-gradient(circle at 50% 30%, #0a1525 0%, #020408 70%);
-            min-height: 100vh;
         }
         .container { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px; }
         
-        header { border-bottom: 2px solid var(--cyan); padding-bottom: 10px; text-align: center; text-shadow: 0 0 15px rgba(0,240,255,0.4); }
-        h1 { margin: 0; font-size: 18px; color: var(--cyan); letter-spacing: 2px; text-transform: uppercase; }
+        header { border-bottom: 2px solid var(--quake); padding-bottom: 10px; text-align: center; text-shadow: 0 0 15px rgba(255, 153, 0, 0.4); }
+        h1 { margin: 0; font-size: 18px; color: var(--quake); letter-spacing: 2px; text-transform: uppercase; }
         
         .canvas-container { 
             background: #000; border: 1px solid var(--border); border-radius: 8px; padding: 2px; 
             display: flex; justify-content: center; position: relative; overflow: hidden;
-            box-shadow: 0 0 30px rgba(0, 240, 255, 0.05), inset 0 0 50px rgba(0,0,0,0.8);
+            box-shadow: 0 0 30px rgba(255, 153, 0, 0.1), inset 0 0 50px rgba(0,0,0,0.8);
         }
         canvas { max-width: 100%; height: auto; display: block; }
         
         .sidebar { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 20px; display: flex; flex-direction: column; gap: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
         
         .input-box { display: flex; flex-direction: column; gap: 8px; }
-        .input-box label { font-size: 11px; font-weight: bold; color: var(--cyan); letter-spacing: 1px; }
-        input { background: #010306; border: 1px solid var(--border); color: var(--cyan); padding: 14px; border-radius: 6px; font-family: monospace; font-size: 13px; width: 100%; outline: none; transition: 0.3s; }
-        input:focus { border-color: var(--cyan); box-shadow: 0 0 15px rgba(0, 240, 255, 0.15); }
+        .input-box label { font-size: 11px; font-weight: bold; color: var(--quake); letter-spacing: 1px; }
+        input { background: #010306; border: 1px solid var(--border); color: var(--quake); padding: 14px; border-radius: 6px; font-family: monospace; font-size: 13px; width: 100%; outline: none; transition: 0.3s; }
+        input:focus { border-color: var(--quake); box-shadow: 0 0 15px rgba(255, 153, 0, 0.15); }
         input.error { border-color: var(--error); color: var(--error); box-shadow: 0 0 15px rgba(255, 51, 51, 0.15); animation: shake 0.3s; }
         
         @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
@@ -50,21 +50,21 @@
         .btn-group { display: grid; grid-template-columns: 1fr; gap: 12px; }
         @media (min-width: 480px) { .btn-group { grid-template-columns: 1fr 1fr; } }
         
-        button { background: transparent; border: 1px solid var(--cyan); color: var(--cyan); padding: 16px 10px; font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 11px; font-family: monospace; letter-spacing: 1.5px; transition: 0.3s; text-transform: uppercase; position: relative; overflow: hidden; }
-        button::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(0,240,255,0.2), transparent); transition: 0.5s; }
+        button { background: transparent; border: 1px solid var(--quake); color: var(--quake); padding: 16px 10px; font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 11px; font-family: monospace; letter-spacing: 1.5px; transition: 0.3s; text-transform: uppercase; position: relative; overflow: hidden; }
+        button::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255, 153, 0, 0.2), transparent); transition: 0.5s; }
         button:hover::before { left: 100%; }
-        button:hover { background: rgba(0, 240, 255, 0.05); color: #fff; box-shadow: 0 0 20px rgba(0, 240, 255, 0.2); }
+        button:hover { background: rgba(255, 153, 0, 0.05); color: #fff; box-shadow: 0 0 20px rgba(255, 153, 0, 0.2); }
         button:disabled { opacity: 0.4; cursor: not-allowed; filter: grayscale(1); }
-        .btn-auto { border-color: var(--btc); color: var(--btc); }
-        .btn-auto:hover { background: rgba(247, 147, 26, 0.05); box-shadow: 0 0 20px rgba(247, 147, 26, 0.2); }
+        .btn-auto { border-color: var(--cyan); color: var(--cyan); }
+        .btn-auto:hover { background: rgba(0, 240, 255, 0.05); box-shadow: 0 0 20px rgba(0, 240, 255, 0.2); }
 
         .progress-container { width: 100%; background: #010306; border: 1px solid var(--border); height: 24px; border-radius: 4px; overflow: hidden; display: none; position: relative; box-shadow: inset 0 2px 5px rgba(0,0,0,0.5); }
-        .progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(--cyan), var(--btc)); transition: width 0.1s linear; box-shadow: 0 0 15px var(--cyan); }
+        .progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(--quake), var(--cyan)); transition: width 0.1s linear; box-shadow: 0 0 15px var(--quake); }
         .progress-text { position: absolute; width: 100%; text-align: center; font-size: 11px; font-weight: bold; color: #fff; line-height: 24px; text-shadow: 0 1px 3px #000; letter-spacing: 1px; }
 
         .metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 10px; background: #010306; padding: 12px; border: 1px solid var(--border); border-radius: 6px; }
         .metric-item { color: #8b949e; display: flex; justify-content: space-between; }
-        .metric-item span { color: var(--cyan); font-weight: bold; text-shadow: 0 0 5px rgba(0,240,255,0.3); }
+        .metric-item span { color: var(--quake); font-weight: bold; text-shadow: 0 0 5px rgba(255, 153, 0, 0.3); }
 
         .data-display { background: #010306; border: 1px solid var(--border); border-radius: 6px; padding: 15px; display: flex; flex-direction: column; gap: 12px; font-size: 13px; }
         .data-row { display: flex; flex-direction: column; gap: 4px; border-bottom: 1px solid #101622; padding-bottom: 8px; }
@@ -72,7 +72,7 @@
         .label { color: #8b949e; font-size: 10px; letter-spacing: 0.5px; }
         .value { color: #fff; word-break: break-all; font-weight: bold; font-family: monospace; }
         
-        #log { background: #010306; border: 1px solid var(--border); border-radius: 6px; padding: 12px; font-size: 11px; color: #58a6ff; max-height: 120px; overflow-y: auto; white-space: pre-line; font-family: monospace; line-height: 1.4; }
+        #log { background: #010306; border: 1px solid var(--border); border-radius: 6px; padding: 12px; font-size: 11px; color: var(--quake); max-height: 120px; overflow-y: auto; white-space: pre-line; font-family: monospace; line-height: 1.4; }
         #log::-webkit-scrollbar { width: 6px; }
         #log::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
     </style>
@@ -81,8 +81,8 @@
 
     <div class="container">
         <header>
-            <h1>Quantum Cryptanalysis Core v4.0</h1>
-            <div style="color: #8b949e; font-size: 11px; margin-top: 6px; letter-spacing: 1px;">ADVANCED ECDLP REVERSAL & QUANTUM STATE VISUALIZATION</div>
+            <h1>QUAKE CRYPTO ENGINE v4.0</h1>
+            <div style="color: #8b949e; font-size: 11px; margin-top: 6px; letter-spacing: 1px;">HEURISTIC INVERSE SQUARE ROOT DECRYPTION [0x5f3759df]</div>
         </header>
 
         <div class="canvas-container">
@@ -97,7 +97,7 @@
 
             <div class="btn-group">
                 <button class="btn-auto" id="btn-auto" onclick="runQuantumSimulation(true)">🛰️ Авто-поиск аномалий</button>
-                <button id="btn-decrypt" onclick="runQuantumSimulation(false)">⚡ Инициировать декодирование</button>
+                <button id="btn-decrypt" onclick="runQuantumSimulation(false)">⚡ Инициировать 0x5f3759df</button>
             </div>
 
             <div class="progress-container" id="p-container">
@@ -106,19 +106,19 @@
             </div>
 
             <div class="metrics-grid">
-                <div class="metric-item">ТЕМПЕРАТУРА ЯДРА: <span id="m-temp">15.4 mK</span></div>
+                <div class="metric-item">FPS ЯДРА: <span id="m-temp">999</span></div>
                 <div class="metric-item">ДЕКОГЕРЕНЦИЯ: <span id="m-deco">0.002%</span></div>
-                <div class="metric-item">КУБИТЫ В СУПЕРПОЗИЦИИ: <span>4,194,304</span></div>
+                <div class="metric-item">МАГИЧЕСКАЯ КОНСТАНТА: <span>0x5f3759df</span></div>
                 <div class="metric-item">ЧАСТОТА ШУМА: <span id="m-freq">4.85 GHz</span></div>
             </div>
 
             <div class="data-display">
                 <div class="data-row">
                     <span class="label">// ЦЕЛЬ ДЕКОДИРОВАНИЯ:</span>
-                    <span class="value" id="pubkey-val" style="color: var(--cyan);">ОЖИДАНИЕ ВВОДА</span>
+                    <span class="value" id="pubkey-val" style="color: var(--quake);">ОЖИДАНИЕ ВВОДА</span>
                 </div>
                 <div class="data-row">
-                    <span class="label">// ВЫЧИСЛЕННЫЙ БАЛАНС (Формула Энтропии):</span>
+                    <span class="label">// ВЫЧИСЛЕННЫЙ БАЛАНС (Эвристика):</span>
                     <span class="value" id="balance-val">—</span>
                 </div>
                 <div class="data-row">
@@ -131,7 +131,7 @@
                 </div>
             </div>
 
-            <div id="log">[Ядро] Квантовые модули инициализированы. Ожидание цели для обратного инжиниринга.</div>
+            <div id="log">[Движок] Инициализация быстрой инверсии... Ожидание цели.</div>
         </div>
     </div>
 
@@ -159,9 +159,9 @@
         let curveConfig = {
             a: -10, b: 15, scale: 8, freq: 0.04,
             layers: [
-                { color: 'rgba(0, 240, 255, 0.6)', width: 2, glow: 15 },
-                { color: 'rgba(0, 100, 255, 0.3)', width: 4, glow: 25 },
-                { color: 'rgba(247, 147, 26, 0.2)', width: 1, glow: 10 }
+                { color: 'rgba(255, 153, 0, 0.6)', width: 2, glow: 15 },
+                { color: 'rgba(0, 240, 255, 0.3)', width: 4, glow: 25 },
+                { color: 'rgba(255, 51, 51, 0.2)', width: 1, glow: 10 }
             ]
         };
 
@@ -170,8 +170,8 @@
             reset() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.vx = (Math.random() - 0.5) * 2;
-                this.vy = (Math.random() - 0.5) * 2;
+                this.vx = (Math.random() - 0.5) * 3;
+                this.vy = (Math.random() - 0.5) * 3;
                 this.size = Math.random() * 2 + 0.5;
                 this.life = Math.random() * 100 + 50;
                 this.maxLife = this.life;
@@ -185,8 +185,8 @@
                     let dy = targetY - this.y;
                     let dist = Math.sqrt(dx*dx + dy*dy);
                     if (dist < 150) {
-                        this.x += dx * 0.05;
-                        this.y += dy * 0.05;
+                        this.x += dx * 0.08;
+                        this.y += dy * 0.08;
                     }
                 }
                 if (this.life <= 0 || this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
@@ -195,14 +195,14 @@
             }
             draw() {
                 let alpha = (this.life / this.maxLife) * 0.8;
-                ctx.fillStyle = `rgba(0, 240, 255, ${alpha})`;
+                ctx.fillStyle = `rgba(255, 153, 0, ${alpha})`;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
             }
         }
 
-        for(let i = 0; i < 150; i++) particles.push(new Particle());
+        for(let i = 0; i < 200; i++) particles.push(new Particle());
 
         function playSound(freq, type, duration, vol = 0.05) {
             try {
@@ -250,12 +250,12 @@
             curveConfig.layers.forEach((layer, layerIndex) => {
                 ctx.strokeStyle = layer.color;
                 ctx.lineWidth = layer.width;
-                ctx.shadowBlur = layer.glow + (progress * 0.2);
+                ctx.shadowBlur = layer.glow + (progress * 0.3);
                 ctx.shadowColor = layer.color;
                 ctx.beginPath();
                 
                 let first = true;
-                let distortion = Math.sin(time * 0.001 + layerIndex) * (progress * 0.8); 
+                let distortion = Math.sin(time * 0.002 + layerIndex) * (progress * 0.8); 
                 
                 for (let px = -300; px < canvas.width - centerX + 100; px += 3) {
                     let x = px / curveConfig.scale;
@@ -290,14 +290,14 @@
             
             waveRadius += 2;
             if (waveRadius > 80) waveRadius = 5;
-            ctx.strokeStyle = `rgba(0, 240, 255, ${1 - waveRadius / 80})`;
+            ctx.strokeStyle = `rgba(255, 153, 0, ${1 - waveRadius / 80})`;
             ctx.lineWidth = 2;
             ctx.shadowBlur = 10;
-            ctx.shadowColor = '#00f0ff';
+            ctx.shadowColor = '#ff9900';
             ctx.beginPath(); ctx.arc(targetX, targetY, waveRadius, 0, Math.PI * 2); ctx.stroke();
             ctx.shadowBlur = 0;
 
-            document.getElementById('m-temp').innerText = (14.2 + Math.random() * 1.5).toFixed(1) + " mK";
+            document.getElementById('m-temp').innerText = Math.floor(900 + Math.random() * 99);
             document.getElementById('m-deco').innerText = (0.001 + Math.random() * 0.004).toFixed(3) + "%";
             document.getElementById('m-freq').innerText = (4.80 + Math.random() * 0.15).toFixed(2) + " GHz";
 
@@ -310,7 +310,6 @@
                    /^04[a-fA-F0-9]{128}$/.test(input);
         }
 
-        // Полный стандартный список BIP39 (2048 слов)
         const BIP39_WORDS = [
             "abandon","ability","able","about","above","absent","absorb","abstract","absurd","abuse",
             "access","accident","account","accuse","achieve","acid","acoustic","acquire","across","act",
@@ -517,14 +516,16 @@
             "year","yellow","you","young","youth","zebra","zero","zone","zoo"
         ];
 
-        // === МАТЕМАТИЧЕСКАЯ ФОРМУЛА ДЕТЕРМИНИРОВАННОГО ХЭША ===
+        // === МАГИЧЕСКАЯ ФОРМУЛА (Детерминированный хэш) ===
         function formulaHash(str) {
             let hash = 0;
             for (let i = 0; i < str.length; i++) {
                 const char = str.charCodeAt(i);
                 hash = ((hash << 5) - hash) + char;
-                hash |= 0; // Корректное приведение к 32-битному целому
+                hash |= 0; 
             }
+            // Добавляем "магическое число" Quake для визуальной и алгоритмической эстетики
+            hash = (hash ^ 0x5f3759df) >>> 0; 
             return Math.abs(hash);
         }
 
@@ -593,9 +594,9 @@
             document.getElementById('mnemonic-val').innerText = reconstructedMnemonic;
             document.getElementById('mnemonic-val').style.color = "var(--success)";
 
-            printLog("⚡ ВЫЧИСЛЕНИЯ ЗАВЕРШЕНЫ. ECDLP решен методом квантовой факторизации.");
-            printLog(`[УСПЕХ] Формула успешно реконструировала данные для: ${targetKey}`);
-            printLog("[СТАТУС] Детерминированный расчет завершен. Данные готовы.");
+            printLog("⚡ 0x5f3759df ПРИМЕНЕН УСПЕШНО.");
+            printLog(`[УСПЕХ] Эвристическая инверсия завершена для: ${targetKey}`);
+            printLog("[СТАТУС] Данные реконструированы и готовы.");
             
             playSound(440, 'sine', 0.1);
             setTimeout(() => { playSound(554, 'sine', 0.1); }, 100);
@@ -604,7 +605,7 @@
 
         function prepareSimulation(targetAddress) {
             document.getElementById('pubkey-val').innerText = targetAddress;
-            document.getElementById('balance-val').innerText = "Вычисление по формуле энтропии...";
+            document.getElementById('balance-val').innerText = "Применение быстрой инверсии...";
             document.getElementById('balance-val').style.color = "#fff";
             document.getElementById('balance-val').style.textShadow = "none";
             document.getElementById('cracked-val').innerText = "—";
@@ -626,10 +627,10 @@
                     
                     if (Math.random() > 0.8) {
                         const aiLogs = [
-                            `Применение хэш-формулы к целевому адресу (итерация ${Math.floor(simProgress * 819.2)})...`,
-                            "Генерация детерминированного зерна (seed) из строки...",
+                            `Инициализация константы 0x5f3759df...`,
+                            `Быстрый обратный квадратный корень: итерация ${Math.floor(simProgress * 819.2)}...`,
                             "Линейный конгруэнтный генератор: вычисление последовательности Base58...",
-                            "Анализ эллиптической кривой secp256k1: поиск точки пересечения...",
+                            "Обход функции с ловушкой secp256k1 через эвристическую догадку...",
                             "Сопоставление 12-словной комбинации с BIP39 словарем...",
                             "Формирование финального WIF-ключа с префиксом сети..."
                         ];
@@ -648,8 +649,8 @@
             btnDecrypt.disabled = true;
             
             document.getElementById('p-container').style.display = 'block';
-            log.innerText = "[Ядро] Инициализация квантового массива...\n";
-            playSound(220, 'sine', 0.5, 0.05);
+            log.innerText = "[Движок] Инициализация быстрой инверсии...\n";
+            playSound(220, 'sawtooth', 0.5, 0.05);
             
             generateNewQuantumState();
             
@@ -659,7 +660,7 @@
             if (isAuto) {
                 const randomHex = Array.from({length: 32}, () => Math.floor(Math.random()*16).toString(16)).join('');
                 targetAddress = "bc1q" + randomHex.substring(0, 38);
-                printLog("Авто-поиск: Сканирование блокчейна на наличие аномалий высокой энтропии...");
+                printLog("Авто-поиск: Сканирование на наличие аномалий высокой энтропии...");
                 prepareSimulation(targetAddress);
                 
             } else if (!targetAddress) {
@@ -668,7 +669,7 @@
                     targetAddress = "02" + Array.from({length: 64}, () => Math.floor(Math.random()*16).toString(16)).join('');
                     inputField.value = targetAddress;
                     inputField.style.color = "var(--success)";
-                    setTimeout(() => { inputField.style.color = "var(--cyan)"; }, 600);
+                    setTimeout(() => { inputField.style.color = "var(--quake)"; }, 600);
                     printLog(`[Цель захвачена] Обнаружен публичный ключ в локальной памяти.`);
                     prepareSimulation(targetAddress);
                 }, 1200);
@@ -683,7 +684,7 @@
                 
             } else {
                 printLog(`Цель захвачена: ${targetAddress}`);
-                printLog("Запуск математической формулы обратного инжиниринга...");
+                printLog("Запуск эвристической инверсии с константой 0x5f3759df...");
                 prepareSimulation(targetAddress);
             }
         }
