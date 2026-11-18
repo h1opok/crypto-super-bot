@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0a0410">
-<title>BITCOIN WALLET LAB — mainnet · testnet · demo</title>
+<meta name="theme-color" content="#070503">
+<title>BITCOIN WALLET LAB — offline-ready</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%23f7931a'/%3E%3Ctext x='16' y='22' font-size='17' font-family='monospace' font-weight='bold' text-anchor='middle' fill='%23070503'%3E%E2%82%BF%3C/text%3E%3C/svg%3E">
 <style>
 :root{--bg:#070503;--bg2:#0c0805;--sf:#120c07;--sf2:#1a120a;--ln:#2b1d0e;--ln2:#3d2a14;--btc:#f7931a;--gold:#ffc24b;--deep:#c96a00;--cy:#00e5ff;--gr:#22ff88;--rd:#ff3b5c;--vi:#8b7bff;--mg:#ff4fd8;--tx:#f0e6d8;--mu:#a08b6e;--dm:#6b5a42;--mo:ui-monospace,'Cascadia Code','JetBrains Mono','SF Mono',Consolas,monospace;--ac:#f7931a;--ac2:#ffc24b;--tb:56px}
@@ -45,7 +45,7 @@ body.test .seg button.on,body.demo .seg button.on{color:#04070d}
 .ch{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
 .cp0{font-size:9.5px;letter-spacing:1.4px;padding:5px 11px;border-radius:20px;border:1px solid var(--ln2);color:var(--mu)}
 .cp0.h{color:var(--gold);border-color:rgba(247,147,26,.55)}.cp0.r{color:var(--rd);border-color:rgba(255,59,92,.5)}
-.cp0.c{color:var(--cy);border-color:rgba(0,229,255,.4)}.cp0.s{color:var(--mg);border-color:rgba(255,79,216,.5)}.cp0.g{color:var(--gr);border-color:rgba(34,255,136,.5)}
+.cp0.c{color:var(--cy);border-color:rgba(0,229,255,.4)}.cp0.s{color:var(--mg);border-color:rgba(255,79,216,.5)}.cp0.g{color:var(--gr);border-color:rgba(34,255,136,.5)}.cp0.off{color:var(--gr);border-color:rgba(34,255,136,.5)}
 .rl{border:1px solid rgba(255,59,92,.45);background:linear-gradient(120deg,rgba(255,59,92,.07),rgba(247,147,26,.05));border-radius:13px;padding:13px 16px;margin:13px 0;font-size:12px;line-height:1.75;position:relative;overflow:hidden;animation:ri .5s both}
 .rl::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(var(--rd),var(--btc))}
 .rl b{color:var(--gold)}.rl .rt{font-size:10px;letter-spacing:2px;color:var(--rd);font-weight:800;margin-bottom:6px}
@@ -166,7 +166,7 @@ body.test .fl{background:#050a13}body.demo .fl{background:#0d0517}
 #simcv{display:block;width:100%;height:auto;border-radius:10px;background:#0b0512;border:1px solid var(--ln)}
 .simcap{display:flex;justify-content:space-between;font-size:9px;letter-spacing:1.5px;color:var(--dm);margin-top:7px}
 .simcap b{color:var(--mg)}
-.livebtn{display:flex;align-items:center;gap:8px;padding:12px;border-radius:10px;border:1px solid rgba(255,79,216,.5);background:rgba(255,79,216,.07);color:var(--mg);text-decoration:none;font:800 11px var(--mo);letter-spacing:1px;transition:.2s}
+.livebtn{display:flex;align-items:center;gap:8px;padding:12px;border-radius:10px;border:1px solid rgba(255,79,216,.5);background:rgba(255,79,216,.07);color:var(--mg);text-decoration:none;font:800 11px var(--mo);letter-spacing:1px;transition:.2s;margin-top:9px}
 .livebtn:hover{box-shadow:0 0 20px rgba(255,79,216,.35);transform:translateY(-2px)}
 .livebtn .pulse{width:9px;height:9px;border-radius:50%;background:var(--mg);box-shadow:0 0 10px var(--mg);animation:pl 1.1s infinite}
 details.lc{background:var(--sf);border:1px solid var(--ln);border-radius:13px;overflow:hidden}
@@ -261,7 +261,7 @@ footer{margin-top:26px;text-align:center;font-size:9.5px;color:var(--dm);line-he
 <div class="co">
 <div class="cL">
 <div class="cd"><h2><span class="n">1</span>КОШЕЛЁК<span class="tl" id="wst">НЕТ КЛЮЧЕЙ</span></h2>
-<div class="st" id="now"><button class="bt mg" id="bGen">✦ Сотворить кошелёк</button><button class="bt gh" id="bFast">⚡ Создать мгновенно (без ритуала)</button><div class="hn" id="genh"></div></div>
+<div class="st" id="now"><button class="bt mg" id="bGen">✦ Сотворить кошелёк</button><button class="bt gh" id="bFast">⚡ Создать мгновенно</button><div class="hn" id="genh"></div></div>
 <div id="has" class="hid">
 <div class="ax"><div class="lb">АДРЕС ПОЛУЧЕНИЯ <span class="tg" id="atag">P2PKH</span></div><div class="ad" id="wAddr">—</div><button class="cb" data-c="addr">⧉ КОПИРОВАТЬ АДРЕС</button></div>
 <div class="sp"></div>
@@ -318,7 +318,7 @@ footer{margin-top:26px;text-align:center;font-size:9.5px;color:var(--dm);line-he
 <details class="lc" open><summary>СИСТЕМНЫЙ ЖУРНАЛ</summary><div id="log"></div></details>
 </div>
 </div>
-<footer><b>BITCOIN WALLET LAB</b> · встроенное криптоядро: SHA-256 · RIPEMD-160 · secp256k1 · BIP39/32/44 · 0 CDN<br>DEMO: виртуальные монеты → сим-мемпул (точки); реальные tBTC из faucet → НАСТОЯЩИЙ testnet-мемпул и живая карта. Для сбережений используй аппаратный кошелёк.</footer>
+<footer><b>BITCOIN WALLET LAB</b> · встроенное криптоядро + встроенный BIP39 (2048 слов) · 0 CDN · работает офлайн<br>DEMO: виртуальные монеты → сим-мемпул (точки); реальные tBTC из faucet → НАСТОЯЩИЙ testnet-мемпул.</footer>
 </div>
 <div class="sc" id="sc"></div>
 <div class="dr" id="dr"><div class="dh"><b>ДЕТАЛИ ТРАНЗАКЦИИ</b><button id="dcl">✕</button></div><div class="db" id="db"></div><div class="df"><a class="bt c" id="dex" target="_blank" rel="noopener" style="text-decoration:none">↗ В обозревателе</a><button class="bt gh" id="dcp">⧉ Копировать txid</button></div></div>
@@ -379,7 +379,7 @@ f=(j,x,y,z)=>j<16?x^y^z:j<32?(x&y)|(~x&z):j<48?(x|~y)^z:j<64?(x&z)|(y&~z):x^(y|~
 const l=m.length,T=(l+9+63)&~63,b=new U8(T);b.set(m);b[l]=128;const d=new DataView(b.buffer);d.setUint32(T-8,(l*8)>>>0,true);d.setUint32(T-4,Math.floor(l*8/4294967296),true);
 let H=[0x67452301,0xefcdab89,0x98badcfe,0x10325476,0xc3d2e1f0];
 for(let o=0;o<T;o+=64){const X=[];for(let i=0;i<16;i++)X.push(d.getUint32(o+i*4,true));
-let[a,b2,c,e,g]=H,[A,B,C,D,E]=H;
+let[a,b2,c,e,g]=[...H],[A,B,C,D,E]=[...H];
 for(let j=0;j<80;j++){let t=(a+f(j,b2,c,e)+X[zl[j]]+hl[j/16|0])>>>0;t=(rl(t,sl[j])+g)>>>0;a=g;g=e;e=rl(c,10);c=b2;b2=t;
 t=(A+f(79-j,B,C,D)+X[zr[j]]+hr[j/16|0])>>>0;t=(rl(t,sr[j])+E)>>>0;A=E;E=D;D=rl(C,10);C=B;B=t}
 const t=(H[1]+c+D)>>>0;H=[t,(H[2]+e+E)>>>0,(H[3]+g+A)>>>0,(H[4]+a+B)>>>0,(H[0]+b2+C)>>>0]}
@@ -402,15 +402,20 @@ async function hm(k,d){const c=await crypto.subtle.importKey("raw",k,{name:"HMAC
 async function pb(m,salt){const k=await crypto.subtle.importKey("raw",enc.encode(m.normalize("NFKD")),"PBKDF2",false,["deriveBits"]);return new U8(await crypto.subtle.deriveBits({name:"PBKDF2",salt:enc.encode(salt),iterations:2048,hash:"SHA-512"},k,512))}
 async function mst(s){const I=await hm(enc.encode("Bitcoin seed"),s),k=b2n(I.slice(0,32));if(!k||k>=N)throw Error("master");return{k,c:I.slice(32)}}
 async function ckd(n,i){const d=i>=0x80000000?cat([0],n32(n.k),be32(i)):cat(pub(n.k),be32(i)),I=await hm(n.c,d),k=md(b2n(I.slice(0,32))+n.k,N);if(!k)throw Error("child");return{k,c:I.slice(32)}}
+/* ========== BIP39: полный эталонный список 2048 слов, встроен офлайн ========== */
 const RAW="abandon ability able about above absent absorb abstract absurd abuse access accident account accuse achieve acid acoustic acquire across act action actor actress actual adapt add addict address adjust admit adult advance advice aerobic affair afford afraid again age agent agree ahead aim air airport aisle alarm album alcohol alert alien all alley allow almost alone alpha already also alter always amateur amazing among amount amused analyst anchor ancient anger angle angry animal ankle announce annual another answer antenna antique anxiety any apart apology appear apple approve april arch arctic area arena argue arm armed armor army around arrange arrest arrive arrow art artefact artist artwork ask aspect assault asset assist assume asthma athlete atom attack attend attitude attract auction audit august aunt author auto autumn average avocado avoid awake aware away awesome awful awkward axis baby bachelor bacon badge bag balance balcony ball bamboo banana banner bar barely bargain barrel base basic basket battle beach bean beauty because become beef before begin behave behind believe below belt bench benefit best betray better between beyond bicycle bid bike bind biology bird birth bitter black blade blame blanket blast bleak bless blind blood blossom blouse blue blur blush board boat body boil bomb bone bonus book boost border boring borrow boss bottom bounce box boy bracket brain brand brass brave bread breeze brick bridge brief bright bring brisk broccoli broken bronze broom brother brown brush bubble buddy budget buffalo build bulb bulk bullet bundle bunker burden burger burst bus business busy butter buyer buzz cabbage cabin cable cactus cage cake call calm camera camp can canal cancel candy cannon canoe canvas canyon capable capital captain car carbon card cargo carpet carry cart case cash casino castle casual cat catalog catch category cattle caught cause caution cave ceiling celery cement census century cereal certain chair chalk champion change chaos chapter charge chase chat cheap check cheese chef cherry chest chicken chief child chimney choice choose chronic chuckle chunk churn cigar cinnamon circle citizen city civil claim clap clarify claw clay clean clerk clever click client cliff climb clinic clip clock clog close cloth cloud clown club clump cluster clutch coach coast coconut code coffee coil coin collect color column combine come comfort comic common company concert conduct confirm congress connect consider control convince cook cool copper copy coral core corn correct cost cotton couch country couple course cousin cover coyote crack cradle craft cram crane crash crater crawl crazy cream credit creek crew cricket crime crisp critic crop cross crouch crowd crucial cruel cruise crumble crunch crush cry crystal cube culture cup cupboard curious current curtain curve cushion custom cute cycle dad damage damp dance danger daring dash daughter dawn day deal debate debris decade december decide decline decorate decrease deer defense define defy degree delay deliver demand demise denial dentist deny depart depend deposit depth deputy derive describe desert design desk despair destroy detail detect develop device devote diagram dial diamond diary dice diesel diet differ digital dignity dilemma dinner dinosaur direct dirt disagree discover disease dish dismiss disorder display distance divert divide divorce dizzy doctor document dog doll dolphin domain donate donkey donor door dose double dove draft dragon drama drastic draw dream dress drift drill drink drip drive drop drum dry duck dumb dune during dust dutch duty dwarf dynamic eager eagle early earn earth easily east easy echo ecology economy edge edit educate effort egg eight either elbow elder electric elegant element elephant elevator elite else embark embody embrace emerge emotion employ empower empty enable enact encourage end endless endorse enemy energy enforce engage engine enhance enjoy enlist enough enrich enroll ensure enter entire entry envelope episode equal equip era erase erode erosion error erupt escape essay essence estate eternal ethics evidence evil evoke evolve exact example excess exchange excite exclude excuse execute exercise exhaust exhibit exile exist exit exotic expand expect expire explain expose express extend extra eye eyebrow fabric face faculty fade faint faith fall false fame family famous fan fancy fantasy farm fashion fat fatal father fatigue fault favorite feature february federal fee feed feel female fence festival fetch fever few fiber fiction field figure file film filter final find fine finger finish fire firm first fiscal fish fit fitness fix flag flame flash flat flavor flee flight flip float flock floor flower fluid flush fly foam focus fog foil fold follow food foot force forest forget fork fortune forum forward fossil foster found fox fragile frame frequent fresh friend fringe frog front frost frown frozen fruit fuel fun funny furnace fury future gadget gain galaxy gallery game gap garage garbage garden garlic garment gas gasp gate gather gauge gaze general genius genre gentle genuine gesture ghost giant gift giggle ginger giraffe girl give glad glance glare glass glide glimpse globe gloom glory glove glow glue goat goddess gold good goose gorilla gospel gossip govern gown grab grace grain grant grape grass gravity great green grid grief grit grocery group grow grunt guard guess guide guilt guitar gun gym habit hair half hammer hamster hand happy harbor hard harsh harvest hat have hawk hazard head health heart heavy hedgehog height hello helmet help hen hero hidden high hill hint hip hire history hobby hockey hold hole holiday hollow home honey hood hope horn horror horse hospital host hotel hour hover hub huge human humble humor hundred hungry hunt hurdle hurry hurt husband hybrid ice icon idea identify idle ignore ill illegal illness image imitate immense immune impact impose improve impulse inch include income increase index indicate indoor industry infant inflict inform inhale inherit initial inject injury inmate inner innocent input inquiry insane insect inside inspire install intact interest into invest invite involve iron island isolate issue item ivory jacket jaguar jar jazz jealous jeans jelly jewel job join joke journey joy judge juice jump jungle junior junk just kangaroo keen keep ketchup key kick kid kidney kind kingdom kiss kit kitchen kite kitten kiwi knee knife knock know lab label labor ladder lady lake lamp language laptop large later latin laugh laundry lava law lawn lawsuit layer lazy leader leaf learn leave lecture left leg legal legend leisure lemon lend length lens leopard lesson letter level liar liberty library license life lift light like limb limit link lion liquid list little live lizard load loan lobster local lock logic lonely long loop lottery loud lounge love loyal lucky luggage lumber lunar lunch luxury lyrics machine mad magic magnet maid mail main major make mammal man manage mandate mango mansion manual maple marble march margin marine market marriage mask mass master match material math matrix matter maximum maze meadow mean measure meat mechanic medal media melody melt member memory mention menu mercy merge merit merry mesh message metal method middle midnight milk million mimic mind minimum minor minute miracle mirror misery miss mistake mix mixed mixture mobile model modify mom moment monitor monkey monster month moon moral more morning mosquito mother motion motor mountain mouse move movie much muffin mule multiply muscle museum mushroom music must mutual myself mystery myth naive name napkin narrow nasty nation nature near neck need negative neglect neither nephew nerve nest net network neutral never news next nice night noble noise nominee noodle normal north nose notable note nothing notice novel now nuclear number nurse nut oak obey object oblige obscure observe obtain obvious occur ocean october odor off offer office often oil okay old olive olympic omit once one onion online only open opera opinion oppose option orange orbit orchard order ordinary organ orient original orphan ostrich other outdoor outer output outside oval oven over own owner oxygen oyster ozone pact paddle page pair palace palm panda panel panic panther paper parade parent park parrot party pass patch path patient patrol pattern pause pave payment peace peanut pear peasant pelican pen penalty pencil people pepper perfect permit person pet phone photo phrase physical piano picnic picture piece pig pigeon pill pilot pink pioneer pipe pistol pitch pizza place planet plastic plate play please pledge pluck plug plunge poem poet point polar pole police pond pony pool popular portion position possible post potato pottery poverty powder power practice praise predict prefer prepare present pretty prevent price pride primary print priority prison private prize problem process produce profit program project promote proof property prosper protect proud provide public pudding pull pulp pulse pumpkin punch pupil puppy purchase purity purpose purse push put puzzle pyramid quality quantum quarter question quick quit quiz quote rabbit raccoon race rack radar radio rail rain raise rally ramp ranch random range rapid rare rate rather raven raw razor ready real reason rebel rebuild recall receive recipe record recycle reduce reflect reform refuse region regret regular reject relax release relief rely remain remember remind remove render renew rent reopen repair repeat replace report require rescue resemble resist resource response result retire retreat return reunion reveal review reward rhythm rib ribbon rice rich ride ridge rifle right rigid ring riot ripple risk ritual rival river road roast robot robust rocket romance roof rookie room rose rotate rough round route royal rubber rude rug rule run runway rural sad saddle sadness safe sail salad salmon salon salt salute same sample sand satisfy satoshi sauce sausage save say scale scan scare scatter scene scheme school science scissors scorpion scout scrap screen script scrub sea search season seat second secret section security seed seek segment select sell seminar senior sense sentence series service session settle setup seven shadow shaft shallow share shed shell sheriff shield shift shine ship shiver shock shoe shoot shop short shoulder shove shrimp shrug shuffle shy sibling sick side siege sight sign silent silk silly silver similar simple since sing siren sister situate six size skate sketch ski skill skin skirt skull slab slam sleep slender slice slide slight slim slogan slot slow slush small smart smile smoke smooth snack snake snap sniff snow soap soccer social sock soda soft solar soldier solid solution solve someone song soon sorry sort soul sound soup source south space spare spatial spawn speak special speed spell spend sphere spice spider spike spin spirit split spoil sponsor spoon sport spot spray spread spring spy square squeeze squirrel stable stadium staff stage stairs stamp stand start state stay steak steel stem step stereo stick still sting stock stomach stone stool story stove strategy street strike strong struggle student stuff stumble style subject submit subway success such sudden suffer sugar suggest suit summer sun sunny sunset super supply supreme sure surface surge surprise surround survey suspect sustain swallow swamp swap swarm swear sweet swift swim swing switch sword symbol symptom syrup system table tackle tag tail talent talk tank tape target task taste tattoo taxi teach team tell ten tenant tennis tent term test text thank that theme then theory there they thing this thought three thrive throw thumb thunder ticket tide tiger tilt timber time tiny tip tired tissue title toast tobacco today toddler toe together toilet token tomato tomorrow tone tongue tonight tool tooth top topic topple torch tornado tortoise toss total tourist toward tower town toy track trade traffic tragic train transfer trap trash travel tray treat tree trend trial tribe trick trigger trim trip trophy trouble truck true truly trumpet trust truth try tube tuition tumble tuna tunnel turkey turn turtle twelve twenty twice twin twist two type typical ugly umbrella unable unaware uncle uncover under undo unfair unfold unhappy uniform unique unit universe unknown unlock until unusual unveil update upgrade uphold upon upper upset urban urge usage use used useful useless usual utility vacant vacuum vague valid valley valve van vanish vapor various vast vault vehicle velvet vendor venture venue verb verify version very vessel veteran viable vibrant vicious victory video view village vintage violin virtual virus visa visit visual vital vivid vocal voice void volcano volume vote voyage wage wagon wait walk wall walnut want warfare warm warrior wash wasp waste water wave way wealth weapon wear weasel weather web wedding weekend weird welcome west wet whale what wheat wheel when where whip whisper wide width wife wild will win window wine wing wink winner winter wire wisdom wise wish witness wolf woman wonder wood wool word work world worry worth wrap wreck wrestle wrist write wrong yard year yellow you young youth zebra zero zone zoo";
 const VEC=[["ffffffffffffffffffffffffffffffff","zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo wrong"],["7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f","legal winner thank year wave sausage worth useful legal winner thank yellow"],["80808080808080808080808080808080","letter advice cage absurd amount doctor acoustic avoid letter advice cage above"],["00000000000000000000000000000000","abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about"]];
 let W=null,WI=null;
 function e2m(e){const h=[...sha(e)].map(b=>b.toString(2).padStart(8,"0")).join(""),bits=[...e].map(b=>b.toString(2).padStart(8,"0")).join("")+h.slice(0,e.length*8/32),o=[];for(let i=0;i<bits.length;i+=11)o.push(W[parseInt(bits.slice(i,i+11),2)]);return o.join(" ")}
-function lok(w){const s=W;W=w;let ok=true;try{for(const[e,m]of VEC)if(e2m(hb(e))!==m){ok=false;break}}catch(x){ok=false}W=s;return ok}
-function build(){const t=RAW.trim().split(/\s+/).filter(Boolean),sn=new Set(),dd=[];for(const x of t)if(!sn.has(x)){sn.add(x);dd.push(x)}
-for(const c of[dd,t]){if(c.length===2048&&lok(c))return{w:c,n:0};
-if(c.length>2048&&c.length<2060)for(let i=0;i<c.length;i++){const r=c.slice(0,i).concat(c.slice(i+1));if(r.length===2048&&lok(r))return{w:r,n:c.length-2048,rm:c[i]}}}
-return null}
+function lok(w){if(w.length!==2048)return false;const s=W;W=w;let ok=true;try{for(const[e,m]of VEC)if(e2m(hb(e))!==m){ok=false;break}}catch(x){ok=false}W=s;return ok}
+function buildWords(){
+  const t=RAW.trim().split(/\s+/).filter(Boolean);
+  const seen=new Set(),dd=[];for(const x of t)if(!seen.has(x)){seen.add(x);dd.push(x)}
+  if(dd.length===2048&&lok(dd))return{w:dd,n:0};
+  if(t.length===2048&&lok(t))return{w:t,n:0};
+  if(t.length>2048&&t.length<2060){for(let i=0;i<t.length;i++){const r=t.slice(0,i).concat(t.slice(i+1));if(r.length===2048&&lok(r))return{w:r,n:t.length-2048,rm:t[i]}}}
+  return null;
+}
 function vmn(m){const w=m.trim().toLowerCase().split(/\s+/);if(![12,15,18,21,24].includes(w.length))throw Error("нужно 12/15/18/21/24 слова (сейчас "+w.length+")");
 const ix=w.map(x=>WI.get(x)),bad=ix.findIndex(i=>i===undefined);if(bad>=0)throw Error("слово не из BIP39: «"+w[bad]+"»");
 const b=ix.map(i=>i.toString(2).padStart(11,"0")).join(""),el=b.length*32/33,eb=b.slice(0,el),cs=b.slice(el),e=[];for(let i=0;i<el;i+=8)e.push(parseInt(eb.slice(i,i+8),2));
@@ -487,7 +492,6 @@ for(let i=ps.length-1;i>=0;i--){const p=ps[i];p.x+=p.vx;p.y+=p.vy;if(p.l!==1/0){
 cx.fillStyle="rgba("+p.c+","+(p.l===1/0?.7:p.l/p.mx*.9)+")";cx.beginPath();cx.arc(p.x,p.y,p.s,0,6.283);cx.fill()}
 if(!RM)requestAnimationFrame(loop)}
 RM?loop():requestAnimationFrame(loop);
-/* ===== SIM MEMPOOL CANVAS (точки) ===== */
 const sv=$("simcv"),sx=sv.getContext("2d"),SW=900,SH=150;
 const simDots=new Map();
 function simLoop(){if(!isD()){requestAnimationFrame(simLoop);return}
@@ -495,7 +499,6 @@ sx.fillStyle="rgba(11,5,18,.3)";sx.fillRect(0,0,SW,SH);
 sx.strokeStyle="rgba(255,79,216,.08)";sx.lineWidth=1;
 for(let x=0;x<SW;x+=40){sx.beginPath();sx.moveTo(x,0);sx.lineTo(x,SH);sx.stroke()}
 for(let y=0;y<SH;y+=30){sx.beginPath();sx.moveTo(0,y);sx.lineTo(SW,y);sx.stroke()}
-// block target
 sx.fillStyle="rgba(139,123,255,.16)";sx.strokeStyle="rgba(139,123,255,.7)";sx.lineWidth=1.5;
 sx.shadowBlur=18;sx.shadowColor="#8b7bff";sx.beginPath();sx.rect(SW-70,SH/2-30,52,60);sx.fill();sx.stroke();sx.shadowBlur=0;
 sx.fillStyle="rgba(139,123,255,.95)";sx.font="700 9px monospace";sx.textAlign="center";sx.fillText("SIM",SW-44,SH/2-3);sx.fillText("BLOCK",SW-44,SH/2+8);
@@ -565,7 +568,7 @@ if(G.run!==r)return;G.ph="d";$("gs").textContent="СБОЙ РИТУАЛА";$("gt
 $("gd").className="gd err";$("gd").textContent="⛔ "+(err&&err.message||err)+". Нажми «⚡ Создать мгновенно» — ключи будут выведены тем же проверенным ядром без анимации.";
 $("gfast").classList.remove("hid");sfx.err();log("ритуал: "+(err&&err.message||err),"err");
 if(G.w)gReady(G.w)}}
-async function fastGen(){if(!S.ready)return toast("Ядро не готово — подожди загрузки списка BIP39","warn");
+async function fastGen(){if(!S.ready)return toast("Ядро не готово — список BIP39 не прошёл проверку. Проверь интернет и обнови страницу.","warn");
 try{const w=await derive(e2m(crypto.getRandomValues(new U8(16))),S.net);if(S.gopen)gclose();setW(w);sfx.gen();burst();toast("Кошелёк создан мгновенно","ok",4200);refresh(true)}
 catch(e){log("мгновенная генерация: "+e.message,"err");toast(e.message,"err");sfx.err()}}
 function gok(){if(!G.w)return toast("Ключ ещё не выведен — нажми «⚡ Создать мгновенно»","warn");const w=G.w;gclose();setW(w);sfx.gen();burst();toast("Кошелёк рождён. Сохрани сид-фразу офлайн!","ok",5200);refresh(true)}
@@ -648,12 +651,12 @@ const tt=c+m;if(tt>pv&&pv>=0&&!sil){sfx.coin();burst();toast("Получено "
 if(!sil)log("баланс real: "+fmt(tt)+" "+S.net.u,"ok")}catch(e){if(!sil){log("сеть: "+e.message,"err");toast("Нет данных сети","err")}}
 S.busy=false;$("bBal").disabled=false}
 const gate=()=>S.net.id==="main"&&!S.cons?($("cons").classList.add("on"),false):true;
-async function gen(){if(!S.ready)return toast("Ядро не готово — список BIP39 не загружен. Проверь интернет и обнови.","warn");if(!gate())return;
+async function gen(){if(!S.ready)return toast("Ядро не готово — список BIP39 не прошёл проверку. Проверь интернет и обнови страницу.","warn");if(!gate())return;
 if(S.net.id==="main")return gopen();
 $("bGen").disabled=true;
 try{setW(await derive(e2m(crypto.getRandomValues(new U8(16))),S.net));sfx.gen();burst();toast(isD()?"DEMO-кошелёк создан. tBTC — из faucet, виртуальные — кнопкой.":"Кошелёк создан. Возьми tBTC в faucet.","ok",5000);refresh(true)}
 catch(e){log("генерация: "+e.message,"err");toast(e.message,"err");sfx.err()}$("bGen").disabled=false}
-async function rec(){if(!S.ready)return toast("Ядро не готово — список BIP39 не загружен.","warn");if(!gate())return;const raw=$("mnIn").value;
+async function rec(){if(!S.ready)return toast("Ядро не готово — список BIP39 не прошёл проверку.","warn");if(!gate())return;const raw=$("mnIn").value;
 if(!raw.trim()){$("mnH").textContent="Вставь мнемонику.";$("mnH").className="hn bad";return}
 $("bRec").disabled=true;
 try{const w=await derive(raw,S.net);setW(w);$("mnH").textContent="✓ Восстановлен: "+w.addr;$("mnH").className="hn ok";$("mnIn").value="";sfx.gen();burst();toast("Кошелёк восстановлен","ok");refresh(true)}
@@ -774,13 +777,16 @@ S.snd=localStorage.getItem("wl_snd")!=="0";S.auto=localStorage.getItem("wl_auto"
 $("auto").checked=S.auto;if(!S.snd){$("snd").classList.add("mu");$("snd").firstChild.textContent="🔇 ";$("sndl").textContent="ТИХО"}
 log("ядро встроено: SHA-256 · RIPEMD-160 · secp256k1 · BIP32/39/44 · 0 CDN","inf");rNet();
 if(!crypto.subtle)return fatal("WebCrypto недоступен — открой страницу по HTTPS (GitHub Pages).");
-const b=build();
-if(!b){log("встроенный список не прошёл векторы — загружаю эталон…","warn");
-try{const r=await fetch("https://raw.githubusercontent.com/bitcoin/bips/master/bip-0039/english.txt",{cache:"no-store"});
-const w=(await r.text()).replace(/\r/g,"").split("\n").map(x=>x.trim()).filter(Boolean);
-if(w.length===2048&&lok(w)){W=w;log("эталонный список загружен из bitcoin/bips","ok")}else throw Error("список не прошёл векторы")}
-catch(e){return fatal("Список BIP39 не верифицирован: "+e.message+". Проверь интернет и обнови страницу.")}}
-else{W=b.w;log("список BIP39: 2048 ✓"+(b.n?" (авто-восстановлен, удалено: "+b.rm+")":"")+" · 4 вектора OK","ok")}
+/* ====== BIP39: сначала встроенный список, потом интернет как доп. проверка ====== */
+const built=buildWords();
+if(built){W=built.w;log("список BIP39: 2048 ✓"+(built.n?" (авто-восстановлен, удалено: "+built.rm+")":"")+" · 4 вектора OK · ОФЛАЙН","ok")}
+else{
+  log("встроенный список не прошёл векторы — пробую интернет…","warn");
+  try{const r=await fetch("https://raw.githubusercontent.com/bitcoin/bips/master/bip-0039/english.txt",{cache:"no-store"});
+  const w=(await r.text()).replace(/\r/g,"").split("\n").map(x=>x.trim()).filter(Boolean);
+  if(w.length===2048&&lok(w)){W=w;log("эталонный список загружен из bitcoin/bips","ok")}
+  else throw Error("список из интернета не прошёл векторы")}
+  catch(e){return fatal("Список BIP39 не верифицирован: "+e.message+". Проверь интернет и обнови страницу.")}}
 WI=new Map(W.map((w,i)=>[w,i]));S.ready=true;
 try{await selfTest();log("самопроверка: SHA/RIPEMD/2G/BIP39/BIP44/bech32 — ВСЁ OK","ok")}
 catch(e){return fatal("Самопроверка: "+e.message)}
