@@ -7,27 +7,15 @@
 <title>BITCOIN WALLET LAB — ритуал рождения кошелька</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%23f7931a'/%3E%3Ctext x='16' y='22' font-size='17' font-family='monospace' font-weight='bold' text-anchor='middle' fill='%23070503'%3E%E2%82%BF%3C/text%3E%3C/svg%3E">
 <style>
-:root{
-  --bg:#070503;--bg2:#0c0805;--surface:#120c07;--surface2:#1a120a;--overlay:#221709;
-  --line:#2b1d0e;--line2:#3d2a14;--btc:#f7931a;--amber:#ff9900;--gold:#ffc24b;--deep:#c96a00;
-  --cyan:#00e5ff;--green:#22ff88;--red:#ff3b5c;--violet:#8b7bff;--magenta:#ff4fd8;
-  --text:#f0e6d8;--muted:#a08b6e;--dim:#6b5a42;
-  --mono:ui-monospace,'Cascadia Code','JetBrains Mono','SF Mono',Consolas,'Courier New',monospace;
-  --r:13px;--topbar:56px;--accent:var(--btc);--accent2:var(--gold);
-}
-body.net-test{--bg:#04070d;--bg2:#070c15;--surface:#0a101c;--surface2:#0e1626;--overlay:#121c30;
-  --line:#1a2333;--line2:#243147;--text:#d7e0ea;--muted:#7d8aa0;--dim:#4d5a70;--accent:var(--cyan);--accent2:var(--violet)}
+:root{--bg:#070503;--bg2:#0c0805;--surface:#120c07;--surface2:#1a120a;--overlay:#221709;--line:#2b1d0e;--line2:#3d2a14;--btc:#f7931a;--amber:#ff9900;--gold:#ffc24b;--deep:#c96a00;--cyan:#00e5ff;--green:#22ff88;--red:#ff3b5c;--violet:#8b7bff;--magenta:#ff4fd8;--text:#f0e6d8;--muted:#a08b6e;--dim:#6b5a42;--mono:ui-monospace,'Cascadia Code','JetBrains Mono','SF Mono',Consolas,'Courier New',monospace;--r:13px;--topbar:56px;--accent:var(--btc);--accent2:var(--gold)}
+body.net-test{--bg:#04070d;--bg2:#070c15;--surface:#0a101c;--surface2:#0e1626;--overlay:#121c30;--line:#1a2333;--line2:#243147;--text:#d7e0ea;--muted:#7d8aa0;--dim:#4d5a70;--accent:var(--cyan);--accent2:var(--violet)}
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{font-family:var(--mono);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;font-size:14px;line-height:1.5;transition:background .5s}
-body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.55;transition:.5s;
-  background:radial-gradient(900px 520px at 88% -12%,rgba(247,147,26,.14),transparent 62%),radial-gradient(760px 540px at -12% 22%,rgba(255,153,0,.09),transparent 60%),radial-gradient(700px 620px at 50% 112%,rgba(201,106,0,.10),transparent 62%)}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.55;transition:.5s;background:radial-gradient(900px 520px at 88% -12%,rgba(247,147,26,.14),transparent 62%),radial-gradient(760px 540px at -12% 22%,rgba(255,153,0,.09),transparent 60%),radial-gradient(700px 620px at 50% 112%,rgba(201,106,0,.10),transparent 62%)}
 body.net-test::before{background:radial-gradient(900px 520px at 88% -12%,rgba(139,123,255,.11),transparent 62%),radial-gradient(760px 540px at -12% 22%,rgba(0,229,255,.09),transparent 60%),radial-gradient(700px 620px at 50% 112%,rgba(0,229,255,.06),transparent 62%)}
-body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.05;mix-blend-mode:overlay;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E")}
-.gridbg{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.4;background-size:46px 46px;
-  background-image:linear-gradient(rgba(247,147,26,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(247,147,26,.06) 1px,transparent 1px);
-  mask-image:radial-gradient(ellipse at 50% 0%,#000,transparent 78%)}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.05;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E")}
+.gridbg{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.4;background-size:46px 46px;background-image:linear-gradient(rgba(247,147,26,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(247,147,26,.06) 1px,transparent 1px);mask-image:radial-gradient(ellipse at 50% 0%,#000,transparent 78%)}
 body.net-test .gridbg{background-image:linear-gradient(rgba(0,229,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,.06) 1px,transparent 1px)}
 ::selection{background:rgba(247,147,26,.4)}
 *{scrollbar-width:thin;scrollbar-color:var(--accent) var(--surface)}
@@ -104,7 +92,7 @@ body.net-test .card h2 .n{color:#04070d}
 .btn.ghost:hover:not(:disabled){color:var(--text);box-shadow:none}
 .btn.armed{border-color:var(--red);color:var(--red);animation:armblink 1s infinite}
 @keyframes armblink{50%{box-shadow:0 0 18px rgba(255,59,92,.5)}}
-.btn.magic{border-color:rgba(255,194,75,.8);color:#1a0f04;background:linear-gradient(135deg,var(--gold),var(--btc) 55%,var(--deep));box-shadow:0 0 26px rgba(247,147,26,.35);text-shadow:none}
+.btn.magic{border-color:rgba(255,194,75,.8);color:#1a0f04;background:linear-gradient(135deg,var(--gold),var(--btc) 55%,var(--deep));box-shadow:0 0 26px rgba(247,147,26,.35)}
 .btn.magic:hover:not(:disabled){box-shadow:0 0 40px rgba(255,194,75,.6);color:#000}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
 @media(max-width:430px){.row2{grid-template-columns:1fr}}
@@ -264,8 +252,6 @@ footer b{color:var(--muted)}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
 .hidden{display:none!important}
 .fatal{display:none;font-size:12px;color:var(--red);background:rgba(255,59,92,.07);border:1px solid rgba(255,59,92,.4);border-radius:9px;padding:12px;margin-bottom:16px}
-
-/* ============ GENESIS CEREMONY ============ */
 #genesis{position:fixed;inset:0;z-index:120;background:radial-gradient(1200px 800px at 50% 40%,#1a0f04,#070503 70%);opacity:0;pointer-events:none;transition:opacity .5s;overflow:hidden}
 #genesis.on{opacity:1;pointer-events:auto}
 #gcv{position:absolute;inset:0;width:100%;height:100%;display:block}
@@ -279,12 +265,12 @@ footer b{color:var(--muted)}
 .gmhint{font-size:10px;color:var(--dim);letter-spacing:1px}
 .ghex{font-size:clamp(11px,2.6vw,15px);color:var(--cyan);letter-spacing:2px;word-break:break-all;max-width:640px;margin:16px auto 0;text-shadow:0 0 12px rgba(0,229,255,.4);min-height:1.4em}
 .gwords{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:640px;margin:18px auto 0}
-.gw{border:1px solid rgba(34,255,136,.4);background:rgba(34,255,136,.06);color:var(--green);border-radius:8px;padding:7px 11px;font-size:12px;font-weight:700;letter-spacing:.5px;opacity:0;transform:translateY(10px) scale(.9);transition:.35s;box-shadow:0 0 0 rgba(34,255,136,0)}
+.gw{border:1px solid rgba(34,255,136,.4);background:rgba(34,255,136,.06);color:var(--green);border-radius:8px;padding:7px 11px;font-size:12px;font-weight:700;opacity:0;transform:translateY(10px) scale(.9);transition:.35s}
 .gw.show{opacity:1;transform:none;box-shadow:0 0 16px rgba(34,255,136,.25)}
 .gw i{font-style:normal;color:var(--dim);font-size:9px;margin-right:6px}
 .gpath{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:18px auto 0;font-size:13px}
 .gp{border:1px solid var(--line2);border-radius:7px;padding:6px 10px;color:var(--dim);transition:.3s}
-.gp.lit{color:var(--gold);border-color:rgba(247,147,26,.6);box-shadow:0 0 14px rgba(247,147,26,.3);text-shadow:0 0 8px rgba(247,147,26,.5)}
+.gp.lit{color:var(--gold);border-color:rgba(247,147,26,.6);box-shadow:0 0 14px rgba(247,147,26,.3)}
 .gpub{font-size:10px;color:var(--muted);word-break:break-all;max-width:600px;margin:14px auto 0;min-height:1.2em}
 .gaddr{font-size:clamp(15px,4vw,26px);font-weight:800;color:var(--gold);letter-spacing:1px;word-break:break-all;max-width:760px;margin:14px auto 0;text-shadow:0 0 24px rgba(255,194,75,.6);min-height:1.3em}
 .gcounter{font-size:clamp(20px,5vw,34px);font-weight:800;color:var(--violet);font-variant-numeric:tabular-nums;text-shadow:0 0 20px rgba(139,123,255,.5);margin-top:14px;min-height:1.2em}
@@ -307,54 +293,36 @@ footer b{color:var(--muted)}
 </head>
 <body class="net-main">
 <div class="gridbg"></div>
-
 <div class="topbar">
-  <div class="logo">
-    <svg width="22" height="22" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M13 8v16M13 12h6a3 3 0 010 6h-6m0 0h7a3 3 0 010 6h-7M15 6v2m4-2v2m-4 16v2m4-2v2" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
-    <span>WALLET&nbsp;LAB</span>
-  </div>
+  <div class="logo"><svg width="22" height="22" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M13 8v16M13 12h6a3 3 0 010 6h-6m0 0h7a3 3 0 010 6h-7M15 6v2m4-2v2m-4 16v2m4-2v2" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg><span>WALLET&nbsp;LAB</span></div>
   <div class="seg"><button id="seg-test">TESTNET</button><button id="seg-main" class="on">MAINNET ₿</button></div>
   <div class="netstat"><span class="dot wait" id="netdot"></span><span class="nl" id="netname">MAINNET</span><b id="tipheight">—</b></div>
   <button class="iconbtn" id="sndbtn">🔊 <span id="sndlbl">ЗВУК</span></button>
 </div>
-
 <div class="wrap">
-  <div class="hero">
-    <h1 id="hero-title">РЕАЛЬНЫЙ BITCOIN.<br>РЕАЛЬНАЯ ОТВЕТСТВЕННОСТЬ.</h1>
-    <p id="hero-sub">Полноценный кошелёк основной сети: ритуал рождения ключей secp256k1, получение BTC, live-баланс с курсом, подписанные транзакции. Криптоядро встроено — ноль CDN. Но это настоящие деньги, а не игра.</p>
-    <div class="chips" id="chips"></div>
-  </div>
+  <div class="hero"><h1 id="hero-title">РЕАЛЬНЫЙ BITCOIN.<br>РЕАЛЬНАЯ ОТВЕТСТВЕННОСТЬ.</h1><p id="hero-sub"></p><div class="chips" id="chips"></div></div>
   <div class="reality" id="reality"></div>
-  <div class="banner"><canvas id="cv" width="960" height="170"></canvas>
-    <div class="cap"><span>MEMPOOL STREAM · <b id="capnet">MAINNET</b></span><span id="capstat">ОЖИДАНИЕ СОБЫТИЙ</span></div></div>
+  <div class="banner"><canvas id="cv" width="960" height="170"></canvas><div class="cap"><span>MEMPOOL STREAM · <b id="capnet">MAINNET</b></span><span id="capstat">ОЖИДАНИЕ СОБЫТИЙ</span></div></div>
   <div class="fatal" id="fatal"></div>
-
   <div class="cols">
     <div class="colL">
       <div class="card">
         <h2><span class="n">1</span>КОШЕЛЁК<span class="tail" id="wstate">НЕТ КЛЮЧЕЙ</span></h2>
-        <div class="stack" id="nowallet">
-          <button class="btn magic" id="btn-gen">✦ Сотворить кошелёк</button>
-          <div class="hint" id="genhint">Ритуал генерации: энтропия → 12 слов → кривая → адрес.</div>
-        </div>
+        <div class="stack" id="nowallet"><button class="btn magic" id="btn-gen">✦ Сотворить кошелёк</button><div class="hint" id="genhint"></div></div>
         <div id="haswallet" class="hidden">
-          <div class="addrbox"><div class="lbl">АДРЕС ПОЛУЧЕНИЯ <span class="tag" id="addrtag">P2PKH · 0x00</span></div>
-            <div class="addr" id="w-addr">—</div><button class="copy" data-copy="addr">⧉ КОПИРОВАТЬ АДРЕС</button></div>
+          <div class="addrbox"><div class="lbl">АДРЕС ПОЛУЧЕНИЯ <span class="tag" id="addrtag">P2PKH · 0x00</span></div><div class="addr" id="w-addr">—</div><button class="copy" data-copy="addr">⧉ КОПИРОВАТЬ АДРЕС</button></div>
           <div class="sep"></div>
-          <div class="lbl">СЕКРЕТЫ <span class="tag" id="pathtag">m/44'/0'/0'/0/0</span>
-            <button class="copy" style="margin:0 0 0 auto;padding:4px 9px" id="revealbtn">👁 ПОКАЗАТЬ</button></div>
+          <div class="lbl">СЕКРЕТЫ <span class="tag" id="pathtag">m/44'/0'/0'/0/0</span><button class="copy" style="margin:0 0 0 auto;padding:4px 9px" id="revealbtn">👁 ПОКАЗАТЬ</button></div>
           <div class="mngrid" id="mngrid"></div>
-          <div class="kv"><div class="lbl">WIF <span class="tag" id="wiftag">0x80 · K/L</span></div><div class="val mask" id="w-wif">••••••••••••••••••••</div>
-            <button class="copy" data-copy="wif">⧉ WIF</button></div>
+          <div class="kv"><div class="lbl">WIF <span class="tag" id="wiftag">0x80 · K/L</span></div><div class="val mask" id="w-wif">••••••••••••••••••••</div><button class="copy" data-copy="wif">⧉ WIF</button></div>
           <div class="kv"><div class="lbl">ПУБЛИЧНЫЙ КЛЮЧ</div><div class="val pub" id="w-pub">—</div></div>
           <div class="sep"></div>
-          <div class="row2"><button class="btn ghost" id="btn-regen">↻ НОВЫЙ РИТУАЛ</button>
-            <button class="btn rd" id="btn-wipe" style="min-height:38px;font-size:10px">🗑 СТЕРЕТЬ</button></div>
+          <div class="row2"><button class="btn ghost" id="btn-regen">↻ НОВЫЙ РИТУАЛ</button><button class="btn rd" id="btn-wipe" style="min-height:38px;font-size:10px">🗑 СТЕРЕТЬ</button></div>
         </div>
         <div class="sep"></div>
-        <div class="lbl">ВОССТАНОВИТЬ СВОЙ КОШЕЛЁК</div>
-        <textarea id="mn-in" rows="2" placeholder="12 или 24 слова через пробел…"></textarea>
-        <div class="hint" id="mn-hint">Проверка по контрольной сумме BIP39. Никогда не вводи сюда сид со сбережениями.</div>
+        <div class="lbl">ВОССТАНОВИТЬ СВОЙ КОШЕЛЁК (BIP39)</div>
+        <textarea id="mn-in" rows="2" placeholder="12 или 24 слова BIP39 через пробел…"></textarea>
+        <div class="hint" id="mn-hint">Electrum-сид (не BIP39) здесь не восстанавливается — приложение подскажет безопасный путь.</div>
         <button class="btn cy" id="btn-rec" style="margin-top:8px">🔐 Восстановить</button>
       </div>
       <div class="card deposit" id="depositcard"></div>
@@ -362,8 +330,7 @@ footer b{color:var(--muted)}
     <div class="colR">
       <div class="card">
         <h2><span class="n">3</span>БАЛАНС ИЗ СЕТИ<span class="tail">LIVE API</span></h2>
-        <div class="balhead"><button class="btn cy" id="btn-bal">⟳ Обновить</button>
-          <label class="switch"><input type="checkbox" id="autochk" checked><span class="tr"></span>АВТО 30с</label></div>
+        <div class="balhead"><button class="btn cy" id="btn-bal">⟳ Обновить</button><label class="switch"><input type="checkbox" id="autochk" checked><span class="tr"></span>АВТО 30с</label></div>
         <div class="hud">
           <div class="tile"><div class="t">ПОДТВЕРЖДЕНО</div><div class="v" id="b-conf">—</div></div>
           <div class="tile memp"><div class="t">В МЕМПУЛЕ</div><div class="v" id="b-memp">—</div></div>
@@ -372,23 +339,17 @@ footer b{color:var(--muted)}
         </div>
         <div class="fiat hidden" id="fiatline">≈ <b id="fiatval">—</b> <span id="fiatrate"></span></div>
         <div class="upd" id="upd">ещё не обновлялось</div>
-        <div class="txtools">
-          <button class="fchip on" data-f="all">ВСЕ</button><button class="fchip" data-f="in">↘ ВХОД</button><button class="fchip" data-f="out">↗ ИСХОД</button>
-          <input id="txsearch" placeholder="поиск txid…" autocomplete="off">
-          <select id="txsort"><option value="new">сначала новые</option><option value="old">сначала старые</option><option value="amt">по сумме ↓</option></select>
-        </div>
+        <div class="txtools"><button class="fchip on" data-f="all">ВСЕ</button><button class="fchip" data-f="in">↘ ВХОД</button><button class="fchip" data-f="out">↗ ИСХОД</button><input id="txsearch" placeholder="поиск txid…" autocomplete="off"><select id="txsort"><option value="new">сначала новые</option><option value="old">сначала старые</option><option value="amt">по сумме ↓</option></select></div>
         <div class="txlist" id="txlist"></div>
       </div>
       <div class="card">
         <h2><span class="n">4</span><span id="sendtitle">ОТПРАВИТЬ BTC</span><span class="tail">REAL TX</span></h2>
         <div class="stack">
-          <div class="field"><input id="s-to" placeholder="Получатель: 1… / 3… / bc1q… / bc1p…" autocomplete="off" spellcheck="false"><span class="vmark" id="tomark"></span></div>
+          <div class="field"><input id="s-to" placeholder="Получатель…" autocomplete="off" spellcheck="false"><span class="vmark" id="tomark"></span></div>
           <div class="hint" id="tohint">Контрольная сумма Base58Check / bech32 · сеть проверяется</div>
           <div class="row2"><input id="s-amt" inputmode="decimal" placeholder="Сумма, BTC" autocomplete="off"><button class="btn cy" id="btn-max" style="min-height:46px">MAX</button></div>
           <div class="hint" id="amtfiat"></div>
-          <div class="feeline"><span>КОМИССИЯ:</span>
-            <select id="feesel"><option value="1">🚀 быстро (~1 блок)</option><option value="6" selected>⚖ обычно (~6 блоков)</option><option value="24">🐢 эконом (~24 блока)</option></select>
-            <b id="feeest">≈ — sat</b></div>
+          <div class="feeline"><span>КОМИССИЯ:</span><select id="feesel"><option value="1">🚀 быстро (~1 блок)</option><option value="6" selected>⚖ обычно (~6 блоков)</option><option value="24">🐢 эконом (~24 блока)</option></select><b id="feeest">≈ — sat</b></div>
           <button class="btn gr" id="btn-build">🔧 Собрать и подписать</button>
           <div class="review hidden" id="review"></div>
           <div class="row2 hidden" id="confirmrow"><button class="btn gr" id="btn-send">✅ Отправить в сеть</button><button class="btn ghost" id="btn-cancel">✖ Отмена</button></div>
@@ -398,66 +359,35 @@ footer b{color:var(--muted)}
       <details class="logcard" open><summary>СИСТЕМНЫЙ ЖУРНАЛ</summary><div id="log"></div></details>
     </div>
   </div>
-  <footer><b>BITCOIN WALLET LAB</b> · встроенное криптоядро: SHA-256 / RIPEMD-160 / secp256k1 / BIP39 / BIP32 · данные: mempool.space → blockstream.info<br>
-  Экспериментальный инструмент. Для сбережений используй аппаратный кошелёк. Mainnet — реальные деньги; testnet — безопасный полигон.</footer>
+  <footer><b>BITCOIN WALLET LAB</b> · встроенное криптоядро · список BIP39 загружается из bitcoin/bips и проверяется по SHA-256 · данные: mempool.space → blockstream.info<br>Экспериментальный инструмент. Для сбережений используй аппаратный кошелёк.</footer>
 </div>
-
 <div class="scrim" id="scrim"></div>
-<div class="drawer" id="drawer">
-  <div class="dh"><b>ДЕТАЛИ ТРАНЗАКЦИИ</b><button id="dclose">✕</button></div>
-  <div class="db" id="dbody"></div>
-  <div class="df"><a class="btn cy" id="dexplorer" target="_blank" rel="noopener" style="text-decoration:none">↗ Открыть в обозревателе</a>
-    <button class="btn ghost" id="dcopy">⧉ Копировать txid</button></div>
-</div>
-
-<div class="modal" id="consent">
-  <div class="mbox">
-    <h3>₿ MAINNET — РЕАЛЬНЫЕ ДЕНЬГИ</h3><div class="sub">ПРЕЖДЕ ЧЕМ ПРОДОЛЖИТЬ</div>
-    <p>Ты переходишь из полигона в <b>основную сеть Bitcoin</b>. Здесь каждый sat стоит реальных денег, транзакции необратимы, а ошибки не отменяются. Faucet и «поиск монет» здесь не существуют — баланс пополняется только покупкой, заработком или переводом.</p>
-    <label class="ck"><input type="checkbox" class="ckin"><span class="box">✓</span><span class="txt">Я понимаю, что BTC не появляются из воздуха: их нужно купить, заработать или получить. «Найти» чужие монеты математически невозможно.</span></label>
-    <label class="ck"><input type="checkbox" class="ckin"><span class="box">✓</span><span class="txt">Инструмент экспериментальный, криптоядро не проходило аудит, ключи хранятся в браузере. Я буду использовать только небольшие суммы, которые готов потерять.</span></label>
-    <label class="ck"><input type="checkbox" class="ckin"><span class="box">✓</span><span class="txt">Я сохраню сид-фразу офлайн и никогда не введу сюда сид-фразу кошелька со сбережениями.</span></label>
-    <div class="mbtns"><button class="btn" id="ck-accept" disabled>Принимаю риски → перейти в mainnet</button>
-      <button class="btn ghost" id="ck-stay">Остаться в безопасном testnet</button></div>
-  </div>
-</div>
-
-<!-- ================= GENESIS CEREMONY ================= -->
-<div id="genesis">
-  <canvas id="gcv"></canvas>
-  <div class="gveil"></div>
+<div class="drawer" id="drawer"><div class="dh"><b>ДЕТАЛИ ТРАНЗАКЦИИ</b><button id="dclose">✕</button></div><div class="db" id="dbody"></div><div class="df"><a class="btn cy" id="dexplorer" target="_blank" rel="noopener" style="text-decoration:none">↗ Открыть в обозревателе</a><button class="btn ghost" id="dcopy">⧉ Копировать txid</button></div></div>
+<div class="modal" id="consent"><div class="mbox">
+  <h3>₿ MAINNET — РЕАЛЬНЫЕ ДЕНЬГИ</h3><div class="sub">ПРЕЖДЕ ЧЕМ ПРОДОЛЖИТЬ</div>
+  <p>Ты переходишь в <b>основную сеть Bitcoin</b>. Здесь каждый sat стоит реальных денег, транзакции необратимы. Faucet и «поиск монет» здесь не существуют — баланс пополняется только покупкой, заработком или переводом.</p>
+  <label class="ck"><input type="checkbox" class="ckin"><span class="box">✓</span><span class="txt">Я понимаю, что BTC не появляются из воздуха: их нужно купить, заработать или получить. «Найти» чужие монеты математически невозможно.</span></label>
+  <label class="ck"><input type="checkbox" class="ckin"><span class="box">✓</span><span class="txt">Инструмент экспериментальный, криптоядро не проходило аудит, ключи хранятся в браузере. Я буду использовать только небольшие суммы, которые готов потерять.</span></label>
+  <label class="ck"><input type="checkbox" class="ckin"><span class="box">✓</span><span class="txt">Я сохраню сид-фразу офлайн и никогда не введу сюда сид-фразу кошелька со сбережениями.</span></label>
+  <div class="mbtns"><button class="btn" id="ck-accept" disabled>Принимаю риски → перейти в mainnet</button><button class="btn ghost" id="ck-stay">Остаться в безопасном testnet</button></div>
+</div></div>
+<div id="genesis"><canvas id="gcv"></canvas><div class="gveil"></div>
   <button class="btn ghost gskip" id="gskip" style="width:auto;min-height:36px">⏭ системная энтропия</button>
   <div class="gwrap">
-    <div class="gstage" id="gstage">РИТУАЛ РОЖДЕНИЯ</div>
-    <div class="gtitle" id="gtitle">Собери хаос</div>
-    <div class="gsub" id="gsub">Води пальцем или мышью по экрану — каждое движение вплетается в энтропию твоего кошелька. Это настоящая случайность, а не анимация.</div>
-    <div class="gmeter" id="gmeterwrap"><i id="gmeter"></i></div>
-    <div class="gmhint" id="gmhint">НАСЫЩЕНИЕ ЭНТРОПИИ</div>
-    <div class="ghex hidden" id="ghex"></div>
-    <div class="gwords hidden" id="gwords"></div>
-    <div class="gcounter hidden" id="gcounter"></div>
-    <div class="gpath hidden" id="gpath"></div>
-    <div class="gpub hidden" id="gpub"></div>
-    <div class="gaddr hidden" id="gaddr"></div>
-    <div class="greveal" id="greveal">
-      <div class="lbl" style="justify-content:center">БАЛАНС НОВОГО КОШЕЛЬКА</div>
-      <div class="bal">0.00000000 BTC</div>
-      <div class="truth">✨ Магия создала <b>сосуд</b>, а не монеты. Твой адрес теперь существует в блокчейне и готов принимать. Монеты приходят только из реального мира:</div>
-      <div class="gpaths">
-        <div class="gpathcard"><span class="ic">💱</span><b>КУПИТЬ</b>на бирже за USDT / фиат и вывести в сеть Bitcoin</div>
-        <div class="gpathcard"><span class="ic">⚒</span><b>ЗАРАБОТАТЬ</b>получить оплату за работу или услуги на этот адрес</div>
-        <div class="gpathcard"><span class="ic">🤝</span><b>ПОЛУЧИТЬ</b>перевод от другого человека, который уже владеет BTC</div>
-      </div>
+    <div class="gstage" id="gstage">РИТУАЛ РОЖДЕНИЯ</div><div class="gtitle" id="gtitle">Собери хаос</div>
+    <div class="gsub" id="gsub">Води пальцем или мышью по экрану — каждое движение вплетается в энтропию твоего кошелька.</div>
+    <div class="gmeter" id="gmeterwrap"><i id="gmeter"></i></div><div class="gmhint" id="gmhint">НАСЫЩЕНИЕ ЭНТРОПИИ</div>
+    <div class="ghex hidden" id="ghex"></div><div class="gwords hidden" id="gwords"></div><div class="gcounter hidden" id="gcounter"></div>
+    <div class="gpath hidden" id="gpath"></div><div class="gpub hidden" id="gpub"></div><div class="gaddr hidden" id="gaddr"></div>
+    <div class="greveal" id="greveal"><div class="lbl" style="justify-content:center">БАЛАНС НОВОГО КОШЕЛЬКА</div><div class="bal">0.00000000 BTC</div>
+      <div class="truth">✨ Магия создала <b>сосуд</b>, а не монеты. Твой адрес существует в блокчейне и готов принимать. Монеты приходят только из реального мира:</div>
+      <div class="gpaths"><div class="gpathcard"><span class="ic">💱</span><b>КУПИТЬ</b>на бирже за USDT / фиат и вывести в сеть Bitcoin</div><div class="gpathcard"><span class="ic">⚒</span><b>ЗАРАБОТАТЬ</b>получить оплату на этот адрес</div><div class="gpathcard"><span class="ic">🤝</span><b>ПОЛУЧИТЬ</b>перевод от другого человека</div></div>
     </div>
-    <div class="gbtns">
-      <button class="btn magic hidden" id="genter">₿ Войти в кошелёк</button>
-    </div>
+    <div class="gbtns"><button class="btn magic hidden" id="genter">₿ Войти в кошелёк</button></div>
   </div>
 </div>
-
 <div class="toasts" id="toasts" aria-live="polite"></div>
 <noscript><div style="padding:20px;color:#ff3b5c;text-align:center">Нужен JavaScript.</div></noscript>
-
 <script>
 "use strict";
 const $=id=>document.getElementById(id);
@@ -476,668 +406,164 @@ const fmtSat=s=>(s/1e8).toFixed(8);
 const nowS=()=>Math.floor(Date.now()/1000);
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 function ago(t){if(!t)return"в мемпуле";const d=nowS()-t;if(d<60)return d+"с назад";if(d<3600)return Math.floor(d/60)+"м назад";if(d<86400)return Math.floor(d/3600)+"ч назад";return Math.floor(d/86400)+"д назад"}
-
-/* SHA-256 */
 const K256=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
-function sha256(msg){
-  const l=msg.length,total=((l+9+63)&~63),buf=new Uint8Array(total);buf.set(msg);buf[l]=0x80;
-  const dv=new DataView(buf.buffer);dv.setUint32(total-8,Math.floor(l*8/4294967296));dv.setUint32(total-4,(l*8)>>>0);
-  let h0=0x6a09e667,h1=0xbb67ae85,h2=0x3c6ef372,h3=0xa54ff53a,h4=0x510e527f,h5=0x9b05688c,h6=0x1f83d9ab,h7=0x5be0cd19;
-  const w=new Uint32Array(64);
-  for(let off=0;off<total;off+=64){
-    for(let i=0;i<16;i++)w[i]=dv.getUint32(off+i*4);
-    for(let i=16;i<64;i++){const a=w[i-15],b=w[i-2];
-      const s0=((a>>>7)|(a<<25))^((a>>>18)|(a<<14))^(a>>>3);
-      const s1=((b>>>17)|(b<<15))^((b>>>19)|(b<<13))^(b>>>10);
-      w[i]=(w[i-16]+s0+w[i-7]+s1)>>>0}
-    let a=h0,b=h1,c=h2,d=h3,e=h4,f=h5,g=h6,h=h7;
-    for(let i=0;i<64;i++){
-      const S1=((e>>>6)|(e<<26))^((e>>>11)|(e<<21))^((e>>>25)|(e<<7));
-      const t1=(h+S1+((e&f)^(~e&g))+K256[i]+w[i])>>>0;
-      const S0=((a>>>2)|(a<<30))^((a>>>13)|(a<<19))^((a>>>22)|(a<<10));
-      const t2=(S0+((a&b)^(a&c)^(b&c)))>>>0;
-      h=g;g=f;f=e;e=(d+t1)>>>0;d=c;c=b;b=a;a=(t1+t2)>>>0}
-    h0=(h0+a)>>>0;h1=(h1+b)>>>0;h2=(h2+c)>>>0;h3=(h3+d)>>>0;h4=(h4+e)>>>0;h5=(h5+f)>>>0;h6=(h6+g)>>>0;h7=(h7+h)>>>0}
-  const o=new Uint8Array(32),od=new DataView(o.buffer);
-  od.setUint32(0,h0);od.setUint32(4,h1);od.setUint32(8,h2);od.setUint32(12,h3);od.setUint32(16,h4);od.setUint32(20,h5);od.setUint32(24,h6);od.setUint32(28,h7);return o}
+function sha256(msg){const l=msg.length,total=((l+9+63)&~63),buf=new Uint8Array(total);buf.set(msg);buf[l]=0x80;const dv=new DataView(buf.buffer);dv.setUint32(total-8,Math.floor(l*8/4294967296));dv.setUint32(total-4,(l*8)>>>0);let h0=0x6a09e667,h1=0xbb67ae85,h2=0x3c6ef372,h3=0xa54ff53a,h4=0x510e527f,h5=0x9b05688c,h6=0x1f83d9ab,h7=0x5be0cd19;const w=new Uint32Array(64);for(let off=0;off<total;off+=64){for(let i=0;i<16;i++)w[i]=dv.getUint32(off+i*4);for(let i=16;i<64;i++){const a=w[i-15],b=w[i-2];const s0=((a>>>7)|(a<<25))^((a>>>18)|(a<<14))^(a>>>3);const s1=((b>>>17)|(b<<15))^((b>>>19)|(b<<13))^(b>>>10);w[i]=(w[i-16]+s0+w[i-7]+s1)>>>0}let a=h0,b=h1,c=h2,d=h3,e=h4,f=h5,g=h6,h=h7;for(let i=0;i<64;i++){const S1=((e>>>6)|(e<<26))^((e>>>11)|(e<<21))^((e>>>25)|(e<<7));const t1=(h+S1+((e&f)^(~e&g))+K256[i]+w[i])>>>0;const S0=((a>>>2)|(a<<30))^((a>>>13)|(a<<19))^((a>>>22)|(a<<10));const t2=(S0+((a&b)^(a&c)^(b&c)))>>>0;h=g;g=f;f=e;e=(d+t1)>>>0;d=c;c=b;b=a;a=(t1+t2)>>>0}h0=(h0+a)>>>0;h1=(h1+b)>>>0;h2=(h2+c)>>>0;h3=(h3+d)>>>0;h4=(h4+e)>>>0;h5=(h5+f)>>>0;h6=(h6+g)>>>0;h7=(h7+h)>>>0}const o=new Uint8Array(32),od=new DataView(o.buffer);od.setUint32(0,h0);od.setUint32(4,h1);od.setUint32(8,h2);od.setUint32(12,h3);od.setUint32(16,h4);od.setUint32(20,h5);od.setUint32(24,h6);od.setUint32(28,h7);return o}
 const dsha=x=>sha256(sha256(x));
-
-/* RIPEMD-160 */
-function ripemd160(msg){
-  const zl=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,7,4,13,1,10,6,15,3,12,0,9,5,2,14,11,8,3,10,14,4,9,15,8,1,2,7,0,6,13,11,5,12,1,9,11,10,0,8,12,4,13,3,7,15,14,5,6,2,4,0,5,9,7,12,2,10,14,1,3,8,11,6,15,13];
-  const zr=[5,14,7,0,9,2,11,4,13,6,15,8,1,10,3,12,6,11,3,7,0,13,5,10,14,15,8,12,4,9,1,2,15,5,1,3,7,14,6,9,11,8,12,2,10,0,4,13,8,6,4,1,3,11,15,0,5,12,2,13,9,7,10,14,12,15,10,4,1,5,8,7,6,2,13,14,0,3,9,11];
-  const sl=[11,14,15,12,5,8,7,9,11,13,14,15,6,7,9,8,7,6,8,13,11,9,7,15,7,12,15,9,11,7,13,12,11,13,6,7,14,9,13,15,14,8,13,6,5,12,7,5,11,12,14,15,14,15,9,8,9,14,5,6,8,6,5,12,9,15,5,11,6,8,13,12,5,12,13,14,11,8,5,6];
-  const sr=[8,9,9,11,13,15,15,5,7,7,8,11,14,14,12,6,9,13,15,7,12,8,9,11,7,7,12,7,6,15,13,11,9,7,15,11,8,6,6,14,12,13,5,14,13,13,7,5,15,5,8,11,14,14,6,14,6,9,12,9,12,5,15,8,8,5,12,9,12,5,14,6,8,13,6,5,15,13,11,11];
-  const hl=[0,0x5a827999,0x6ed9eba1,0x8f1bbcdc,0xa953fd4e],hr=[0x50a28be6,0x5c4dd124,0x6d703ef3,0x7a6d76e9,0];
-  const f=(j,x,y,z)=>j<16?x^y^z:j<32?(x&y)|(~x&z):j<48?(x|~y)^z:j<64?(x&z)|(y&~z):x^(y|~z);
-  const rl=(x,n)=>((x<<n)|(x>>>(32-n)))>>>0;
-  const l=msg.length,total=((l+9+63)&~63),buf=new Uint8Array(total);buf.set(msg);buf[l]=0x80;
-  const dv=new DataView(buf.buffer);dv.setUint32(total-8,(l*8)>>>0,true);dv.setUint32(total-4,Math.floor(l*8/4294967296),true);
-  let h0=0x67452301,h1=0xefcdab89,h2=0x98badcfe,h3=0x10325476,h4=0xc3d2e1f0;
-  for(let off=0;off<total;off+=64){
-    const X=[];for(let i=0;i<16;i++)X.push(dv.getUint32(off+i*4,true));
-    let al=h0,bl=h1,cl=h2,dl=h3,el=h4,ar=h0,br=h1,cr=h2,dr=h3,er=h4;
-    for(let j=0;j<80;j++){
-      let t=(al+f(j,bl,cl,dl)+X[zl[j]]+hl[(j/16)|0])>>>0;t=(rl(t,sl[j])+el)>>>0;al=el;el=dl;dl=rl(cl,10);cl=bl;bl=t;
-      t=(ar+f(79-j,br,cr,dr)+X[zr[j]]+hr[(j/16)|0])>>>0;t=(rl(t,sr[j])+er)>>>0;ar=er;er=dr;dr=rl(cr,10);cr=br;br=t}
-    const t=(h1+cl+dr)>>>0;h1=(h2+dl+er)>>>0;h2=(h3+el+ar)>>>0;h3=(h4+al+br)>>>0;h4=(h0+bl+cr)>>>0;h0=t}
-  const o=new Uint8Array(20),od=new DataView(o.buffer);
-  od.setUint32(0,h0,true);od.setUint32(4,h1,true);od.setUint32(8,h2,true);od.setUint32(12,h3,true);od.setUint32(16,h4,true);return o}
+function ripemd160(msg){const zl=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,7,4,13,1,10,6,15,3,12,0,9,5,2,14,11,8,3,10,14,4,9,15,8,1,2,7,0,6,13,11,5,12,1,9,11,10,0,8,12,4,13,3,7,15,14,5,6,2,4,0,5,9,7,12,2,10,14,1,3,8,11,6,15,13];const zr=[5,14,7,0,9,2,11,4,13,6,15,8,1,10,3,12,6,11,3,7,0,13,5,10,14,15,8,12,4,9,1,2,15,5,1,3,7,14,6,9,11,8,12,2,10,0,4,13,8,6,4,1,3,11,15,0,5,12,2,13,9,7,10,14,12,15,10,4,1,5,8,7,6,2,13,14,0,3,9,11];const sl=[11,14,15,12,5,8,7,9,11,13,14,15,6,7,9,8,7,6,8,13,11,9,7,15,7,12,15,9,11,7,13,12,11,13,6,7,14,9,13,15,14,8,13,6,5,12,7,5,11,12,14,15,14,15,9,8,9,14,5,6,8,6,5,12,9,15,5,11,6,8,13,12,5,12,13,14,11,8,5,6];const sr=[8,9,9,11,13,15,15,5,7,7,8,11,14,14,12,6,9,13,15,7,12,8,9,11,7,7,12,7,6,15,13,11,9,7,15,11,8,6,6,14,12,13,5,14,13,13,7,5,15,5,8,11,14,14,6,14,6,9,12,9,12,5,15,8,8,5,12,9,12,5,14,6,8,13,6,5,15,13,11,11];const hl=[0,0x5a827999,0x6ed9eba1,0x8f1bbcdc,0xa953fd4e],hr=[0x50a28be6,0x5c4dd124,0x6d703ef3,0x7a6d76e9,0];const f=(j,x,y,z)=>j<16?x^y^z:j<32?(x&y)|(~x&z):j<48?(x|~y)^z:j<64?(x&z)|(y&~z):x^(y|~z);const rl=(x,n)=>((x<<n)|(x>>>(32-n)))>>>0;const l=msg.length,total=((l+9+63)&~63),buf=new Uint8Array(total);buf.set(msg);buf[l]=0x80;const dv=new DataView(buf.buffer);dv.setUint32(total-8,(l*8)>>>0,true);dv.setUint32(total-4,Math.floor(l*8/4294967296),true);let h0=0x67452301,h1=0xefcdab89,h2=0x98badcfe,h3=0x10325476,h4=0xc3d2e1f0;for(let off=0;off<total;off+=64){const X=[];for(let i=0;i<16;i++)X.push(dv.getUint32(off+i*4,true));let al=h0,bl=h1,cl=h2,dl=h3,el=h4,ar=h0,br=h1,cr=h2,dr=h3,er=h4;for(let j=0;j<80;j++){let t=(al+f(j,bl,cl,dl)+X[zl[j]]+hl[(j/16)|0])>>>0;t=(rl(t,sl[j])+el)>>>0;al=el;el=dl;dl=rl(cl,10);cl=bl;bl=t;t=(ar+f(79-j,br,cr,dr)+X[zr[j]]+hr[(j/16)|0])>>>0;t=(rl(t,sr[j])+er)>>>0;ar=er;er=dr;dr=rl(cr,10);cr=br;br=t}const t=(h1+cl+dr)>>>0;h1=(h2+dl+er)>>>0;h2=(h3+el+ar)>>>0;h3=(h4+al+br)>>>0;h4=(h0+bl+cr)>>>0;h0=t}const o=new Uint8Array(20),od=new DataView(o.buffer);od.setUint32(0,h0,true);od.setUint32(4,h1,true);od.setUint32(8,h2,true);od.setUint32(12,h3,true);od.setUint32(16,h4,true);return o}
 const hash160=x=>ripemd160(sha256(x));
-
-/* secp256k1 */
-const P=2n**256n-2n**32n-977n;
-const N=0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141n;
-const Gx=0x79BE667EF9DCBBAC55A06295CE870B07029BFCDB2DCE28D959F2815B16F81798n;
-const Gy=0x483ADA7726A3C4655DA4FBFC0E1108A8FD17B448A68554199C47D08FFB10D4B8n;
+const P=2n**256n-2n**32n-977n;const N=0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141n;const Gx=0x79BE667EF9DCBBAC55A06295CE870B07029BFCDB2DCE28D959F2815B16F81798n;const Gy=0x483ADA7726A3C4655DA4FBFC0E1108A8FD17B448A68554199C47D08FFB10D4B8n;
 const md=(a,m=P)=>((a%m)+m)%m;
 function mpow(b,e,m){let r=1n;b=md(b,m);while(e>0n){if(e&1n)r=r*b%m;b=b*b%m;e>>=1n}return r}
 const minv=(a,m)=>mpow(a,m-2n,m);
-function jD(p){const[X,Y,Z]=p;if(Y===0n)return[0n,1n,0n];
-  const A=X*X%P,B=Y*Y%P,C=B*B%P,D=md(2n*(md((X+B)*(X+B))-A-C)),E=3n*A%P,F=E*E%P,X3=md(F-2n*D);
-  return[X3,md(E*(D-X3)-8n*C),md(2n*Y*Z)]}
-function jAdd(p,q){if(p[2]===0n)return q;if(q[2]===0n)return p;
-  const[X1,Y1,Z1]=p,[X2,Y2,Z2]=q,z1=Z1*Z1%P,z2=Z2*Z2%P;
-  const U1=X1*z2%P,U2=X2*z1%P,S1=Y1*Z2%P*z2%P,S2=Y2*Z1%P*z1%P;
-  if(U1===U2)return S1===S2?jD(p):[0n,1n,0n];
-  const H=md(U2-U1),R=md(S2-S1),HH=H*H%P,HHH=H*HH%P,V=U1*HH%P,X3=md(R*R-HHH-2n*V);
-  return[X3,md(R*(V-X3)-S1*HHH),md(Z1*Z2*H)]}
+function jD(p){const[X,Y,Z]=p;if(Y===0n)return[0n,1n,0n];const A=X*X%P,B=Y*Y%P,C=B*B%P,D=md(2n*(md((X+B)*(X+B))-A-C)),E=3n*A%P,F=E*E%P,X3=md(F-2n*D);return[X3,md(E*(D-X3)-8n*C),md(2n*Y*Z)]}
+function jAdd(p,q){if(p[2]===0n)return q;if(q[2]===0n)return p;const[X1,Y1,Z1]=p,[X2,Y2,Z2]=q,z1=Z1*Z1%P,z2=Z2*Z2%P;const U1=X1*z2%P,U2=X2*z1%P,S1=Y1*Z2%P*z2%P,S2=Y2*Z1%P*z1%P;if(U1===U2)return S1===S2?jD(p):[0n,1n,0n];const H=md(U2-U1),R=md(S2-S1),HH=H*H%P,HHH=H*HH%P,V=U1*HH%P,X3=md(R*R-HHH-2n*V);return[X3,md(R*(V-X3)-S1*HHH),md(Z1*Z2*H)]}
 function pmul(k,pt){let r=[0n,1n,0n],a=pt;while(k>0n){if(k&1n)r=jAdd(r,a);a=jD(a);k>>=1n}return r}
 function affine(k){const[X,Y,Z]=pmul(k,[Gx,Gy,1n]),zi=minv(Z,P);return{x:X*zi%P*zi%P,y:Y*zi%P*zi%P*zi%P}}
 function pubBytes(k){const{x,y}=affine(k);return cat([y&1n?3:2],n2b32(x))}
 function derInt(x){let h=x.toString(16);if(h.length%2)h="0"+h;let b=hb(h);if(b[0]&0x80)b=cat([0],b);return cat([2,b.length],b)}
-function ecdsaSign(h32,d){const z=b2n(h32);
-  for(let t=0;t<64;t++){const k=b2n(crypto.getRandomValues(new Uint8Array(32)))%N;if(k===0n)continue;
-    const r=affine(k).x%N;if(r===0n)continue;
-    let s=md(minv(k,N)*(z+r*d),N);if(s===0n)continue;if(s>N/2n)s=N-s;
-    const a=derInt(r),b=derInt(s);return cat([0x30,a.length+b.length],a,b)}
-  throw Error("sign retry")}
-
-/* WebCrypto SHA-512 */
+function ecdsaSign(h32,d){const z=b2n(h32);for(let t=0;t<64;t++){const k=b2n(crypto.getRandomValues(new Uint8Array(32)))%N;if(k===0n)continue;const r=affine(k).x%N;if(r===0n)continue;let s=md(minv(k,N)*(z+r*d),N);if(s===0n)continue;if(s>N/2n)s=N-s;const a=derInt(r),b=derInt(s);return cat([0x30,a.length+b.length],a,b)}throw Error("sign retry")}
 async function hmac512(key,data){const k=await crypto.subtle.importKey("raw",key,{name:"HMAC",hash:"SHA-512"},false,["sign"]);return new Uint8Array(await crypto.subtle.sign("HMAC",k,data))}
-async function seedFromMnemonic(mn){const k=await crypto.subtle.importKey("raw",enc.encode(mn.normalize("NFKD")),"PBKDF2",false,["deriveBits"]);
-  return new Uint8Array(await crypto.subtle.deriveBits({name:"PBKDF2",salt:enc.encode("mnemonic"),iterations:2048,hash:"SHA-512"},k,512))}
+async function seedFromMnemonic(mn,salt){const k=await crypto.subtle.importKey("raw",enc.encode(mn.normalize("NFKD")),"PBKDF2",false,["deriveBits"]);return new Uint8Array(await crypto.subtle.deriveBits({name:"PBKDF2",salt:enc.encode(salt),iterations:2048,hash:"SHA-512"},k,512))}
 async function master(seed){const I=await hmac512(enc.encode("Bitcoin seed"),seed);const k=b2n(I.slice(0,32));if(k===0n||k>=N)throw Error("bad master");return{k,c:I.slice(32)}}
-async function ckd(node,i){const data=i>=0x80000000?cat([0],n2b32(node.k),u32be(i)):cat(pubBytes(node.k),u32be(i));
-  const I=await hmac512(node.c,data);const k=md(b2n(I.slice(0,32))+node.k,N);if(k===0n)throw Error("bad child");return{k,c:I.slice(32)}}
-
-/* BIP39 — само-восстановление списка (фикс 2049) */
-const RAW_WORDS="abandon ability able about above absent absorb abstract absurd abuse access accident account accuse achieve acid acoustic acquire across act action actor actress actual adapt add addict address adjust admit adult advance advice aerobic affair afford afraid again age agent agree ahead aim air airport aisle alarm album alcohol alert alien all alley allow almost alone alpha already also alter always amateur amazing among amount amused analyst anchor ancient anger angle angry animal ankle announce annual another answer antenna antique anxiety any apart apology appear apple approve april arch arctic area arena argue arm armed armor army around arrange arrest arrive arrow art artefact artist artwork ask aspect assault asset assist assume asthma athlete atom attack attend attitude attract auction audit august aunt author auto autumn average avocado avoid awake aware away awesome awful awkward axis baby bachelor bacon badge bag balance balcony ball bamboo banana banner bar barely bargain barrel base basic basket battle beach bean beauty because become beef before begin behave behind believe below belt bench benefit best betray better between beyond bicycle bid bike bind biology bird birth bitter black blade blame blanket blast bleak bless blind blood blossom blouse blue blur blush board boat body boil bomb bone bonus book boost border boring borrow boss bottom bounce box boy bracket brain brand brass brave bread breeze brick bridge brief bright bring brisk broccoli broken bronze broom brother brown brush bubble buddy budget buffalo build bulb bulk bullet bundle bunker burden burger burst bus business busy butter buyer buzz cabbage cabin cable cactus cage cake call calm camera camp can canal cancel candy cannon canoe canvas canyon capable capital captain car carbon card cargo carpet carry cart case cash casino castle casual cat catalog catch category cattle caught cause caution cave ceiling celery cement census century cereal certain chair chalk champion change chaos chapter charge chase chat cheap check cheese chef cherry chest chicken chief child chimney choice choose chronic chuckle chunk churn cigar cinnamon circle citizen city civil claim clap clarify claw clay clean clerk clever click client cliff climb clinic clip clock clog close cloth cloud clown club clump cluster clutch coach coast coconut code coffee coil coin collect color column combine come comfort comic common company concert conduct confirm congress connect consider control convince cook cool copper copy coral core corn correct cost cotton couch country couple course cousin cover coyote crack cradle craft cram crane crash crater crawl crazy cream credit creek crew cricket crime crisp critic crop cross crouch crowd crucial cruel cruise crumble crunch crush cry crystal cube culture cup cupboard curious current curtain curve cushion custom cute cycle dad damage damp dance danger daring dash daughter dawn day deal debate debris decade december decide decline decorate decrease deer defense define defy degree delay deliver demand demise denial dentist deny depart depend deposit depth deputy derive describe desert design desk despair destroy detail detect develop device devote diagram dial diamond diary dice diesel diet differ digital dignity dilemma dinner dinosaur direct dirt disagree discover disease dish dismiss disorder display distance divert divide divorce dizzy doctor document dog doll dolphin domain donate donkey donor door dose double dove draft dragon drama drastic draw dream dress drift drill drink drip drive drop drum dry duck dumb dune during dust dutch duty dwarf dynamic eager eagle early earn earth easily east easy echo ecology economy edge edit educate effort egg eight either elbow elder electric elegant element elephant elevator elite else embark embody embrace emerge emotion employ empower empty enable enact encourage end endless endorse enemy energy enforce engage engine enhance enjoy enlist enough enrich enroll ensure enter entire entry envelope episode equal equip era erase erode erosion error erupt escape essay essence estate eternal ethics evidence evil evoke evolve exact example excess exchange excite exclude excuse execute exercise exhaust exhibit exile exist exit exotic expand expect expire explain expose express extend extra eye eyebrow fabric face faculty fade faint faith fall false fame family famous fan fancy fantasy farm fashion fat fatal father fatigue fault favorite feature february federal fee feed feel female fence festival fetch fever few fiber fiction field figure file film filter final find fine finger finish fire firm first fiscal fish fit fitness fix flag flame flash flat flavor flee flight flip float flock floor flower fluid flush fly foam focus fog foil fold follow food foot force forest forget fork fortune forum forward fossil foster found fox fragile frame frequent fresh friend fringe frog front frost frown frozen fruit fuel fun funny furnace fury future gadget gain galaxy gallery game gap garage garbage garden garlic garment gas gasp gate gather gauge gaze general genius genre gentle genuine gesture ghost giant gift giggle ginger giraffe girl give glad glance glare glass glide glimpse globe gloom glory glove glow glue goat goddess gold good goose gorilla gospel gossip govern gown grab grace grain grant grape grass gravity great green grid grief grit grocery group grow grunt guard guess guide guilt guitar gun gym habit hair half hammer hamster hand happy harbor hard harsh harvest hat have hawk hazard head health heart heavy hedgehog height hello helmet help hen hero hidden high hill hint hip hire history hobby hockey hold hole holiday hollow home honey hood hope horn horror horse hospital host hotel hour hover hub huge human humble humor hundred hungry hunt hurdle hurry hurt husband hybrid ice icon idea identify idle ignore ill illegal illness image imitate immense immune impact impose improve impulse inch include income increase index indicate indoor industry infant inflict inform inhale inherit initial inject injury inmate inner innocent input inquiry insane insect inside inspire install intact interest into invest invite involve iron island isolate issue item ivory jacket jaguar jar jazz jealous jeans jelly jewel job join joke journey joy judge juice jump jungle junior junk just kangaroo keen keep ketchup key kick kid kidney kind kingdom kiss kit kitchen kite kitten kiwi knee knife knock know lab label labor ladder lady lake lamp language laptop large later latin laugh laundry lava law lawn lawsuit layer lazy leader leaf learn leave lecture left leg legal legend leisure lemon lend length lens leopard lesson letter level liar liberty library license life lift light like limb limit link lion liquid list little live lizard load loan lobster local lock logic lonely long loop lottery loud lounge love loyal lucky luggage lumber lunar lunch luxury lyrics machine mad magic magnet maid mail main major make mammal man manage mandate mango mansion manual maple marble march margin marine market marriage mask mass master match material math matrix matter maximum maze meadow mean measure meat mechanic medal media melody melt member memory mention menu mercy merge merit merry mesh message metal method middle midnight milk million mimic mind minimum minor minute miracle mirror misery miss mistake mix mixed mixture mobile model modify mom moment monitor monkey monster month moon moral more morning mosquito mother motion motor mountain mouse move movie much muffin mule multiply muscle museum mushroom music must mutual myself mystery myth naive name napkin narrow nasty nation nature near neck need negative neglect neither nephew nerve nest net network neutral never news next nice night noble noise nominee noodle normal north nose notable note nothing notice novel now nuclear number nurse nut oak obey object oblige obscure observe obtain obvious occur ocean october odor off offer office often oil okay old olive olympic omit once one onion online only open opera opinion oppose option orange orbit orchard order ordinary organ orient original orphan ostrich other outdoor outer output outside oval oven over own owner oxygen oyster ozone pact paddle page pair palace palm panda panel panic panther paper parade parent park parrot party pass patch path patient patrol pattern pause pave payment peace peanut pear peasant pelican pen penalty pencil people pepper perfect permit person pet phone photo phrase physical piano picnic picture piece pig pigeon pill pilot pink pioneer pipe pistol pitch pizza place planet plastic plate play please pledge pluck plug plunge poem poet point polar pole police pond pony pool popular portion position possible post potato pottery poverty powder power practice praise predict prefer prepare present pretty prevent price pride primary print priority prison private prize problem process produce profit program project promote proof property prosper protect proud provide public pudding pull pulp pulse pumpkin punch pupil puppy purchase purity purpose purse push put puzzle pyramid quality quantum quarter question quick quit quiz quote rabbit raccoon race rack radar radio rail rain raise rally ramp ranch random range rapid rare rate rather raven raw razor ready real reason rebel rebuild recall receive recipe record recycle reduce reflect reform refuse region regret regular reject relax release relief rely remain remember remind remove render renew rent reopen repair repeat replace report require rescue resemble resist resource response result retire retreat return reunion reveal review reward rhythm rib ribbon rice rich ride ridge rifle right rigid ring riot ripple risk ritual rival river road roast robot robust rocket romance roof rookie room rose rotate rough round route royal rubber rude rug rule run runway rural sad saddle sadness safe sail salad salmon salon salt salute same sample sand satisfy satoshi sauce sausage save say scale scan scare scatter scene scheme school science scissors scorpion scout scrap screen script scrub sea search season seat second secret section security seed seek segment select sell seminar senior sense sentence series service session settle setup seven shadow shaft shallow share shed shell sheriff shield shift shine ship shiver shock shoe shoot shop short shoulder shove shrimp shrug shuffle shy sibling sick side siege sight sign silent silk silly silver similar simple since sing siren sister situate six size skate sketch ski skill skin skirt skull slab slam sleep slender slice slide slight slim slogan slot slow slush small smart smile smoke smooth snack snake snap sniff snow soap soccer social sock soda soft solar soldier solid solution solve someone song soon sorry sort soul sound soup source south space spare spatial spawn speak special speed spell spend sphere spice spider spike spin spirit split spoil sponsor spoon sport spot spray spread spring spy square squeeze squirrel stable stadium staff stage stairs stamp stand start state stay steak steel stem step stereo stick still sting stock stomach stone stool story stove strategy street strike strong struggle student stuff stumble style subject submit subway success such sudden suffer sugar suggest suit summer sun sunny sunset super supply supreme sure surface surge surprise surround survey suspect sustain swallow swamp swap swarm swear sweet swift swim swing switch sword symbol symptom syrup system table tackle tag tail talent talk tank tape target task taste tattoo taxi teach team tell ten tenant tennis tent term test text thank that theme then theory there they thing this thought three thrive throw thumb thunder ticket tide tiger tilt timber time tiny tip tired tissue title toast tobacco today toddler toe together toilet token tomato tomorrow tone tongue tonight tool tooth top topic topple torch tornado tortoise toss total tourist toward tower town toy track trade traffic tragic train transfer trap trash travel tray treat tree trend trial tribe trick trigger trim trip trophy trouble truck true truly trumpet trust truth try tube tuition tumble tuna tunnel turkey turn turtle twelve twenty twice twin twist two type typical ugly umbrella unable unaware uncle uncover under undo unfair unfold unhappy uniform unique unit universe unknown unlock until unusual unveil update upgrade uphold upon upper upset urban urge usage use used useful useless usual utility vacant vacuum vague valid valley valve van vanish vapor various vast vault vehicle velvet vendor venture venue verb verify version very vessel veteran viable vibrant vicious victory video view village vintage violin virtual virus visa visit visual vital vivid vocal voice void volcano volume vote voyage wage wagon wait walk wall walnut want warfare warm warrior wash wasp waste water wave way wealth weapon wear weasel weather web wedding weekend weird welcome west wet whale what wheat wheel when where whip whisper wide width wife wild will win window wine wing wink winner winter wire wisdom wise wish witness wolf woman wonder wood wool word work world worry worth wrap wreck wrestle wrist write wrong yard year yellow you young youth zebra zero zone zoo";
-const WORD_REPAIR={removed:0,dups:[]};
-const WORDS=(()=>{const toks=RAW_WORDS.trim().split(/\s+/).filter(Boolean);
-  const seen=new Set(),out=[];
-  for(const w of toks){if(seen.has(w)){WORD_REPAIR.removed++;WORD_REPAIR.dups.push(w);continue}seen.add(w);out.push(w)}
-  return out})();
-const WIDX=new Map(WORDS.map((w,i)=>[w,i]));
-function entropyToMnemonic(ent){const hbits=[...sha256(ent)].map(b=>b.toString(2).padStart(8,"0")).join("");
-  const bits=[...ent].map(b=>b.toString(2).padStart(8,"0")).join("")+hbits.slice(0,ent.length*8/32);
-  const out=[];for(let i=0;i<bits.length;i+=11)out.push(WORDS[parseInt(bits.slice(i,i+11),2)]);return out.join(" ")}
-function validateMnemonic(mn){const w=mn.trim().toLowerCase().split(/\s+/);
-  if(![12,15,18,21,24].includes(w.length))throw Error("Нужно 12/15/18/21/24 слова (сейчас "+w.length+")");
-  const idx=w.map(x=>WIDX.get(x));const bad=idx.findIndex(i=>i===undefined);
-  if(bad>=0)throw Error("Слово не из BIP39: «"+w[bad]+"»");
-  const bits=idx.map(i=>i.toString(2).padStart(11,"0")).join("");
-  const entLen=bits.length*32/33,eb=bits.slice(0,entLen),cs=bits.slice(entLen);
-  const ent=[];for(let i=0;i<entLen;i+=8)ent.push(parseInt(eb.slice(i,i+8),2));
-  const hbits=[...sha256(Uint8Array.from(ent))].map(b=>b.toString(2).padStart(8,"0")).join("");
-  if(hbits.slice(0,cs.length)!==cs)throw Error("Контрольная сумма BIP39 не сходится");
-  return w.join(" ")}
-
-/* Base58 / bech32 */
+async function ckd(node,i){const data=i>=0x80000000?cat([0],n2b32(node.k),u32be(i)):cat(pubBytes(node.k),u32be(i));const I=await hmac512(node.c,data);const k=md(b2n(I.slice(0,32))+node.k,N);if(k===0n)throw Error("bad child");return{k,c:I.slice(32)}}
+/* ---- BIP39 wordlist: загрузка эталона + проверка SHA-256 + кэш ---- */
+let WORDS=null,WIDX=null;
+const CANON_HASH="2f5eed53a4727b4bf8880d8f3f199efc90e58503646d9ff8eff3a2ed3b24dbda";
+function structuralOk(w){if(w.length!==2048)return false;if(w[0]!=="abandon"||w[3]!=="about"||w[2047]!=="zoo")return false;for(let i=1;i<w.length;i++)if(w[i]<=w[i-1])return false;return true}
+function normList(t){return t.replace(/\r/g,"").split(/[\n\s]+/).map(x=>x.trim()).filter(Boolean).join("\n")+"\n"}
+function trustedWords(t){const n=normList(t);const words=n.trim().split("\n");const hashOk=hex(sha256(enc.encode(n)))===CANON_HASH;if(hashOk||structuralOk(words))return words;return null}
+async function loadWordlist(){
+  try{const c=localStorage.getItem("wl_bip39_v2");if(c){const w=trustedWords(c);if(w)return{words:w,src:"кэш браузера (SHA-256 ✓)"}}}catch(e){}
+  const urls=["https://raw.githubusercontent.com/bitcoin/bips/master/bip-0039/english.txt","https://cdn.jsdelivr.net/gh/bitcoin/bips@master/bip-0039/english.txt","https://unpkg.com/@scure/bip39@1.3.0/wordlists/english.js"];
+  for(const u of urls){try{const ctl=new AbortController();const t=setTimeout(()=>ctl.abort(),9000);const r=await fetch(u,{signal:ctl.signal,cache:"no-store"});clearTimeout(t);if(!r.ok)continue;let txt=await r.text();
+    if(u.endsWith(".js")){const m=txt.match(/`([^`]+)`/)||txt.match(/"([a-z\s]{500,})"/);if(m)txt=m[1];else{const arr=[...txt.matchAll(/["']([a-z]+)["']/g)].map(x=>x[1]);if(arr.length>=2048)txt=arr.join("\n")}}
+    const w=trustedWords(txt);if(w){try{localStorage.setItem("wl_bip39_v2",w.join("\n")+"\n")}catch(e){}return{words:w,src:"эталон bitcoin/bips (SHA-256 ✓)"}}}catch(e){}}
+  return{words:null,src:"нет доверенного списка"};
+}
+function entropyToMnemonic(ent){const hbits=[...sha256(ent)].map(b=>b.toString(2).padStart(8,"0")).join("");const bits=[...ent].map(b=>b.toString(2).padStart(8,"0")).join("")+hbits.slice(0,ent.length*8/32);const out=[];for(let i=0;i<bits.length;i+=11)out.push(WORDS[parseInt(bits.slice(i,i+11),2)]);return out.join(" ")}
+function validateMnemonic(mn){const w=mn.trim().toLowerCase().split(/\s+/);if(![12,15,18,21,24].includes(w.length))throw Error("Нужно 12/15/18/21/24 слова (сейчас "+w.length+")");const idx=w.map(x=>WIDX.get(x));const bad=idx.findIndex(i=>i===undefined);if(bad>=0)throw Error("Слово не из BIP39: «"+w[bad]+"»");const bits=idx.map(i=>i.toString(2).padStart(11,"0")).join("");const entLen=bits.length*32/33,eb=bits.slice(0,entLen),cs=bits.slice(entLen);const ent=[];for(let i=0;i<entLen;i+=8)ent.push(parseInt(eb.slice(i,i+8),2));const hbits=[...sha256(Uint8Array.from(ent))].map(b=>b.toString(2).padStart(8,"0")).join("");if(hbits.slice(0,cs.length)!==cs)throw Error("Контрольная сумма BIP39 не сходится");return w.join(" ")}
+async function electrumSeedType(mn){try{const norm=mn.trim().toLowerCase().replace(/\s+/g," ").normalize("NFKD");const h=hex(await hmac512(enc.encode("Seed version"),enc.encode(norm)));if(h.startsWith("100"))return"segwit";if(h.startsWith("01"))return"legacy";if(h.startsWith("101"))return"2fa";if(h.startsWith("102"))return"2fa-segwit";return null}catch(e){return null}}
 const B58="123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
 function b58enc(b){let n=b2n(b),s="";while(n>0n){s=B58[Number(n%58n)]+s;n/=58n}for(const x of b){if(x===0)s="1"+s;else break}return s}
-function b58dec(s){let n=0n;for(const c of s){const i=B58.indexOf(c);if(i<0)throw Error("символ вне Base58");n=n*58n+BigInt(i)}
-  const b=[];while(n>0n){b.unshift(Number(n%256n));n/=256n}for(const c of s){if(c==="1")b.unshift(0);else break}return Uint8Array.from(b)}
+function b58dec(s){let n=0n;for(const c of s){const i=B58.indexOf(c);if(i<0)throw Error("символ вне Base58");n=n*58n+BigInt(i)}const b=[];while(n>0n){b.unshift(Number(n%256n));n/=256n}for(const c of s){if(c==="1")b.unshift(0);else break}return Uint8Array.from(b)}
 const b58check=p=>b58enc(cat(p,dsha(p).slice(0,4)));
-function b58checkDec(s){const b=b58dec(s);if(b.length<5)throw Error("слишком короткий");
-  const p=b.slice(0,-4),c=b.slice(-4);
-  if(hex(c)!==hex(dsha(p).slice(0,4)))throw Error("контрольная сумма Base58 не сходится");return p}
+function b58checkDec(s){const b=b58dec(s);if(b.length<5)throw Error("слишком короткий");const p=b.slice(0,-4),c=b.slice(-4);if(hex(c)!==hex(dsha(p).slice(0,4)))throw Error("контрольная сумма Base58 не сходится");return p}
 const BC="qpzry9x8gf2tvdw0s3jn54khce6mua7l";
-function polymod(v){const G=[0x3b6a57b2,0x26508e6d,0x1ea119fa,0x3d4233dd,0x2a1462b3];let c=1;
-  for(const x of v){const b=c>>25;c=((c&0x1ffffff)<<5)^x;for(let i=0;i<5;i++)if((b>>i)&1)c^=G[i]}return c}
+function polymod(v){const G=[0x3b6a57b2,0x26508e6d,0x1ea119fa,0x3d4233dd,0x2a1462b3];let c=1;for(const x of v){const b=c>>25;c=((c&0x1ffffff)<<5)^x;for(let i=0;i<5;i++)if((b>>i)&1)c^=G[i]}return c}
 const hrpExp=h=>{const a=[],b=[];for(const c of h){a.push(c.charCodeAt(0)>>5);b.push(c.charCodeAt(0)&31)}return a.concat([0],b)};
-function conv(data,from,to,pad){let acc=0,bits=0;const out=[],max=(1<<to)-1;
-  for(const v of data){acc=(acc<<from)|v;bits+=from;while(bits>=to){bits-=to;out.push((acc>>bits)&max)}}
-  if(pad){if(bits>0)out.push((acc<<(to-bits))&max)}else if(bits>=from||((acc<<(to-bits))&max))throw Error("биты witness");return out}
-function segwitSpk(addr,hrp){
-  if(addr!==addr.toLowerCase()&&addr!==addr.toUpperCase())throw Error("смешанный регистр bech32");
-  const a=addr.toLowerCase();if(!a.startsWith(hrp+"1"))throw Error("нужен префикс "+hrp+"1");
-  const pos=a.lastIndexOf("1");if(pos<hrp.length)throw Error("формат bech32");
-  const data=[...a.slice(pos+1)].map(c=>{const i=BC.indexOf(c);if(i<0)throw Error("символ вне bech32");return i});
-  if(data.length<7)throw Error("короткий bech32");
-  const ver=data[0],k=ver===0?1:0x2bc830a3;
-  if(polymod(hrpExp(a.slice(0,pos)).concat(data))!==k)throw Error("контрольная сумма bech32 не сходится");
-  const prog=Uint8Array.from(conv(data.slice(1),5,8,false));
-  if(ver===0&&prog.length===20)return cat([0x00,0x14],prog);
-  if(ver===0&&prog.length===32)return cat([0x00,0x20],prog);
-  if(ver===1&&prog.length===32)return cat([0x51,0x20],prog);
-  throw Error("неподдерживаемый witness")}
-function destSpk(addr,net){addr=addr.trim();if(!addr)throw Error("пустой адрес");
-  if(addr.toLowerCase().startsWith(net.hrp+"1"))return segwitSpk(addr,net.hrp);
-  const p=b58checkDec(addr);if(p.length!==21)throw Error("длина хэша ≠ 20 байт");
-  if(p[0]===net.p2pkh)return cat([0x76,0xa9,0x14],p.slice(1),[0x88,0xac]);
-  if(p[0]===net.p2sh)return cat([0xa9,0x14],p.slice(1),[0x87]);
-  throw Error("адрес другой сети (version 0x"+p[0].toString(16)+")")}
-
-/* networks */
-const NETS={
-  main:{id:"main",name:"MAINNET",unit:"BTC",p2pkh:0x00,p2sh:0x05,wif:0x80,hrp:"bc",coin:0,
-    api:["https://mempool.space/api","https://blockstream.info/api"],explorer:"https://mempool.space",
-    addrEx:"1… / 3… / bc1q… / bc1p…",store:"wl_mainnet"},
-  test:{id:"test",name:"TESTNET",unit:"tBTC",p2pkh:0x6f,p2sh:0xc4,wif:0xef,hrp:"tb",coin:1,
-    api:["https://mempool.space/testnet/api","https://blockstream.info/testnet/api"],explorer:"https://mempool.space/testnet",
-    addrEx:"m… / n… / 2… / tb1q… / tb1p…",store:"wl_testnet"}
-};
-async function deriveWallet(mn,net){
-  mn=validateMnemonic(mn);
-  const seed=await seedFromMnemonic(mn);
-  let node=await master(seed);
-  for(const i of [0x8000002C,0x80000000|net.coin,0x80000000,0,0])node=await ckd(node,i);
-  const priv=node.k,pub=pubBytes(priv),h160=hash160(pub);
-  return{mn,priv:hex(n2b32(priv)),pub:hex(pub),addr:b58check(cat([net.p2pkh],h160)),wif:b58check(cat([net.wif],n2b32(priv),[1]))}}
-
-/* tx */
-function serTx(vin,vout,sigIdx,spk){let b=[...u32le(2),...vi(vin.length)];
-  vin.forEach((i,j)=>{b.push(...rev(hb(i.txid)),...u32le(i.vout));
-    const s=sigIdx===j?spk:(sigIdx===-1?i.scriptSig:[]);b.push(...vi(s.length),...s,...u32le(0xffffffff))});
-  b.push(...vi(vout.length));vout.forEach(o=>b.push(...u64le(o.value),...vi(o.spk.length),...o.spk));
-  b.push(...u32le(0));if(sigIdx>=0)b.push(...u32le(1));return Uint8Array.from(b)}
-function buildSignedTx(utxos,spkTo,amt,change,w){
-  const priv=b2n(hb(w.priv)),pub=hb(w.pub);
-  const spkOwn=cat([0x76,0xa9,0x14],hash160(pub),[0x88,0xac]);
-  const vin=utxos.map(u=>({txid:u.txid,vout:u.vout}));
-  const vout=[{value:amt,spk:spkTo}];if(change>0)vout.push({value:change,spk:spkOwn});
-  vin.forEach((i,idx)=>{const sigh=dsha(serTx(vin,vout,idx,spkOwn));
-    const sig=cat(ecdsaSign(sigh,priv),[1]);i.scriptSig=cat(vi(sig.length),sig,vi(pub.length),pub)});
-  const raw=serTx(vin,vout,-1);
-  return{raw:hex(raw),vsize:raw.length,txid:hex(rev(dsha(raw)))}}
-
-/* state */
-const S={net:NETS.main,wallet:null,txs:[],utxos:[],fees:{},bal:{conf:0,memp:0,tx:0},filter:"all",q:"",sort:"new",
-  pending:null,reveal:false,sound:true,auto:true,online:null,lastUpd:0,busy:false,price:null,consent:false,drawerTx:null,genesisOpen:false};
-async function api(path,opt={}){let err;
-  for(const base of S.net.api){try{
-    const ctl=new AbortController();const t=setTimeout(()=>ctl.abort(),12000);
-    const r=await fetch(base+path,Object.assign({cache:"no-store",signal:ctl.signal},opt));clearTimeout(t);
-    if(!r.ok)throw Error("HTTP "+r.status+" · "+(await r.text()).slice(0,110));
-    setOnline(true);return r}catch(e){err=e}}
-  setOnline(false);throw err}
+function conv(data,from,to,pad){let acc=0,bits=0;const out=[],max=(1<<to)-1;for(const v of data){acc=(acc<<from)|v;bits+=from;while(bits>=to){bits-=to;out.push((acc>>bits)&max)}}if(pad){if(bits>0)out.push((acc<<(to-bits))&max)}else if(bits>=from||((acc<<(to-bits))&max))throw Error("биты witness");return out}
+function segwitSpk(addr,hrp){if(addr!==addr.toLowerCase()&&addr!==addr.toUpperCase())throw Error("смешанный регистр bech32");const a=addr.toLowerCase();if(!a.startsWith(hrp+"1"))throw Error("нужен префикс "+hrp+"1");const pos=a.lastIndexOf("1");if(pos<hrp.length)throw Error("формат bech32");const data=[...a.slice(pos+1)].map(c=>{const i=BC.indexOf(c);if(i<0)throw Error("символ вне bech32");return i});if(data.length<7)throw Error("короткий bech32");const ver=data[0],k=ver===0?1:0x2bc830a3;if(polymod(hrpExp(a.slice(0,pos)).concat(data))!==k)throw Error("контрольная сумма bech32 не сходится");const prog=Uint8Array.from(conv(data.slice(1),5,8,false));if(ver===0&&prog.length===20)return cat([0x00,0x14],prog);if(ver===0&&prog.length===32)return cat([0x00,0x20],prog);if(ver===1&&prog.length===32)return cat([0x51,0x20],prog);throw Error("неподдерживаемый witness")}
+function destSpk(addr,net){addr=addr.trim();if(!addr)throw Error("пустой адрес");if(addr.toLowerCase().startsWith(net.hrp+"1"))return segwitSpk(addr,net.hrp);const p=b58checkDec(addr);if(p.length!==21)throw Error("длина хэша ≠ 20 байт");if(p[0]===net.p2pkh)return cat([0x76,0xa9,0x14],p.slice(1),[0x88,0xac]);if(p[0]===net.p2sh)return cat([0xa9,0x14],p.slice(1),[0x87]);throw Error("адрес другой сети (version 0x"+p[0].toString(16)+")")}
+const NETS={main:{id:"main",name:"MAINNET",unit:"BTC",p2pkh:0x00,p2sh:0x05,wif:0x80,hrp:"bc",coin:0,api:["https://mempool.space/api","https://blockstream.info/api"],explorer:"https://mempool.space",addrEx:"1… / 3… / bc1q… / bc1p…",store:"wl_mainnet"},test:{id:"test",name:"TESTNET",unit:"tBTC",p2pkh:0x6f,p2sh:0xc4,wif:0xef,hrp:"tb",coin:1,api:["https://mempool.space/testnet/api","https://blockstream.info/testnet/api"],explorer:"https://mempool.space/testnet",addrEx:"m… / n… / 2… / tb1q… / tb1p…",store:"wl_testnet"}};
+async function deriveWallet(mn,net){mn=validateMnemonic(mn);const seed=await seedFromMnemonic(mn,"mnemonic");let node=await master(seed);for(const i of [0x8000002C,0x80000000|net.coin,0x80000000,0,0])node=await ckd(node,i);const priv=node.k,pub=pubBytes(priv),h160=hash160(pub);return{mn,priv:hex(n2b32(priv)),pub:hex(pub),addr:b58check(cat([net.p2pkh],h160)),wif:b58check(cat([net.wif],n2b32(priv),[1]))}}
+function serTx(vin,vout,sigIdx,spk){let b=[...u32le(2),...vi(vin.length)];vin.forEach((i,j)=>{b.push(...rev(hb(i.txid)),...u32le(i.vout));const s=sigIdx===j?spk:(sigIdx===-1?i.scriptSig:[]);b.push(...vi(s.length),...s,...u32le(0xffffffff))});b.push(...vi(vout.length));vout.forEach(o=>b.push(...u64le(o.value),...vi(o.spk.length),...o.spk));b.push(...u32le(0));if(sigIdx>=0)b.push(...u32le(1));return Uint8Array.from(b)}
+function buildSignedTx(utxos,spkTo,amt,change,w){const priv=b2n(hb(w.priv)),pub=hb(w.pub);const spkOwn=cat([0x76,0xa9,0x14],hash160(pub),[0x88,0xac]);const vin=utxos.map(u=>({txid:u.txid,vout:u.vout}));const vout=[{value:amt,spk:spkTo}];if(change>0)vout.push({value:change,spk:spkOwn});vin.forEach((i,idx)=>{const sigh=dsha(serTx(vin,vout,idx,spkOwn));const sig=cat(ecdsaSign(sigh,priv),[1]);i.scriptSig=cat(vi(sig.length),sig,vi(pub.length),pub)});const raw=serTx(vin,vout,-1);return{raw:hex(raw),vsize:raw.length,txid:hex(rev(dsha(raw)))}}
+const S={net:NETS.main,wallet:null,txs:[],utxos:[],fees:{},bal:{conf:0,memp:0,tx:0},filter:"all",q:"",sort:"new",pending:null,reveal:false,sound:true,auto:true,online:null,lastUpd:0,busy:false,price:null,consent:false,drawerTx:null,genesisOpen:false,wordsReady:false};
+async function api(path,opt={}){let err;for(const base of S.net.api){try{const ctl=new AbortController();const t=setTimeout(()=>ctl.abort(),12000);const r=await fetch(base+path,Object.assign({cache:"no-store",signal:ctl.signal},opt));clearTimeout(t);if(!r.ok)throw Error("HTTP "+r.status+" · "+(await r.text()).slice(0,110));setOnline(true);return r}catch(e){err=e}}setOnline(false);throw err}
 const apiJson=async p=>(await api(p)).json();
 function setOnline(v){if(S.online===v)return;S.online=v;$("netdot").className="dot"+(v?"":" off");if(!v)log("сеть недоступна","err")}
-
-/* sound */
 let AC=null;
-function tone(f,type,d,v=.05,delay=0){if(!S.sound)return;
-  try{if(!AC)AC=new(window.AudioContext||window.webkitAudioContext)();if(AC.state==="suspended")AC.resume();
-    const t=AC.currentTime+delay,o=AC.createOscillator(),g=AC.createGain();
-    o.type=type;o.frequency.setValueAtTime(f,t);g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.00001,t+d);
-    o.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+d)}catch(e){}}
-const sfx={gen(){tone(392,"sine",.12);tone(587,"sine",.16,.05,.09);tone(784,"sine",.22,.05,.18)},
-  coin(){tone(659,"square",.09,.04);tone(880,"square",.09,.04,.08);tone(1174,"square",.18,.04,.16)},
-  send(){tone(523,"triangle",.1);tone(659,"triangle",.1,.05,.09);tone(784,"triangle",.1,.05,.18);tone(1046,"triangle",.25,.05,.27)},
-  err(){tone(150,"sawtooth",.22,.06);tone(110,"sawtooth",.25,.05,.1)},tick(){tone(1200,"sine",.04,.025)},
-  stage(n){tone(300+n*90,"sine",.14,.04)},
-  reveal(){[523,659,784,1046,1318].forEach((f,i)=>tone(f,"triangle",.5,.05,i*.09))}};
-
-/* log/toast */
-function log(msg,cls=""){const el=$("log"),line=document.createElement("div");if(cls)line.className=cls;
-  line.textContent="["+new Date().toLocaleTimeString("ru-RU")+"] "+msg;el.appendChild(line);
-  while(el.children.length>80)el.removeChild(el.firstChild);el.scrollTop=el.scrollHeight}
-function toast(msg,type="info",ms=3400,action){const t=document.createElement("div");t.className="toast "+type;
-  const span=document.createElement("span");span.textContent=(type==="ok"?"✅ ":type==="err"?"⛔ ":type==="warn"?"⚠️ ":"ℹ️ ")+msg;t.appendChild(span);
-  if(action){const b=document.createElement("button");b.textContent=action.label;b.addEventListener("click",()=>{action.fn();t.remove()});t.appendChild(b)}
-  $("toasts").appendChild(t);setTimeout(()=>{t.classList.add("out");setTimeout(()=>t.remove(),320)},ms)}
-
-/* main canvas */
-const cv=$("cv"),cx=cv.getContext("2d"),CW=cv.width,CH=cv.height;
-const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
-const lanes=[38,72,106,140],parts=[];
-function newP(burst){const lane=lanes[(Math.random()*lanes.length)|0];const main=S.net.id==="main";
-  return{x:burst?CW/2:Math.random()*CW,y:burst?CH/2:lane+(Math.random()-.5)*14,
-    vx:burst?(Math.random()-.5)*6:.4+Math.random()*1.4,vy:burst?(Math.random()-.5)*6:0,
-    s:burst?1.5+Math.random()*2:.8+Math.random()*1.6,life:burst?70:Infinity,max:70,
-    c:burst?(Math.random()<.5?"34,255,136":"255,194,75"):(main?["247,147,26","255,194,75","201,106,0"]:["0,229,255","139,123,255","255,153,0"])[(Math.random()*3)|0]}}
-for(let i=0;i<70;i++)parts.push(newP());
-let blockX=-60,blockTimer=0;
-function burst(){for(let i=0;i<34;i++)parts.push(newP(true));if(parts.length>220)parts.splice(0,parts.length-220);
-  $("capstat").textContent="СОБЫТИЕ: "+new Date().toLocaleTimeString("ru-RU")}
-function drawCV(){if(S.genesisOpen){requestAnimationFrame(drawCV);return}
-  cx.fillStyle=S.net.id==="main"?"rgba(5,3,2,.28)":"rgba(2,4,10,.28)";cx.fillRect(0,0,CW,CH);
-  cx.strokeStyle=S.net.id==="main"?"rgba(43,29,14,.6)":"rgba(26,35,51,.55)";cx.lineWidth=1;
-  for(let x=0;x<CW;x+=48){cx.beginPath();cx.moveTo(x,0);cx.lineTo(x,CH);cx.stroke()}
-  for(const y of lanes){cx.strokeStyle=S.net.id==="main"?"rgba(247,147,26,.08)":"rgba(0,229,255,.07)";cx.beginPath();cx.moveTo(0,y);cx.lineTo(CW,y);cx.stroke()}
-  blockTimer++;if(blockTimer>260){blockTimer=0;blockX=-60}
-  if(blockX>-60||blockTimer===1){blockX+=2.2;
-    cx.fillStyle="rgba(139,123,255,.14)";cx.strokeStyle="rgba(139,123,255,.7)";cx.lineWidth=1.5;cx.shadowBlur=16;cx.shadowColor="#8b7bff";
-    cx.beginPath();if(cx.roundRect)cx.roundRect(blockX,CH/2-26,46,52,7);else cx.rect(blockX,CH/2-26,46,52);cx.fill();cx.stroke();cx.shadowBlur=0;
-    cx.fillStyle="rgba(139,123,255,.9)";cx.font="700 9px monospace";cx.textAlign="center";cx.fillText("BLOCK",blockX+23,CH/2+3);
-    if(blockX>CW+60)blockX=-60}
-  for(let i=parts.length-1;i>=0;i--){const p=parts[i];p.x+=p.vx;p.y+=p.vy;
-    if(p.life!==Infinity){p.life--;p.vx*=.97;p.vy*=.97;if(p.life<=0){parts.splice(i,1);continue}}
-    else if(p.x>CW+10){p.x=-10;p.y=lanes[(Math.random()*lanes.length)|0]+(Math.random()-.5)*14}
-    const a=p.life===Infinity?.7:(p.life/p.max)*.9;
-    cx.fillStyle=`rgba(${p.c},${a})`;cx.beginPath();cx.arc(p.x,p.y,p.s,0,6.283);cx.fill()}
-  if(!reduced)requestAnimationFrame(drawCV)}
+function tone(f,type,d,v=.05,delay=0){if(!S.sound)return;try{if(!AC)AC=new(window.AudioContext||window.webkitAudioContext)();if(AC.state==="suspended")AC.resume();const t=AC.currentTime+delay,o=AC.createOscillator(),g=AC.createGain();o.type=type;o.frequency.setValueAtTime(f,t);g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.00001,t+d);o.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+d)}catch(e){}}
+const sfx={gen(){tone(392,"sine",.12);tone(587,"sine",.16,.05,.09);tone(784,"sine",.22,.05,.18)},coin(){tone(659,"square",.09,.04);tone(880,"square",.09,.04,.08);tone(1174,"square",.18,.04,.16)},send(){tone(523,"triangle",.1);tone(659,"triangle",.1,.05,.09);tone(784,"triangle",.1,.05,.18);tone(1046,"triangle",.25,.05,.27)},err(){tone(150,"sawtooth",.22,.06);tone(110,"sawtooth",.25,.05,.1)},tick(){tone(1200,"sine",.04,.025)},stage(n){tone(300+n*90,"sine",.14,.04)},reveal(){[523,659,784,1046,1318].forEach((f,i)=>tone(f,"triangle",.5,.05,i*.09))}};
+function log(msg,cls=""){const el=$("log"),line=document.createElement("div");if(cls)line.className=cls;line.textContent="["+new Date().toLocaleTimeString("ru-RU")+"] "+msg;el.appendChild(line);while(el.children.length>80)el.removeChild(el.firstChild);el.scrollTop=el.scrollHeight}
+function toast(msg,type="info",ms=3400,action){const t=document.createElement("div");t.className="toast "+type;const span=document.createElement("span");span.textContent=(type==="ok"?"✅ ":type==="err"?"⛔ ":type==="warn"?"⚠️ ":"ℹ️ ")+msg;t.appendChild(span);if(action){const b=document.createElement("button");b.textContent=action.label;b.addEventListener("click",()=>{action.fn();t.remove()});t.appendChild(b)}$("toasts").appendChild(t);setTimeout(()=>{t.classList.add("out");setTimeout(()=>t.remove(),320)},ms)}
+const cv=$("cv"),cx=cv.getContext("2d"),CW=cv.width,CH=cv.height;const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;const lanes=[38,72,106,140],parts=[];
+function newP(burst){const lane=lanes[(Math.random()*lanes.length)|0];const main=S.net.id==="main";return{x:burst?CW/2:Math.random()*CW,y:burst?CH/2:lane+(Math.random()-.5)*14,vx:burst?(Math.random()-.5)*6:.4+Math.random()*1.4,vy:burst?(Math.random()-.5)*6:0,s:burst?1.5+Math.random()*2:.8+Math.random()*1.6,life:burst?70:Infinity,max:70,c:burst?(Math.random()<.5?"34,255,136":"255,194,75"):(main?["247,147,26","255,194,75","201,106,0"]:["0,229,255","139,123,255","255,153,0"])[(Math.random()*3)|0]}}
+for(let i=0;i<70;i++)parts.push(newP());let blockX=-60,blockTimer=0;
+function burst(){for(let i=0;i<34;i++)parts.push(newP(true));if(parts.length>220)parts.splice(0,parts.length-220);$("capstat").textContent="СОБЫТИЕ: "+new Date().toLocaleTimeString("ru-RU")}
+function drawCV(){if(S.genesisOpen){requestAnimationFrame(drawCV);return}cx.fillStyle=S.net.id==="main"?"rgba(5,3,2,.28)":"rgba(2,4,10,.28)";cx.fillRect(0,0,CW,CH);cx.strokeStyle=S.net.id==="main"?"rgba(43,29,14,.6)":"rgba(26,35,51,.55)";cx.lineWidth=1;for(let x=0;x<CW;x+=48){cx.beginPath();cx.moveTo(x,0);cx.lineTo(x,CH);cx.stroke()}for(const y of lanes){cx.strokeStyle=S.net.id==="main"?"rgba(247,147,26,.08)":"rgba(0,229,255,.07)";cx.beginPath();cx.moveTo(0,y);cx.lineTo(CW,y);cx.stroke()}blockTimer++;if(blockTimer>260){blockTimer=0;blockX=-60}if(blockX>-60||blockTimer===1){blockX+=2.2;cx.fillStyle="rgba(139,123,255,.14)";cx.strokeStyle="rgba(139,123,255,.7)";cx.lineWidth=1.5;cx.shadowBlur=16;cx.shadowColor="#8b7bff";cx.beginPath();if(cx.roundRect)cx.roundRect(blockX,CH/2-26,46,52,7);else cx.rect(blockX,CH/2-26,46,52);cx.fill();cx.stroke();cx.shadowBlur=0;cx.fillStyle="rgba(139,123,255,.9)";cx.font="700 9px monospace";cx.textAlign="center";cx.fillText("BLOCK",blockX+23,CH/2+3);if(blockX>CW+60)blockX=-60}for(let i=parts.length-1;i>=0;i--){const p=parts[i];p.x+=p.vx;p.y+=p.vy;if(p.life!==Infinity){p.life--;p.vx*=.97;p.vy*=.97;if(p.life<=0){parts.splice(i,1);continue}}else if(p.x>CW+10){p.x=-10;p.y=lanes[(Math.random()*lanes.length)|0]+(Math.random()-.5)*14}const a=p.life===Infinity?.7:(p.life/p.max)*.9;cx.fillStyle=`rgba(${p.c},${a})`;cx.beginPath();cx.arc(p.x,p.y,p.s,0,6.283);cx.fill()}if(!reduced)requestAnimationFrame(drawCV)}
 if(reduced)drawCV();else requestAnimationFrame(drawCV);
-
-/* ============ GENESIS CEREMONY ENGINE ============ */
 const G={run:0,raf:null,parts:[],phase:"idle",curveT:0,burstT:0,stir:[],meter:0,ent:null,w:null,mn:null,autoTimer:null};
 const gcv=$("gcv"),gx=gcv.getContext("2d");
-function gSize(){const dpr=Math.min(1.5,window.devicePixelRatio||1);
-  gcv.width=Math.floor(innerWidth*dpr);gcv.height=Math.floor(innerHeight*dpr);gx.setTransform(dpr,0,0,dpr,0,0)}
-function gSpawn(x,y,n,spread,col){for(let i=0;i<n;i++){const a=Math.random()*6.283,s=spread*(.3+Math.random());
-  G.parts.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:50+Math.random()*50,max:100,s:1+Math.random()*2.4,c:col||["255,194,75","247,147,26","0,229,255","139,123,255","255,79,216"][(Math.random()*5)|0]})}
-  if(G.parts.length>420)G.parts.splice(0,G.parts.length-420)}
-function gLoop(){if(!S.genesisOpen)return;
-  const w=innerWidth,h=innerHeight,cxx=w/2,cyy=h/2;
-  gx.fillStyle="rgba(7,5,3,.22)";gx.fillRect(0,0,w,h);
-  // ambient drift toward center during derivation
-  if(G.phase==="derive"&&Math.random()<.5){const a=Math.random()*6.283,r=Math.max(w,h)*.5;
-    G.parts.push({x:cxx+Math.cos(a)*r,y:cyy+Math.sin(a)*r,vx:-Math.cos(a)*2.2,vy:-Math.sin(a)*2.2,life:90,max:90,s:1+Math.random()*2,c:["255,194,75","0,229,255","139,123,255"][(Math.random()*3)|0]})}
-  // secp256k1 curve y^2 = x^3 + 7
-  if(G.phase==="curve"||G.phase==="reveal"){G.curveT=Math.min(1,G.curveT+.02);
-    gx.save();gx.translate(cxx,cyy);gx.strokeStyle="rgba(0,229,255,.5)";gx.lineWidth=2;gx.shadowBlur=18;gx.shadowColor="#00e5ff";
-    gx.beginPath();let first=true;const sc=Math.min(w,h)/9;
-    for(let px=-w/2;px<w/2;px+=3){const x=px/sc,y2=x*x*x+7;
-      if(y2>=0){const y=Math.sqrt(y2)*sc*G.curveT;first?gx.moveTo(px,-y):gx.lineTo(px,-y);first=false}}
-    gx.stroke();
-    gx.strokeStyle="rgba(255,79,216,.35)";gx.beginPath();first=true;
-    for(let px=-w/2;px<w/2;px+=3){const x=px/sc,y2=x*x*x+7;
-      if(y2>=0){const y=Math.sqrt(y2)*sc*G.curveT;first?gx.moveTo(px,y):gx.lineTo(px,y);first=false}}
-    gx.stroke();gx.shadowBlur=0;
-    // moving point
-    const t=performance.now()*.001,px=Math.sin(t*.7)*w*.28,x=px/sc,y2=x*x*x+7;
-    if(y2>=0){const py=-Math.sqrt(y2)*sc;gx.fillStyle="#ffc24b";gx.shadowBlur=24;gx.shadowColor="#ffc24b";
-      gx.beginPath();gx.arc(px,py,6+Math.sin(t*4)*2,0,6.283);gx.fill();gx.shadowBlur=0}
-    gx.restore()}
-  // reveal radial burst
-  if(G.phase==="reveal"){G.burstT++;if(G.burstT===1)gSpawn(cxx,cyy,120,7)}
-  for(let i=G.parts.length-1;i>=0;i--){const p=G.parts[i];p.x+=p.vx;p.y+=p.vy;p.vx*=.985;p.vy*=.985;p.life--;
-    if(p.life<=0){G.parts.splice(i,1);continue}
-    gx.fillStyle=`rgba(${p.c},${(p.life/p.max)*.85})`;gx.beginPath();gx.arc(p.x,p.y,p.s,0,6.283);gx.fill()}
-  G.raf=requestAnimationFrame(gLoop)}
-function gStir(e){if(!S.genesisOpen||G.phase!=="stir")return;
-  const pt=e.touches?e.touches[0]:e;const x=pt.clientX,y=pt.clientY;
-  G.stir.push(x&255,y&255,(performance.now()|0)&255);if(G.stir.length>3000)G.stir.splice(0,300);
-  G.meter=Math.min(1,G.meter+1/70);$("gmeter").style.width=(G.meter*100)+"%";
-  gSpawn(x,y,2,2.5);if(G.meter>=1)gProceed()}
-function gOpen(){S.genesisOpen=true;G.run++;const run=G.run;
-  G.parts=[];G.phase="stir";G.curveT=0;G.burstT=0;G.stir=[];G.meter=0;G.ent=null;G.w=null;G.mn=null;
-  $("genesis").classList.add("on");gSize();
-  $("gstage").textContent="ШАГ 0 · ЭНТРОПИЯ";$("gtitle").textContent="Собери хаос";
-  $("gsub").textContent="Води пальцем или мышью по экрану — каждое движение вплетается в энтропию твоего кошелька. Это настоящая случайность, а не анимация.";
-  $("gmeterwrap").classList.remove("hidden");$("gmhint").classList.remove("hidden");$("gmeter").style.width="0%";
-  $("gskip").classList.remove("hidden");
-  ["ghex","gwords","gcounter","gpath","gpub","gaddr"].forEach(i=>$(i).classList.add("hidden"));
-  $("greveal").classList.remove("show");$("genter").classList.add("hidden");
-  $("gwords").innerHTML="";$("gpath").innerHTML="";$("gaddr").textContent="";$("gpub").textContent="";$("ghex").textContent="";$("gcounter").textContent="";
-  cancelAnimationFrame(G.raf);G.raf=requestAnimationFrame(gLoop);
-  clearTimeout(G.autoTimer);G.autoTimer=setTimeout(()=>{if(G.run===run&&G.phase==="stir")gProceed()},7000);
-  sfx.stage(0)}
-function gClose(){S.genesisOpen=false;G.run++;G.phase="idle";clearTimeout(G.autoTimer);
-  cancelAnimationFrame(G.raf);G.raf=null;$("genesis").classList.remove("on")}
-async function gProceed(){if(G.phase!=="stir")return;const run=G.run;clearTimeout(G.autoTimer);
-  G.phase="derive";$("gskip").classList.add("hidden");$("gmeterwrap").classList.add("hidden");$("gmhint").classList.add("hidden");
-  // real entropy: CSPRNG base XOR stir-hash
-  const base=crypto.getRandomValues(new Uint8Array(16));
-  let ent=base;
-  if(G.stir.length){const sh=sha256(Uint8Array.from(G.stir));ent=Uint8Array.from(base.map((b,i)=>b^sh[i]))}
-  G.ent=ent;
-  // stage 1 hex
-  $("gstage").textContent="ШАГ 1 · 128 БИТ ХАОСА";$("gtitle").textContent="Энтропия запечатана";
-  $("gsub").textContent="Твои движения + системный CSPRNG смешаны через SHA-256. Это число — исток всего кошелька.";
-  $("ghex").classList.remove("hidden");$("ghex").textContent=hex(ent);sfx.stage(1);
-  gSpawn(innerWidth/2,innerHeight/2,40,4);
-  await sleep(1100);if(G.run!==run)return;
-  // stage 2 words
-  G.mn=entropyToMnemonic(ent);
-  $("gstage").textContent="ШАГ 2 · BIP39";$("gtitle").textContent="Двенадцать слов силы";
-  $("gsub").textContent="Хаос превращается в мнемонику — её можно записать на бумаге и восстановить кошелёк где угодно.";
-  $("ghex").classList.add("hidden");const gw=$("gwords");gw.classList.remove("hidden");gw.innerHTML="";
-  const words=G.mn.split(" ");
-  for(let i=0;i<words.length;i++){if(G.run!==run)return;
-    const d=document.createElement("div");d.className="gw";d.innerHTML=`<i>${String(i+1).padStart(2,"0")}</i>${words[i]}`;gw.appendChild(d);
-    requestAnimationFrame(()=>d.classList.add("show"));sfx.stage(2);await sleep(130)}
-  await sleep(500);if(G.run!==run)return;
-  // stage 3 PBKDF2 + BIP32 (real derivation)
-  $("gstage").textContent="ШАГ 3 · PBKDF2-HMAC-SHA512";$("gtitle").textContent="Закалка семени";
-  $("gsub").textContent="2048 раундов хэширования превращают слова в 512-битное семя. Затем дерево BIP32 выводит ключ.";
-  gw.classList.add("hidden");const gc=$("gcounter");gc.classList.remove("hidden");
-  const deriveP=deriveWallet(G.mn,S.net);
-  for(let i=0;i<=2048;i+=64){if(G.run!==run)return;gc.textContent=i+" / 2048";await sleep(28)}
-  G.w=await deriveP;if(G.run!==run)return;
-  gc.textContent="2048 / 2048 ✓";sfx.stage(3);await sleep(500);if(G.run!==run)return;
-  // stage 4 path
-  gc.classList.add("hidden");$("gstage").textContent="ШАГ 4 · BIP32 / BIP44";$("gtitle").textContent="Путь сквозь дерево";
-  $("gsub").textContent="Каждый узел — необратимый шаг от семени к твоему ключу.";
-  const gp=$("gpath");gp.classList.remove("hidden");gp.innerHTML="";
-  const path=["m","44'",""+S.net.coin+"'","0'","0","0"];
-  for(let i=0;i<path.length;i++){if(G.run!==run)return;
-    const d=document.createElement("div");d.className="gp";d.textContent=path[i];gp.appendChild(d);
-    requestAnimationFrame(()=>d.classList.add("lit"));sfx.stage(4);await sleep(200)}
-  await sleep(500);if(G.run!==run)return;
-  // stage 5 curve
-  gp.classList.add("hidden");G.phase="curve";$("gstage").textContent="ШАГ 5 · secp256k1";$("gtitle").textContent="Точка на кривой";
-  $("gsub").textContent="Приватный ключ умножается на генератор G эллиптической кривой y² = x³ + 7. Рождается публичный ключ.";
-  $("gpub").classList.remove("hidden");$("gpub").textContent=G.w.pub;sfx.stage(5);
-  await sleep(2200);if(G.run!==run)return;
-  // stage 6 address assembly
-  G.phase="derive";$("gstage").textContent="ШАГ 6 · HASH160 → Base58Check";$("gtitle").textContent="Адрес собирается";
-  $("gsub").textContent="SHA-256 → RIPEMD-160 → байт сети → контрольная сумма. Сосуд обретает имя.";
-  $("gpub").classList.add("hidden");const ga=$("gaddr");ga.classList.remove("hidden");ga.textContent="";
-  for(let i=0;i<G.w.addr.length;i++){if(G.run!==run)return;ga.textContent+=G.w.addr[i];if(i%3===0)sfx.tick();await sleep(45)}
-  await sleep(400);if(G.run!==run)return;
-  // reveal
-  G.phase="reveal";$("gstage").textContent="✦ КОШЕЛЁК РОЖДЁН";$("gtitle").textContent="Сосуд существует";
-  $("gsub").textContent="Твой адрес записан в математику блокчейна. Он реален и готов принимать.";
-  $("greveal").classList.add("show");$("genter").classList.remove("hidden");sfx.reveal();
-  log("ритуал завершён: "+G.w.addr,"ok")}
-function gEnter(){if(!G.w)return;const w=G.w;
-  S.wallet=w;S.reveal=false;S.txs=[];S.utxos=[];S.bal={conf:0,memp:0,tx:0};
-  localStorage.setItem(S.net.store,JSON.stringify(w));
-  gClose();hidePending();renderWallet();renderBalance();renderTxs();renderFeeEst();
-  burst();toast("Кошелёк рождён. Сохрани сид-фразу офлайн!","ok",5200);
-  log("кошелёк активен: "+w.addr,"ok");refreshAll(true)}
-
-/* render */
-function countUp(el,to,fmt){const from=parseFloat(el.dataset.v||"0");el.dataset.v=to;
-  if(reduced||from===to){el.textContent=fmt(to);return}
-  const t0=performance.now(),dur=550;
-  (function step(t){const k=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-k,3);el.textContent=fmt(from+(to-from)*e);if(k<1)requestAnimationFrame(step)})(t0)}
-function renderNet(){const main=S.net.id==="main";
-  document.body.className=main?"net-main":"net-test";
-  $("seg-main").classList.toggle("on",main);$("seg-test").classList.toggle("on",!main);
-  $("netname").textContent=S.net.name;$("capnet").textContent=S.net.name;
-  $("hero-title").innerHTML=main?"РЕАЛЬНЫЙ BITCOIN.<br>РЕАЛЬНАЯ ОТВЕТСТВЕННОСТЬ.":"ПОЛИГОН BITCOIN.<br>НУЛЕВОЙ РИСК.";
-  $("hero-sub").textContent=main
-    ?"Полноценный кошелёк основной сети: ритуал рождения ключей secp256k1, получение BTC, live-баланс с курсом, подписанные транзакции. Криптоядро встроено — ноль CDN. Но это настоящие деньги, а не игра."
-    :"Та же криптография, что и в mainnet, но монеты tBTC бесплатны и ничего не стоят. Идеальное место, чтобы научиться: faucet, отправка, эксперименты без риска.";
-  $("chips").innerHTML=main
-    ?'<span class="chip hot">secp256k1 · BIP39/32/44</span><span class="chip red">REAL MONEY · НЕОБРАТИМО</span><span class="chip hot">COIN TYPE 0 · 0x00/0x80</span><span class="chip">0 CDN · РИТУАЛ ГЕНЕРАЦИИ</span>'
-    :'<span class="chip cool">secp256k1 · BIP39/32/44</span><span class="chip cool">СЕТЬ: TESTNET · COIN TYPE 1</span><span class="chip">tBTC = 0 ₽ · ПОЛИГОН</span><span class="chip">0 CDN · ОФЛАЙН-ГЕНЕРАЦИЯ</span>';
-  const r=$("reality");
-  if(main){r.className="reality";r.innerHTML='<div class="rt">⚠ ЗДЕСЬ НЕТ МАГИИ СОЗДАНИЯ МОНЕТ — ЭТО MAINNET</div>Магия рождает <b>кошелёк</b>, а не деньги. Баланс начнётся с <b>0.00000000 BTC</b>. Монеты приходят только тремя путями: <b>купить</b>, <b>заработать</b>, <b>получить переводом</b>. Faucet не существует. «Найти» чужие монеты невозможно — это та же математика, которую мы проверяли на mempool.space. Полигон — во вкладке <b>TESTNET</b>.'}
-  else{r.className="reality sandbox";r.innerHTML='<div class="rt">🧪 БЕЗОПАСНЫЙ ПОЛИГОН — TESTNET</div>Монеты tBTC <b>бесплатны</b> и не имеют ценности. Бери их в faucet, отправляй, экспериментируй. Криптография настоящая — риска ноль.'}
-  $("btn-gen").textContent=main?"✦ Сотворить кошелёк":"✦ Сгенерировать testnet-кошелёк";
-  $("genhint").textContent=main?"Ритуал: энтропия → 12 слов → кривая → адрес. Монеты — из реального мира.":"Генерация мгновенная, монеты потом бесплатно в faucet.";
-  $("addrtag").textContent=main?"P2PKH · 0x00":"P2PKH · 0x6F";
-  $("pathtag").textContent="m/44'/"+S.net.coin+"'/0'/0/0";
-  $("wiftag").textContent=main?"0x80 · K/L":"0xEF · c";
-  $("total-label").textContent="ИТОГО · "+S.net.unit;
-  $("sendtitle").textContent="ОТПРАВИТЬ "+S.net.unit;
-  $("s-to").placeholder="Получатель: "+S.net.addrEx;
-  $("s-amt").placeholder="Сумма, "+S.net.unit;
-  $("fiatline").classList.toggle("hidden",!main);
-  renderDeposit();renderWallet();renderTxs();renderFeeEst()}
-function renderDeposit(){const c=$("depositcard");
-  if(S.net.id==="main"){c.innerHTML=`<h2><span class="n">2</span>ПОЛУЧИТЬ BTC<span class="tail">РЕАЛЬНЫЕ ПУТИ</span></h2>
-    <div class="steps">
-      <div><span class="num">1</span><b>Купи BTC</b> на бирже, где ты торгуешь (Bybit, Binance и др.) — за USDT или фиат.</div>
-      <div><span class="num">2</span>Вывод → сеть <b>Bitcoin (BTC)</b> → вставь свой адрес выше. Не перепутай сеть: BEP20/ERC20 — не Bitcoin.</div>
-      <div><span class="num">3</span>Сначала <b>маленькая тестовая сумма</b>. Убедись, что дошла — потом остальное.</div>
-      <div><span class="num">4</span>Или <b>заработай / получи переводом</b> от другого человека на этот адрес.</div>
-    </div>
-    <div class="warnline">Никаких faucet и «найденных кошельков» в mainnet не существует. Если кто-то обещает бесплатные BTC — это мошенничество.</div>`}
-  else{c.innerHTML=`<h2><span class="n">2</span>ПОЛУЧИТЬ tBTC<span class="tail">FAUCET</span></h2>
-    <div class="steps">Скопируй адрес → вставь на сайте → капча → монеты за ~1 минуту.</div><div style="height:10px"></div>
-    <a href="https://coinfaucet.eu/en/btc-testnet/" target="_blank" rel="noopener"><span class="ico">🚰</span>coinfaucet.eu<small>↗</small></a>
-    <a href="https://testnet-faucet.mempool.co/" target="_blank" rel="noopener"><span class="ico">🚰</span>testnet-faucet.mempool.co<small>↗</small></a>
-    <a href="https://bitcoinfaucet.uo1.net/" target="_blank" rel="noopener"><span class="ico">🚰</span>bitcoinfaucet.uo1.net<small>↗</small></a>
-    <div class="hint">Суточные лимиты и капча — нормально.</div>`}}
-function renderWallet(){const w=S.wallet;
-  $("nowallet").classList.toggle("hidden",!!w);$("haswallet").classList.toggle("hidden",!w);
-  $("wstate").textContent=w?("АКТИВЕН · "+S.net.name):"НЕТ КЛЮЧЕЙ";
-  if(!w)return;
-  $("w-addr").textContent=w.addr;$("w-pub").textContent=w.pub;
-  $("w-wif").textContent=S.reveal?w.wif:"•".repeat(51);$("w-wif").classList.toggle("mask",!S.reveal);
-  $("revealbtn").textContent=S.reveal?"🙈 СКРЫТЬ":"👁 ПОКАЗАТЬ";
-  const g=$("mngrid");g.innerHTML="";
-  w.mn.split(" ").forEach((word,i)=>{const d=document.createElement("div");d.className="mn"+(S.reveal?"":" hid");
-    d.innerHTML=`<i>${String(i+1).padStart(2,"0")}</i><b>${S.reveal?word:"•••••"}</b>`;g.appendChild(d)})}
-function renderBalance(){
-  countUp($("b-conf"),S.bal.conf,v=>fmtSat(Math.round(v)));
-  countUp($("b-memp"),S.bal.memp,v=>fmtSat(Math.round(v)));
-  countUp($("b-total"),S.bal.conf+S.bal.memp,v=>fmtSat(Math.round(v)));
-  countUp($("b-tx"),S.bal.tx,v=>String(Math.round(v)));
-  $("upd").textContent=S.lastUpd?("обновлено "+new Date(S.lastUpd).toLocaleTimeString("ru-RU")+" · mempool.space / blockstream"):"ещё не обновлялось";
-  if(S.net.id==="main"&&S.price){const total=(S.bal.conf+S.bal.memp)/1e8;
-    $("fiatval").textContent="$"+(total*S.price).toLocaleString("en-US",{maximumFractionDigits:2});
-    $("fiatrate").textContent="· курс $"+S.price.toLocaleString("en-US",{maximumFractionDigits:0})+"/BTC"}}
-function txFlow(t,a){let s=0;(t.vin||[]).forEach(i=>{if(i.prevout&&i.prevout.scriptpubkey_address===a)s-=i.prevout.value});
-  (t.vout||[]).forEach(o=>{if(o.scriptpubkey_address===a)s+=o.value});return s}
-function renderTxs(){const box=$("txlist");box.innerHTML="";
-  if(!S.wallet){box.innerHTML='<div class="empty"><span class="big">🔑</span>Сначала создай кошелёк — история появится здесь.</div>';return}
-  let rows=S.txs.map(t=>({t,f:txFlow(t,S.wallet.addr)}));
-  rows=rows.filter(r=>S.filter==="all"||(S.filter==="in"?r.f>=0:r.f<0));
-  if(S.q)rows=rows.filter(r=>r.t.txid.includes(S.q.toLowerCase()));
-  if(S.sort==="old")rows.reverse();
-  if(S.sort==="amt")rows.sort((a,b)=>Math.abs(b.f)-Math.abs(a.f));
-  if(!rows.length){box.innerHTML=S.txs.length
-    ?'<div class="empty"><span class="big">🔍</span>Ничего не найдено по фильтрам.</div>'
-    :'<div class="empty"><span class="big">⛓</span>Транзакций пока нет.<br>'+(S.net.id==="main"?"Получи BTC одним из путей выше — они появятся здесь.":"Получи tBTC из <b>faucet</b> — они появятся здесь.")+'</div>';return}
-  rows.slice(0,14).forEach(({t,f},i)=>{const ok=t.status&&t.status.confirmed,inc=f>=0;
-    const d=document.createElement("div");d.className="tx "+(inc?"in":"out");d.style.animationDelay=(i*.04)+"s";
-    d.innerHTML=`<div class="dir">${inc?"↘":"↗"}</div>
-      <div class="mid"><span class="txid">${t.txid.slice(0,14)}…${t.txid.slice(-8)}</span><div class="ago">${ok?ago(t.status.block_time):"ожидает блок"}</div></div>
-      <div class="right"><div class="amt">${inc?"+":""}${fmtSat(f)} ${S.net.unit}</div><span class="st ${ok?"ok":"pend"}">${ok?"ПОДТВЕРЖДЕНО":"МЕМПУЛ"}</span></div>`;
-    d.addEventListener("click",()=>openDrawer(t,f));box.appendChild(d)})}
+function gSize(){const dpr=Math.min(1.5,window.devicePixelRatio||1);gcv.width=Math.floor(innerWidth*dpr);gcv.height=Math.floor(innerHeight*dpr);gx.setTransform(dpr,0,0,dpr,0,0)}
+function gSpawn(x,y,n,spread){for(let i=0;i<n;i++){const a=Math.random()*6.283,s=spread*(.3+Math.random());G.parts.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:50+Math.random()*50,max:100,s:1+Math.random()*2.4,c:["255,194,75","247,147,26","0,229,255","139,123,255","255,79,216"][(Math.random()*5)|0]})}if(G.parts.length>420)G.parts.splice(0,G.parts.length-420)}
+function gLoop(){if(!S.genesisOpen)return;const w=innerWidth,h=innerHeight,cxx=w/2,cyy=h/2;gx.fillStyle="rgba(7,5,3,.22)";gx.fillRect(0,0,w,h);if(G.phase==="derive"&&Math.random()<.5){const a=Math.random()*6.283,r=Math.max(w,h)*.5;G.parts.push({x:cxx+Math.cos(a)*r,y:cyy+Math.sin(a)*r,vx:-Math.cos(a)*2.2,vy:-Math.sin(a)*2.2,life:90,max:90,s:1+Math.random()*2,c:["255,194,75","0,229,255","139,123,255"][(Math.random()*3)|0]})}if(G.phase==="curve"||G.phase==="reveal"){G.curveT=Math.min(1,G.curveT+.02);gx.save();gx.translate(cxx,cyy);gx.strokeStyle="rgba(0,229,255,.5)";gx.lineWidth=2;gx.shadowBlur=18;gx.shadowColor="#00e5ff";gx.beginPath();let first=true;const sc=Math.min(w,h)/9;for(let px=-w/2;px<w/2;px+=3){const x=px/sc,y2=x*x*x+7;if(y2>=0){const y=Math.sqrt(y2)*sc*G.curveT;first?gx.moveTo(px,-y):gx.lineTo(px,-y);first=false}}gx.stroke();gx.strokeStyle="rgba(255,79,216,.35)";gx.beginPath();first=true;for(let px=-w/2;px<w/2;px+=3){const x=px/sc,y2=x*x*x+7;if(y2>=0){const y=Math.sqrt(y2)*sc*G.curveT;first?gx.moveTo(px,y):gx.lineTo(px,y);first=false}}gx.stroke();gx.shadowBlur=0;const t=performance.now()*.001,px=Math.sin(t*.7)*w*.28,x=px/sc,y2=x*x*x+7;if(y2>=0){const py=-Math.sqrt(y2)*sc;gx.fillStyle="#ffc24b";gx.shadowBlur=24;gx.shadowColor="#ffc24b";gx.beginPath();gx.arc(px,py,6+Math.sin(t*4)*2,0,6.283);gx.fill();gx.shadowBlur=0}gx.restore()}if(G.phase==="reveal"){G.burstT++;if(G.burstT===1)gSpawn(cxx,cyy,120,7)}for(let i=G.parts.length-1;i>=0;i--){const p=G.parts[i];p.x+=p.vx;p.y+=p.vy;p.vx*=.985;p.vy*=.985;p.life--;if(p.life<=0){G.parts.splice(i,1);continue}gx.fillStyle=`rgba(${p.c},${(p.life/p.max)*.85})`;gx.beginPath();gx.arc(p.x,p.y,p.s,0,6.283);gx.fill()}G.raf=requestAnimationFrame(gLoop)}
+function gStir(e){if(!S.genesisOpen||G.phase!=="stir")return;const pt=e.touches?e.touches[0]:e;const x=pt.clientX,y=pt.clientY;G.stir.push(x&255,y&255,(performance.now()|0)&255);if(G.stir.length>3000)G.stir.splice(0,300);G.meter=Math.min(1,G.meter+1/70);$("gmeter").style.width=(G.meter*100)+"%";gSpawn(x,y,2,2.5);if(G.meter>=1)gProceed()}
+function gOpen(){S.genesisOpen=true;G.run++;const run=G.run;G.parts=[];G.phase="stir";G.curveT=0;G.burstT=0;G.stir=[];G.meter=0;G.ent=null;G.w=null;G.mn=null;$("genesis").classList.add("on");gSize();$("gstage").textContent="ШАГ 0 · ЭНТРОПИЯ";$("gtitle").textContent="Собери хаос";$("gsub").textContent="Води пальцем или мышью по экрану — каждое движение вплетается в энтропию твоего кошелька. Это настоящая случайность."; $("gmeterwrap").classList.remove("hidden");$("gmhint").classList.remove("hidden");$("gmeter").style.width="0%";$("gskip").classList.remove("hidden");["ghex","gwords","gcounter","gpath","gpub","gaddr"].forEach(i=>$(i).classList.add("hidden"));$("greveal").classList.remove("show");$("genter").classList.add("hidden");$("gwords").innerHTML="";$("gpath").innerHTML="";$("gaddr").textContent="";$("gpub").textContent="";$("ghex").textContent="";$("gcounter").textContent="";cancelAnimationFrame(G.raf);G.raf=requestAnimationFrame(gLoop);clearTimeout(G.autoTimer);G.autoTimer=setTimeout(()=>{if(G.run===run&&G.phase==="stir")gProceed()},7000);sfx.stage(0)}
+function gClose(){S.genesisOpen=false;G.run++;G.phase="idle";clearTimeout(G.autoTimer);cancelAnimationFrame(G.raf);G.raf=null;$("genesis").classList.remove("on")}
+async function gProceed(){if(G.phase!=="stir")return;const run=G.run;clearTimeout(G.autoTimer);G.phase="derive";$("gskip").classList.add("hidden");$("gmeterwrap").classList.add("hidden");$("gmhint").classList.add("hidden");const base=crypto.getRandomValues(new Uint8Array(16));let ent=base;if(G.stir.length){const sh=sha256(Uint8Array.from(G.stir));ent=Uint8Array.from(base.map((b,i)=>b^sh[i]))}G.ent=ent;$("gstage").textContent="ШАГ 1 · 128 БИТ ХАОСА";$("gtitle").textContent="Энтропия запечатана";$("gsub").textContent="Твои движения + системный CSPRNG смешаны через SHA-256. Это число — исток всего кошелька.";$("ghex").classList.remove("hidden");$("ghex").textContent=hex(ent);sfx.stage(1);gSpawn(innerWidth/2,innerHeight/2,40,4);await sleep(1100);if(G.run!==run)return;G.mn=entropyToMnemonic(ent);$("gstage").textContent="ШАГ 2 · BIP39";$("gtitle").textContent="Двенадцать слов силы";$("gsub").textContent="Хаос превращается в мнемонику — её можно записать на бумаге и восстановить кошелёк где угодно.";$("ghex").classList.add("hidden");const gw=$("gwords");gw.classList.remove("hidden");gw.innerHTML="";const words=G.mn.split(" ");for(let i=0;i<words.length;i++){if(G.run!==run)return;const d=document.createElement("div");d.className="gw";d.innerHTML=`<i>${String(i+1).padStart(2,"0")}</i>${words[i]}`;gw.appendChild(d);requestAnimationFrame(()=>d.classList.add("show"));sfx.stage(2);await sleep(130)}await sleep(500);if(G.run!==run)return;$("gstage").textContent="ШАГ 3 · PBKDF2-HMAC-SHA512";$("gtitle").textContent="Закалка семени";$("gsub").textContent="2048 раундов хэширования превращают слова в 512-битное семя. Затем дерево BIP32 выводит ключ.";gw.classList.add("hidden");const gc=$("gcounter");gc.classList.remove("hidden");const deriveP=deriveWallet(G.mn,S.net);for(let i=0;i<=2048;i+=64){if(G.run!==run)return;gc.textContent=i+" / 2048";await sleep(28)}G.w=await deriveP;if(G.run!==run)return;gc.textContent="2048 / 2048 ✓";sfx.stage(3);await sleep(500);if(G.run!==run)return;gc.classList.add("hidden");$("gstage").textContent="ШАГ 4 · BIP32 / BIP44";$("gtitle").textContent="Путь сквозь дерево";$("gsub").textContent="Каждый узел — необратимый шаг от семени к твоему ключу.";const gp=$("gpath");gp.classList.remove("hidden");gp.innerHTML="";const path=["m","44'",""+S.net.coin+"'","0'","0","0"];for(let i=0;i<path.length;i++){if(G.run!==run)return;const d=document.createElement("div");d.className="gp";d.textContent=path[i];gp.appendChild(d);requestAnimationFrame(()=>d.classList.add("lit"));sfx.stage(4);await sleep(200)}await sleep(500);if(G.run!==run)return;gp.classList.add("hidden");G.phase="curve";$("gstage").textContent="ШАГ 5 · secp256k1";$("gtitle").textContent="Точка на кривой";$("gsub").textContent="Приватный ключ умножается на генератор G кривой y² = x³ + 7. Рождается публичный ключ.";$("gpub").classList.remove("hidden");$("gpub").textContent=G.w.pub;sfx.stage(5);await sleep(2200);if(G.run!==run)return;G.phase="derive";$("gstage").textContent="ШАГ 6 · HASH160 → Base58Check";$("gtitle").textContent="Адрес собирается";$("gsub").textContent="SHA-256 → RIPEMD-160 → байт сети → контрольная сумма. Сосуд обретает имя.";$("gpub").classList.add("hidden");const ga=$("gaddr");ga.classList.remove("hidden");ga.textContent="";for(let i=0;i<G.w.addr.length;i++){if(G.run!==run)return;ga.textContent+=G.w.addr[i];if(i%3===0)sfx.tick();await sleep(45)}await sleep(400);if(G.run!==run)return;G.phase="reveal";$("gstage").textContent="✦ КОШЕЛЁК РОЖДЁН";$("gtitle").textContent="Сосуд существует";$("gsub").textContent="Твой адрес записан в математику блокчейна. Он реален и готов принимать.";$("greveal").classList.add("show");$("genter").classList.remove("hidden");sfx.reveal();log("ритуал завершён: "+G.w.addr,"ok")}
+function gEnter(){if(!G.w)return;const w=G.w;S.wallet=w;S.reveal=false;S.txs=[];S.utxos=[];S.bal={conf:0,memp:0,tx:0};localStorage.setItem(S.net.store,JSON.stringify(w));gClose();hidePending();renderWallet();renderBalance();renderTxs();renderFeeEst();burst();toast("Кошелёк рождён. Сохрани сид-фразу офлайн!","ok",5200);log("кошелёк активен: "+w.addr,"ok");refreshAll(true)}
+function countUp(el,to,fmt){const from=parseFloat(el.dataset.v||"0");el.dataset.v=to;if(reduced||from===to){el.textContent=fmt(to);return}const t0=performance.now(),dur=550;(function step(t){const k=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-k,3);el.textContent=fmt(from+(to-from)*e);if(k<1)requestAnimationFrame(step)})(t0)}
+function renderNet(){const main=S.net.id==="main";document.body.className=main?"net-main":"net-test";$("seg-main").classList.toggle("on",main);$("seg-test").classList.toggle("on",!main);$("netname").textContent=S.net.name;$("capnet").textContent=S.net.name;$("hero-title").innerHTML=main?"РЕАЛЬНЫЙ BITCOIN.<br>РЕАЛЬНАЯ ОТВЕТСТВЕННОСТЬ.":"ПОЛИГОН BITCOIN.<br>НУЛЕВОЙ РИСК.";$("hero-sub").textContent=main?"Полноценный кошелёк основной сети: ритуал рождения ключей secp256k1, получение BTC, live-баланс с курсом, подписанные транзакции. Криптоядро встроено — ноль CDN. Но это настоящие деньги, а не игра.":"Та же криптография, что и в mainnet, но монеты tBTC бесплатны и ничего не стоят. Идеальное место, чтобы научиться: faucet, отправка, эксперименты без риска.";$("chips").innerHTML=main?'<span class="chip hot">secp256k1 · BIP39/32/44</span><span class="chip red">REAL MONEY · НЕОБРАТИМО</span><span class="chip hot">COIN TYPE 0 · 0x00/0x80</span><span class="chip">0 CDN · РИТУАЛ ГЕНЕРАЦИИ</span>':'<span class="chip cool">secp256k1 · BIP39/32/44</span><span class="chip cool">СЕТЬ: TESTNET · COIN TYPE 1</span><span class="chip">tBTC = 0 ₽ · ПОЛИГОН</span><span class="chip">0 CDN · ОФЛАЙН-ГЕНЕРАЦИЯ</span>';const r=$("reality");if(main){r.className="reality";r.innerHTML='<div class="rt">⚠ ЗДЕСЬ НЕТ МАГИИ СОЗДАНИЯ МОНЕТ — ЭТО MAINNET</div>Магия рождает <b>кошелёк</b>, а не деньги. Баланс начнётся с <b>0.00000000 BTC</b>. Монеты приходят только тремя путями: <b>купить</b>, <b>заработать</b>, <b>получить переводом</b>. Faucet не существует. «Найти» чужие монеты невозможно. Полигон — во вкладке <b>TESTNET</b>.'}else{r.className="reality sandbox";r.innerHTML='<div class="rt">🧪 БЕЗОПАСНЫЙ ПОЛИГОН — TESTNET</div>Монеты tBTC <b>бесплатны</b> и не имеют ценности. Бери их в faucet, отправляй, экспериментируй. Криптография настоящая — риска ноль.'}$("btn-gen").textContent=main?"✦ Сотворить кошелёк":"✦ Сгенерировать testnet-кошелёк";$("genhint").textContent=main?"Ритуал: энтропия → 12 слов → кривая → адрес. Монеты — из реального мира.":"Генерация мгновенная, монеты потом бесплатно в faucet.";$("addrtag").textContent=main?"P2PKH · 0x00":"P2PKH · 0x6F";$("pathtag").textContent="m/44'/"+S.net.coin+"'/0'/0/0";$("wiftag").textContent=main?"0x80 · K/L":"0xEF · c";$("total-label").textContent="ИТОГО · "+S.net.unit;$("sendtitle").textContent="ОТПРАВИТЬ "+S.net.unit;$("s-to").placeholder="Получатель: "+S.net.addrEx;$("s-amt").placeholder="Сумма, "+S.net.unit;$("fiatline").classList.toggle("hidden",!main);renderDeposit();renderWallet();renderTxs();renderFeeEst()}
+function renderDeposit(){const c=$("depositcard");if(S.net.id==="main"){c.innerHTML=`<h2><span class="n">2</span>ПОЛУЧИТЬ BTC<span class="tail">РЕАЛЬНЫЕ ПУТИ</span></h2><div class="steps"><div><span class="num">1</span><b>Купи BTC</b> на бирже (Bybit, Binance и др.) — за USDT или фиат.</div><div><span class="num">2</span>Вывод → сеть <b>Bitcoin (BTC)</b> → вставь свой адрес выше. Не перепутай сеть: BEP20/ERC20 — не Bitcoin.</div><div><span class="num">3</span>Сначала <b>маленькая тестовая сумма</b>. Убедись, что дошла — потом остальное.</div><div><span class="num">4</span>Или <b>заработай / получи переводом</b> на этот адрес.</div></div><div class="warnline">Никаких faucet и «найденных кошельков» в mainnet не существует. Если кто-то обещает бесплатные BTC — это мошенничество.</div>`}else{c.innerHTML=`<h2><span class="n">2</span>ПОЛУЧИТЬ tBTC<span class="tail">FAUCET</span></h2><div class="steps">Скопируй адрес → вставь на сайте → капча → монеты за ~1 минуту.</div><div style="height:10px"></div><a href="https://coinfaucet.eu/en/btc-testnet/" target="_blank" rel="noopener"><span class="ico">🚰</span>coinfaucet.eu<small>↗</small></a><a href="https://testnet-faucet.mempool.co/" target="_blank" rel="noopener"><span class="ico">🚰</span>testnet-faucet.mempool.co<small>↗</small></a><a href="https://bitcoinfaucet.uo1.net/" target="_blank" rel="noopener"><span class="ico">🚰</span>bitcoinfaucet.uo1.net<small>↗</small></a><div class="hint">Суточные лимиты и капча — нормально.</div>`}}
+function renderWallet(){const w=S.wallet;$("nowallet").classList.toggle("hidden",!!w);$("haswallet").classList.toggle("hidden",!w);$("wstate").textContent=w?("АКТИВЕН · "+S.net.name):"НЕТ КЛЮЧЕЙ";if(!w)return;$("w-addr").textContent=w.addr;$("w-pub").textContent=w.pub;$("w-wif").textContent=S.reveal?w.wif:"•".repeat(51);$("w-wif").classList.toggle("mask",!S.reveal);$("revealbtn").textContent=S.reveal?"🙈 СКРЫТЬ":"👁 ПОКАЗАТЬ";const g=$("mngrid");g.innerHTML="";w.mn.split(" ").forEach((word,i)=>{const d=document.createElement("div");d.className="mn"+(S.reveal?"":" hid");d.innerHTML=`<i>${String(i+1).padStart(2,"0")}</i><b>${S.reveal?word:"•••••"}</b>`;g.appendChild(d)})}
+function renderBalance(){countUp($("b-conf"),S.bal.conf,v=>fmtSat(Math.round(v)));countUp($("b-memp"),S.bal.memp,v=>fmtSat(Math.round(v)));countUp($("b-total"),S.bal.conf+S.bal.memp,v=>fmtSat(Math.round(v)));countUp($("b-tx"),S.bal.tx,v=>String(Math.round(v)));$("upd").textContent=S.lastUpd?("обновлено "+new Date(S.lastUpd).toLocaleTimeString("ru-RU")):"ещё не обновлялось";if(S.net.id==="main"&&S.price){const total=(S.bal.conf+S.bal.memp)/1e8;$("fiatval").textContent="$"+(total*S.price).toLocaleString("en-US",{maximumFractionDigits:2});$("fiatrate").textContent="· курс $"+S.price.toLocaleString("en-US",{maximumFractionDigits:0})+"/BTC"}}
+function txFlow(t,a){let s=0;(t.vin||[]).forEach(i=>{if(i.prevout&&i.prevout.scriptpubkey_address===a)s-=i.prevout.value});(t.vout||[]).forEach(o=>{if(o.scriptpubkey_address===a)s+=o.value});return s}
+function renderTxs(){const box=$("txlist");box.innerHTML="";if(!S.wallet){box.innerHTML='<div class="empty"><span class="big">🔑</span>Сначала создай кошелёк — история появится здесь.</div>';return}let rows=S.txs.map(t=>({t,f:txFlow(t,S.wallet.addr)}));rows=rows.filter(r=>S.filter==="all"||(S.filter==="in"?r.f>=0:r.f<0));if(S.q)rows=rows.filter(r=>r.t.txid.includes(S.q.toLowerCase()));if(S.sort==="old")rows.reverse();if(S.sort==="amt")rows.sort((a,b)=>Math.abs(b.f)-Math.abs(a.f));if(!rows.length){box.innerHTML=S.txs.length?'<div class="empty"><span class="big">🔍</span>Ничего не найдено по фильтрам.</div>':'<div class="empty"><span class="big">⛓</span>Транзакций пока нет.<br>'+(S.net.id==="main"?"Получи BTC одним из путей выше.":"Получи tBTC из <b>faucet</b>.")+'</div>';return}rows.slice(0,14).forEach(({t,f},i)=>{const ok=t.status&&t.status.confirmed,inc=f>=0;const d=document.createElement("div");d.className="tx "+(inc?"in":"out");d.style.animationDelay=(i*.04)+"s";d.innerHTML=`<div class="dir">${inc?"↘":"↗"}</div><div class="mid"><span class="txid">${t.txid.slice(0,14)}…${t.txid.slice(-8)}</span><div class="ago">${ok?ago(t.status.block_time):"ожидает блок"}</div></div><div class="right"><div class="amt">${inc?"+":""}${fmtSat(f)} ${S.net.unit}</div><span class="st ${ok?"ok":"pend"}">${ok?"ПОДТВЕРЖДЕНО":"МЕМПУЛ"}</span></div>`;d.addEventListener("click",()=>openDrawer(t,f));box.appendChild(d)})}
 function feeRate(){const k=$("feesel").value;return Math.max(1,Math.ceil(S.fees[k]||S.fees["6"]||1))}
-function renderFeeEst(){if(!S.utxos.length){$("feeest").textContent="≈ — sat (нет UTXO)";return}
-  $("feeest").textContent="≈ "+Math.ceil((10+148*S.utxos.length+68)*feeRate())+" sat · "+feeRate()+" sat/vB"}
+function renderFeeEst(){if(!S.utxos.length){$("feeest").textContent="≈ — sat (нет UTXO)";return}$("feeest").textContent="≈ "+Math.ceil((10+148*S.utxos.length+68)*feeRate())+" sat · "+feeRate()+" sat/vB"}
 function hidePending(){S.pending=null;$("review").classList.add("hidden");$("confirmrow").classList.add("hidden")}
-function renderReview(p){$("review").innerHTML=`
-  <div class="rrow big"><span>ПОЛУЧАЕТ</span><b>${fmtSat(p.amt)} ${S.net.unit}</b></div>
-  <div class="rrow"><span>адрес</span><b>${p.to}</b></div>
-  <div class="rrow"><span>комиссия</span><b>${p.fee} sat · ${p.rate} sat/vB</b></div>
-  <div class="rrow"><span>размер</span><b>${p.vsize} vB · ${p.nIn} вх / ${p.nOut} вых</b></div>
-  ${p.change?`<div class="rrow"><span>сдача себе</span><b>${fmtSat(p.change)} ${S.net.unit}</b></div>`:""}
-  <div class="warnline">${S.net.id==="main"?"⚠ Реальные деньги. Проверь адрес дважды — транзакция необратима.":"Транзакция подписана локально. Проверь и подтверди."}</div>`;
-  $("review").classList.remove("hidden");$("confirmrow").classList.remove("hidden");$("sentbox").classList.add("hidden")}
-function openDrawer(t,f){S.drawerTx=t;const ok=t.status&&t.status.confirmed,inc=f>=0;
-  $("dbody").innerHTML=`
-    <div class="lbl">${inc?"ВХОДЯЩАЯ":"ИСХОДЯЩАЯ"} · ${S.net.name}</div>
-    <div class="bigamt" style="color:${inc?"var(--green)":"var(--red)"}">${inc?"+":""}${fmtSat(f)} ${S.net.unit}</div>
-    <div class="drow"><span>статус</span><b style="color:${ok?"var(--green)":"var(--violet)"}">${ok?"подтверждено":"в мемпуле"}</b></div>
-    ${ok?`<div class="drow"><span>блок</span><b>#${t.status.block_height}</b></div><div class="drow"><span>время</span><b>${new Date(t.status.block_time*1000).toLocaleString("ru-RU")}</b></div>`:""}
-    <div class="drow"><span>комиссия</span><b>${t.fee!=null?t.fee+" sat":"—"}</b></div>
-    <div class="drow"><span>входов / выходов</span><b>${(t.vin||[]).length} / ${(t.vout||[]).length}</b></div>
-    <div class="drow"><span>txid</span><b style="font-size:10px">${t.txid}</b></div>`;
-  $("dexplorer").href=S.net.explorer+"/tx/"+t.txid;
-  $("scrim").classList.add("on");$("drawer").classList.add("on")}
+function renderReview(p){$("review").innerHTML=`<div class="rrow big"><span>ПОЛУЧАЕТ</span><b>${fmtSat(p.amt)} ${S.net.unit}</b></div><div class="rrow"><span>адрес</span><b>${p.to}</b></div><div class="rrow"><span>комиссия</span><b>${p.fee} sat · ${p.rate} sat/vB</b></div><div class="rrow"><span>размер</span><b>${p.vsize} vB · ${p.nIn} вх / ${p.nOut} вых</b></div>${p.change?`<div class="rrow"><span>сдача себе</span><b>${fmtSat(p.change)} ${S.net.unit}</b></div>`:""}<div class="warnline">${S.net.id==="main"?"⚠ Реальные деньги. Проверь адрес дважды — транзакция необратима.":"Транзакция подписана локально. Проверь и подтверди."}</div>`;$("review").classList.remove("hidden");$("confirmrow").classList.remove("hidden");$("sentbox").classList.add("hidden")}
+function openDrawer(t,f){S.drawerTx=t;const ok=t.status&&t.status.confirmed,inc=f>=0;$("dbody").innerHTML=`<div class="lbl">${inc?"ВХОДЯЩАЯ":"ИСХОДЯЩАЯ"} · ${S.net.name}</div><div class="bigamt" style="color:${inc?"var(--green)":"var(--red)"}">${inc?"+":""}${fmtSat(f)} ${S.net.unit}</div><div class="drow"><span>статус</span><b style="color:${ok?"var(--green)":"var(--violet)"}">${ok?"подтверждено":"в мемпуле"}</b></div>${ok?`<div class="drow"><span>блок</span><b>#${t.status.block_height}</b></div><div class="drow"><span>время</span><b>${new Date(t.status.block_time*1000).toLocaleString("ru-RU")}</b></div>`:""}<div class="drow"><span>комиссия</span><b>${t.fee!=null?t.fee+" sat":"—"}</b></div><div class="drow"><span>входов / выходов</span><b>${(t.vin||[]).length} / ${(t.vout||[]).length}</b></div><div class="drow"><span>txid</span><b style="font-size:10px">${t.txid}</b></div>`;$("dexplorer").href=S.net.explorer+"/tx/"+t.txid;$("scrim").classList.add("on");$("drawer").classList.add("on")}
 function closeDrawer(){$("scrim").classList.remove("on");$("drawer").classList.remove("on");S.drawerTx=null}
-
-/* actions */
-async function refreshAll(silent){if(!S.wallet||S.busy)return;S.busy=true;$("btn-bal").disabled=true;
-  try{
-    apiJson("/blocks/tip/height").then(h=>$("tipheight").textContent="#"+h).catch(()=>{});
-    if(S.net.id==="main")apiJson("/v1/prices").then(p=>{S.price=p.USD;renderBalance()}).catch(()=>{});
-    const d=await apiJson("/address/"+S.wallet.addr);
-    const conf=d.chain_stats.funded_txo_sum-d.chain_stats.spent_txo_sum;
-    const memp=d.mempool_stats.funded_txo_sum-d.mempool_stats.spent_txo_sum;
-    const prev=S.bal.conf+S.bal.memp;S.bal={conf,memp,tx:d.chain_stats.tx_count+d.mempool_stats.tx_count};S.lastUpd=Date.now();
-    const[utxos,txs,fees]=await Promise.all([
-      apiJson("/address/"+S.wallet.addr+"/utxo").catch(()=>S.utxos),
-      apiJson("/address/"+S.wallet.addr+"/txs").catch(()=>S.txs),
-      apiJson("/fee-estimates").catch(()=>S.fees)]);
-    S.utxos=utxos;S.txs=txs;S.fees=fees;
-    renderBalance();renderTxs();renderFeeEst();
-    const total=conf+memp;
-    if(total>prev&&prev>=0&&!silent){sfx.coin();burst();toast("Получено "+fmtSat(total-prev)+" "+S.net.unit+"!","ok");log("входящие: +"+fmtSat(total-prev)+" "+S.net.unit,"ok")}
-    if(!silent)log("баланс: "+fmtSat(total)+" "+S.net.unit+" · tx "+S.bal.tx,"ok");
-  }catch(e){if(!silent){log("ошибка сети: "+e.message,"err");toast("Не удалось получить данные сети","err")}}
-  S.busy=false;$("btn-bal").disabled=false}
+async function refreshAll(silent){if(!S.wallet||S.busy)return;S.busy=true;$("btn-bal").disabled=true;try{apiJson("/blocks/tip/height").then(h=>$("tipheight").textContent="#"+h).catch(()=>{});if(S.net.id==="main")apiJson("/v1/prices").then(p=>{S.price=p.USD;renderBalance()}).catch(()=>{});const d=await apiJson("/address/"+S.wallet.addr);const conf=d.chain_stats.funded_txo_sum-d.chain_stats.spent_txo_sum;const memp=d.mempool_stats.funded_txo_sum-d.mempool_stats.spent_txo_sum;const prev=S.bal.conf+S.bal.memp;S.bal={conf,memp,tx:d.chain_stats.tx_count+d.mempool_stats.tx_count};S.lastUpd=Date.now();const[utxos,txs,fees]=await Promise.all([apiJson("/address/"+S.wallet.addr+"/utxo").catch(()=>S.utxos),apiJson("/address/"+S.wallet.addr+"/txs").catch(()=>S.txs),apiJson("/fee-estimates").catch(()=>S.fees)]);S.utxos=utxos;S.txs=txs;S.fees=fees;renderBalance();renderTxs();renderFeeEst();const total=conf+memp;if(total>prev&&prev>=0&&!silent){sfx.coin();burst();toast("Получено "+fmtSat(total-prev)+" "+S.net.unit+"!","ok");log("входящие: +"+fmtSat(total-prev)+" "+S.net.unit,"ok")}if(!silent)log("баланс: "+fmtSat(total)+" "+S.net.unit+" · tx "+S.bal.tx,"ok")}catch(e){if(!silent){log("ошибка сети: "+e.message,"err");toast("Не удалось получить данные сети","err")}}S.busy=false;$("btn-bal").disabled=false}
 function gateMain(){if(S.net.id==="main"&&!S.consent){openConsent();return false}return true}
-async function doGenerate(){
-  if(!crypto.subtle){fatal("WebCrypto недоступен. Открой по HTTPS (GitHub Pages).");return}
-  if(!gateMain())return;
-  if(S.net.id==="main"){gOpen();return}
-  $("btn-gen").disabled=true;
-  try{log("энтропия 128 бит → BIP39 → PBKDF2-SHA512 → BIP32 m/44'/1'/0'/0/0");
-    const w=await deriveWallet(entropyToMnemonic(crypto.getRandomValues(new Uint8Array(16))),S.net);
-    S.wallet=w;S.reveal=false;S.txs=[];S.utxos=[];S.bal={conf:0,memp:0,tx:0};
-    localStorage.setItem(S.net.store,JSON.stringify(w));
-    hidePending();renderWallet();renderBalance();renderTxs();renderFeeEst();
-    sfx.gen();burst();log("кошелёк создан: "+w.addr,"ok");
-    toast("Кошелёк создан. Возьми tBTC в faucet.","ok",5000);refreshAll(true);
-  }catch(e){log("ошибка генерации: "+e.message,"err");toast(e.message,"err");sfx.err()}
-  $("btn-gen").disabled=false}
-async function doRestore(){if(!gateMain())return;
-  const raw=$("mn-in").value;if(!raw.trim()){$("mn-hint").textContent="Вставь мнемонику.";$("mn-hint").className="hint bad";return}
-  $("btn-rec").disabled=true;
-  try{const w=await deriveWallet(raw,S.net);
-    S.wallet=w;S.reveal=false;S.txs=[];S.utxos=[];
-    localStorage.setItem(S.net.store,JSON.stringify(w));
-    hidePending();renderWallet();renderTxs();renderFeeEst();
-    $("mn-hint").textContent="✓ Восстановлен: "+w.addr;$("mn-hint").className="hint ok";$("mn-in").value="";
-    sfx.gen();burst();log("восстановлен: "+w.addr,"ok");toast("Кошелёк восстановлен","ok");refreshAll(true);
-  }catch(e){$("mn-hint").textContent="✗ "+e.message;$("mn-hint").className="hint bad";
-    $("mn-in").classList.add("shake");setTimeout(()=>$("mn-in").classList.remove("shake"),350);sfx.err();log("восстановление: "+e.message,"err")}
+async function doGenerate(){if(!S.wordsReady){toast("Список BIP39 ещё не загружен","warn");return}if(!crypto.subtle){fatal("WebCrypto недоступен. Открой по HTTPS.");return}if(!gateMain())return;if(S.net.id==="main"){gOpen();return}$("btn-gen").disabled=true;try{const w=await deriveWallet(entropyToMnemonic(crypto.getRandomValues(new Uint8Array(16))),S.net);S.wallet=w;S.reveal=false;S.txs=[];S.utxos=[];S.bal={conf:0,memp:0,tx:0};localStorage.setItem(S.net.store,JSON.stringify(w));hidePending();renderWallet();renderBalance();renderTxs();renderFeeEst();sfx.gen();burst();log("кошелёк создан: "+w.addr,"ok");toast("Кошелёк создан. Возьми tBTC в faucet.","ok",5000);refreshAll(true)}catch(e){log("ошибка генерации: "+e.message,"err");toast(e.message,"err");sfx.err()}$("btn-gen").disabled=false}
+async function doRestore(){if(!S.wordsReady){toast("Список BIP39 ещё не загружен","warn");return}if(!gateMain())return;const raw=$("mn-in").value;if(!raw.trim()){$("mn-hint").textContent="Вставь мнемонику.";$("mn-hint").className="hint bad";return}$("btn-rec").disabled=true;
+  try{const w=await deriveWallet(raw,S.net);S.wallet=w;S.reveal=false;S.txs=[];S.utxos=[];localStorage.setItem(S.net.store,JSON.stringify(w));hidePending();renderWallet();renderTxs();renderFeeEst();$("mn-hint").textContent="✓ Восстановлен: "+w.addr;$("mn-hint").className="hint ok";$("mn-in").value="";sfx.gen();burst();log("восстановлен: "+w.addr,"ok");toast("Кошелёк восстановлен","ok");refreshAll(true)}
+  catch(e){let msg=e.message;const et=await electrumSeedType(raw);
+    if(et){msg="Это Electrum-сид (тип «"+et+"»), а не BIP39 — у Electrum свой формат. Безопасный путь: создай кошелёк здесь и переведи на него из Electrum. Подбирать слова не нужно.";log("обнаружен Electrum seed ("+et+") — не BIP39","inf")}
+    $("mn-hint").textContent="✗ "+msg;$("mn-hint").className="hint bad";$("mn-in").classList.add("shake");setTimeout(()=>$("mn-in").classList.remove("shake"),350);sfx.err();log("восстановление: "+msg,"err")}
   $("btn-rec").disabled=false}
-function armConfirm(btn,label,fn){if(btn.dataset.armed){delete btn.dataset.armed;btn.classList.remove("armed");btn.textContent=btn.dataset.orig;fn();return}
-  btn.dataset.orig=btn.textContent;btn.dataset.armed="1";btn.classList.add("armed");btn.textContent=label;
-  setTimeout(()=>{if(btn.dataset.armed){delete btn.dataset.armed;btn.classList.remove("armed");btn.textContent=btn.dataset.orig}},3200)}
-function doWipe(){const backup=S.wallet?{net:S.net.id,w:S.wallet}:null;
-  localStorage.removeItem(S.net.store);
-  S.wallet=null;S.txs=[];S.utxos=[];S.bal={conf:0,memp:0,tx:0};S.reveal=false;
-  hidePending();$("sentbox").classList.add("hidden");
-  ["b-conf","b-memp","b-total","b-tx"].forEach(i=>{$(i).textContent="—";$(i).dataset.v="0"});
-  renderWallet();renderTxs();renderFeeEst();log("кошелёк стёрт","inf");
-  if(backup)toast("Кошелёк стёрт","warn",8000,{label:"ВЕРНУТЬ",fn:()=>{S.wallet=backup.w;localStorage.setItem(NETS[backup.net].store,JSON.stringify(backup.w));renderWallet();refreshAll(true);toast("Кошелёк возвращён","ok")}});
-  else toast("Кошелёк стёрт","warn")}
-async function doBuild(max){if(!S.wallet){toast("Сначала создай кошелёк","warn");return}if(!gateMain())return;
-  hidePending();$("sentbox").classList.add("hidden");$("btn-build").disabled=true;$("btn-max").disabled=true;
-  try{const to=$("s-to").value.trim();const spkTo=destSpk(to,S.net);
-    if(!S.utxos.length)S.utxos=await apiJson("/address/"+S.wallet.addr+"/utxo");
-    if(!S.utxos.length)throw Error("Нет UTXO — сначала получи "+S.net.unit);
-    if(!Object.keys(S.fees).length)S.fees=await apiJson("/fee-estimates").catch(()=>({"6":1}));
-    const rate=feeRate(),nIn=S.utxos.length,total=S.utxos.reduce((s,u)=>s+u.value,0);
-    let amt,nOut=2,fee=Math.ceil((10+148*nIn+68)*rate);
-    if(max){nOut=1;fee=Math.ceil((10+148*nIn+34)*rate);amt=total-fee;$("s-amt").value=fmtSat(Math.max(0,amt))}
-    else amt=Math.round(parseFloat($("s-amt").value.replace(",","."))*1e8);
-    if(!Number.isFinite(amt)||amt<=0)throw Error("Укажи сумму");
-    if(amt<546)throw Error("Сумма ниже dust (546 sat)");
-    let change=total-amt-fee;
-    if(change<0)throw Error("Не хватает: есть "+fmtSat(total)+", нужно "+fmtSat(amt+fee)+" с комиссией");
-    if(change>0&&change<546){fee+=change;change=0;nOut=1}
-    const tx=buildSignedTx(S.utxos,spkTo,amt,change,S.wallet);
-    S.pending={...tx,to,amt,fee,change,rate,nIn,nOut,utxos:S.utxos.slice()};
-    renderReview(S.pending);sfx.tick();log("подписано: "+fmtSat(amt)+" "+S.net.unit+" · fee "+fee+" sat","ok");
-  }catch(e){log("сборка: "+e.message,"err");toast(e.message,"err");sfx.err();$("tohint").textContent="✗ "+e.message;$("tohint").className="hint bad"}
-  $("btn-build").disabled=false;$("btn-max").disabled=false}
-async function doSend(){if(!S.pending)return;
-  const b=$("btn-send");b.disabled=true;b.innerHTML='<span class="spin"></span> BROADCAST…';
-  log("отправка raw tx в "+S.net.name+"…");
-  try{const r=await api("/tx",{method:"POST",headers:{"Content-Type":"text/plain"},body:S.pending.raw});
-    const txid=(await r.text()).trim();const p=S.pending;
-    const optimistic={txid,fee:p.fee,status:{confirmed:false},
-      vin:p.utxos.map(u=>({prevout:{scriptpubkey_address:S.wallet.addr,value:u.value}})),
-      vout:[{scriptpubkey_address:p.to,value:p.amt}].concat(p.change?[{scriptpubkey_address:S.wallet.addr,value:p.change}]:[])};
-    S.txs.unshift(optimistic);renderTxs();
-    $("sentbox").innerHTML=`✅ <b>ТРАНЗАКЦИЯ В СЕТИ!</b><br>${fmtSat(p.amt)} ${S.net.unit} · комиссия ${p.fee} sat
-      <a class="txid" href="${S.net.explorer}/tx/${txid}" target="_blank" rel="noopener">${txid}</a>
-      <button class="copy" id="copytxid">⧉ TXID</button>`;
-    $("sentbox").classList.remove("hidden");
-    $("copytxid").addEventListener("click",()=>copyText(txid,$("copytxid")));
-    hidePending();$("s-amt").value="";sfx.send();burst();
-    log("ОТПРАВЛЕНО · "+txid,"ok");toast("Транзакция отправлена в "+S.net.name+"!","ok");
-    setTimeout(()=>refreshAll(true),1800);
-  }catch(e){log("broadcast: "+e.message,"err");toast("Сеть отклонила tx: "+e.message,"err",6000);sfx.err()}
-  b.disabled=false;b.textContent="✅ Отправить в сеть"}
-async function copyText(text,btn){try{await navigator.clipboard.writeText(text)}
-  catch(e){const ta=document.createElement("textarea");ta.value=text;document.body.appendChild(ta);ta.select();try{document.execCommand("copy")}catch(_){}ta.remove()}
-  if(btn){const o=btn.textContent;btn.classList.add("done");btn.textContent="✓ СКОПИРОВАНО";setTimeout(()=>{btn.classList.remove("done");btn.textContent=o},1400)}sfx.tick()}
+function armConfirm(btn,label,fn){if(btn.dataset.armed){delete btn.dataset.armed;btn.classList.remove("armed");btn.textContent=btn.dataset.orig;fn();return}btn.dataset.orig=btn.textContent;btn.dataset.armed="1";btn.classList.add("armed");btn.textContent=label;setTimeout(()=>{if(btn.dataset.armed){delete btn.dataset.armed;btn.classList.remove("armed");btn.textContent=btn.dataset.orig}},3200)}
+function doWipe(){const backup=S.wallet?{net:S.net.id,w:S.wallet}:null;localStorage.removeItem(S.net.store);S.wallet=null;S.txs=[];S.utxos=[];S.bal={conf:0,memp:0,tx:0};S.reveal=false;hidePending();$("sentbox").classList.add("hidden");["b-conf","b-memp","b-total","b-tx"].forEach(i=>{$(i).textContent="—";$(i).dataset.v="0"});renderWallet();renderTxs();renderFeeEst();log("кошелёк стёрт","inf");if(backup)toast("Кошелёк стёрт","warn",8000,{label:"ВЕРНУТЬ",fn:()=>{S.wallet=backup.w;localStorage.setItem(NETS[backup.net].store,JSON.stringify(backup.w));renderWallet();refreshAll(true);toast("Кошелёк возвращён","ok")}});else toast("Кошелёк стёрт","warn")}
+async function doBuild(max){if(!S.wallet){toast("Сначала создай кошелёк","warn");return}if(!gateMain())return;hidePending();$("sentbox").classList.add("hidden");$("btn-build").disabled=true;$("btn-max").disabled=true;try{const to=$("s-to").value.trim();const spkTo=destSpk(to,S.net);if(!S.utxos.length)S.utxos=await apiJson("/address/"+S.wallet.addr+"/utxo");if(!S.utxos.length)throw Error("Нет UTXO — сначала получи "+S.net.unit);if(!Object.keys(S.fees).length)S.fees=await apiJson("/fee-estimates").catch(()=>({"6":1}));const rate=feeRate(),nIn=S.utxos.length,total=S.utxos.reduce((s,u)=>s+u.value,0);let amt,nOut=2,fee=Math.ceil((10+148*nIn+68)*rate);if(max){nOut=1;fee=Math.ceil((10+148*nIn+34)*rate);amt=total-fee;$("s-amt").value=fmtSat(Math.max(0,amt))}else amt=Math.round(parseFloat($("s-amt").value.replace(",","."))*1e8);if(!Number.isFinite(amt)||amt<=0)throw Error("Укажи сумму");if(amt<546)throw Error("Сумма ниже dust (546 sat)");let change=total-amt-fee;if(change<0)throw Error("Не хватает: есть "+fmtSat(total)+", нужно "+fmtSat(amt+fee)+" с комиссией");if(change>0&&change<546){fee+=change;change=0;nOut=1}const tx=buildSignedTx(S.utxos,spkTo,amt,change,S.wallet);S.pending={...tx,to,amt,fee,change,rate,nIn,nOut,utxos:S.utxos.slice()};renderReview(S.pending);sfx.tick();log("подписано: "+fmtSat(amt)+" "+S.net.unit+" · fee "+fee+" sat","ok")}catch(e){log("сборка: "+e.message,"err");toast(e.message,"err");sfx.err();$("tohint").textContent="✗ "+e.message;$("tohint").className="hint bad"}$("btn-build").disabled=false;$("btn-max").disabled=false}
+async function doSend(){if(!S.pending)return;const b=$("btn-send");b.disabled=true;b.innerHTML='<span class="spin"></span> BROADCAST…';log("отправка raw tx в "+S.net.name+"…");try{const r=await api("/tx",{method:"POST",headers:{"Content-Type":"text/plain"},body:S.pending.raw});const txid=(await r.text()).trim();const p=S.pending;const optimistic={txid,fee:p.fee,status:{confirmed:false},vin:p.utxos.map(u=>({prevout:{scriptpubkey_address:S.wallet.addr,value:u.value}})),vout:[{scriptpubkey_address:p.to,value:p.amt}].concat(p.change?[{scriptpubkey_address:S.wallet.addr,value:p.change}]:[])};S.txs.unshift(optimistic);renderTxs();$("sentbox").innerHTML=`✅ <b>ТРАНЗАКЦИЯ В СЕТИ!</b><br>${fmtSat(p.amt)} ${S.net.unit} · комиссия ${p.fee} sat<a class="txid" href="${S.net.explorer}/tx/${txid}" target="_blank" rel="noopener">${txid}</a><button class="copy" id="copytxid">⧉ TXID</button>`;$("sentbox").classList.remove("hidden");$("copytxid").addEventListener("click",()=>copyText(txid,$("copytxid")));hidePending();$("s-amt").value="";sfx.send();burst();log("ОТПРАВЛЕНО · "+txid,"ok");toast("Транзакция отправлена в "+S.net.name+"!","ok");setTimeout(()=>refreshAll(true),1800)}catch(e){log("broadcast: "+e.message,"err");toast("Сеть отклонила tx: "+e.message,"err",6000);sfx.err()}b.disabled=false;b.textContent="✅ Отправить в сеть"}
+async function copyText(text,btn){try{await navigator.clipboard.writeText(text)}catch(e){const ta=document.createElement("textarea");ta.value=text;document.body.appendChild(ta);ta.select();try{document.execCommand("copy")}catch(_){}ta.remove()}if(btn){const o=btn.textContent;btn.classList.add("done");btn.textContent="✓ СКОПИРОВАНО";setTimeout(()=>{btn.classList.remove("done");btn.textContent=o},1400)}sfx.tick()}
 function fatal(msg){const f=$("fatal");f.textContent="⛔ "+msg;f.style.display="block";log(msg,"err")}
-
-/* consent / net switch */
 function openConsent(){$("consent").classList.add("on");document.querySelectorAll(".ckin").forEach(c=>c.checked=false);$("ck-accept").disabled=true}
 function closeConsent(){$("consent").classList.remove("on")}
 function switchNet(id){if(S.net.id===id)return;if(id==="main"&&!S.consent){openConsent();return}applyNet(id)}
-function applyNet(id){S.net=NETS[id];localStorage.setItem("wl_net",id);
-  S.wallet=null;S.txs=[];S.utxos=[];S.fees={};S.bal={conf:0,memp:0,tx:0};S.reveal=false;S.price=null;S.pending=null;
-  hidePending();$("sentbox").classList.add("hidden");
-  ["b-conf","b-memp","b-total","b-tx"].forEach(i=>{$(i).textContent="—";$(i).dataset.v="0"});
-  renderNet();
-  const saved=localStorage.getItem(S.net.store);
-  if(saved){try{const w=JSON.parse(saved);if(w&&w.addr&&w.priv){S.wallet=w;renderWallet();log("кошелёк загружен: "+w.addr,"inf");refreshAll(true);return}}catch(e){}localStorage.removeItem(S.net.store)}
-  if(id==="test"){log("testnet: создаю кошелёк автоматически…","inf");doGenerate()}
-  else log("mainnet: нажми «Сотворить кошелёк» — начнётся ритуал","inf");
-  apiJson("/blocks/tip/height").then(h=>$("tipheight").textContent="#"+h).catch(()=>{})}
-
-/* self-test */
-async function selfTest(){
-  const abc=enc.encode("abc");
-  if(hex(sha256(abc))!=="ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad")throw Error("SHA-256 vector");
-  if(hex(ripemd160(abc))!=="8eb208f7e05d987a9b044a8e98c6b087f15a0bfc")throw Error("RIPEMD-160 vector");
-  if(WORDS.length!==2048)throw Error("BIP39 list "+WORDS.length);
-  const g=affine(1n);if(g.x!==Gx||g.y!==Gy)throw Error("secp256k1 G");
-  const rt=b58checkDec(b58check(cat([0x00],hash160(pubBytes(1n)))));
-  if(rt[0]!==0||rt.length!==21)throw Error("base58check");
-  const vec=await deriveWallet("abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about",NETS.main);
-  if(vec.addr!=="1LqBGSKuX5yYUonjxT5qGfpUsXKYYWeabA")throw Error("BIP39/32/44 end-to-end vector");
-  return true}
-
-/* bindings */
-$("btn-gen").addEventListener("click",doGenerate);
-$("btn-rec").addEventListener("click",doRestore);
+function applyNet(id){S.net=NETS[id];localStorage.setItem("wl_net",id);S.wallet=null;S.txs=[];S.utxos=[];S.fees={};S.bal={conf:0,memp:0,tx:0};S.reveal=false;S.price=null;S.pending=null;hidePending();$("sentbox").classList.add("hidden");["b-conf","b-memp","b-total","b-tx"].forEach(i=>{$(i).textContent="—";$(i).dataset.v="0"});renderNet();const saved=localStorage.getItem(S.net.store);if(saved){try{const w=JSON.parse(saved);if(w&&w.addr&&w.priv){S.wallet=w;renderWallet();log("кошелёк загружен: "+w.addr,"inf");refreshAll(true);return}}catch(e){}localStorage.removeItem(S.net.store)}if(id==="test"&&S.wordsReady){log("testnet: создаю кошелёк автоматически…","inf");doGenerate()}else if(id==="main")log("mainnet: нажми «Сотворить кошелёк» — начнётся ритуал","inf");apiJson("/blocks/tip/height").then(h=>$("tipheight").textContent="#"+h).catch(()=>{})}
+async function selfTest(){const abc=enc.encode("abc");if(hex(sha256(abc))!=="ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad")throw Error("SHA-256 vector");if(hex(ripemd160(abc))!=="8eb208f7e05d987a9b044a8e98c6b087f15a0bfc")throw Error("RIPEMD-160 vector");if(!WORDS||WORDS.length!==2048)throw Error("BIP39 list "+(WORDS?WORDS.length:0));const g=affine(1n);if(g.x!==Gx||g.y!==Gy)throw Error("secp256k1 G");const rt=b58checkDec(b58check(cat([0x00],hash160(pubBytes(1n)))));if(rt[0]!==0||rt.length!==21)throw Error("base58check");const vec=await deriveWallet("abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about",NETS.main);if(vec.addr!=="1LqBGSKuX5yYUonjxT5qGfpUsXKYYWeabA")throw Error("BIP39/32/44 end-to-end vector");return true}
+$("btn-gen").addEventListener("click",doGenerate);$("btn-rec").addEventListener("click",doRestore);
 $("btn-regen").addEventListener("click",e=>armConfirm(e.currentTarget,"ТОЧНО? СТАРЫЙ СТРЕТСЯ",doGenerate));
 $("btn-wipe").addEventListener("click",e=>armConfirm(e.currentTarget,"ТОЧНО СТЕРЕТЬ?",doWipe));
 $("btn-bal").addEventListener("click",()=>{sfx.tick();refreshAll(false)});
-$("btn-build").addEventListener("click",()=>doBuild(false));
-$("btn-max").addEventListener("click",()=>doBuild(true));
-$("btn-send").addEventListener("click",doSend);
-$("btn-cancel").addEventListener("click",()=>{hidePending();log("отправка отменена","inf")});
+$("btn-build").addEventListener("click",()=>doBuild(false));$("btn-max").addEventListener("click",()=>doBuild(true));
+$("btn-send").addEventListener("click",doSend);$("btn-cancel").addEventListener("click",()=>{hidePending();log("отправка отменена","inf")});
 $("revealbtn").addEventListener("click",()=>{S.reveal=!S.reveal;renderWallet();sfx.tick()});
 $("feesel").addEventListener("change",()=>{hidePending();renderFeeEst();sfx.tick()});
 $("autochk").addEventListener("change",e=>{S.auto=e.target.checked;localStorage.setItem("wl_auto",S.auto?"1":"0")});
-$("sndbtn").addEventListener("click",()=>{S.sound=!S.sound;localStorage.setItem("wl_sound",S.sound?"1":"0");
-  $("sndbtn").classList.toggle("muted",!S.sound);$("sndbtn").firstChild.textContent=S.sound?"🔊 ":"🔇 ";$("sndlbl").textContent=S.sound?"ЗВУК":"ТИХО";if(S.sound)sfx.tick()});
+$("sndbtn").addEventListener("click",()=>{S.sound=!S.sound;localStorage.setItem("wl_sound",S.sound?"1":"0");$("sndbtn").classList.toggle("muted",!S.sound);$("sndbtn").firstChild.textContent=S.sound?"🔊 ":"🔇 ";$("sndlbl").textContent=S.sound?"ЗВУК":"ТИХО";if(S.sound)sfx.tick()});
 document.querySelectorAll(".copy[data-copy]").forEach(b=>b.addEventListener("click",()=>{if(!S.wallet)return;copyText(b.dataset.copy==="addr"?S.wallet.addr:S.wallet.wif,b)}));
 document.querySelectorAll(".fchip").forEach(c=>c.addEventListener("click",()=>{document.querySelectorAll(".fchip").forEach(x=>x.classList.remove("on"));c.classList.add("on");S.filter=c.dataset.f;renderTxs();sfx.tick()}));
 $("txsearch").addEventListener("input",e=>{S.q=e.target.value.trim();renderTxs()});
 $("txsort").addEventListener("change",e=>{S.sort=e.target.value;renderTxs();sfx.tick()});
-$("seg-test").addEventListener("click",()=>switchNet("test"));
-$("seg-main").addEventListener("click",()=>switchNet("main"));
-$("dclose").addEventListener("click",closeDrawer);
-$("scrim").addEventListener("click",closeDrawer);
+$("seg-test").addEventListener("click",()=>switchNet("test"));$("seg-main").addEventListener("click",()=>switchNet("main"));
+$("dclose").addEventListener("click",closeDrawer);$("scrim").addEventListener("click",closeDrawer);
 $("dcopy").addEventListener("click",()=>{if(S.drawerTx)copyText(S.drawerTx.txid,$("dcopy"))});
 window.addEventListener("keydown",e=>{if(e.key==="Escape"){closeDrawer();closeConsent()}});
 document.querySelectorAll(".ckin").forEach(c=>c.addEventListener("change",()=>{$("ck-accept").disabled=![...document.querySelectorAll(".ckin")].every(x=>x.checked)}));
 $("ck-accept").addEventListener("click",()=>{S.consent=true;localStorage.setItem("wl_consent","1");closeConsent();sfx.gen();applyNet("main")});
 $("ck-stay").addEventListener("click",()=>{closeConsent();applyNet("test")});
 let toTimer=null;
-$("s-to").addEventListener("input",()=>{clearTimeout(toTimer);const v=$("s-to").value.trim();
-  if(!v){$("tomark").textContent="";$("tohint").textContent="Контрольная сумма Base58Check / bech32 · сеть проверяется";$("tohint").className="hint";return}
-  toTimer=setTimeout(()=>{try{destSpk(v,S.net);$("tomark").textContent="✓";$("tomark").style.color="var(--green)";$("tohint").textContent="✓ Адрес валиден ("+S.net.name+")";$("tohint").className="hint ok"}
-    catch(e){$("tomark").textContent="✗";$("tomark").style.color="var(--red)";$("tohint").textContent="✗ "+e.message;$("tohint").className="hint bad"}},220)});
+$("s-to").addEventListener("input",()=>{clearTimeout(toTimer);const v=$("s-to").value.trim();if(!v){$("tomark").textContent="";$("tohint").textContent="Контрольная сумма Base58Check / bech32 · сеть проверяется";$("tohint").className="hint";return}toTimer=setTimeout(()=>{try{destSpk(v,S.net);$("tomark").textContent="✓";$("tomark").style.color="var(--green)";$("tohint").textContent="✓ Адрес валиден ("+S.net.name+")";$("tohint").className="hint ok"}catch(e){$("tomark").textContent="✗";$("tomark").style.color="var(--red)";$("tohint").textContent="✗ "+e.message;$("tohint").className="hint bad"}},220)});
 $("s-amt").addEventListener("input",()=>{if(S.net.id==="main"&&S.price){const a=parseFloat($("s-amt").value.replace(",","."));$("amtfiat").textContent=Number.isFinite(a)?"≈ $"+(a*S.price).toLocaleString("en-US",{maximumFractionDigits:2}):""}});
-$("mn-in").addEventListener("input",()=>{const n=$("mn-in").value.trim().split(/\s+/).filter(Boolean).length;
-  $("mn-hint").textContent=n?("слов: "+n+" · нужно 12/15/18/21/24"):"Проверка по контрольной сумме BIP39. Никогда не вводи сюда сид со сбережениями.";$("mn-hint").className="hint"});
+$("mn-in").addEventListener("input",()=>{const n=$("mn-in").value.trim().split(/\s+/).filter(Boolean).length;$("mn-hint").textContent=n?("слов: "+n+" · нужно 12/15/18/21/24 (BIP39)"):"Electrum-сид (не BIP39) здесь не восстанавливается — приложение подскажет безопасный путь.";$("mn-hint").className="hint"});
 window.addEventListener("online",()=>{log("соединение восстановлено","ok");refreshAll(true)});
 window.addEventListener("offline",()=>setOnline(false));
 window.addEventListener("resize",()=>{if(S.genesisOpen)gSize()});
-setInterval(()=>{if(document.hidden||S.genesisOpen)return;
-  apiJson("/blocks/tip/height").then(h=>$("tipheight").textContent="#"+h).catch(()=>{});
-  if(S.auto&&S.wallet)refreshAll(true)},30000);
-/* genesis bindings */
+setInterval(()=>{if(document.hidden||S.genesisOpen)return;apiJson("/blocks/tip/height").then(h=>$("tipheight").textContent="#"+h).catch(()=>{});if(S.auto&&S.wallet)refreshAll(true)},30000);
 $("genesis").addEventListener("pointermove",gStir);
 $("genesis").addEventListener("touchmove",e=>{e.preventDefault();gStir(e)},{passive:false});
 $("gskip").addEventListener("click",()=>{if(G.phase==="stir")gProceed()});
 $("genter").addEventListener("click",gEnter);
-
-/* init */
 (async function init(){
   S.sound=localStorage.getItem("wl_sound")!=="0";S.auto=localStorage.getItem("wl_auto")!=="0";S.consent=localStorage.getItem("wl_consent")==="1";
   $("autochk").checked=S.auto;
   if(!S.sound){$("sndbtn").classList.add("muted");$("sndbtn").firstChild.textContent="🔇 ";$("sndlbl").textContent="ТИХО"}
-  log("ядро встроено: SHA-256 · RIPEMD-160 · secp256k1 · BIP39/32 · 0 CDN","inf");
-  if(WORD_REPAIR.removed>0)log("список BIP39 само-восстановлен: удалено дубликатов "+WORD_REPAIR.removed+" ("+WORD_REPAIR.dups.join(", ")+") → 2048","inf");
-  if(!crypto.subtle){fatal("WebCrypto недоступен — открой страницу по HTTPS (GitHub Pages).");renderNet();return}
-  try{await selfTest();log("самопроверка: OK · BIP39/32/44 end-to-end вектор совпал · список 2048 ✓","ok")}
-  catch(e){fatal("Самопроверка криптоядра провалена: "+e.message);renderNet();return}
-  const savedNet=localStorage.getItem("wl_net")||"main";
-  S.net=NETS[savedNet];renderNet();
-  if(savedNet==="main"&&!S.consent){openConsent();log("mainnet заблокирован до принятия рисков","inf");
-    apiJson("/blocks/tip/height").then(h=>$("tipheight").textContent="#"+h).catch(()=>{});return}
+  log("ядро встроено: SHA-256 · RIPEMD-160 · secp256k1 · BIP32 · 0 CDN","inf");
+  renderNet();
+  if(!crypto.subtle){fatal("WebCrypto недоступен — открой страницу по HTTPS (GitHub Pages).");return}
+  log("загрузка эталонного списка BIP39 (bitcoin/bips)…","inf");
+  const wl=await loadWordlist();
+  if(!wl.words){fatal("Не удалось загрузить проверенный список BIP39 (2048 слов). Подключись к интернету один раз и обнови страницу — список закэшируется для офлайна.");$("btn-gen").disabled=true;$("btn-rec").disabled=true;return}
+  WORDS=wl.words;WIDX=new Map(WORDS.map((w,i)=>[w,i]));S.wordsReady=true;
+  log("список BIP39: 2048 ✓ · источник: "+wl.src,"ok");
+  try{await selfTest();log("самопроверка: OK · BIP39/32/44 end-to-end вектор совпал","ok")}catch(e){fatal("Самопроверка криптоядра провалена: "+e.message);$("btn-gen").disabled=true;$("btn-rec").disabled=true;return}
+  const savedNet=localStorage.getItem("wl_net")||"main";S.net=NETS[savedNet];renderNet();
+  if(savedNet==="main"&&!S.consent){openConsent();log("mainnet заблокирован до принятия рисков","inf");apiJson("/blocks/tip/height").then(h=>$("tipheight").textContent="#"+h).catch(()=>{});return}
   applyNet(savedNet);
 })();
 </script>
