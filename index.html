@@ -165,6 +165,10 @@
             ]
         };
 
+        // === ПРАВИЛЬНЫЕ АЛФАВИТЫ БИТКОИНА ===
+        const BECH32_ALPHABET = "qpzry9x8gf2tvdw0s3jn54khce6mua7l"; // 32 символа, без b,i,o,1
+        const BASE58_ALPHABET = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz"; // без 0,O,I,l
+
         class Particle {
             constructor() { this.reset(); }
             reset() {
@@ -304,10 +308,60 @@
             animationFrameId = requestAnimationFrame(animateQuantumMatrix);
         }
 
+        // === ВАЛИДАЦИЯ ФОРМАТОВ БИТКОИНА ===
         function isValidTarget(input) {
-            return /^(1|3|bc1)[a-zA-Z0-9]{25,60}$/.test(input) ||
-                   /^0[23][a-fA-F0-9]{64}$/.test(input) ||
-                   /^04[a-fA-F0-9]{128}$/.test(input);
+            // Legacy P2PKH: 1 + 25-33 символа Base58
+            if (/^1[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{25,33}$/.test(input)) return true;
+            // P2SH: 3 + 25-33 символа Base58
+            if (/^3[123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz]{25,33}$/.test(input)) return true;
+            // Bech32 P2WPKH: bc1q + 38 символов Bech32 (всего 42)
+            if (/^bc1q[qpzry9x8gf2tvdw0s3jn54khce6mua7l]{38}$/.test(input)) return true;
+            // Bech32 P2WSH: bc1q + 58 символов Bech32 (всего 62)
+            if (/^bc1q[qpzry9x8gf2tvdw0s3jn54khce6mua7l]{58}$/.test(input)) return true;
+            // Compressed pubkey: 02/03 + 64 hex
+            if (/^0[23][a-fA-F0-9]{64}$/.test(input)) return true;
+            // Uncompressed pubkey: 04 + 128 hex
+            if (/^04[a-fA-F0-9]{128}$/.test(input)) return true;
+            return false;
+        }
+
+        // === ГЕНЕРАЦИЯ ВАЛИДНЫХ АДРЕСОВ ===
+        function generateBech32Address(seed) {
+            // bc1q + 38 символов из Bech32 алфавита = 42 символа (P2WPKH)
+            let addr = "bc1q";
+            for (let i = 0; i < 38; i++) {
+                seed = (seed * 1664525 + 1013904223) % 4294967296;
+                addr += BECH32_ALPHABET.charAt(seed % BECH32_ALPHABET.length);
+            }
+            return addr;
+        }
+
+        function generateLegacyAddress(seed) {
+            // 1 + 33 символа Base58 = 34 символа (P2PKH)
+            let addr = "1";
+            for (let i = 0; i < 33; i++) {
+                seed = (seed * 1664525 + 1013904223) % 4294967296;
+                addr += BASE58_ALPHABET.charAt(seed % BASE58_ALPHABET.length);
+            }
+            return addr;
+        }
+
+        function generateP2SHAddress(seed) {
+            // 3 + 33 символа Base58 = 34 символа (P2SH)
+            let addr = "3";
+            for (let i = 0; i < 33; i++) {
+                seed = (seed * 1664525 + 1013904223) % 4294967296;
+                addr += BASE58_ALPHABET.charAt(seed % BASE58_ALPHABET.length);
+            }
+            return addr;
+        }
+
+        function generateValidAddress(seed) {
+            // Случайный выбор формата адреса
+            let type = seed % 3;
+            if (type === 0) return generateBech32Address(seed);
+            if (type === 1) return generateLegacyAddress(seed);
+            return generateP2SHAddress(seed);
         }
 
         const BIP39_WORDS = [
@@ -516,7 +570,7 @@
             "year","yellow","you","young","youth","zebra","zero","zone","zoo"
         ];
 
-        // === МАГИЧЕСКАЯ ФОРМУЛА (Детерминированный хэш) ===
+        // === МАГИЧЕСКАЯ ФОРМУЛА (Детерминированный хэш с 0x5f3759df) ===
         function formulaHash(str) {
             let hash = 0;
             for (let i = 0; i < str.length; i++) {
@@ -524,20 +578,18 @@
                 hash = ((hash << 5) - hash) + char;
                 hash |= 0; 
             }
-            // Добавляем "магическое число" Quake для визуальной и алгоритмической эстетики
             hash = (hash ^ 0x5f3759df) >>> 0; 
             return Math.abs(hash);
         }
 
         function formulaGenerateWIF(seedStr) {
             let seed = formulaHash(seedStr);
-            const base58 = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
             const startChars = ["K", "L"];
             let wif = startChars[seed % 2];
             
             for (let i = 0; i < 51; i++) {
                 seed = (seed * 1664525 + 1013904223) % 4294967296;
-                wif += base58.charAt(seed % base58.length);
+                wif += BASE58_ALPHABET.charAt(seed % BASE58_ALPHABET.length);
             }
             return wif;
         }
@@ -632,7 +684,8 @@
                             "Линейный конгруэнтный генератор: вычисление последовательности Base58...",
                             "Обход функции с ловушкой secp256k1 через эвристическую догадку...",
                             "Сопоставление 12-словной комбинации с BIP39 словарем...",
-                            "Формирование финального WIF-ключа с префиксом сети..."
+                            "Формирование финального WIF-ключа с префиксом сети...",
+                            "Валидация формата Bech32/Base58Check..."
                         ];
                         printLog(aiLogs[Math.floor(Math.random() * aiLogs.length)]);
                     }
@@ -658,19 +711,22 @@
             inputField.classList.remove('error');
             
             if (isAuto) {
-                const randomHex = Array.from({length: 32}, () => Math.floor(Math.random()*16).toString(16)).join('');
-                targetAddress = "bc1q" + randomHex.substring(0, 38);
-                printLog("Авто-поиск: Сканирование на наличие аномалий высокой энтропии...");
+                // Генерируем ВАЛИДНЫЙ адрес для авто-поиска
+                const randomSeed = Math.floor(Math.random() * 4294967296);
+                targetAddress = generateValidAddress(randomSeed);
+                printLog(`Авто-поиск: Обнаружен адрес ${targetAddress.substring(0, 12)}...`);
+                printLog("Сканирование на наличие аномалий высокой энтропии...");
                 prepareSimulation(targetAddress);
                 
             } else if (!targetAddress) {
                 printLog("Внимание: Поле ввода пусто. Активация протокола локального сканирования...");
                 setTimeout(() => {
-                    targetAddress = "02" + Array.from({length: 64}, () => Math.floor(Math.random()*16).toString(16)).join('');
+                    const randomSeed = Math.floor(Math.random() * 4294967296);
+                    targetAddress = generateValidAddress(randomSeed);
                     inputField.value = targetAddress;
                     inputField.style.color = "var(--success)";
                     setTimeout(() => { inputField.style.color = "var(--quake)"; }, 600);
-                    printLog(`[Цель захвачена] Обнаружен публичный ключ в локальной памяти.`);
+                    printLog(`[Цель захвачена] Обнаружен валидный адрес в локальной памяти.`);
                     prepareSimulation(targetAddress);
                 }, 1200);
                 
@@ -679,7 +735,11 @@
                 btnAuto.disabled = false;
                 btnDecrypt.disabled = false;
                 inputField.classList.add('error');
-                printLog("[ОШИБКА] Неверный формат. Ожидается BTC адрес или HEX публичного ключа (02/03/04...).");
+                printLog("[ОШИБКА] Неверный формат. Ожидается:");
+                printLog("  • Legacy: 1 + 25-33 символа Base58");
+                printLog("  • P2SH: 3 + 25-33 символа Base58");
+                printLog("  • Bech32: bc1q + 38 символов (всего 42)");
+                printLog("  • PubKey: 02/03 + 64 hex или 04 + 128 hex");
                 playSound(150, 'sawtooth', 0.3, 0.1);
                 
             } else {
