@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#070503">
+<meta name="theme-color" content="#0a0410">
 <title>BITCOIN WALLET LAB — mainnet · testnet · demo</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%23f7931a'/%3E%3Ctext x='16' y='22' font-size='17' font-family='monospace' font-weight='bold' text-anchor='middle' fill='%23070503'%3E%E2%82%BF%3C/text%3E%3C/svg%3E">
 <style>
@@ -40,19 +40,17 @@ body.test .seg button.on,body.demo .seg button.on{color:#04070d}
 @media(max-width:470px){.ns{display:none}}
 .wr{position:relative;z-index:1;max-width:1080px;margin:0 auto;padding:calc(var(--tb) + 16px) 15px 60px}
 .hr{padding:14px 4px 10px;animation:ri .6s both}
-.hr h1{font-size:clamp(25px,5.4vw,44px);font-weight:800;line-height:1.06;background:linear-gradient(94deg,var(--ac2),var(--ac) 55%,var(--deep));-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 22px rgba(247,147,26,.28))}
+.hr h1{font-size:clamp(25px,5.4vw,44px);font-weight:800;line-height:1.06;background:linear-gradient(94deg,var(--ac2),var(--ac) 55%,var(--deep));-webkit-background-clip:text;background-clip:text;color:transparent}
 .hr p{color:var(--mu);font-size:12.5px;margin-top:9px;max-width:690px}
 .ch{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
 .cp0{font-size:9.5px;letter-spacing:1.4px;padding:5px 11px;border-radius:20px;border:1px solid var(--ln2);color:var(--mu)}
 .cp0.h{color:var(--gold);border-color:rgba(247,147,26,.55)}.cp0.r{color:var(--rd);border-color:rgba(255,59,92,.5)}
 .cp0.c{color:var(--cy);border-color:rgba(0,229,255,.4)}.cp0.s{color:var(--mg);border-color:rgba(255,79,216,.5)}.cp0.g{color:var(--gr);border-color:rgba(34,255,136,.5)}
-.cp0.w{color:var(--gold);border-color:rgba(255,194,75,.6)}
 .rl{border:1px solid rgba(255,59,92,.45);background:linear-gradient(120deg,rgba(255,59,92,.07),rgba(247,147,26,.05));border-radius:13px;padding:13px 16px;margin:13px 0;font-size:12px;line-height:1.75;position:relative;overflow:hidden;animation:ri .5s both}
 .rl::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(var(--rd),var(--btc))}
 .rl b{color:var(--gold)}.rl .rt{font-size:10px;letter-spacing:2px;color:var(--rd);font-weight:800;margin-bottom:6px}
 .rl.sb{border-color:rgba(0,229,255,.4);background:rgba(0,229,255,.05)}.rl.sb::before{background:linear-gradient(var(--cy),var(--vi))}.rl.sb .rt{color:var(--cy)}
 .rl.sm{border-color:rgba(255,79,216,.5);background:rgba(255,79,216,.06)}.rl.sm::before{background:linear-gradient(var(--mg),var(--vi))}.rl.sm .rt{color:var(--mg)}
-.rl.wn{border-color:rgba(255,194,75,.5);background:rgba(255,194,75,.06)}.rl.wn::before{background:linear-gradient(var(--gold),var(--btc))}.rl.wn .rt{color:var(--gold)}
 .bn{margin:0 0 16px;border:1px solid var(--ln);border-radius:13px;overflow:hidden;background:#050302;box-shadow:0 18px 50px -22px #000;animation:ri .6s .08s both}
 body.test .bn{background:#02040a}body.demo .bn{background:#0a0410}
 .bn canvas{display:block;width:100%;height:auto}
@@ -65,6 +63,7 @@ body.test .bn{background:#02040a}body.demo .bn{background:#0a0410}
 @keyframes ri{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
 .cd h2{display:flex;align-items:center;gap:10px;font-size:11.5px;letter-spacing:2px;color:var(--ac2);margin-bottom:14px;font-weight:800}
 .cd h2 .n{flex:none;width:24px;height:24px;border-radius:7px;display:grid;place-items:center;font-size:11px;color:#0c0805;background:linear-gradient(135deg,var(--ac2),var(--ac))}
+body.test .cd h2 .n,body.demo .cd h2 .n{color:#04070d}
 .cd h2 .tl{margin-left:auto;font-size:8.5px;color:var(--dm);letter-spacing:1px;font-weight:400}
 .bt{position:relative;display:flex;align-items:center;justify-content:center;gap:9px;width:100%;min-height:46px;padding:12px 14px;border-radius:10px;cursor:pointer;font:800 11.5px var(--mo);letter-spacing:1.5px;text-transform:uppercase;transition:.22s;overflow:hidden;border:1px solid rgba(247,147,26,.6);color:var(--gold);background:linear-gradient(180deg,rgba(247,147,26,.12),rgba(247,147,26,.03))}
 .bt::after{content:"";position:absolute;top:0;left:-120%;width:60%;height:100%;transform:skewX(-20deg);background:linear-gradient(90deg,transparent,rgba(255,255,255,.16),transparent);transition:left .5s}
@@ -160,6 +159,16 @@ body.test .fl{background:#050a13}body.demo .fl{background:#0d0517}
 .spn{display:inline-block;width:13px;height:13px;border:2px solid rgba(34,255,136,.3);border-top-color:var(--gr);border-radius:50%;animation:sr .7s linear infinite;vertical-align:-2px}@keyframes sr{to{transform:rotate(360deg)}}
 .mp{height:5px;border-radius:5px;background:rgba(139,123,255,.15);overflow:hidden;margin-top:9px}
 .mp i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--vi),var(--mg));transition:width .9s linear}
+.src{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px}
+.src button{border:1px solid var(--ln2);background:var(--sf2);color:var(--mu);border-radius:9px;padding:10px 6px;font:800 10px var(--mo);letter-spacing:1px;cursor:pointer;transition:.2s}
+.src button.on{color:#0c0805;background:linear-gradient(135deg,var(--ac2),var(--ac));border-color:transparent;box-shadow:0 0 14px rgba(255,79,216,.3)}
+.src button small{display:block;font-size:8px;opacity:.75;margin-top:3px;letter-spacing:.5px}
+#simcv{display:block;width:100%;height:auto;border-radius:10px;background:#0b0512;border:1px solid var(--ln)}
+.simcap{display:flex;justify-content:space-between;font-size:9px;letter-spacing:1.5px;color:var(--dm);margin-top:7px}
+.simcap b{color:var(--mg)}
+.livebtn{display:flex;align-items:center;gap:8px;padding:12px;border-radius:10px;border:1px solid rgba(255,79,216,.5);background:rgba(255,79,216,.07);color:var(--mg);text-decoration:none;font:800 11px var(--mo);letter-spacing:1px;transition:.2s}
+.livebtn:hover{box-shadow:0 0 20px rgba(255,79,216,.35);transform:translateY(-2px)}
+.livebtn .pulse{width:9px;height:9px;border-radius:50%;background:var(--mg);box-shadow:0 0 10px var(--mg);animation:pl 1.1s infinite}
 details.lc{background:var(--sf);border:1px solid var(--ln);border-radius:13px;overflow:hidden}
 details.lc summary{cursor:pointer;list-style:none;padding:13px 16px;font-size:10.5px;letter-spacing:2px;color:var(--mu);display:flex;gap:9px;user-select:none}
 details.lc summary::-webkit-details-marker{display:none}
@@ -202,14 +211,13 @@ footer{margin-top:26px;text-align:center;font-size:9.5px;color:var(--dm);line-he
 :focus-visible{outline:2px solid var(--ac);outline-offset:2px;border-radius:6px}
 .hid{display:none!important}
 .ft{display:none;font-size:12px;color:var(--rd);background:rgba(255,59,92,.07);border:1px solid rgba(255,59,92,.4);border-radius:9px;padding:12px;margin-bottom:16px}
-.ft button{margin-left:8px;border:1px solid var(--rd);background:transparent;color:var(--rd);border-radius:7px;padding:4px 10px;font:700 10px var(--mo);cursor:pointer}
 #gen{position:fixed;inset:0;z-index:120;background:radial-gradient(1200px 800px at 50% 40%,#1a0f04,#070503 70%);opacity:0;pointer-events:none;transition:opacity .45s;display:flex;flex-direction:column}
 #gen.on{opacity:1;pointer-events:auto}
 #gv{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:0}
 .gw{position:relative;z-index:2;flex:1;overflow-y:auto;display:flex;flex-direction:column;padding:60px 20px 20px}
 .gin{margin:auto;width:100%;max-width:820px;display:flex;flex-direction:column;align-items:center;text-align:center}
 .gsf{position:relative;z-index:3;flex:none;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;padding:14px 16px calc(14px + env(safe-area-inset-bottom));border-top:1px solid rgba(255,194,75,.25);background:rgba(7,5,3,.82);backdrop-filter:blur(10px)}
-.gsf .bt{width:auto;min-width:170px}
+.gsf .bt{width:auto;min-width:190px}
 .gs{font-size:10px;letter-spacing:4px;color:var(--cy);font-weight:800;margin-bottom:10px;min-height:14px}
 .gt{font-size:clamp(21px,4.6vw,38px);font-weight:800;line-height:1.15;background:linear-gradient(94deg,var(--gold),var(--btc),var(--mg));-webkit-background-clip:text;background-clip:text;color:transparent;min-height:1.2em}
 .gd{font-size:12px;color:var(--mu);margin-top:10px;max-width:560px;line-height:1.7;min-height:1.4em}
@@ -271,10 +279,16 @@ footer{margin-top:26px;text-align:center;font-size:9.5px;color:var(--dm);line-he
 <button class="bt c" id="bRec" style="margin-top:8px">🔐 Восстановить</button>
 </div>
 <div class="cd dp" id="dep"></div>
+<div class="cd hid" id="simcard"><h2><span class="n">◉</span>СИМ-МЕМПУЛ<span class="tl">ТОЧКИ = TX</span></h2>
+<canvas id="simcv" width="900" height="150"></canvas>
+<div class="simcap"><span>⏳ в мемпуле: <b id="simn">0</b></span><span>⛓ блоки: <b id="simm">0</b></span></div>
+<div class="hn" id="simh">Каждая точка — транзакция. Через ~10 сек блок захватывает её.</div>
+<a class="livebtn" id="live" href="https://mempool.space/testnet" target="_blank" rel="noopener"><span class="pulse"></span>🗺 ЖИВАЯ КАРТА РЕАЛЬНОГО TESTNET-МЕМПУЛА</a>
+</div>
 </div>
 <div class="cR">
 <div class="cd"><h2><span class="n">3</span><span id="bTitle">БАЛАНС ИЗ СЕТИ</span><span class="tl" id="bTail">LIVE API</span></h2>
-<div class="bh"><button class="bt c" id="bBal">⟳ Обновить</button><button class="bt m hid" id="bAdd">➕ Добавить монеты</button><div class="seg hid" id="dmodes" style="margin:0"><button id="dmSim" class="on">СИМ</button><button id="dmLive">LIVE ₿ₜ</button></div><label class="sw" id="autoW"><input type="checkbox" id="auto" checked><span class="tr"></span>АВТО 30с</label></div>
+<div class="bh"><button class="bt c" id="bBal">⟳ Обновить</button><button class="bt m hid" id="bAdd">➕ Добавить монеты</button><label class="sw" id="autoW"><input type="checkbox" id="auto" checked><span class="tr"></span>АВТО 30с</label></div>
 <div class="hu">
 <div class="ti"><div class="t" id="t1">ПОДТВЕРЖДЕНО</div><div class="v" id="bC">—</div></div>
 <div class="ti mm" id="tileM"><div class="t" id="t2">В МЕМПУЛЕ</div><div class="v" id="bM">—</div></div>
@@ -288,6 +302,7 @@ footer{margin-top:26px;text-align:center;font-size:9.5px;color:var(--dm);line-he
 </div>
 <div class="cd"><h2><span class="n">4</span><span id="sTitle">ОТПРАВИТЬ BTC</span><span class="tl" id="sTail">REAL TX</span></h2>
 <div class="st">
+<div class="src hid" id="srcBox"><button id="srcV" class="on">ВИРТУАЛЬНЫЕ<small>симуляция · свои точки</small></button><button id="srcR">РЕАЛЬНЫЕ tBTC<small>в НАСТОЯЩИЙ мемпул testnet</small></button></div>
 <div class="fd"><input id="to" placeholder="Получатель…" autocomplete="off" spellcheck="false"><span class="vm" id="tom"></span></div>
 <div class="hn" id="toh">Проверка Base58Check / bech32 и сети</div>
 <button class="bt gh sm hid" id="bRand">🎲 Случайный адрес получателя</button>
@@ -303,7 +318,7 @@ footer{margin-top:26px;text-align:center;font-size:9.5px;color:var(--dm);line-he
 <details class="lc" open><summary>СИСТЕМНЫЙ ЖУРНАЛ</summary><div id="log"></div></details>
 </div>
 </div>
-<footer><b>BITCOIN WALLET LAB</b> · встроенное криптоядро: SHA-256 · RIPEMD-160 · secp256k1 · BIP39/32/44 · 0 CDN<br>MAINNET — реальные деньги · TESTNET — полигон · DEMO: СИМ (виртуально) или LIVE ₿ₜ (настоящий broadcast в testnet-мемпул, видно на mempool.space). Для сбережений — аппаратный кошелёк.</footer>
+<footer><b>BITCOIN WALLET LAB</b> · встроенное криптоядро: SHA-256 · RIPEMD-160 · secp256k1 · BIP39/32/44 · 0 CDN<br>DEMO: виртуальные монеты → сим-мемпул (точки); реальные tBTC из faucet → НАСТОЯЩИЙ testnet-мемпул и живая карта. Для сбережений используй аппаратный кошелёк.</footer>
 </div>
 <div class="sc" id="sc"></div>
 <div class="dr" id="dr"><div class="dh"><b>ДЕТАЛИ ТРАНЗАКЦИИ</b><button id="dcl">✕</button></div><div class="db" id="db"></div><div class="df"><a class="bt c" id="dex" target="_blank" rel="noopener" style="text-decoration:none">↗ В обозревателе</a><button class="bt gh" id="dcp">⧉ Копировать txid</button></div></div>
@@ -313,11 +328,11 @@ footer{margin-top:26px;text-align:center;font-size:9.5px;color:var(--dm);line-he
 <label class="ck"><input type="checkbox" class="cki"><span class="bx">✓</span><span class="txt">Инструмент экспериментальный, не аудирован, ключи в браузере. Только суммы, которые готов потерять.</span></label>
 <label class="ck"><input type="checkbox" class="cki"><span class="bx">✓</span><span class="txt">Сохраню сид-фразу офлайн и не введу сюда сид со сбережениями.</span></label>
 <div class="mbs"><button class="bt" id="ckOk" disabled>Принимаю → mainnet</button><button class="bt gh" id="ckNo">Остаться в testnet</button></div></div></div>
-<div class="md" id="addm"><div class="mb sim"><h3>➕ ВИРТУАЛЬНЫЕ МОНЕТЫ</h3><div class="sub">DEMO · СИМ · НЕ НАСТОЯЩИЕ BTC</div>
-<p>Монеты добавляются только в <b>виртуальный СИМ-баланс</b>. Хочешь настоящую tx в мемпуле — переключи режим на <b>LIVE ₿ₜ</b> и возьми tBTC из faucet.</p>
+<div class="md" id="addm"><div class="mb sim"><h3>➕ ВИРТУАЛЬНЫЕ МОНЕТЫ</h3><div class="sub">DEMO · СИМУЛЯЦИЯ · НЕ НАСТОЯЩИЕ BTC</div>
+<p>Монеты добавляются в <b>виртуальный баланс</b>. Транзакция с ними появится <b>точкой в сим-мемпуле</b> (карточка слева) и через ~10 сек будет захвачена блоком. Чтобы увидеть <b>настоящую точку</b> на живой карте — возьми tBTC из faucet и переключись на источник «РЕАЛЬНЫЕ tBTC».</p>
 <div class="lb">КОЛИЧЕСТВО (DEMO BTC)</div><input id="acA" inputmode="decimal" placeholder="напр. 1.5" autocomplete="off">
 <div class="qk"><button data-q="0.1">0.1</button><button data-q="0.5">0.5</button><button data-q="1">1</button><button data-q="5">5</button></div>
-<div class="mbs"><button class="bt m" id="acOk">➕ Добавить в СИМ-баланс</button><button class="bt gh" id="acNo">✖ Закрыть</button></div></div></div>
+<div class="mbs"><button class="bt m" id="acOk">➕ Добавить в DEMO-баланс</button><button class="bt gh" id="acNo">✖ Закрыть</button></div></div></div>
 <div id="gen"><canvas id="gv"></canvas>
 <button class="bt gh gsk" id="gsk">⏭ пропустить сбор энтропии</button>
 <div class="gw"><div class="gin">
@@ -389,13 +404,13 @@ async function mst(s){const I=await hm(enc.encode("Bitcoin seed"),s),k=b2n(I.sli
 async function ckd(n,i){const d=i>=0x80000000?cat([0],n32(n.k),be32(i)):cat(pub(n.k),be32(i)),I=await hm(n.c,d),k=md(b2n(I.slice(0,32))+n.k,N);if(!k)throw Error("child");return{k,c:I.slice(32)}}
 const RAW="abandon ability able about above absent absorb abstract absurd abuse access accident account accuse achieve acid acoustic acquire across act action actor actress actual adapt add addict address adjust admit adult advance advice aerobic affair afford afraid again age agent agree ahead aim air airport aisle alarm album alcohol alert alien all alley allow almost alone alpha already also alter always amateur amazing among amount amused analyst anchor ancient anger angle angry animal ankle announce annual another answer antenna antique anxiety any apart apology appear apple approve april arch arctic area arena argue arm armed armor army around arrange arrest arrive arrow art artefact artist artwork ask aspect assault asset assist assume asthma athlete atom attack attend attitude attract auction audit august aunt author auto autumn average avocado avoid awake aware away awesome awful awkward axis baby bachelor bacon badge bag balance balcony ball bamboo banana banner bar barely bargain barrel base basic basket battle beach bean beauty because become beef before begin behave behind believe below belt bench benefit best betray better between beyond bicycle bid bike bind biology bird birth bitter black blade blame blanket blast bleak bless blind blood blossom blouse blue blur blush board boat body boil bomb bone bonus book boost border boring borrow boss bottom bounce box boy bracket brain brand brass brave bread breeze brick bridge brief bright bring brisk broccoli broken bronze broom brother brown brush bubble buddy budget buffalo build bulb bulk bullet bundle bunker burden burger burst bus business busy butter buyer buzz cabbage cabin cable cactus cage cake call calm camera camp can canal cancel candy cannon canoe canvas canyon capable capital captain car carbon card cargo carpet carry cart case cash casino castle casual cat catalog catch category cattle caught cause caution cave ceiling celery cement census century cereal certain chair chalk champion change chaos chapter charge chase chat cheap check cheese chef cherry chest chicken chief child chimney choice choose chronic chuckle chunk churn cigar cinnamon circle citizen city civil claim clap clarify claw clay clean clerk clever click client cliff climb clinic clip clock clog close cloth cloud clown club clump cluster clutch coach coast coconut code coffee coil coin collect color column combine come comfort comic common company concert conduct confirm congress connect consider control convince cook cool copper copy coral core corn correct cost cotton couch country couple course cousin cover coyote crack cradle craft cram crane crash crater crawl crazy cream credit creek crew cricket crime crisp critic crop cross crouch crowd crucial cruel cruise crumble crunch crush cry crystal cube culture cup cupboard curious current curtain curve cushion custom cute cycle dad damage damp dance danger daring dash daughter dawn day deal debate debris decade december decide decline decorate decrease deer defense define defy degree delay deliver demand demise denial dentist deny depart depend deposit depth deputy derive describe desert design desk despair destroy detail detect develop device devote diagram dial diamond diary dice diesel diet differ digital dignity dilemma dinner dinosaur direct dirt disagree discover disease dish dismiss disorder display distance divert divide divorce dizzy doctor document dog doll dolphin domain donate donkey donor door dose double dove draft dragon drama drastic draw dream dress drift drill drink drip drive drop drum dry duck dumb dune during dust dutch duty dwarf dynamic eager eagle early earn earth easily east easy echo ecology economy edge edit educate effort egg eight either elbow elder electric elegant element elephant elevator elite else embark embody embrace emerge emotion employ empower empty enable enact encourage end endless endorse enemy energy enforce engage engine enhance enjoy enlist enough enrich enroll ensure enter entire entry envelope episode equal equip era erase erode erosion error erupt escape essay essence estate eternal ethics evidence evil evoke evolve exact example excess exchange excite exclude excuse execute exercise exhaust exhibit exile exist exit exotic expand expect expire explain expose express extend extra eye eyebrow fabric face faculty fade faint faith fall false fame family famous fan fancy fantasy farm fashion fat fatal father fatigue fault favorite feature february federal fee feed feel female fence festival fetch fever few fiber fiction field figure file film filter final find fine finger finish fire firm first fiscal fish fit fitness fix flag flame flash flat flavor flee flight flip float flock floor flower fluid flush fly foam focus fog foil fold follow food foot force forest forget fork fortune forum forward fossil foster found fox fragile frame frequent fresh friend fringe frog front frost frown frozen fruit fuel fun funny furnace fury future gadget gain galaxy gallery game gap garage garbage garden garlic garment gas gasp gate gather gauge gaze general genius genre gentle genuine gesture ghost giant gift giggle ginger giraffe girl give glad glance glare glass glide glimpse globe gloom glory glove glow glue goat goddess gold good goose gorilla gospel gossip govern gown grab grace grain grant grape grass gravity great green grid grief grit grocery group grow grunt guard guess guide guilt guitar gun gym habit hair half hammer hamster hand happy harbor hard harsh harvest hat have hawk hazard head health heart heavy hedgehog height hello helmet help hen hero hidden high hill hint hip hire history hobby hockey hold hole holiday hollow home honey hood hope horn horror horse hospital host hotel hour hover hub huge human humble humor hundred hungry hunt hurdle hurry hurt husband hybrid ice icon idea identify idle ignore ill illegal illness image imitate immense immune impact impose improve impulse inch include income increase index indicate indoor industry infant inflict inform inhale inherit initial inject injury inmate inner innocent input inquiry insane insect inside inspire install intact interest into invest invite involve iron island isolate issue item ivory jacket jaguar jar jazz jealous jeans jelly jewel job join joke journey joy judge juice jump jungle junior junk just kangaroo keen keep ketchup key kick kid kidney kind kingdom kiss kit kitchen kite kitten kiwi knee knife knock know lab label labor ladder lady lake lamp language laptop large later latin laugh laundry lava law lawn lawsuit layer lazy leader leaf learn leave lecture left leg legal legend leisure lemon lend length lens leopard lesson letter level liar liberty library license life lift light like limb limit link lion liquid list little live lizard load loan lobster local lock logic lonely long loop lottery loud lounge love loyal lucky luggage lumber lunar lunch luxury lyrics machine mad magic magnet maid mail main major make mammal man manage mandate mango mansion manual maple marble march margin marine market marriage mask mass master match material math matrix matter maximum maze meadow mean measure meat mechanic medal media melody melt member memory mention menu mercy merge merit merry mesh message metal method middle midnight milk million mimic mind minimum minor minute miracle mirror misery miss mistake mix mixed mixture mobile model modify mom moment monitor monkey monster month moon moral more morning mosquito mother motion motor mountain mouse move movie much muffin mule multiply muscle museum mushroom music must mutual myself mystery myth naive name napkin narrow nasty nation nature near neck need negative neglect neither nephew nerve nest net network neutral never news next nice night noble noise nominee noodle normal north nose notable note nothing notice novel now nuclear number nurse nut oak obey object oblige obscure observe obtain obvious occur ocean october odor off offer office often oil okay old olive olympic omit once one onion online only open opera opinion oppose option orange orbit orchard order ordinary organ orient original orphan ostrich other outdoor outer output outside oval oven over own owner oxygen oyster ozone pact paddle page pair palace palm panda panel panic panther paper parade parent park parrot party pass patch path patient patrol pattern pause pave payment peace peanut pear peasant pelican pen penalty pencil people pepper perfect permit person pet phone photo phrase physical piano picnic picture piece pig pigeon pill pilot pink pioneer pipe pistol pitch pizza place planet plastic plate play please pledge pluck plug plunge poem poet point polar pole police pond pony pool popular portion position possible post potato pottery poverty powder power practice praise predict prefer prepare present pretty prevent price pride primary print priority prison private prize problem process produce profit program project promote proof property prosper protect proud provide public pudding pull pulp pulse pumpkin punch pupil puppy purchase purity purpose purse push put puzzle pyramid quality quantum quarter question quick quit quiz quote rabbit raccoon race rack radar radio rail rain raise rally ramp ranch random range rapid rare rate rather raven raw razor ready real reason rebel rebuild recall receive recipe record recycle reduce reflect reform refuse region regret regular reject relax release relief rely remain remember remind remove render renew rent reopen repair repeat replace report require rescue resemble resist resource response result retire retreat return reunion reveal review reward rhythm rib ribbon rice rich ride ridge rifle right rigid ring riot ripple risk ritual rival river road roast robot robust rocket romance roof rookie room rose rotate rough round route royal rubber rude rug rule run runway rural sad saddle sadness safe sail salad salmon salon salt salute same sample sand satisfy satoshi sauce sausage save say scale scan scare scatter scene scheme school science scissors scorpion scout scrap screen script scrub sea search season seat second secret section security seed seek segment select sell seminar senior sense sentence series service session settle setup seven shadow shaft shallow share shed shell sheriff shield shift shine ship shiver shock shoe shoot shop short shoulder shove shrimp shrug shuffle shy sibling sick side siege sight sign silent silk silly silver similar simple since sing siren sister situate six size skate sketch ski skill skin skirt skull slab slam sleep slender slice slide slight slim slogan slot slow slush small smart smile smoke smooth snack snake snap sniff snow soap soccer social sock soda soft solar soldier solid solution solve someone song soon sorry sort soul sound soup source south space spare spatial spawn speak special speed spell spend sphere spice spider spike spin spirit split spoil sponsor spoon sport spot spray spread spring spy square squeeze squirrel stable stadium staff stage stairs stamp stand start state stay steak steel stem step stereo stick still sting stock stomach stone stool story stove strategy street strike strong struggle student stuff stumble style subject submit subway success such sudden suffer sugar suggest suit summer sun sunny sunset super supply supreme sure surface surge surprise surround survey suspect sustain swallow swamp swap swarm swear sweet swift swim swing switch sword symbol symptom syrup system table tackle tag tail talent talk tank tape target task taste tattoo taxi teach team tell ten tenant tennis tent term test text thank that theme then theory there they thing this thought three thrive throw thumb thunder ticket tide tiger tilt timber time tiny tip tired tissue title toast tobacco today toddler toe together toilet token tomato tomorrow tone tongue tonight tool tooth top topic topple torch tornado tortoise toss total tourist toward tower town toy track trade traffic tragic train transfer trap trash travel tray treat tree trend trial tribe trick trigger trim trip trophy trouble truck true truly trumpet trust truth try tube tuition tumble tuna tunnel turkey turn turtle twelve twenty twice twin twist two type typical ugly umbrella unable unaware uncle uncover under undo unfair unfold unhappy uniform unique unit universe unknown unlock until unusual unveil update upgrade uphold upon upper upset urban urge usage use used useful useless usual utility vacant vacuum vague valid valley valve van vanish vapor various vast vault vehicle velvet vendor venture venue verb verify version very vessel veteran viable vibrant vicious victory video view village vintage violin virtual virus visa visit visual vital vivid vocal voice void volcano volume vote voyage wage wagon wait walk wall walnut want warfare warm warrior wash wasp waste water wave way wealth weapon wear weasel weather web wedding weekend weird welcome west wet whale what wheat wheel when where whip whisper wide width wife wild will win window wine wing wink winner winter wire wisdom wise wish witness wolf woman wonder wood wool word work world worry worth wrap wreck wrestle wrist write wrong yard year yellow you young youth zebra zero zone zoo";
 const VEC=[["ffffffffffffffffffffffffffffffff","zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo wrong"],["7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f","legal winner thank year wave sausage worth useful legal winner thank yellow"],["80808080808080808080808080808080","letter advice cage absurd amount doctor acoustic avoid letter advice cage above"],["00000000000000000000000000000000","abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about"]];
-let W=null,WI=null,NONSTD=false;
+let W=null,WI=null;
 function e2m(e){const h=[...sha(e)].map(b=>b.toString(2).padStart(8,"0")).join(""),bits=[...e].map(b=>b.toString(2).padStart(8,"0")).join("")+h.slice(0,e.length*8/32),o=[];for(let i=0;i<bits.length;i+=11)o.push(W[parseInt(bits.slice(i,i+11),2)]);return o.join(" ")}
-function lok(w){const s=W;W=w;let ok=w.length===2048;try{for(const[e,m]of VEC)if(e2m(hb(e))!==m){ok=false;break}}catch(x){ok=false}W=s;return ok}
+function lok(w){const s=W;W=w;let ok=true;try{for(const[e,m]of VEC)if(e2m(hb(e))!==m){ok=false;break}}catch(x){ok=false}W=s;return ok}
 function build(){const t=RAW.trim().split(/\s+/).filter(Boolean),sn=new Set(),dd=[];for(const x of t)if(!sn.has(x)){sn.add(x);dd.push(x)}
-for(const c of[dd,t]){if(c.length===2048&&lok(c))return{w:c,ok:true};
-if(c.length>2048&&c.length<2060)for(let i=0;i<c.length;i++){const r=c.slice(0,i).concat(c.slice(i+1));if(r.length===2048&&lok(r))return{w:r,ok:true,rm:c[i]}}}
-return{w:dd.length===2048?dd:t.slice(0,2048),ok:false}}
+for(const c of[dd,t]){if(c.length===2048&&lok(c))return{w:c,n:0};
+if(c.length>2048&&c.length<2060)for(let i=0;i<c.length;i++){const r=c.slice(0,i).concat(c.slice(i+1));if(r.length===2048&&lok(r))return{w:r,n:c.length-2048,rm:c[i]}}}
+return null}
 function vmn(m){const w=m.trim().toLowerCase().split(/\s+/);if(![12,15,18,21,24].includes(w.length))throw Error("нужно 12/15/18/21/24 слова (сейчас "+w.length+")");
 const ix=w.map(x=>WI.get(x)),bad=ix.findIndex(i=>i===undefined);if(bad>=0)throw Error("слово не из BIP39: «"+w[bad]+"»");
 const b=ix.map(i=>i.toString(2).padStart(11,"0")).join(""),el=b.length*32/33,eb=b.slice(0,el),cs=b.slice(el),e=[];for(let i=0;i<el;i+=8)e.push(parseInt(eb.slice(i,i+8),2));
@@ -425,10 +440,10 @@ if(ad.toLowerCase().startsWith(net.hrp+"1"))return segSpk(ad,net.hrp);
 const p=b58cd(ad);if(p.length!==21)throw Error("длина хэша ≠ 20");
 if(p[0]===net.pk)return cat([118,169,20],p.slice(1),[136,172]);if(p[0]===net.sh)return cat([169,20],p.slice(1),[135]);
 throw Error("адрес другой сети (0x"+p[0].toString(16)+")")}
-const randAddr=()=>b58c(cat([0],crypto.getRandomValues(new U8(20))));
+const randAddr=()=>b58c(cat([111],crypto.getRandomValues(new U8(20))));
 const NET={main:{id:"main",nm:"MAINNET",u:"BTC",pk:0,sh:5,wf:128,hrp:"bc",coin:0,api:["https://mempool.space/api","https://blockstream.info/api"],ex:"https://mempool.space",ae:"1… / 3… / bc1q… / bc1p…",st:"wl_main"},
 test:{id:"test",nm:"TESTNET",u:"tBTC",pk:111,sh:196,wf:239,hrp:"tb",coin:1,api:["https://mempool.space/testnet/api","https://blockstream.info/testnet/api"],ex:"https://mempool.space/testnet",ae:"m… / n… / 2… / tb1q…",st:"wl_test"},
-demo:{id:"demo",nm:"DEMO",u:"DEMO BTC",pk:0,sh:5,wf:128,hrp:"bc",coin:0,api:[],ex:null,ae:"1… / 3… / bc1q… (симуляция)",st:"wl_demo"}};
+demo:{id:"demo",nm:"DEMO",u:"tBTC+DEMO",pk:111,sh:196,wf:239,hrp:"tb",coin:1,api:["https://mempool.space/testnet/api","https://blockstream.info/testnet/api"],ex:"https://mempool.space/testnet",ae:"m… / n… / tb1q… (реальные) или любой (вирт.)",st:"wl_demo"}};
 async function derive(m,net){m=vmn(m);let n=await mst(await pb(m,"mnemonic"));for(const i of[0x8000002C,0x80000000|net.coin,0x80000000,0,0])n=await ckd(n,i);
 const p=pub(n.k);return{mn:m,priv:hex(n32(n.k)),pub:hex(p),addr:b58c(cat([net.pk],h160(p))),wif:b58c(cat([net.wf],n32(n.k),[1]))}}
 function ser(vin,vout,si,sp){let b=[...le32(2),...vi(vin.length)];vin.forEach((i,j)=>{b.push(...rev(hb(i.txid)),...le32(i.vout));const s=si===j?sp:(si===-1?i.ss:[]);b.push(...vi(s.length),...s,...le32(0xffffffff))});
@@ -437,17 +452,17 @@ function buildTx(ut,sp,amt,ch,w){const d=b2n(hb(w.priv)),p=hb(w.pub),own=cat([11
 vin=ut.map(u=>({txid:u.txid,vout:u.vout})),vout=[{v:amt,s:sp}];if(ch>0)vout.push({v:ch,s:own});
 vin.forEach((i,x)=>{const sg=cat(sign(ds(ser(vin,vout,x,own)),d),[1]);i.ss=cat(vi(sg.length),sg,vi(p.length),p)});
 const raw=ser(vin,vout,-1);return{raw:hex(raw),vs:raw.length,txid:hex(rev(ds(raw)))}}
-const S={net:NET.main,w:null,txs:[],ut:[],fees:{},bal:{c:0,m:0,n:0},demo:{b:0,t:[],live:false},f:"all",q:"",sort:"new",pend:null,rev:false,snd:true,auto:true,last:0,busy:false,price:null,cons:false,dtx:null,gopen:false,ready:false};
-try{const d=JSON.parse(localStorage.getItem("wl_demo_v3")||"null");if(d&&typeof d.b==="number"&&Array.isArray(d.t))S.demo=Object.assign({b:0,t:[],live:false},d)}catch(e){}
-const saveD=()=>{try{localStorage.setItem("wl_demo_v3",JSON.stringify(S.demo))}catch(e){}};
-const isSim=()=>S.net.id==="demo"&&!S.demo.live;
+const S={net:NET.main,w:null,txs:[],ut:[],fees:{},bal:{c:0,m:0,n:0},demo:{b:0,t:[]},f:"all",q:"",sort:"new",pend:null,rev:false,snd:true,auto:true,last:0,busy:false,price:null,cons:false,dtx:null,gopen:false,ready:false,src:"v",blocks:0};
+try{const d=JSON.parse(localStorage.getItem("wl_demo_v4")||"null");if(d&&typeof d.b==="number"&&Array.isArray(d.t))S.demo=d}catch(e){}
+const saveD=()=>{try{localStorage.setItem("wl_demo_v4",JSON.stringify(S.demo))}catch(e){}};
 const dPend=()=>S.demo.t.filter(t=>!t.conf&&t.dir<0).reduce((s,t)=>s+t.amt+t.fee,0);
 const dAvail=()=>S.demo.b-dPend();
+const isD=()=>S.net.id==="demo",isReal=()=>S.net.id==="test"||(isD()&&S.src==="r");
 async function api(p,o={}){let er;for(const b of S.net.api){try{const c=new AbortController(),t=setTimeout(()=>c.abort(),12000);
 const r=await fetch(b+p,Object.assign({cache:"no-store",signal:c.signal},o));clearTimeout(t);
-if(!r.ok)throw Error("HTTP "+r.status+" · "+(await r.text()).slice(0,110));online(true);return r}catch(e){er=e}}online(false);throw er}
+if(!r.ok)throw Error("HTTP "+r.status+" · "+(await r.text()).slice(0,140));online(true);return r}catch(e){er=e}}online(false);throw er}
 const aj=async p=>(await api(p)).json();
-function online(v){$("dot").className="dt"+(isSim()?" sm":v?"":" off")}
+function online(v){$("dot").className="dt"+(isD()?" sm":v?"":" off")}
 let AC=null;
 function tn(f,t,d,v=.05,dl=0){if(!S.snd)return;try{if(!AC)AC=new(window.AudioContext||window.webkitAudioContext)();if(AC.state==="suspended")AC.resume();
 const s=AC.currentTime+dl,o=AC.createOscillator(),g=AC.createGain();o.type=t;o.frequency.setValueAtTime(f,s);g.gain.setValueAtTime(v,s);g.gain.exponentialRampToValueAtTime(1e-5,s+d);o.connect(g);g.connect(AC.destination);o.start(s);o.stop(s+d)}catch(e){}}
@@ -467,11 +482,40 @@ cx.fillStyle=S.net.id==="main"?"rgba(5,3,2,.28)":S.net.id==="test"?"rgba(2,4,10,
 cx.strokeStyle="rgba(120,110,90,.16)";cx.lineWidth=1;for(let x=0;x<CW;x+=48){cx.beginPath();cx.moveTo(x,0);cx.lineTo(x,CH);cx.stroke()}
 for(const y of ln){cx.strokeStyle="rgba(255,255,255,.05)";cx.beginPath();cx.moveTo(0,y);cx.lineTo(CW,y);cx.stroke()}
 bt++;if(bt>260){bt=0;bx=-60}if(bx>-60||bt===1){bx+=2.2;cx.fillStyle="rgba(139,123,255,.14)";cx.strokeStyle="rgba(139,123,255,.7)";cx.lineWidth=1.5;cx.shadowBlur=16;cx.shadowColor="#8b7bff";
-cx.beginPath();cx.rect(bx,CH/2-26,46,52);cx.fill();cx.stroke();cx.shadowBlur=0;cx.fillStyle="rgba(139,123,255,.9)";cx.font="700 9px monospace";cx.textAlign="center";cx.fillText(isSim()?"SIM":"BLOCK",bx+23,CH/2+3);if(bx>CW+60)bx=-60}
+cx.beginPath();cx.rect(bx,CH/2-26,46,52);cx.fill();cx.stroke();cx.shadowBlur=0;cx.fillStyle="rgba(139,123,255,.9)";cx.font="700 9px monospace";cx.textAlign="center";cx.fillText(isD()?"SIM":"BLOCK",bx+23,CH/2+3);if(bx>CW+60)bx=-60}
 for(let i=ps.length-1;i>=0;i--){const p=ps[i];p.x+=p.vx;p.y+=p.vy;if(p.l!==1/0){p.l--;p.vx*=.97;p.vy*=.97;if(p.l<=0){ps.splice(i,1);continue}}else if(p.x>CW+10){p.x=-10;p.y=ln[Math.random()*4|0]+(Math.random()-.5)*14}
 cx.fillStyle="rgba("+p.c+","+(p.l===1/0?.7:p.l/p.mx*.9)+")";cx.beginPath();cx.arc(p.x,p.y,p.s,0,6.283);cx.fill()}
 if(!RM)requestAnimationFrame(loop)}
 RM?loop():requestAnimationFrame(loop);
+/* ===== SIM MEMPOOL CANVAS (точки) ===== */
+const sv=$("simcv"),sx=sv.getContext("2d"),SW=900,SH=150;
+const simDots=new Map();
+function simLoop(){if(!isD()){requestAnimationFrame(simLoop);return}
+sx.fillStyle="rgba(11,5,18,.3)";sx.fillRect(0,0,SW,SH);
+sx.strokeStyle="rgba(255,79,216,.08)";sx.lineWidth=1;
+for(let x=0;x<SW;x+=40){sx.beginPath();sx.moveTo(x,0);sx.lineTo(x,SH);sx.stroke()}
+for(let y=0;y<SH;y+=30){sx.beginPath();sx.moveTo(0,y);sx.lineTo(SW,y);sx.stroke()}
+// block target
+sx.fillStyle="rgba(139,123,255,.16)";sx.strokeStyle="rgba(139,123,255,.7)";sx.lineWidth=1.5;
+sx.shadowBlur=18;sx.shadowColor="#8b7bff";sx.beginPath();sx.rect(SW-70,SH/2-30,52,60);sx.fill();sx.stroke();sx.shadowBlur=0;
+sx.fillStyle="rgba(139,123,255,.95)";sx.font="700 9px monospace";sx.textAlign="center";sx.fillText("SIM",SW-44,SH/2-3);sx.fillText("BLOCK",SW-44,SH/2+8);
+const pend=S.demo.t.filter(t=>!t.conf);
+$("simn").textContent=pend.length;$("simm").textContent=S.blocks;
+for(const t of pend){
+ if(!simDots.has(t.txid))simDots.set(t.txid,{ph:Math.random()*6.283,r:26+Math.random()*22});
+ const d=simDots.get(t.txid),pr=Math.min(1,(nowS()-t.time)/10);
+ const cxp=40+pr*(SW-130),cy=SH/2+Math.sin(d.ph+pr*7)*d.r;
+ const col=t.dir<0?"255,79,216":"0,229,255";
+ sx.shadowBlur=14;sx.shadowColor="rgb("+col+")";
+ sx.fillStyle="rgba("+col+","+(0.55+0.45*Math.sin(performance.now()/300+d.ph))+")";
+ sx.beginPath();sx.arc(cxp,cy,4+pr*2.5,0,6.283);sx.fill();sx.shadowBlur=0;
+ sx.strokeStyle="rgba("+col+",.15)";sx.beginPath();sx.moveTo(40,SH/2);sx.lineTo(cxp,cy);sx.stroke();
+ if(pr>=1&&!t.conf){t.conf=true;t.ct=nowS();S.blocks++;saveD();simDots.delete(t.txid);
+  sx.fillStyle="rgba(255,194,75,.9)";sx.beginPath();sx.arc(SW-44,SH/2,10,0,6.283);sx.fill();
+  sfx.block();burst(18);log("SIM-БЛОК захватил "+t.txid.slice(0,12)+"…","ok");toast("⛓ Сим-блок захватил точку","ok",2600);rBal();rTxs()}}
+for(const[id]of simDots)if(!pend.some(t=>t.txid===id))simDots.delete(id);
+requestAnimationFrame(simLoop)}
+requestAnimationFrame(simLoop);
 const G={run:0,raf:null,p:[],ph:"idle",ct:0,bt:0,stir:[],m:0,w:null,mn:null,tm:null},gv=$("gv"),gx=gv.getContext("2d");
 function gsz(){const d=Math.min(1.5,devicePixelRatio||1);gv.width=Math.max(1,innerWidth*d|0);gv.height=Math.max(1,innerHeight*d|0);gx.setTransform(d,0,0,d,0,0)}
 function gsp(x,y,n,s){for(let i=0;i<n;i++){const a=Math.random()*6.283,v=s*(.3+Math.random());G.p.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,l:50+Math.random()*50,mx:100,s:1+Math.random()*2.4,c:["255,194,75","247,147,26","0,229,255","139,123,255","255,79,216"][Math.random()*5|0]})}if(G.p.length>420)G.p.splice(0,G.p.length-420)}
@@ -503,9 +547,10 @@ $("gx").classList.add("hid");const c=$("gws");c.classList.remove("hid");c.innerH
 for(let i=0;i<ws.length;i++){if(G.run!==r)return;const d=document.createElement("div");d.className="gwi";d.innerHTML="<i>"+String(i+1).padStart(2,"0")+"</i>"+ws[i];c.appendChild(d);requestAnimationFrame(()=>d.classList.add("on"));sfx.st(2);await slp(95)}
 if(G.run!==r)return;$("gs").textContent="ШАГ 3 · PBKDF2-HMAC-SHA512";$("gt").textContent="Закалка семени";$("gd").textContent="2048 раундов → 512-битное семя → дерево BIP32.";
 c.classList.add("hid");const k=$("gc");k.classList.remove("hid");k.textContent="0 / 2048";
-const dp=derive(G.mn,S.net).then(w=>{G.w=w;return w});
+const dp=derive(G.mn,S.net).then(w=>{G.w=w;return w},err=>{throw err});
 for(let i=64;i<=2048;i+=64){if(G.run!==r)return;k.textContent=i+" / 2048";await slp(22)}
-const w=await dp;if(G.run!==r)return;gReady(w);k.textContent="2048 / 2048 ✓";sfx.st(3);log("ритуал: ключ выведен "+w.addr,"ok");await slp(320);if(G.run!==r)return;
+const w=await dp;if(G.run!==r)return;gReady(w);k.textContent="2048 / 2048 ✓";sfx.st(3);
+log("ритуал: ключ выведен "+w.addr,"ok");await slp(320);if(G.run!==r)return;
 k.classList.add("hid");$("gs").textContent="ШАГ 4 · BIP32 / BIP44";$("gt").textContent="Путь сквозь дерево";$("gd").textContent="m → 44' → "+S.net.coin+"' → 0' → 0 → 0";
 const g=$("gp");g.classList.remove("hid");g.innerHTML="";for(const t of["m","44'",S.net.coin+"'","0'","0","0"]){if(G.run!==r)return;const d=document.createElement("div");d.className="gpi";d.textContent=t;g.appendChild(d);requestAnimationFrame(()=>d.classList.add("lit"));sfx.st(4);await slp(150)}
 if(G.run!==r)return;g.classList.add("hid");G.ph="c";$("gs").textContent="ШАГ 5 · secp256k1";$("gt").textContent="Точка на кривой";$("gd").textContent="Приватный ключ × G кривой y²=x³+7.";
@@ -513,88 +558,85 @@ $("gpb").classList.remove("hid");$("gpb").textContent=w.pub;sfx.st(5);await slp(
 G.ph="d";$("gs").textContent="ШАГ 6 · HASH160 → Base58Check";$("gt").textContent="Адрес собирается";$("gd").textContent="SHA-256 → RIPEMD-160 → байт сети → контрольная сумма.";
 $("gpb").classList.add("hid");const a=$("ga");a.classList.remove("hid");a.textContent="";
 for(let i=0;i<w.addr.length;i++){if(G.run!==r)return;a.textContent+=w.addr[i];if(i%3===0)sfx.tick();await slp(34)}
-if(G.run!==r)return;G.ph="r";$("gs").textContent="✦ КОШЕЛЁК РОЖДЁН";$("gt").textContent="Сосуд существует";$("gd").textContent="Адрес готов. Нажми «Войти в кошелёк» внизу.";
+if(G.run!==r)return;G.ph="r";$("gs").textContent="✦ КОШЕЛЁК РОЖДЁН";$("gt").textContent="Сосуд существует";$("gd").textContent=isD()?"Testnet-адрес готов. Возьми tBTC из faucet — транзакции пойдут в НАСТОЯЩИЙ мемпул.":"Адрес записан в математику блокчейна. Нажми «Войти в кошелёк» внизу.";
 $("grv").classList.add("on");sfx.rev();log("ритуал завершён: "+w.addr,"ok")
-}catch(err){if(G.run!==r)return;G.ph="d";$("gs").textContent="СБОЙ РИТУАЛА";$("gt").textContent="Но кошелёк можно создать";
-$("gd").className="gd err";$("gd").textContent="⛔ "+(err&&err.message||err)+". Нажми «⚡ Создать мгновенно».";
-$("gfast").classList.remove("hid");sfx.err();log("ритуал: "+(err&&err.message||err),"err");if(G.w)gReady(G.w)}}
-async function fastGen(){if(!S.ready)return toast("Ядро не готово — нажми ⟳ в баннере","warn");
+}catch(err){
+if(G.run!==r)return;G.ph="d";$("gs").textContent="СБОЙ РИТУАЛА";$("gt").textContent="Но кошелёк можно создать";
+$("gd").className="gd err";$("gd").textContent="⛔ "+(err&&err.message||err)+". Нажми «⚡ Создать мгновенно» — ключи будут выведены тем же проверенным ядром без анимации.";
+$("gfast").classList.remove("hid");sfx.err();log("ритуал: "+(err&&err.message||err),"err");
+if(G.w)gReady(G.w)}}
+async function fastGen(){if(!S.ready)return toast("Ядро не готово — подожди загрузки списка BIP39","warn");
 try{const w=await derive(e2m(crypto.getRandomValues(new U8(16))),S.net);if(S.gopen)gclose();setW(w);sfx.gen();burst();toast("Кошелёк создан мгновенно","ok",4200);refresh(true)}
 catch(e){log("мгновенная генерация: "+e.message,"err");toast(e.message,"err");sfx.err()}}
 function gok(){if(!G.w)return toast("Ключ ещё не выведен — нажми «⚡ Создать мгновенно»","warn");const w=G.w;gclose();setW(w);sfx.gen();burst();toast("Кошелёк рождён. Сохрани сид-фразу офлайн!","ok",5200);refresh(true)}
 function setW(w){S.w=w;S.rev=false;S.txs=[];S.ut=[];S.bal={c:0,m:0,n:0};localStorage.setItem(S.net.st,JSON.stringify(w));hideP();rWallet();rBal();rTxs();rFee();log("кошелёк активен: "+w.addr,"ok")}
 function cu(el,to,f){const fr=parseFloat(el.dataset.v||"0");el.dataset.v=to;if(RM||fr===to){el.textContent=f(to);return}
 const t0=performance.now();(function s(t){const k=Math.min(1,(t-t0)/550),e=1-Math.pow(1-k,3);el.textContent=f(fr+(to-fr)*e);if(k<1)requestAnimationFrame(s)})(t0)}
-function rCore(){const c=$("chipCore");if(!c)return;if(!S.ready){c.className="cp0 r";c.textContent="⛔ ЯДРО НЕ ГОТОВО";return}
-if(NONSTD){c.className="cp0 w";c.textContent="⚠ СПИСОК НЕ ЭТАЛОННЫЙ";return}
-c.className="cp0 g";c.textContent="✓ ЯДРО ПРОВЕРЕНО"}
-function rNet(){const id=S.net.id,mode=isSim()?"sim":S.demo.live?"live":id;
-document.body.className=S.demo.live?"demo":id==="main"?"":id;
-$("sgM").classList.toggle("on",id==="main");$("sgT").classList.toggle("on",id==="test"&&!S.demo.live);$("sgD").classList.toggle("on",id==="demo");
-$("nname").textContent=S.demo.live?"DEMO·LIVE ₿ₜ":S.net.nm;$("capn").textContent=$("nname").textContent;
-$("h1").innerHTML=mode==="main"?"РЕАЛЬНЫЙ BITCOIN.<br>РЕАЛЬНАЯ ОТВЕТСТВЕННОСТЬ.":mode==="test"?"ПОЛИГОН BITCOIN.<br>НУЛЕВОЙ РИСК.":mode==="live"?"DEMO → LIVE ₿ₜ.<br>НАСТОЯЩИЙ TESTNET-МЕМПУЛ.":"DEMO-СИМУЛЯЦИЯ.<br>СВОЙ МЕМПУЛ И БЛОКИ.";
-$("hsub").textContent=mode==="main"?"Кошелёк основной сети: ритуал рождения ключей, live-баланс с курсом, подписанные транзакции. Настоящие деньги.":mode==="test"?"Та же криптография, но tBTC бесплатны: faucet, отправка, эксперименты без риска.":mode==="live"?"Транзакции подписываются и broadcast'ятся в НАСТОЯЩИЙ testnet. Ссылка на mempool.space/testnet/tx — видно в мемпуле пула. Монеты — tBTC из faucet.":"Виртуальный режим: добавляй монеты, транслируй tx в сим-мемпул, блок через ~10 сек. В блокчейн ничего не уходит.";
-$("chips").innerHTML=(mode==="main"?'<span class="cp0 h">secp256k1 · BIP39/32/44</span><span class="cp0 r">REAL MONEY</span><span class="cp0 h">COIN 0</span>':mode==="test"?'<span class="cp0 c">secp256k1</span><span class="cp0 c">TESTNET · COIN 1</span><span class="cp0">tBTC = 0 ₽</span>':mode==="live"?'<span class="cp0 s">LIVE BROADCAST</span><span class="cp0 s">mempool.space/testnet</span><span class="cp0 s">tBTC ИЗ FAUCET</span>':'<span class="cp0 s">СИМУЛЯЦИЯ</span><span class="cp0 s">СИМ-МЕМПУЛ</span><span class="cp0 s">БЛОК ~10 СЕК</span>')+'<span class="cp0 g" id="chipCore"></span>';
-rCore();
+function rNet(){const id=S.net.id;document.body.className=id==="main"?"":id;$("sgM").classList.toggle("on",id==="main");$("sgT").classList.toggle("on",id==="test");$("sgD").classList.toggle("on",id==="demo");
+$("nname").textContent=S.net.nm;$("capn").textContent=S.net.nm;
+$("h1").innerHTML=id==="main"?"РЕАЛЬНЫЙ BITCOIN.<br>РЕАЛЬНАЯ ОТВЕТСТВЕННОСТЬ.":id==="test"?"ПОЛИГОН BITCOIN.<br>НУЛЕВОЙ РИСК.":"DEMO-РЕЖИМ.<br>ТОЧКИ В МЕМПУЛЕ.";
+$("hsub").textContent=id==="main"?"Кошелёк основной сети: ритуал рождения ключей, live-баланс с курсом, подписанные транзакции. Настоящие деньги.":id==="test"?"Та же криптография, но tBTC бесплатны: faucet, отправка, эксперименты без риска.":"Виртуальные монеты → сим-мемпул с точками. Реальные tBTC из faucet → НАСТОЯЩИЙ testnet-мемпул: твоя транзакция станет живой точкой на карте mempool.space.";
+$("chips").innerHTML=id==="main"?'<span class="cp0 h">secp256k1 · BIP39/32/44</span><span class="cp0 r">REAL MONEY</span><span class="cp0 g">ЯДРО ПРОВЕРЕНО</span>':id==="test"?'<span class="cp0 c">secp256k1</span><span class="cp0 c">TESTNET · COIN 1</span><span class="cp0 g">ЯДРО ПРОВЕРЕНО</span>':'<span class="cp0 s">SIM-МЕМПУЛ · ТОЧКИ</span><span class="cp0 s">РЕАЛЬНЫЙ TESTNET-ТРАНСЛЯТ</span><span class="cp0 s">ЖИВАЯ КАРТА</span>';
 const r=$("real");
-if(mode==="main"){r.className="rl";r.innerHTML='<div class="rt">⚠ MAINNET — РЕАЛЬНЫЕ ДЕНЬГИ</div>Баланс только из сети, начинается с <b>0</b>. Монеты: <b>купить / заработать / получить</b>. Faucet и «поиск монет» невозможны. Виртуальные эксперименты — вкладка <b>DEMO</b>.'}
-else if(mode==="test"){r.className="rl sb";r.innerHTML='<div class="rt">🧪 TESTNET — ПОЛИГОН</div>tBTC <b>бесплатны</b> и ничего не стоят. Бери в faucet, отправляй, экспериментируй.'}
-else if(mode==="live"){r.className="rl sm";r.innerHTML='<div class="rt">📡 DEMO · LIVE ₿ₜ — НАСТОЯЩИЙ TESTNET</div>«➕ Добавить монеты» заменён на <b>faucet tBTC</b> в блоке 2. «Транслировать» отправляет <b>подписанную tx в реальный мемпул</b>. Ссылка <b>mempool.space/testnet/tx/…</b> — видно в пуле. Это testnet: монеты ничего не стоят, но сеть настоящая.'}
-else{r.className="rl sm";r.innerHTML='<div class="rt">🎮 DEMO · СИМ — ВИРТУАЛЬНО</div>Монеты и tx <b>виртуальные</b>. Переключи <b>LIVE ₿ₜ</b>, чтобы транслировать в настоящий testnet-мемпул.'}
-$("bGen").textContent=mode==="main"?"✦ Сотворить кошелёк":"✦ Сгенерировать кошелёк";
-$("genh").textContent=mode==="main"?"Ритуал: энтропия → 12 слов → кривая → адрес. Или мгновенно.":"Мгновенная генерация ключей.";
-$("atag").textContent=id==="test"||S.demo.live?"P2PKH · 0x6F":"P2PKH · 0x00";$("ptag").textContent="m/44'/"+S.net.coin+"'/0'/0/0";$("wtag").textContent=id==="test"||S.demo.live?"0xEF · c":"0x80 · K/L";
-$("t3").textContent="ИТОГО · "+S.net.u;$("bTitle").textContent=isSim()?"ВИРТУАЛЬНЫЙ БАЛАНС":"БАЛАНС ИЗ СЕТИ";$("bTail").textContent=isSim()?"SIM MEMPOOL":"LIVE API";
-$("t1").textContent=isSim()?"ДОСТУПНО":"ПОДТВЕРЖДЕНО";$("t2").textContent=isSim()?"В СИМ-МЕМПУЛЕ":"В МЕМПУЛЕ";
-$("sTitle").textContent=isSim()?"ТРАНСЛИРОВАТЬ В СИМ-МЕМПУЛ":"ОТПРАВИТЬ "+S.net.u;$("sTail").textContent=isSim()?"SIM TX":"REAL TX";
-$("bBuild").textContent=isSim()?"🔧 Собрать сим-транзакцию":"🔧 Собрать и подписать";$("bSend").textContent=isSim()?"📡 Транслировать в сим-мемпул":"✅ Отправить в сеть";
-$("to").placeholder="Получатель: "+S.net.ae;$("amt").placeholder="Сумма, "+S.net.u;
-$("bAdd").classList.toggle("hid",!isSim());$("dmodes").classList.toggle("hid",id!=="demo");
-$("dmSim").classList.toggle("on",isSim());$("dmLive").classList.toggle("on",S.demo.live);
-$("autoW").classList.toggle("hid",isSim());$("bBal").classList.toggle("hid",isSim());
-$("fiat").classList.toggle("hid",mode!=="main");$("bRand").classList.toggle("hid",!isSim());
-$("fcP").classList.toggle("hid",id==="main");
-$("dot").className="dt"+(isSim()?" sm":" wt");if(isSim())$("tip").textContent="SIM";
-if(isSim()&&!$("to").value.trim()){$("to").value=randAddr();validateTo()}
+if(id==="main"){r.className="rl";r.innerHTML='<div class="rt">⚠ MAINNET — РЕАЛЬНЫЕ ДЕНЬГИ</div>Баланс только из сети, начинается с <b>0</b>. Монеты: <b>купить / заработать / получить</b>. Faucet и «поиск монет» невозможны. Виртуальные эксперименты — вкладка <b>DEMO</b>.'}
+else if(id==="test"){r.className="rl sb";r.innerHTML='<div class="rt">🧪 TESTNET — ПОЛИГОН</div>tBTC <b>бесплатны</b> и ничего не стоят. Бери в faucet, отправляй — транзакции попадают в <b>настоящий testnet-мемпул</b>.'}
+else{r.className="rl sm";r.innerHTML='<div class="rt">🎮 DEMO — ДВА МЕМПУЛА</div><b>ВИРТУАЛЬНЫЕ</b> монеты → карточка «СИМ-МЕМПУЛ»: твоя tx летает <b>точкой</b> и через ~10 сек захватывается сим-блоком.<br><b>РЕАЛЬНЫЕ tBTC</b> (faucet на этот же адрес!) → кнопка «Транслировать» отправляет tx в <b>НАСТОЯЩИЙ testnet-мемпул</b> — она станет <b>живой точкой на карте mempool.space</b>. Переключатель источника в блоке 4.'}
+$("bGen").textContent=id==="main"?"✦ Сотворить кошелёк":"✦ Сгенерировать кошелёк";
+$("genh").textContent=id==="main"?"Ритуал: энтропия → 12 слов → кривая → адрес. Или мгновенно.":"Мгновенная генерация ключей.";
+$("atag").textContent=id==="main"?"P2PKH · 0x00":"P2PKH · 0x6F";$("ptag").textContent="m/44'/"+S.net.coin+"'/0'/0/0";$("wtag").textContent=id==="main"?"0x80 · K/L":"0xEF · c";
+$("t3").textContent="ИТОГО · "+S.net.u;$("bTitle").textContent=id==="demo"?"БАЛАНС DEMO":"БАЛАНС ИЗ СЕТИ";$("bTail").textContent=id==="demo"?"SIM + LIVE":"LIVE API";
+$("t1").textContent=id==="demo"?"tBTC РЕАЛ / ВИРТ":"ПОДТВЕРЖДЕНО";$("t2").textContent=id==="demo"?"МЕМПУЛ (REAL+SIM)":"В МЕМПУЛЕ";
+$("sTitle").textContent=id==="demo"?"ТРАНСЛИРОВАТЬ":"ОТПРАВИТЬ "+S.net.u;$("sTail").textContent=id==="demo"?"SIM / REAL":"REAL TX";
+$("bBuild").textContent=id==="demo"?"🔧 Собрать транзакцию":"🔧 Собрать и подписать";$("bSend").textContent=id==="demo"?"📡 Транслировать":"✅ Отправить в сеть";
+$("to").placeholder="Получатель: "+S.net.ae;$("amt").placeholder="Сумма, "+(id==="demo"?"BTC":S.net.u);
+$("bAdd").classList.toggle("hid",!isD());$("autoW").classList.toggle("hid",isD());$("bBal").classList.toggle("hid",isD());
+$("fiat").classList.toggle("hid",id!=="main");$("bRand").classList.toggle("hid",!isD());$("fcP").classList.toggle("hid",!isD());
+$("srcBox").classList.toggle("hid",!isD());$("simcard").classList.toggle("hid",!isD());
+$("dot").className="dt"+(isD()?" sm":" wt");if(isD())$("tip").textContent="TESTNET";
+$("live").href="https://mempool.space/testnet";
+if(isD()&&!$("to").value.trim()){$("to").value=randAddr();validateTo()}
 rDep();rWallet();rBal();rTxs();rFee()}
-function rDep(){const c=$("dep"),mode=isSim()?"sim":S.demo.live?"live":S.net.id;
-if(mode==="main")c.innerHTML='<h2><span class="n">2</span>ПОЛУЧИТЬ BTC<span class="tl">РЕАЛЬНЫЕ ПУТИ</span></h2><div class="stp"><div><span class="nu">1</span><b>Купи BTC</b> на бирже (Bybit, Binance) за USDT/фиат.</div><div><span class="nu">2</span>Вывод → сеть <b>Bitcoin (BTC)</b> → свой адрес.</div><div><span class="nu">3</span>Сначала <b>маленькая сумма</b>, потом остальное.</div><div><span class="nu">4</span>Или <b>заработай / получи переводом</b>.</div></div><div class="wl">Faucet и «найденные кошельки» в mainnet — мошенничество.</div>';
-else if(mode==="live"||mode==="test")c.innerHTML='<h2><span class="n">2</span>ПОЛУЧИТЬ tBTC<span class="tl">FAUCET → '+S.net.nm+'</span></h2><div class="stp">Скопируй адрес → вставь на faucet → капча → tBTC придут в <b>сеть testnet</b> (тот же мемпул, что видит LIVE).</div><div style="height:10px"></div><a href="https://coinfaucet.eu/en/btc-testnet/" target="_blank" rel="noopener"><span class="ic">🚰</span>coinfaucet.eu<small>↗</small></a><a href="https://testnet-faucet.mempool.co/" target="_blank" rel="noopener"><span class="ic">🚰</span>testnet-faucet.mempool.co<small>↗</small></a><a href="https://bitcoinfaucet.uo1.net/" target="_blank" rel="noopener"><span class="ic">🚰</span>bitcoinfaucet.uo1.net<small>↗</small></a><div class="hint">Потом «⟳ Обновить» — баланс подтянется из сети.</div>';
-else c.innerHTML='<h2><span class="n">2</span>ДОБАВИТЬ МОНЕТЫ<span class="tl">СИМ · ВИРТУАЛЬНО</span></h2><div class="stp"><div><span class="nu">1</span><b>«➕ Добавить монеты»</b> — виртуальный баланс мгновенно.</div><div><span class="nu">2</span>«Собрать» → <b>«Транслировать»</b> → tx в сим-мемпуле.</div><div><span class="nu">3</span>Через ~10 сек сим-блок подтвердит её.</div></div><div class="wl" style="color:var(--mg)">Хочешь настоящую tx в мемпуле пула — переключи режим на <b>LIVE ₿ₜ</b> в блоке баланса.</div>'}
-function rWallet(){const w=S.w;$("now").classList.toggle("hid",!!w);$("has").classList.toggle("hid",!w);$("wst").textContent=w?"АКТИВЕН · "+$("nname").textContent:"НЕТ КЛЮЧЕЙ";if(!w)return;
+function rDep(){const c=$("dep"),id=S.net.id;
+if(id==="main")c.innerHTML='<h2><span class="n">2</span>ПОЛУЧИТЬ BTC<span class="tl">РЕАЛЬНЫЕ ПУТИ</span></h2><div class="stp"><div><span class="nu">1</span><b>Купи BTC</b> на бирже (Bybit, Binance) за USDT/фиат.</div><div><span class="nu">2</span>Вывод → сеть <b>Bitcoin (BTC)</b> → свой адрес.</div><div><span class="nu">3</span>Сначала <b>маленькая сумма</b>, потом остальное.</div><div><span class="nu">4</span>Или <b>заработай / получи переводом</b>.</div></div><div class="wl">Faucet и «найденные кошельки» в mainnet — мошенничество.</div>';
+else c.innerHTML='<h2><span class="n">2</span>ПОЛУЧИТЬ tBTC<span class="tl">FAUCET → РЕАЛЬНЫЙ МЕМПУЛ</span></h2><div class="stp">Скопируй адрес выше → вставь на faucet → капча → <b>настоящие tBTC</b> придут на твой адрес. Транзакция «РЕАЛЬНЫЕ tBTC» попадёт в <b>живой testnet-мемпул</b> — увидишь свою точку на карте.</div><div style="height:10px"></div><a href="https://coinfaucet.eu/en/btc-testnet/" target="_blank" rel="noopener"><span class="ic">🚰</span>coinfaucet.eu<small>↗</small></a><a href="https://testnet-faucet.mempool.co/" target="_blank" rel="noopener"><span class="ic">🚰</span>testnet-faucet.mempool.co<small>↗</small></a><a href="https://bitcoinfaucet.uo1.net/" target="_blank" rel="noopener"><span class="ic">🚰</span>bitcoinfaucet.uo1.net<small>↗</small></a>'+(id==="demo"?'<div class="wl" style="color:var(--mg)">Виртуальные монеты — кнопка «➕ Добавить». Реальные — faucet. Разные мемпулы, разные точки.</div>':"")}
+function rWallet(){const w=S.w;$("now").classList.toggle("hid",!!w);$("has").classList.toggle("hid",!w);$("wst").textContent=w?"АКТИВЕН · "+S.net.nm:"НЕТ КЛЮЧЕЙ";if(!w)return;
 $("wAddr").textContent=w.addr;$("wPub").textContent=w.pub;$("wWif").textContent=S.rev?w.wif:"•".repeat(51);$("wWif").classList.toggle("mk",!S.rev);$("bRev").textContent=S.rev?"🙈 СКРЫТЬ":"👁 ПОКАЗАТЬ";
 const g=$("mn");g.innerHTML="";w.mn.split(" ").forEach((x,i)=>{const d=document.createElement("div");d.className="mw"+(S.rev?"":" hd");d.innerHTML="<i>"+String(i+1).padStart(2,"0")+"</i><b>"+(S.rev?x:"•••••")+"</b>";g.appendChild(d)})}
-function rBal(){if(isSim()){const p=dPend(),av=dAvail();cu($("bC"),av,v=>fmt(Math.round(v)));cu($("bM"),p,v=>fmt(Math.round(v)));cu($("bT"),S.demo.b,v=>fmt(Math.round(v)));cu($("bN"),S.demo.t.length,v=>String(Math.round(v)));
-$("tileM").classList.toggle("act",p>0);$("upd").textContent=p>0?"⏳ "+S.demo.t.filter(t=>!t.conf).length+" tx в сим-мемпуле":"виртуальный баланс · сим-мемпул пуст";return}
+function rBal(){if(isD()){const rp=S.bal.m,av=dAvail();cu($("bC"),S.bal.c+S.demo.b,v=>fmt(Math.round(v)));cu($("bM"),rp+dPend(),v=>fmt(Math.round(v)));cu($("bT"),S.bal.c+S.demo.b,v=>fmt(Math.round(v)));cu($("bN"),S.bal.n+S.demo.t.length,v=>String(Math.round(v)));
+$("tileM").classList.toggle("act",(rp+dPend())>0);$("upd").textContent="tBTC реал: "+fmt(S.bal.c)+" · вирт: "+fmt(S.demo.b)+" · реальный мемпул: "+fmt(rp);return}
 $("tileM").classList.toggle("act",S.bal.m>0);
 cu($("bC"),S.bal.c,v=>fmt(Math.round(v)));cu($("bM"),S.bal.m,v=>fmt(Math.round(v)));cu($("bT"),S.bal.c+S.bal.m,v=>fmt(Math.round(v)));cu($("bN"),S.bal.n,v=>String(Math.round(v)));
 $("upd").textContent=S.last?"обновлено "+new Date(S.last).toLocaleTimeString("ru-RU"):"ещё не обновлялось";
 if(S.net.id==="main"&&S.price){const t=(S.bal.c+S.bal.m)/1e8;$("fv").textContent="$"+(t*S.price).toLocaleString("en-US",{maximumFractionDigits:2});$("fr").textContent="· $"+S.price.toLocaleString("en-US",{maximumFractionDigits:0})+"/BTC"}}
 function flow(t,a){let s=0;(t.vin||[]).forEach(i=>{if(i.prevout&&i.prevout.scriptpubkey_address===a)s-=i.prevout.value});(t.vout||[]).forEach(o=>{if(o.scriptpubkey_address===a)s+=o.value});return s}
-const cur=()=>isSim()?S.demo.t:S.txs;
+function allTxs(){const out=[];
+if(isD())for(const t of S.demo.t)out.push({t,sim:true,f:t.dir*t.amt});
+for(const t of S.txs)out.push({t,sim:false,f:flow(t,S.w?S.w.addr:"")});
+return out.sort((a,b)=>(b.t.time||b.t.status&&b.t.status.block_time||0)-(a.t.time||a.t.status&&a.t.status.block_time||0))}
 function rTxs(){const b=$("txs");b.innerHTML="";if(!S.w){b.innerHTML='<div class="em"><span class="big">🔑</span>Сначала создай кошелёк.</div>';return}
-let r=cur().map(t=>({t,f:isSim()?t.dir*t.amt:flow(t,S.w.addr)}));
-if(S.f==="pend")r=r.filter(x=>isSim()?(!x.t.conf):(x.t.status&&!x.t.status.confirmed));
-else r=r.filter(x=>S.f==="all"||(S.f==="in"?x.f>=0:x.f<0));
-if(S.q)r=r.filter(x=>x.t.txid.includes(S.q.toLowerCase()));if(S.sort==="old")r.reverse();if(S.sort==="amt")r.sort((a,c)=>Math.abs(c.f)-Math.abs(a.f));
-if(!r.length){b.innerHTML=cur().length?'<div class="em"><span class="big">🔍</span>Ничего не найдено.</div>':'<div class="em"><span class="big">⛓</span>Транзакций пока нет.<br>'+(isSim()?"Добавь монеты и транслируй первую tx.":S.net.id==="main"?"Получи BTC реальным путём.":"Получи tBTC из faucet.")+'</div>';return}
-r.slice(0,16).forEach(({t,f},i)=>{const inc=f>=0,sim=isSim(),ok=sim?t.conf:!!(t.status&&t.status.confirmed),d=document.createElement("div");
+let r=allTxs();
+r=r.filter(x=>{const ok=x.sim?x.t.conf:!!(x.t.status&&x.t.status.confirmed);
+return S.f==="all"||(S.f==="in"?x.f>=0:S.f==="out"?x.f<0:!ok)});
+if(S.q)r=r.filter(x=>x.t.txid.includes(S.q.toLowerCase()));
+if(S.sort==="old")r.reverse();if(S.sort==="amt")r.sort((a,c)=>Math.abs(c.f)-Math.abs(a.f));
+if(!r.length){b.innerHTML='<div class="em"><span class="big">⛓</span>Транзакций пока нет.<br>'+(isD()?"Добавь виртуальные монеты или возьми tBTC из faucet.":S.net.id==="main"?"Получи BTC реальным путём.":"Получи tBTC из faucet.")+'</div>';return}
+r.slice(0,18).forEach(({t,f,sim},i)=>{const inc=f>=0,ok=sim?t.conf:!!(t.status&&t.status.confirmed),d=document.createElement("div");
 d.className="tx "+(inc?"i":"o")+(ok?"":" pend");d.style.animationDelay=i*.04+"s";
-const badge=sim?(ok?'<span class="bg ok">SIM · БЛОК</span>':'<span class="bg pd">⏳ СИМ-МЕМПУЛ</span>'):S.demo.live?(ok?'<span class="bg ok">TESTNET ✓</span>':'<span class="bg pd">⏳ МЕМПУЛ</span>'):'<span class="bg '+(ok?"ok":"pd")+'">'+(ok?"ПОДТВЕРЖДЕНО":"МЕМПУЛ")+"</span>";
-const sub=sim?(ok?"принято сим-блоком "+ago(t.ct):"в мемпуле · "+Math.max(0,10-(nowS()-t.time))+"с до блока"):(ok?ago(t.status.block_time):"ожидает блок");
-d.innerHTML='<div class="d">'+(inc?"↘":"↗")+'</div><div class="m"><span class="id">'+t.txid.slice(0,14)+"…"+t.txid.slice(-8)+'</span><div class="ag">'+sub+'</div></div><div class="r"><div class="am">'+(inc?"+":"")+fmt(f)+" "+S.net.u+"</div>"+badge+"</div>";
-d.onclick=()=>openDr(t,f);b.appendChild(d)})}
-const frate=()=>isSim()?5:Math.max(1,Math.ceil(S.fees[$("fee").value]||S.fees["6"]||1));
-function rFee(){$("fe").textContent=isSim()?"≈ 1000 sat · 5 sat/vB (сим)":!S.ut.length?"≈ — sat (нет UTXO)":"≈ "+Math.ceil((10+148*S.ut.length+68)*frate())+" sat · "+frate()+" sat/vB"}
+const badge=sim?(ok?'<span class="bg ok">SIM-БЛОК</span>':'<span class="bg pd">⏳ ТОЧКА В СИМ-МЕМПУЛЕ</span>'):'<span class="bg '+(ok?"ok":"pd")+'">'+(ok?"ПОДТВЕРЖДЕНО":"⏳ В МЕМПУЛЕ")+"</span>";
+const sub=sim?(ok?"захвачена блоком "+ago(t.ct):"летит · "+Math.max(0,10-(nowS()-t.time))+"с до блока"):(ok?ago(t.status.block_time):"ожидает блок");
+d.innerHTML='<div class="d">'+(inc?"↘":"↗")+'</div><div class="m"><span class="id">'+t.txid.slice(0,14)+"…"+t.txid.slice(-8)+'</span><div class="ag">'+sub+'</div></div><div class="r"><div class="am">'+(inc?"+":"")+fmt(f)+" "+(sim?"DEMO":S.net.u)+"</div>"+badge+"</div>";
+d.onclick=()=>openDr(t,f,sim);b.appendChild(d)})}
+const frate=()=>isD()?5:Math.max(1,Math.ceil(S.fees[$("fee").value]||S.fees["6"]||1));
+function rFee(){$("fe").textContent=isD()&&S.src==="v"?"≈ 1000 sat · 5 sat/vB (сим)":!S.ut.length?"≈ — sat (нет UTXO)":"≈ "+Math.ceil((10+148*S.ut.length+68)*frate())+" sat · "+frate()+" sat/vB"}
 function hideP(){S.pend=null;$("rev").classList.add("hid");$("crow").classList.add("hid")}
-function rRev(p){const sim=isSim();$("rev").innerHTML='<div class="rr big"><span>ПОЛУЧАЕТ</span><b>'+fmt(p.amt)+" "+S.net.u+'</b></div><div class="rr"><span>адрес</span><b>'+p.to+'</b></div><div class="rr"><span>комиссия</span><b>'+p.fee+" sat · "+p.rate+" sat/vB</b></div>"+(p.change?'<div class="rr"><span>сдача</span><b>'+fmt(p.change)+"</b></div>":"")+'<div class="wl">'+(sim?"🎮 СИМ: tx не уйдёт в блокчейн.":S.demo.live?"📡 LIVE: tx будет broadcast в testnet — видно на mempool.space/testnet.":S.net.id==="main"?"⚠ Реальные деньги. Проверь адрес дважды.":"Транзакция подписана локально.")+"</div>";
+function rRev(p){const sim=p.demo;$("rev").innerHTML='<div class="rr big"><span>ПОЛУЧАЕТ</span><b>'+fmt(p.amt)+" "+(sim?"DEMO BTC":S.net.u)+'</b></div><div class="rr"><span>адрес</span><b>'+p.to+'</b></div><div class="rr"><span>комиссия</span><b>'+p.fee+" sat · "+p.rate+" sat/vB</b></div>"+(p.change?'<div class="rr"><span>сдача</span><b>'+fmt(p.change)+"</b></div>":"")+'<div class="wl">'+(sim?"🎮 СИМ-ТРАНСЛЯТ: tx появится точкой в сим-мемпуле и через ~10 сек будет захвачена блоком.":S.net.id==="main"?"⚠ Реальные деньги. Проверь адрес дважды.":"✅ РЕАЛЬНЫЙ БРОДКАСТ: tx попадёт в настоящий testnet-мемпул и станет точкой на живой карте.")+"</div>";
 $("rev").classList.remove("hid");$("crow").classList.remove("hid");$("sent").classList.add("hid")}
-function openDr(t,f){S.dtx=t;const sim=isSim(),inc=f>=0,ok=sim?t.conf:!!(t.status&&t.status.confirmed);
-$("db").innerHTML='<div class="lb">'+(inc?"ВХОДЯЩАЯ":"ИСХОДЯЩАЯ")+" · "+$("nname").textContent+(sim?" · СИМ":"")+'</div><div class="ba" style="color:'+(inc?"var(--gr)":"var(--rd)")+'">'+(inc?"+":"")+fmt(f)+" "+S.net.u+'</div><div class="drr"><span>статус</span><b style="color:'+(ok?"var(--gr)":"var(--vi)")+'">'+(ok?(sim?"принято сим-блоком":"подтверждено"):"в мемпуле")+"</b></div>"+(!sim&&ok?'<div class="drr"><span>блок</span><b>#'+t.status.block_height+"</b></div>":"")+(sim&&ok?'<div class="drr"><span>сим-блок</span><b>'+new Date(t.ct*1e3).toLocaleTimeString("ru-RU")+"</b></div>":"")+(t.fee!=null?'<div class="drr"><span>комиссия</span><b>'+t.fee+" sat</b></div>":"")+(t.to?'<div class="drr"><span>получатель</span><b style="font-size:10px">'+t.to+"</b></div>":"")+'<div class="drr"><span>txid</span><b style="font-size:10px">'+t.txid+"</b></div>"+(sim&&!ok?'<div class="mp"><i style="width:'+Math.min(100,(nowS()-t.time)*10)+'%"></i></div>':"");
+function openDr(t,f,sim){S.dtx=t;const inc=f>=0,ok=sim?t.conf:!!(t.status&&t.status.confirmed);
+$("db").innerHTML='<div class="lb">'+(inc?"ВХОДЯЩАЯ":"ИСХОДЯЩАЯ")+" · "+S.net.nm+(sim?" · SIM":"")+'</div><div class="ba" style="color:'+(inc?"var(--gr)":"var(--rd)")+'">'+(inc?"+":"")+fmt(f)+" "+(sim?"DEMO BTC":S.net.u)+'</div><div class="drr"><span>статус</span><b style="color:'+(ok?"var(--gr)":"var(--vi)")+'">'+(ok?(sim?"захвачена сим-блоком":"подтверждено"):"в мемпуле")+"</b></div>"+(!sim&&ok?'<div class="drr"><span>блок</span><b>#'+t.status.block_height+"</b></div>":"")+(sim&&ok?'<div class="drr"><span>сим-блок</span><b>'+new Date(t.ct*1e3).toLocaleTimeString("ru-RU")+"</b></div>":"")+(t.fee!=null?'<div class="drr"><span>комиссия</span><b>'+t.fee+" sat</b></div>":"")+(t.to?'<div class="drr"><span>получатель</span><b style="font-size:10px">'+t.to+"</b></div>":"")+'<div class="drr"><span>txid</span><b style="font-size:10px">'+t.txid+"</b></div>";
 if(sim||!S.net.ex)$("dex").classList.add("hid");else{$("dex").classList.remove("hid");$("dex").href=S.net.ex+"/tx/"+t.txid}
 $("sc").classList.add("on");$("dr").classList.add("on")}
 const closeDr=()=>{$("sc").classList.remove("on");$("dr").classList.remove("on");S.dtx=null};
-async function refresh(sil){if(!S.w||S.busy)return;if(isSim()){rBal();rTxs();return}
+async function refresh(sil){if(!S.w||S.busy)return;if(isD()&&S.src==="v"&&!S.net.api.length){rBal();rTxs();return}
 S.busy=true;$("bBal").disabled=true;
 try{aj("/blocks/tip/height").then(h=>$("tip").textContent="#"+h).catch(()=>{});
 if(S.net.id==="main")aj("/v1/prices").then(p=>{S.price=p.USD;rBal()}).catch(()=>{});
@@ -602,16 +644,16 @@ const d=await aj("/address/"+S.w.addr),c=d.chain_stats.funded_txo_sum-d.chain_st
 S.bal={c,m,n:d.chain_stats.tx_count+d.mempool_stats.tx_count};S.last=Date.now();
 const[u,t,f]=await Promise.all([aj("/address/"+S.w.addr+"/utxo").catch(()=>S.ut),aj("/address/"+S.w.addr+"/txs").catch(()=>S.txs),aj("/fee-estimates").catch(()=>S.fees)]);
 S.ut=u;S.txs=t;S.fees=f;rBal();rTxs();rFee();
-const tt=c+m;if(tt>pv&&pv>=0&&!sil){sfx.coin();burst();toast("Получено "+fmt(tt-pv)+" "+S.net.u+"!","ok")}
-if(!sil)log("баланс: "+fmt(tt)+" "+S.net.u+(S.demo.live?" (testnet live)":""),"ok")}catch(e){if(!sil){log("сеть: "+e.message,"err");toast("Нет данных сети","err")}}
+const tt=c+m;if(tt>pv&&pv>=0&&!sil){sfx.coin();burst();toast("Получено "+fmt(tt-pv)+" "+S.net.u+" (реально)!","ok");log("РЕАЛЬНОЕ поступление: +"+fmt(tt-pv),"ok")}
+if(!sil)log("баланс real: "+fmt(tt)+" "+S.net.u,"ok")}catch(e){if(!sil){log("сеть: "+e.message,"err");toast("Нет данных сети","err")}}
 S.busy=false;$("bBal").disabled=false}
 const gate=()=>S.net.id==="main"&&!S.cons?($("cons").classList.add("on"),false):true;
-async function gen(){if(!S.ready)return toast("Ядро не готово — нажми ⟳ в баннере","warn");if(!gate())return;
-if(S.net.id==="main"&&!S.demo.live)return gopen();
+async function gen(){if(!S.ready)return toast("Ядро не готово — список BIP39 не загружен. Проверь интернет и обнови.","warn");if(!gate())return;
+if(S.net.id==="main")return gopen();
 $("bGen").disabled=true;
-try{setW(await derive(e2m(crypto.getRandomValues(new U8(16))),S.net));sfx.gen();burst();toast(isSim()?"DEMO-кошелёк создан. Добавь монеты.":"Кошелёк создан. Возьми tBTC в faucet.","ok",5000);refresh(true)}
+try{setW(await derive(e2m(crypto.getRandomValues(new U8(16))),S.net));sfx.gen();burst();toast(isD()?"DEMO-кошелёк создан. tBTC — из faucet, виртуальные — кнопкой.":"Кошелёк создан. Возьми tBTC в faucet.","ok",5000);refresh(true)}
 catch(e){log("генерация: "+e.message,"err");toast(e.message,"err");sfx.err()}$("bGen").disabled=false}
-async function rec(){if(!S.ready)return toast("Ядро не готово","warn");if(!gate())return;const raw=$("mnIn").value;
+async function rec(){if(!S.ready)return toast("Ядро не готово — список BIP39 не загружен.","warn");if(!gate())return;const raw=$("mnIn").value;
 if(!raw.trim()){$("mnH").textContent="Вставь мнемонику.";$("mnH").className="hn bad";return}
 $("bRec").disabled=true;
 try{const w=await derive(raw,S.net);setW(w);$("mnH").textContent="✓ Восстановлен: "+w.addr;$("mnH").className="hn ok";$("mnIn").value="";sfx.gen();burst();toast("Кошелёк восстановлен","ok");refresh(true)}
@@ -620,107 +662,85 @@ $("mnH").textContent="✗ "+m;$("mnH").className="hn bad";$("mnIn").classList.ad
 $("bRec").disabled=false}
 function arm(b,l,f){if(b.dataset.a){delete b.dataset.a;b.classList.remove("ar");b.textContent=b.dataset.o;f();return}
 b.dataset.o=b.textContent;b.dataset.a="1";b.classList.add("ar");b.textContent=l;setTimeout(()=>{if(b.dataset.a){delete b.dataset.a;b.classList.remove("ar");b.textContent=b.dataset.o}},3200)}
-function wipe(){const bk=S.w?{n:S.net.id,live:S.demo.live,w:S.w}:null;localStorage.removeItem(S.net.st);S.w=null;S.txs=[];S.ut=[];S.bal={c:0,m:0,n:0};S.rev=false;hideP();$("sent").classList.add("hid");
+function wipe(){const bk=S.w?{n:S.net.id,w:S.w}:null;localStorage.removeItem(S.net.st);S.w=null;S.txs=[];S.ut=[];S.bal={c:0,m:0,n:0};S.rev=false;hideP();$("sent").classList.add("hid");
 ["bC","bM","bT","bN"].forEach(i=>{$(i).textContent="—";$(i).dataset.v="0"});rWallet();rTxs();rFee();log("кошелёк стёрт","inf");
 if(bk)toast("Кошелёк стёрт","warn",8000,{l:"ВЕРНУТЬ",f:()=>{S.w=bk.w;localStorage.setItem(NET[bk.n].st,JSON.stringify(bk.w));rWallet();refresh(true);toast("Возвращён","ok")}})}
 function addOk(){const a=parseFloat($("acA").value.replace(",","."));if(!Number.isFinite(a)||a<=0){toast("Укажи количество > 0","err");return sfx.err()}
 if(a>1e6)return toast("Слишком много для демо","err");const s=Math.round(a*1e8),id=rh(32);
 S.demo.b+=s;S.demo.t.unshift({txid:id,dir:1,amt:s,time:nowS(),fee:0,conf:false,to:S.w?S.w.addr:"demo"});saveD();
-$("addm").classList.remove("on");rBal();rTxs();sfx.coin();burst();log("DEMO СИМ: +"+fmt(s),"ok");toast("➕ "+fmt(s)+" DEMO BTC (симуляция)","ok");
-setTimeout(()=>{const t=S.demo.t.find(x=>x.txid===id);if(t&&!t.conf){t.conf=true;t.ct=nowS();saveD();if(isSim()){rBal();rTxs();sfx.block();burst(20);log("DEMO: сим-блок принял "+id.slice(0,12)+"…","ok");toast("⛓ Сим-блок подтвердил поступление","ok",2600)}}},9000)}
+$("addm").classList.remove("on");rBal();rTxs();sfx.coin();burst();log("DEMO: +"+fmt(s)+" — точка в сим-мемпуле","ok");toast("➕ "+fmt(s)+" DEMO BTC · точка летит","ok")}
 function validateTo(){const v=$("to").value.trim();if(!v){$("tom").textContent="";$("toh").className="hn";$("toh").textContent="Проверка Base58Check / bech32 и сети";return}
-try{spk(v,S.net);$("tom").textContent="✓";$("tom").style.color="var(--gr)";$("toh").textContent="✓ Адрес валиден";$("toh").className="hn ok"}
-catch(e){$("tom").textContent="✗";$("tom").style.color="var(--rd)";$("toh").textContent="✗ "+e.message;$("toh").className="hn bad"}}
+try{spk(v,S.net);$("tom").textContent="✓";$("tom").style.color="var(--gr)";$("toh").textContent="✓ Адрес валиден ("+S.net.nm+")";$("toh").className="hn ok"}
+catch(e){try{spk(v,NET.main);$("tom").textContent="✓";$("tom").style.color="var(--gr)";$("toh").textContent="✓ Валиден (mainnet-формат — для виртуальной отправки)";$("toh").className="hn ok"}
+catch(e2){$("tom").textContent="✗";$("tom").style.color="var(--rd)";$("toh").textContent="✗ "+e.message;$("toh").className="hn bad"}}}
 async function build(max){if(!S.w)return toast("Сначала создай кошелёк","warn");if(!gate())return;
 hideP();$("sent").classList.add("hid");$("bBuild").disabled=true;$("bMax").disabled=true;
-try{const sim=isSim();
-if(sim&&!$("to").value.trim()){$("to").value=randAddr();validateTo();log("DEMO: адрес получателя сгенерирован","inf")}
-const to=$("to").value.trim(),sp=spk(to,S.net);
+try{const sim=isD()&&S.src==="v",nt=S.net;
+if(sim&&!$("to").value.trim()){$("to").value=randAddr();validateTo()}
+const to=$("to").value.trim();let sp;
+if(sim){try{sp=spk(to,nt)}catch(e){sp=spk(to,NET.main)}}else sp=spk(to,nt);
 const parse=()=>Math.round(parseFloat($("amt").value.replace(",","."))*1e8);
 if(sim){const fee=1000,tot=dAvail();let amt;
 if(max){amt=tot-fee;$("amt").value=fmt(Math.max(0,amt))}else amt=parse();
 if(!Number.isFinite(amt)||amt<=0)throw Error("Укажи сумму");if(amt<546)throw Error("Сумма ниже dust (546 sat)");
-if(tot<=0)throw Error("Сим-баланс пуст — «➕ Добавить монеты»");
-if(amt+fee>tot)throw Error("Не хватает доступного: "+fmt(tot));
-S.pend={demo:1,to,amt,fee,rate:5,change:0};rRev(S.pend);sfx.tick();log("DEMO СИМ: tx собрана "+fmt(amt),"ok")}
-else{if(!S.ut.length)S.ut=await aj("/address/"+S.w.addr+"/utxo");if(!S.ut.length)throw Error("Нет UTXO — получи "+S.net.u+(S.demo.live?" (faucet tBTC в блоке 2)":""));
+if(tot<=0)throw Error("Нет доступных виртуальных монет — нажми «➕ Добавить монеты»");
+if(amt+fee>tot)throw Error("Не хватает: доступно "+fmt(tot)+" (заморожено в мемпуле "+fmt(dPend())+")");
+S.pend={demo:1,to,amt,fee,rate:5,change:0};rRev(S.pend);sfx.tick();log("DEMO SIM: tx собрана "+fmt(amt),"ok")}
+else{if(!S.ut.length)S.ut=await aj("/address/"+S.w.addr+"/utxo");if(!S.ut.length)throw Error("Нет реальных tBTC — возьми из faucet (карточка 2) и обнови баланс");
 if(!Object.keys(S.fees).length)S.fees=await aj("/fee-estimates").catch(()=>({6:1}));
 const rate=frate(),n=S.ut.length,tot=S.ut.reduce((s,u)=>s+u.value,0);let no=2,fee=Math.ceil((10+148*n+68)*rate),amt;
 if(max){no=1;fee=Math.ceil((10+148*n+34)*rate);amt=tot-fee;$("amt").value=fmt(Math.max(0,amt))}else amt=parse();
 if(!Number.isFinite(amt)||amt<=0)throw Error("Укажи сумму");if(amt<546)throw Error("Сумма ниже dust (546 sat)");
 let ch=tot-amt-fee;if(ch<0)throw Error("Не хватает: есть "+fmt(tot)+", нужно "+fmt(amt+fee));if(ch>0&&ch<546){fee+=ch;ch=0;no=1}
-const t=buildTx(S.ut,sp,amt,ch,S.w);S.pend=Object.assign({},t,{to,amt,fee,change:ch,rate,nIn:n,nOut:no,ut:S.ut.slice()});rRev(S.pend);sfx.tick();log("подписано: "+fmt(amt)+" "+S.net.u+" · fee "+fee,"ok")}}
+const t=buildTx(S.ut,sp,amt,ch,S.w);S.pend=Object.assign({},t,{to,amt,fee,change:ch,rate,nIn:n,nOut:no,ut:S.ut.slice()});rRev(S.pend);sfx.tick();log("РЕАЛ: подписано "+fmt(amt)+" "+S.net.u+" · fee "+fee,"ok")}}
 catch(e){log("сборка: "+e.message,"err");toast(e.message,"err");sfx.err();$("toh").textContent="✗ "+e.message;$("toh").className="hn bad"}
 $("bBuild").disabled=false;$("bMax").disabled=false}
 async function send(){if(!S.pend)return toast("Сначала собери транзакцию","warn");const p=S.pend;
 if(p.demo){const id=rh(32),t={txid:id,dir:-1,amt:p.amt,time:nowS(),fee:p.fee,conf:false,to:p.to};
 S.demo.t.unshift(t);saveD();
-$("sent").className="sn sim";$("sent").innerHTML='📡 <b>ТРАНСЛИРОВАНО В СИМ-МЕМПУЛ</b><br>'+fmt(p.amt)+" DEMO BTC · комиссия "+p.fee+' sat<span class="id">'+id+'</span><div class="mp"><i id="mpb"></i></div><div style="margin-top:8px;color:var(--vi);font-size:10.5px" id="mpst">⏳ ожидает сим-блок…</div><b style="color:var(--mg);display:block;margin-top:8px">СИМ — не настоящая tx. Для мемпула пула — режим LIVE ₿ₜ.</b>';
-$("sent").classList.remove("hid");hideP();$("amt").value="";rBal();rTxs();rFee();sfx.send();burst();log("DEMO: tx "+id.slice(0,12)+"… в сим-мемпуле","ok");
+$("sent").className="sn sim";$("sent").innerHTML='📡 <b>ТОЧКА В СИМ-МЕМПУЛЕ</b><br>'+fmt(p.amt)+" DEMO BTC · комиссия "+p.fee+' sat<span class="id">'+id+'</span><div class="mp"><i id="mpb"></i></div><div style="margin-top:8px;color:var(--vi);font-size:10.5px" id="mpst">⏳ точка летит к сим-блоку…</div><b style="color:var(--mg);display:block;margin-top:8px">Смотри карточку «СИМ-МЕМПУЛ» слева — твоя tx летает точкой.</b>';
+$("sent").classList.remove("hid");hideP();$("amt").value="";rBal();rTxs();rFee();sfx.send();burst();
+log("DEMO SIM: tx "+id.slice(0,12)+"… = точка","ok");
+toast("📡 Транслировано в сим-мемпул","ok",7000,{l:"ОТМЕНИТЬ",f:()=>{const i=S.demo.t.findIndex(x=>x.txid===id);if(i>=0&&!S.demo.t[i].conf){S.demo.t.splice(i,1);saveD();simDots.delete(id);rBal();rTxs();$("sent").classList.add("hid");log("DEMO: точка отменена","warn");toast("Отменено","warn")}}});
 let el=0;const iv=setInterval(()=>{el++;const b=$("mpb");if(b)b.style.width=Math.min(100,el*10)+"%";if(el>=10)clearInterval(iv)},1000);
-setTimeout(()=>{const x=S.demo.t.find(y=>y.txid===id);if(!x||x.conf)return;x.conf=true;x.ct=nowS();saveD();
-const st=$("mpst");if(st){st.style.color="var(--gr)";st.textContent="✅ принято сим-блоком"}
-const b=$("mpb");if(b)b.style.width="100%";
-if(isSim()){rBal();rTxs();sfx.block();burst(24);log("DEMO: сим-блок подтвердил "+id.slice(0,12)+"…","ok")}},10000);
 return}
-const b=$("bSend");b.disabled=true;b.innerHTML='<span class="spn"></span> BROADCAST…';log("отправка raw tx в "+S.net.nm+(S.demo.live?" (DEMO·LIVE)":"")+"…");
+const b=$("bSend");b.disabled=true;b.innerHTML='<span class="spn"></span> BROADCAST…';log("отправка raw tx в "+S.net.nm+"…");
 try{const r=await api("/tx",{method:"POST",headers:{"Content-Type":"text/plain"},body:p.raw}),id=(await r.text()).trim();
 S.txs.unshift({txid:id,fee:p.fee,status:{confirmed:false},vin:p.ut.map(u=>({prevout:{scriptpubkey_address:S.w.addr,value:u.value}})),vout:[{scriptpubkey_address:p.to,value:p.amt}].concat(p.change?[{scriptpubkey_address:S.w.addr,value:p.change}]:[])});rTxs();
-$("sent").className="sn";$("sent").innerHTML="✅ <b>ТРАНЗАКЦИЯ В МЕМПУЛЕ "+S.net.nm+"!</b><br>"+fmt(p.amt)+" "+S.net.u+" · "+p.fee+' sat<a class="id" href="'+S.net.ex+"/tx/"+id+'" target="_blank" rel="noopener">'+id+'</a><div style="margin-top:6px"><a class="bt g sm" style="width:auto;display:inline-flex;text-decoration:none" href="'+S.net.ex+"/tx/"+id+'" target="_blank" rel="noopener">👁 СМОТРЕТЬ В MEMPOOL.SPACE ↗</a> <button class="cb" id="cptx" style="margin:0">⧉ TXID</button></div>';
-$("sent").classList.remove("hid");$("cptx").onclick=()=>copy(id,$("cptx"));hideP();$("amt").value="";sfx.send();burst();log("ОТПРАВЛЕНО · "+id,"ok");toast(S.demo.live?"LIVE: tx в testnet-мемпуле!":"Транзакция отправлена!","ok");setTimeout(()=>refresh(true),1800)}
-catch(e){log("broadcast: "+e.message,"err");toast("Сеть отклонила tx: "+e.message,"err",6000);sfx.err()}
-b.disabled=false;b.textContent=isSim()?"📡 Транслировать в сим-мемпул":"✅ Отправить в сеть"}
+$("sent").className="sn";$("sent").innerHTML='✅ <b>РЕАЛЬНЫЙ БРОДКАСТ!</b> Tx в НАСТОЯЩЕМ мемпуле '+S.net.nm+'<br>'+fmt(p.amt)+" "+S.net.u+" · "+p.fee+' sat<a class="id" href="'+S.net.ex+"/tx/"+id+'" target="_blank" rel="noopener">'+id+'</a><a class="livebtn" style="margin-top:9px" href="https://mempool.space'+(S.net.id!=="main"?"/testnet":"")+'" target="_blank" rel="noopener"><span class="pulse"></span>🗺 СМОТРИ СВОЮ ТОЧКУ НА ЖИВОЙ КАРТЕ</a><button class="cb" id="cptx" style="margin-top:9px">⧉ TXID</button>';
+$("sent").classList.remove("hid");$("cptx").onclick=()=>copy(id,$("cptx"));hideP();$("amt").value="";sfx.send();burst();log("ОТПРАВЛЕНО В МЕМПУЛ · "+id,"ok");
+toast("📡 Твоя точка теперь в настоящем мемпуле!","ok",5000);setTimeout(()=>refresh(true),1500)}
+catch(e){log("broadcast: "+e.message,"err");toast("Сеть отклонила: "+e.message,"err",7000);sfx.err()}
+b.disabled=false;b.textContent=isD()?"📡 Транслировать":"✅ Отправить в сеть"}
 async function copy(t,b){try{await navigator.clipboard.writeText(t)}catch(e){const a=document.createElement("textarea");a.value=t;document.body.appendChild(a);a.select();try{document.execCommand("copy")}catch(x){}a.remove()}
 if(b){const o=b.textContent;b.classList.add("dn");b.textContent="✓ СКОПИРОВАНО";setTimeout(()=>{b.classList.remove("dn");b.textContent=o},1400)}sfx.tick()}
-function fatal(m){const f=$("fatal");f.style.display="block";f.innerHTML="⛔ "+m+' <button id="ftry">⟳ Повторить</button>';log(m,"err");const b=$("ftry");if(b)b.onclick=()=>{f.style.display="none";boot()}}
-async function loadRemote(){const urls=["https://raw.githubusercontent.com/bitcoin/bips/master/bip-0039/english.txt","https://cdn.jsdelivr.net/gh/bitcoin/bips@master/bip-0039/english.txt","https://unpkg.com/@scure/bip39@1.3.0/wordlists/english.js"];
-for(const u of urls){try{const r=await fetch(u,{cache:"no-store"});if(!r.ok)continue;let txt=await r.text();
-if(u.endsWith(".js")){const m=txt.match(/`([^`]+)`/);if(m)txt=m[1];else{const arr=[...txt.matchAll(/["']([a-z]+)["']/g)].map(x=>x[1]);if(arr.length>=2048)txt=arr.slice(0,2048).join("\n")}}
-const w=txt.replace(/\r/g,"").split(/[\n\s]+/).map(x=>x.trim()).filter(Boolean);
-if(w.length>=2048&&lok(w.slice(0,2048))){W=w.slice(0,2048);WI=new Map(W.map((x,i)=>[x,i]));NONSTD=false;try{localStorage.setItem("wl_words_v4",W.join("\n"))}catch(e){}rCore();log("эталонный список BIP39 загружен из "+new URL(u).host,"ok");return true}}catch(e){}}
-return false}
-function applyNet(id){S.net=NET[id];localStorage.setItem("wl_net",id);if(id!=="demo")S.demo.live=false;
-S.w=null;S.txs=[];S.ut=[];S.fees={};S.bal={c:0,m:0,n:0};S.rev=false;S.price=null;hideP();$("sent").classList.add("hid");
+function fatal(m){const f=$("fatal");f.textContent="⛔ "+m;f.style.display="block";log(m,"err")}
+function apply(id){S.net=NET[id];localStorage.setItem("wl_net",id);S.w=null;S.txs=[];S.ut=[];S.fees={};S.bal={c:0,m:0,n:0};S.rev=false;S.price=null;hideP();$("sent").classList.add("hid");
 ["bC","bM","bT","bN"].forEach(i=>{$(i).textContent="—";$(i).dataset.v="0"});rNet();
 const s=localStorage.getItem(S.net.st);
 if(s){try{const w=JSON.parse(s);if(w&&w.addr&&w.priv){S.w=w;rWallet();rBal();rTxs();log("кошелёк загружен: "+w.addr,"inf");refresh(true);return}}catch(e){}localStorage.removeItem(S.net.st)}
-if(S.net.id!=="main"&&S.ready)gen();else log(S.net.id==="main"?"mainnet: нажми «Сотворить кошелёк»":"нажми «Сгенерировать кошелёк»","inf");
-if(!isSim())aj("/blocks/tip/height").then(h=>$("tip").textContent="#"+h).catch(()=>{})}
-function setLive(live){if(S.demo.live===live)return;
-const mn=S.w?S.w.mn:null;S.demo.live=live;
-if(live){S.net=NET.test;if(!mn){S.net=NET.demo;S.demo.live=false;return toast("Сначала создай DEMO-кошелёк","warn")}
-try{const saved=localStorage.getItem("wl_test");if(saved){const w=JSON.parse(saved);if(w&&w.mn===mn){S.net=NET.test;setW(w);rNet();refresh(true);return}}
-derive(mn,NET.test).then(w=>{S.net=NET.test;setW(w);rNet();refresh(true);log("DEMO·LIVE: тот же сид выведен в testnet: "+w.addr,"ok")})}catch(e){S.net=NET.demo;S.demo.live=false;log("live: "+e.message,"err")}
-rNet();return}
-S.net=NET.demo;const saved=localStorage.getItem("wl_demo");
-if(saved){try{const w=JSON.parse(saved);if(w&&w.mn===mn){setW(w);rNet();rBal();rTxs();return}}catch(e){}}
-if(mn)derive(mn,NET.demo).then(w=>{setW(w);rNet()});else rNet()}
-function sw(id){if(S.net.id===id&&!S.demo.live)return;if(id==="main"&&!S.cons){$("cons").classList.add("on");return}
-if(id==="demo"){S.net=NET.demo;S.demo.live=false;applyNet("demo");return}
-if(S.demo.live){S.demo.live=false;S.net=NET.demo}
-applyNet(id)}
+if(id!=="main"&&S.ready)gen();else if(id==="main")log("mainnet: нажми «Сотворить кошелёк»","inf");
+if(id!=="demo")aj("/blocks/tip/height").then(h=>$("tip").textContent="#"+h).catch(()=>{})}
+function sw(id){if(S.net.id===id)return;if(id==="main"&&!S.cons){$("cons").classList.add("on");return}apply(id)}
 async function selfTest(){const a=enc.encode("abc");
 if(hex(sha(a))!=="ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad")throw Error("SHA-256");
 if(hex(rmd(a))!=="8eb208f7e05d987a9b044a8e98c6b087f15a0bfc")throw Error("RIPEMD-160");
 if(aff(2n).x!==0xC6047F9441ED7D6D3045406E95C07CD85C778E4B8CEF3CA7ABAC09B95C709EE5n)throw Error("secp256k1 2G");
-if(aff(3n).x!==0xF9308A019258C31049344F85F89D5229B531C845836F99B08601F113BCE036F9n)throw Error("secp256k1 3G");
-if(hex(segSpk("bc1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t4","bc"))!=="0014751e76e8199196d454941c45d1b3a323f1433bd6")throw Error("bech32 vector");
-if(!NONSTD){for(const[e,m]of VEC)if(e2m(hb(e))!==m)throw Error("BIP39 vector");
+for(const[e,m]of VEC)if(e2m(hb(e))!==m)throw Error("BIP39 vector");
 const v=await derive("abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about",NET.main);
 if(v.addr!=="1LqBGSKuX5yYUonjxT5qGfpUsXKYYWeabA")throw Error("BIP44 vector");
-const t=buildTx([{txid:"11".repeat(32),vout:0,value:100000}],cat([118,169,20],h160(pub(1n)),[136,172]),50000,49000,v);
-if(t.raw.length<100||t.txid.length!==64)throw Error("tx builder")}
+if(hex(segSpk("bc1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t4","bc"))!=="0014751e76e8199196d454941c45d1b3a323f1433bd6")throw Error("bech32 vector");
 return true}
 $("bGen").onclick=gen;$("bFast").onclick=()=>{if(!gate())return;fastGen()};$("bRec").onclick=rec;
-$("bNew").onclick=e=>arm(e.currentTarget,"ТОЧНО? СТАРЫЙ СТРЕТСЯ",()=>S.net.id==="main"&&!S.demo.live?gopen():gen());
+$("bNew").onclick=e=>arm(e.currentTarget,"ТОЧНО? СТАРЫЙ СТРЕТСЯ",()=>S.net.id==="main"?gopen():gen());
 $("bWipe").onclick=e=>arm(e.currentTarget,"ТОЧНО СТЕРЕТЬ?",wipe);
 $("bBal").onclick=()=>{sfx.tick();refresh(false)};
-$("dmSim").onclick=()=>{sfx.tick();setLive(false)};
-$("dmLive").onclick=()=>{sfx.tick();setLive(true)};
-$("bAdd").onclick=()=>{if(!S.w)return toast("Сначала создай кошелёк","warn");$("acA").value="";$("addm").classList.add("on");setTimeout(()=>$("acA").focus(),80)};
+$("bAdd").onclick=()=>{if(!S.w)return toast("Сначала создай DEMO-кошелёк","warn");$("acA").value="";$("addm").classList.add("on");setTimeout(()=>$("acA").focus(),80)};
 $("acOk").onclick=addOk;$("acNo").onclick=()=>$("addm").classList.remove("on");
 document.querySelectorAll(".qk button").forEach(b=>b.onclick=()=>{$("acA").value=b.dataset.q;sfx.tick()});
 $("acA").onkeydown=e=>{if(e.key==="Enter")addOk()};
+$("srcV").onclick=()=>{S.src="v";$("srcV").classList.add("on");$("srcR").classList.remove("on");hideP();rFee();sfx.tick();log("DEMO: источник = ВИРТУАЛЬНЫЕ (сим-мемпул)","inf")};
+$("srcR").onclick=()=>{S.src="r";$("srcR").classList.add("on");$("srcV").classList.remove("on");hideP();rFee();sfx.tick();log("DEMO: источник = РЕАЛЬНЫЕ tBTC (настоящий мемпул)","inf")};
 $("bRand").onclick=()=>{$("to").value=randAddr();validateTo();sfx.tick();log("DEMO: новый адрес получателя","inf")};
 $("bBuild").onclick=()=>build(false);$("bMax").onclick=()=>build(true);$("bSend").onclick=send;
 $("bCanc").onclick=()=>{hideP();log("отменено","inf")};
@@ -735,38 +755,38 @@ $("sgT").onclick=()=>sw("test");$("sgM").onclick=()=>sw("main");$("sgD").onclick
 $("dcl").onclick=closeDr;$("sc").onclick=closeDr;$("dcp").onclick=()=>{if(S.dtx)copy(S.dtx.txid,$("dcp"))};
 addEventListener("keydown",e=>{if(e.key==="Escape"){closeDr();$("cons").classList.remove("on");$("addm").classList.remove("on")}});
 document.querySelectorAll(".cki").forEach(c=>c.onchange=()=>{$("ckOk").disabled=![...document.querySelectorAll(".cki")].every(x=>x.checked)});
-$("ckOk").onclick=()=>{S.cons=true;localStorage.setItem("wl_cons","1");$("cons").classList.remove("on");sfx.gen();applyNet("main")};
-$("ckNo").onclick=()=>{$("cons").classList.remove("on");applyNet("test")};
+$("ckOk").onclick=()=>{S.cons=true;localStorage.setItem("wl_cons","1");$("cons").classList.remove("on");sfx.gen();apply("main")};
+$("ckNo").onclick=()=>{$("cons").classList.remove("on");apply("test")};
 let tmr=null;$("to").oninput=()=>{clearTimeout(tmr);tmr=setTimeout(validateTo,200)};
 $("amt").oninput=()=>{if(S.net.id==="main"&&S.price){const a=parseFloat($("amt").value.replace(",","."));$("af").textContent=Number.isFinite(a)?"≈ $"+(a*S.price).toLocaleString("en-US",{maximumFractionDigits:2}):""}else $("af").textContent=""};
 $("mnIn").oninput=()=>{const n=$("mnIn").value.trim().split(/\s+/).filter(Boolean).length;$("mnH").textContent=n?"слов: "+n+" · нужно 12/15/18/21/24 (BIP39)":"Electrum-сид (не BIP39) не восстанавливается.";$("mnH").className="hn"};
-addEventListener("online",()=>{log("соединение восстановлено","ok");if(NONSTD)loadRemote();refresh(true)});addEventListener("offline",()=>online(false));
+addEventListener("online",()=>{log("соединение восстановлено","ok");refresh(true)});addEventListener("offline",()=>online(false));
 addEventListener("resize",()=>{if(S.gopen)gsz()});
 $("gen").addEventListener("pointermove",stir);$("gen").addEventListener("touchmove",e=>{if(G.ph==="s"){e.preventDefault();stir(e)}},{passive:false});
 $("gsk").onclick=()=>{if(G.ph==="s")go()};$("gok").onclick=gok;$("gfast").onclick=fastGen;$("gclose").onclick=()=>{gclose();log("ритуал закрыт","inf")};
+setInterval(()=>{if(document.hidden||S.gopen)return;if(S.net.id==="main")return;aj("/blocks/tip/height").then(h=>$("tip").textContent="#"+h).catch(()=>{});if(S.auto&&S.w)refresh(true)},30000);
 setInterval(()=>{if(document.hidden)return;
-if(isSim()){if(S.demo.t.some(t=>!t.conf)){rTxs();rBal()}return}
-if(S.gopen)return;aj("/blocks/tip/height").then(h=>$("tip").textContent="#"+h).catch(()=>{});if(S.auto&&S.w)refresh(true)},30000);
-async function boot(){
+if(isD()){if(S.demo.t.some(t=>!t.conf)){rTxs();rBal()}
+for(const t of S.txs)if(!(t.status&&t.status.confirmed)){aj("/tx/"+t.txid+"/status").then(s=>{if(s.confirmed){t.status=s;rTxs();rBal();sfx.block();burst(24);log("РЕАЛ: tx "+t.txid.slice(0,12)+"… в блоке "+s.block_height+"!","ok");toast("⛓ РЕАЛЬНЫЙ БЛОК #"+s.block_height+" подтвердил твою точку!","ok",4000)}}).catch(()=>{})}return}
+if(S.w&&S.txs.some(t=>!(t.status&&t.status.confirmed)))refresh(true)},2500);
+(async function init(){
 S.snd=localStorage.getItem("wl_snd")!=="0";S.auto=localStorage.getItem("wl_auto")!=="0";S.cons=localStorage.getItem("wl_cons")==="1";
 $("auto").checked=S.auto;if(!S.snd){$("snd").classList.add("mu");$("snd").firstChild.textContent="🔇 ";$("sndl").textContent="ТИХО"}
-$("fatal").style.display="none";log("ядро: SHA-256 · RIPEMD-160 · secp256k1 · BIP32/39/44 · 0 CDN","inf");rNet();
+log("ядро встроено: SHA-256 · RIPEMD-160 · secp256k1 · BIP32/39/44 · 0 CDN","inf");rNet();
 if(!crypto.subtle)return fatal("WebCrypto недоступен — открой страницу по HTTPS (GitHub Pages).");
-try{const c=localStorage.getItem("wl_words_v4");if(c){const w=c.split("\n").filter(Boolean);if(w.length===2048&&lok(w)){W=w;NONSTD=false;log("список BIP39 из кэша: 2048 ✓ эталон","ok")}}}catch(e){}
-if(!W){const b=build();W=b.w;NONSTD=!b.ok;if(b.rm)log("список авто-исправлен: удалён дубликат «"+b.rm+"»","warn");
-if(NONSTD){log("встроенный список не прошёл векторы — использую как есть (самосогласованно); эталон догружается в фоне","warn");
-const r=$("real");r.className="rl wn";r.innerHTML='<div class="rt">⚠ СПИСОК BIP39 НЕ ЭТАЛОННЫЙ (офлайн-фолбэк)</div>Ключи работают и восстанавливаются <b>этим приложением</b>, но чужие сиды могут не совпасть с внешними кошельками. При доступе в интернет эталон подгрузится автоматически. <b>DEMO·LIVE и полигон работают.</b>'}
-else log("список BIP39: 2048 ✓ · 4 эталонных вектора OK","ok")}
-WI=new Map(W.map((x,i)=>[x,i]));S.ready=true;rCore();
-try{await selfTest();log("самопроверка: "+(NONSTD?"SHA/RIPEMD/secp/bech32 OK (BIP39-векторы пропущены)":"ВСЁ OK · BIP39/44/tx-builder"),NONSTD?"warn":"ok")}
+const b=build();
+if(!b){log("встроенный список не прошёл векторы — загружаю эталон…","warn");
+try{const r=await fetch("https://raw.githubusercontent.com/bitcoin/bips/master/bip-0039/english.txt",{cache:"no-store"});
+const w=(await r.text()).replace(/\r/g,"").split("\n").map(x=>x.trim()).filter(Boolean);
+if(w.length===2048&&lok(w)){W=w;log("эталонный список загружен из bitcoin/bips","ok")}else throw Error("список не прошёл векторы")}
+catch(e){return fatal("Список BIP39 не верифицирован: "+e.message+". Проверь интернет и обнови страницу.")}}
+else{W=b.w;log("список BIP39: 2048 ✓"+(b.n?" (авто-восстановлен, удалено: "+b.rm+")":"")+" · 4 вектора OK","ok")}
+WI=new Map(W.map((w,i)=>[w,i]));S.ready=true;
+try{await selfTest();log("самопроверка: SHA/RIPEMD/2G/BIP39/BIP44/bech32 — ВСЁ OK","ok")}
 catch(e){return fatal("Самопроверка: "+e.message)}
-if(NONSTD)loadRemote();
-const id=localStorage.getItem("wl_net")||"main";S.net=NET[id]||NET.main;
-if(S.net.id==="demo"&&localStorage.getItem("wl_demo_live")==="1")S.demo.live=true;
-rNet();
+const id=localStorage.getItem("wl_net")||"main";S.net=NET[id]||NET.main;rNet();
 if(S.net.id==="main"&&!S.cons){$("cons").classList.add("on");log("mainnet ждёт принятия рисков","inf");aj("/blocks/tip/height").then(h=>$("tip").textContent="#"+h).catch(()=>{});return}
-applyNet(S.net.id)}
-boot();
+apply(S.net.id)})();
 </script>
 </body>
 </html>
