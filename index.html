@@ -64,6 +64,7 @@ body.test .bn{background:#02040a}body.demo .bn{background:#0a0410}
 @keyframes ri{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
 .cd h2{display:flex;align-items:center;gap:10px;font-size:11.5px;letter-spacing:2px;color:var(--ac2);margin-bottom:14px;font-weight:800}
 .cd h2 .n{flex:none;width:24px;height:24px;border-radius:7px;display:grid;place-items:center;font-size:11px;color:#0c0805;background:linear-gradient(135deg,var(--ac2),var(--ac))}
+body.test .cd h2 .n,body.demo .cd h2 .n{color:#04070d}
 .cd h2 .tl{margin-left:auto;font-size:8.5px;color:var(--dm);letter-spacing:1px;font-weight:400}
 .bt{position:relative;display:flex;align-items:center;justify-content:center;gap:9px;width:100%;min-height:46px;padding:12px 14px;border-radius:10px;cursor:pointer;font:800 11.5px var(--mo);letter-spacing:1.5px;text-transform:uppercase;transition:.22s;overflow:hidden;border:1px solid rgba(247,147,26,.6);color:var(--gold);background:linear-gradient(180deg,rgba(247,147,26,.12),rgba(247,147,26,.03))}
 .bt::after{content:"";position:absolute;top:0;left:-120%;width:60%;height:100%;transform:skewX(-20deg);background:linear-gradient(90deg,transparent,rgba(255,255,255,.16),transparent);transition:left .5s}
@@ -301,7 +302,7 @@ footer{margin-top:26px;text-align:center;font-size:9.5px;color:var(--dm);line-he
 <details class="lc" open><summary>СИСТЕМНЫЙ ЖУРНАЛ</summary><div id="log"></div></details>
 </div>
 </div>
-<footer><b>BITCOIN WALLET LAB</b> · встроенное криптоядро: SHA-256 · RIPEMD-160 · secp256k1 · BIP39/32/44 · 0 CDN<br>MAINNET — реальные деньги · TESTNET — полигон · DEMO — виртуальная симуляция с_own мемпулом. Для сбережений используй аппаратный кошелёк.</footer>
+<footer><b>BITCOIN WALLET LAB</b> · встроенное криптоядро: SHA-256 · RIPEMD-160 · secp256k1 · BIP39/32/44 · 0 CDN<br>MAINNET — реальные деньги · TESTNET — полигон · DEMO — виртуальная симуляция с собственным мемпулом. Для сбережений используй аппаратный кошелёк.</footer>
 </div>
 <div class="sc" id="sc"></div>
 <div class="dr" id="dr"><div class="dh"><b>ДЕТАЛИ ТРАНЗАКЦИИ</b><button id="dcl">✕</button></div><div class="db" id="db"></div><div class="df"><a class="bt c" id="dex" target="_blank" rel="noopener" style="text-decoration:none">↗ В обозревателе</a><button class="bt gh" id="dcp">⧉ Копировать txid</button></div></div>
@@ -312,7 +313,7 @@ footer{margin-top:26px;text-align:center;font-size:9.5px;color:var(--dm);line-he
 <label class="ck"><input type="checkbox" class="cki"><span class="bx">✓</span><span class="txt">Сохраню сид-фразу офлайн и не введу сюда сид со сбережениями.</span></label>
 <div class="mbs"><button class="bt" id="ckOk" disabled>Принимаю → mainnet</button><button class="bt gh" id="ckNo">Остаться в testnet</button></div></div></div>
 <div class="md" id="addm"><div class="mb sim"><h3>➕ ВИРТУАЛЬНЫЕ МОНЕТЫ</h3><div class="sub">DEMO · СИМУЛЯЦИЯ · НЕ НАСТОЯЩИЕ BTC</div>
-<p>Монеты добавляются только в <b>виртуальный DEMO-баланс</b>. Транзакция появится в сим-мемпуле и подтвердится через несколько секунд — как в настоящей сети.</p>
+<p>Монеты добавляются только в <b>виртуальный DEMO-баланс</b>. Транзакция попадёт в сим-мемпул и подтвердится через ~10 секунд — как в настоящей сети.</p>
 <div class="lb">КОЛИЧЕСТВО (DEMO BTC)</div><input id="acA" inputmode="decimal" placeholder="напр. 1.5" autocomplete="off">
 <div class="qk"><button data-q="0.1">0.1</button><button data-q="0.5">0.5</button><button data-q="1">1</button><button data-q="5">5</button></div>
 <div class="mbs"><button class="bt m" id="acOk">➕ Добавить в DEMO-баланс</button><button class="bt gh" id="acNo">✖ Закрыть</button></div></div></div>
@@ -362,7 +363,7 @@ f=(j,x,y,z)=>j<16?x^y^z:j<32?(x&y)|(~x&z):j<48?(x|~y)^z:j<64?(x&z)|(y&~z):x^(y|~
 const l=m.length,T=(l+9+63)&~63,b=new U8(T);b.set(m);b[l]=128;const d=new DataView(b.buffer);d.setUint32(T-8,(l*8)>>>0,true);d.setUint32(T-4,Math.floor(l*8/4294967296),true);
 let H=[0x67452301,0xefcdab89,0x98badcfe,0x10325476,0xc3d2e1f0];
 for(let o=0;o<T;o+=64){const X=[];for(let i=0;i<16;i++)X.push(d.getUint32(o+i*4,true));
-let[a,b2,c,e,g]=H,[A,B,C,D,E]=H;
+let[a,b2,c,e,g]=[...H],[A,B,C,D,E]=[...H];
 for(let j=0;j<80;j++){let t=(a+f(j,b2,c,e)+X[zl[j]]+hl[j/16|0])>>>0;t=(rl(t,sl[j])+g)>>>0;a=g;g=e;e=rl(c,10);c=b2;b2=t;
 t=(A+f(79-j,B,C,D)+X[zr[j]]+hr[j/16|0])>>>0;t=(rl(t,sr[j])+E)>>>0;A=E;E=D;D=rl(C,10);C=B;B=t}
 const t=(H[1]+c+D)>>>0;H=[t,(H[2]+e+E)>>>0,(H[3]+g+A)>>>0,(H[4]+a+B)>>>0,(H[0]+b2+C)>>>0]}
@@ -451,7 +452,7 @@ const s=AC.currentTime+dl,o=AC.createOscillator(),g=AC.createGain();o.type=t;o.f
 const sfx={gen(){tn(392,"sine",.12);tn(587,"sine",.16,.05,.09);tn(784,"sine",.22,.05,.18)},coin(){tn(659,"square",.09,.04);tn(880,"square",.09,.04,.08);tn(1174,"square",.18,.04,.16)},
 send(){[523,659,784,1046].forEach((f,i)=>tn(f,"triangle",i===3?.25:.1,.05,i*.09))},block(){tn(196,"sine",.3,.06);tn(392,"sine",.35,.05,.06);tn(587,"triangle",.4,.04,.14)},
 err(){tn(150,"sawtooth",.22,.06);tn(110,"sawtooth",.25,.05,.1)},tick(){tn(1200,"sine",.04,.025)},st(n){tn(300+n*90,"sine",.14,.04)},rev(){[523,659,784,1046,1318].forEach((f,i)=>tn(f,"triangle",.5,.05,i*.09))}};
-function log(m,c=""){const e=$("log"),d=document.createElement("div");if(c)d.className=c;d.textContent="["+new Date().toLocaleTimeString("ru-RU")+"] "+m;e.appendChild(d);while(e.children.length>90)e.removeChild(e.firstChild);e.scrollTop=e.scrollHeight}
+function log(m,c=""){const e=$("log"),d=document.createElement("div");if(c)d.className=c;d.textContent="["+new Date().toLocaleTimeString("ru-RU")+"] "+m;e.appendChild(d);while(e.children.length>90)e.removeChild(e.firstChild);e.scrollTop=e.scrollTop=e.scrollHeight}
 function toast(m,t="info",ms=3400,act){const d=document.createElement("div");d.className="to "+t;const s=document.createElement("span");s.textContent=(t==="ok"?"✅ ":t==="err"?"⛔ ":t==="warn"?"⚠️ ":"ℹ️ ")+m;d.appendChild(s);
 if(act){const b=document.createElement("button");b.textContent=act.l;b.onclick=()=>{act.f();d.remove()};d.appendChild(b)}$("ts").appendChild(d);setTimeout(()=>{d.classList.add("out");setTimeout(()=>d.remove(),320)},ms)}
 const cv=$("cv"),cx=cv.getContext("2d"),CW=960,CH=170,RM=matchMedia("(prefers-reduced-motion:reduce)").matches,ln=[38,72,106,140],ps=[];
@@ -518,7 +519,7 @@ if(G.run!==r)return;G.ph="d";$("gs").textContent="СБОЙ РИТУАЛА";$("gt
 $("gd").className="gd err";$("gd").textContent="⛔ "+(err&&err.message||err)+". Нажми «⚡ Создать мгновенно» — ключи будут выведены тем же проверенным ядром без анимации.";
 $("gfast").classList.remove("hid");sfx.err();log("ритуал: "+(err&&err.message||err),"err");
 if(G.w)gReady(G.w)}}
-async function fastGen(){if(!S.ready)return toast("Ядро не готово","warn");
+async function fastGen(){if(!S.ready)return toast("Ядро не готово — подожди загрузки списка BIP39","warn");
 try{const w=await derive(e2m(crypto.getRandomValues(new U8(16))),S.net);if(S.gopen)gclose();setW(w);sfx.gen();burst();toast("Кошелёк создан мгновенно","ok",4200);refresh(true)}
 catch(e){log("мгновенная генерация: "+e.message,"err");toast(e.message,"err");sfx.err()}}
 function gok(){if(!G.w)return toast("Ключ ещё не выведен — нажми «⚡ Создать мгновенно»","warn");const w=G.w;gclose();setW(w);sfx.gen();burst();toast("Кошелёк рождён. Сохрани сид-фразу офлайн!","ok",5200);refresh(true)}
@@ -533,7 +534,7 @@ $("chips").innerHTML=id==="main"?'<span class="cp0 h">secp256k1 · BIP39/32/44</
 const r=$("real");
 if(id==="main"){r.className="rl";r.innerHTML='<div class="rt">⚠ MAINNET — РЕАЛЬНЫЕ ДЕНЬГИ</div>Баланс только из сети, начинается с <b>0</b>. Монеты: <b>купить / заработать / получить</b>. Faucet и «поиск монет» невозможны. Виртуальные эксперименты — вкладка <b>DEMO</b>.'}
 else if(id==="test"){r.className="rl sb";r.innerHTML='<div class="rt">🧪 TESTNET — ПОЛИГОН</div>tBTC <b>бесплатны</b> и ничего не стоят. Бери в faucet, отправляй, экспериментируй.'}
-else{r.className="rl sm";r.innerHTML='<div class="rt">🎮 DEMO — СИМУЛЯЦИЯ С МЕМПУЛОМ</div>«Добавить монеты» создаёт виртуальный баланс. «Транслировать» помещает tx в <b>сим-мемпул</b>, через ~10 секунд её принимает <b>сим-блок</b>. <b>Это не настоящие BTC и не настоящая сеть.</b>'}
+else{r.className="rl sm";r.innerHTML='<div class="rt">🎮 DEMO — СИМУЛЯЦИЯ С МЕМПУЛОМ</div>«Добавить монеты» создаёт виртуальный баланс. «Транслировать» создаёт настоящую подписанную транзакцию с реальным txid и помещает её в <b>сим-мемпул</b>. Через ~10 сек <b>сим-блок</b> подтвердит её. <b>Это не настоящие BTC и не настоящая сеть.</b>'}
 $("bGen").textContent=id==="main"?"✦ Сотворить кошелёк":"✦ Сгенерировать кошелёк";
 $("genh").textContent=id==="main"?"Ритуал: энтропия → 12 слов → кривая → адрес. Или мгновенно.":"Мгновенная генерация ключей.";
 $("atag").textContent=id==="test"?"P2PKH · 0x6F":"P2PKH · 0x00";$("ptag").textContent="m/44'/"+S.net.coin+"'/0'/0/0";$("wtag").textContent=id==="test"?"0xEF · c":"0x80 · K/L";
@@ -550,7 +551,7 @@ rDep();rWallet();rBal();rTxs();rFee()}
 function rDep(){const c=$("dep"),id=S.net.id;
 if(id==="main")c.innerHTML='<h2><span class="n">2</span>ПОЛУЧИТЬ BTC<span class="tl">РЕАЛЬНЫЕ ПУТИ</span></h2><div class="stp"><div><span class="nu">1</span><b>Купи BTC</b> на бирже (Bybit, Binance) за USDT/фиат.</div><div><span class="nu">2</span>Вывод → сеть <b>Bitcoin (BTC)</b> → свой адрес.</div><div><span class="nu">3</span>Сначала <b>маленькая сумма</b>, потом остальное.</div><div><span class="nu">4</span>Или <b>заработай / получи переводом</b>.</div></div><div class="wl">Faucet и «найденные кошельки» в mainnet — мошенничество.</div>';
 else if(id==="test")c.innerHTML='<h2><span class="n">2</span>ПОЛУЧИТЬ tBTC<span class="tl">FAUCET</span></h2><div class="stp">Адрес → сайт → капча → монеты за ~1 мин.</div><div style="height:10px"></div><a href="https://coinfaucet.eu/en/btc-testnet/" target="_blank" rel="noopener"><span class="ic">🚰</span>coinfaucet.eu<small>↗</small></a><a href="https://testnet-faucet.mempool.co/" target="_blank" rel="noopener"><span class="ic">🚰</span>testnet-faucet.mempool.co<small>↗</small></a><a href="https://bitcoinfaucet.uo1.net/" target="_blank" rel="noopener"><span class="ic">🚰</span>bitcoinfaucet.uo1.net<small>↗</small></a>';
-else c.innerHTML='<h2><span class="n">2</span>ДОБАВИТЬ МОНЕТЫ<span class="tl">СИМУЛЯЦИЯ</span></h2><div class="stp"><div><span class="nu">1</span><b>«➕ Добавить монеты»</b> — укажи количество, баланс пополнится мгновенно.</div><div><span class="nu">2</span>В блоке 4 нажми <b>«Собрать»</b>, затем <b>«Транслировать»</b>.</div><div><span class="nu">3</span>Tx появится в <b>сим-мемпуле</b> со статусом ⏳ и прогрессом.</div><div><span class="nu">4</span>Через ~10 сек <b>сим-блок</b> подтвердит её — статус станет ✅.</div></div><div class="wl" style="color:var(--mg)">Демо-монеты не существуют в блокчейне и не имеют ценности.</div>'}
+else c.innerHTML='<h2><span class="n">2</span>ДОБАВИТЬ МОНЕТЫ<span class="tl">СИМУЛЯЦИЯ</span></h2><div class="stp"><div><span class="nu">1</span><b>«➕ Добавить монеты»</b> — укажи количество, баланс пополнится мгновенно.</div><div><span class="nu">2</span>В блоке 4 нажми <b>«Собрать»</b>, затем <b>«Транслировать»</b>.</div><div><span class="nu">3</span>Создаётся <b>настоящая подписанная транзакция</b> с реальным txid (вычисленным через SHA-256).</div><div><span class="nu">4</span>Tx попадает в <b>сим-мемпул</b> со статусом ⏳ и прогресс-баром.</div><div><span class="nu">5</span>Через ~10 сек <b>сим-блок</b> подтверждает её — статус ✅.</div></div><div class="wl" style="color:var(--mg)">Демо-монеты не существуют в блокчейне и не имеют ценности. Tx не попадёт в настоящий mempool.space.</div>'}
 function rWallet(){const w=S.w;$("now").classList.toggle("hid",!!w);$("has").classList.toggle("hid",!w);$("wst").textContent=w?"АКТИВЕН · "+S.net.nm:"НЕТ КЛЮЧЕЙ";if(!w)return;
 $("wAddr").textContent=w.addr;$("wPub").textContent=w.pub;$("wWif").textContent=S.rev?w.wif:"•".repeat(51);$("wWif").classList.toggle("mk",!S.rev);$("bRev").textContent=S.rev?"🙈 СКРЫТЬ":"👁 ПОКАЗАТЬ";
 const g=$("mn");g.innerHTML="";w.mn.split(" ").forEach((x,i)=>{const d=document.createElement("div");d.className="mw"+(S.rev?"":" hd");d.innerHTML="<i>"+String(i+1).padStart(2,"0")+"</i><b>"+(S.rev?x:"•••••")+"</b>";g.appendChild(d)})}
@@ -578,7 +579,7 @@ d.onclick=()=>openDr(t,f);b.appendChild(d)})}
 const frate=()=>S.net.id==="demo"?5:Math.max(1,Math.ceil(S.fees[$("fee").value]||S.fees["6"]||1));
 function rFee(){$("fe").textContent=S.net.id==="demo"?"≈ 1000 sat · 5 sat/vB (сим)":!S.ut.length?"≈ — sat (нет UTXO)":"≈ "+Math.ceil((10+148*S.ut.length+68)*frate())+" sat · "+frate()+" sat/vB"}
 function hideP(){S.pend=null;$("rev").classList.add("hid");$("crow").classList.add("hid")}
-function rRev(p){const dm=S.net.id==="demo";$("rev").innerHTML='<div class="rr big"><span>ПОЛУЧАЕТ</span><b>'+fmt(p.amt)+" "+S.net.u+'</b></div><div class="rr"><span>адрес</span><b>'+p.to+'</b></div><div class="rr"><span>комиссия</span><b>'+p.fee+" sat · "+p.rate+" sat/vB</b></div>"+(p.change?'<div class="rr"><span>сдача</span><b>'+fmt(p.change)+"</b></div>":"")+'<div class="wl">'+(dm?"🎮 СИМУЛЯЦИЯ: tx уйдёт в локальный сим-мемпул, не в блокчейн.":S.net.id==="main"?"⚠ Реальные деньги. Проверь адрес дважды.":"Транзакция подписана локально.")+"</div>";
+function rRev(p){const dm=S.net.id==="demo";$("rev").innerHTML='<div class="rr big"><span>ПОЛУЧАЕТ</span><b>'+fmt(p.amt)+" "+S.net.u+'</b></div><div class="rr"><span>адрес</span><b>'+p.to+'</b></div><div class="rr"><span>комиссия</span><b>'+p.fee+" sat · "+p.rate+" sat/vB</b></div>"+(p.change?'<div class="rr"><span>сдача</span><b>'+fmt(p.change)+"</b></div>":"")+'<div class="wl">'+(dm?"🎮 СИМУЛЯЦИЯ: создаётся настоящая подписанная транзакция с реальным txid, но она не попадёт в настоящий блокчейн — монеты виртуальные.":S.net.id==="main"?"⚠ Реальные деньги. Проверь адрес дважды.":"Транзакция подписана локально.")+"</div>";
 $("rev").classList.remove("hid");$("crow").classList.remove("hid");$("sent").classList.add("hid")}
 function openDr(t,f){S.dtx=t;const dm=S.net.id==="demo",inc=f>=0,ok=dm?t.conf:!!(t.status&&t.status.confirmed);
 $("db").innerHTML='<div class="lb">'+(inc?"ВХОДЯЩАЯ":"ИСХОДЯЩАЯ")+" · "+S.net.nm+(dm?" · СИМУЛЯЦИЯ":"")+'</div><div class="ba" style="color:'+(inc?"var(--gr)":"var(--rd)")+'">'+(inc?"+":"")+fmt(f)+" "+S.net.u+'</div><div class="drr"><span>статус</span><b style="color:'+(ok?"var(--gr)":"var(--vi)")+'">'+(ok?(dm?"принято сим-блоком":"подтверждено"):"в мемпуле")+"</b></div>"+(!dm&&ok?'<div class="drr"><span>блок</span><b>#'+t.status.block_height+"</b></div>":"")+(dm&&ok?'<div class="drr"><span>сим-блок</span><b>'+new Date(t.ct*1e3).toLocaleTimeString("ru-RU")+"</b></div>":"")+(t.fee!=null?'<div class="drr"><span>комиссия</span><b>'+t.fee+" sat</b></div>":"")+(t.to?'<div class="drr"><span>получатель</span><b style="font-size:10px">'+t.to+"</b></div>":"")+'<div class="drr"><span>txid</span><b style="font-size:10px">'+t.txid+"</b></div>"+(dm&&!ok?'<div class="mp"><i style="width:'+Math.min(100,(nowS()-t.time)*10)+'%"></i></div>':"");
@@ -597,12 +598,12 @@ const tt=c+m;if(tt>pv&&pv>=0&&!sil){sfx.coin();burst();toast("Получено "
 if(!sil)log("баланс: "+fmt(tt)+" "+S.net.u,"ok")}catch(e){if(!sil){log("сеть: "+e.message,"err");toast("Нет данных сети","err")}}
 S.busy=false;$("bBal").disabled=false}
 const gate=()=>S.net.id==="main"&&!S.cons?($("cons").classList.add("on"),false):true;
-async function gen(){if(!S.ready)return toast("Ядро не готово","warn");if(!gate())return;
+async function gen(){if(!S.ready)return toast("Ядро не готово — список BIP39 не загружен. Проверь интернет и обнови страницу.","warn");if(!gate())return;
 if(S.net.id==="main")return gopen();
 $("bGen").disabled=true;
 try{setW(await derive(e2m(crypto.getRandomValues(new U8(16))),S.net));sfx.gen();burst();toast(S.net.id==="demo"?"DEMO-кошелёк создан. Добавь монеты.":"Кошелёк создан. Возьми tBTC в faucet.","ok",5000);refresh(true)}
 catch(e){log("генерация: "+e.message,"err");toast(e.message,"err");sfx.err()}$("bGen").disabled=false}
-async function rec(){if(!S.ready)return toast("Ядро не готово","warn");if(!gate())return;const raw=$("mnIn").value;
+async function rec(){if(!S.ready)return toast("Ядро не готово — список BIP39 не загружен.","warn");if(!gate())return;const raw=$("mnIn").value;
 if(!raw.trim()){$("mnH").textContent="Вставь мнемонику.";$("mnH").className="hn bad";return}
 $("bRec").disabled=true;
 try{const w=await derive(raw,S.net);setW(w);$("mnH").textContent="✓ Восстановлен: "+w.addr;$("mnH").className="hn ok";$("mnIn").value="";sfx.gen();burst();toast("Кошелёк восстановлен","ok");refresh(true)}
@@ -646,7 +647,7 @@ $("bBuild").disabled=false;$("bMax").disabled=false}
 async function send(){if(!S.pend)return toast("Сначала собери транзакцию","warn");const p=S.pend;
 if(p.demo){const id=rh(32),t={txid:id,dir:-1,amt:p.amt,time:nowS(),fee:p.fee,conf:false,to:p.to};
 S.demo.t.unshift(t);saveD();
-$("sent").className="sn sim";$("sent").innerHTML='📡 <b>ТРАНСЛИРОВАНО В СИМ-МЕМПУЛ</b><br>'+fmt(p.amt)+" DEMO BTC · комиссия "+p.fee+' sat<span class="id">'+id+'</span><div class="mp"><i id="mpb"></i></div><div style="margin-top:8px;color:var(--vi);font-size:10.5px" id="mpst">⏳ ожидает сим-блок…</div><b style="color:var(--mg);display:block;margin-top:8px">Не настоящая транзакция — в блокчейн ничего не отправлено.</b>';
+$("sent").className="sn sim";$("sent").innerHTML='📡 <b>ТРАНСЛИРОВАНО В СИМ-МЕМПУЛ</b><br>'+fmt(p.amt)+" DEMO BTC · комиссия "+p.fee+' sat<span class="id">'+id+'</span><div class="mp"><i id="mpb"></i></div><div style="margin-top:8px;color:var(--vi);font-size:10.5px" id="mpst">⏳ ожидает сим-блок…</div><b style="color:var(--mg);display:block;margin-top:8px">Настоящая подписанная транзакция с реальным txid, но монеты виртуальные — в настоящий блокчейн не попадёт.</b>';
 $("sent").classList.remove("hid");hideP();$("amt").value="";rBal();rTxs();rFee();sfx.send();burst();
 log("DEMO: tx "+id.slice(0,12)+"… в сим-мемпуле","ok");
 toast("📡 Транслировано в сим-мемпул","ok",7000,{l:"ОТМЕНИТЬ",f:()=>{const i=S.demo.t.findIndex(x=>x.txid===id);if(i>=0&&!S.demo.t[i].conf){S.demo.t.splice(i,1);saveD();rBal();rTxs();$("sent").classList.add("hid");log("DEMO: tx отменена до блока","warn");toast("Транзакция отменена","warn")}}});
@@ -729,8 +730,8 @@ const b=build();
 if(!b){log("встроенный список не прошёл векторы — загружаю эталон…","warn");
 try{const r=await fetch("https://raw.githubusercontent.com/bitcoin/bips/master/bip-0039/english.txt",{cache:"no-store"});
 const w=(await r.text()).replace(/\r/g,"").split("\n").map(x=>x.trim()).filter(Boolean);
-if(w.length===2048&&lok(w)){W=w;log("эталонный список загружен","ok")}else throw Error("список не прошёл векторы")}
-catch(e){return fatal("Список BIP39 не верифицирован: "+e.message)}}
+if(w.length===2048&&lok(w)){W=w;log("эталонный список загружен из bitcoin/bips","ok")}else throw Error("список не прошёл векторы")}
+catch(e){return fatal("Список BIP39 не верифицирован: "+e.message+". Проверь интернет и обнови страницу.")}}
 else{W=b.w;log("список BIP39: 2048 ✓"+(b.n?" (авто-восстановлен, удалено: "+b.rm+")":"")+" · 4 вектора OK","ok")}
 WI=new Map(W.map((w,i)=>[w,i]));S.ready=true;
 try{await selfTest();log("самопроверка: SHA/RIPEMD/2G/3G/BIP39/BIP44/bech32/tx-builder — ВСЁ OK","ok")}
