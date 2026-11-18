@@ -3,9 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Testnet Wallet Lab — настоящий Bitcoin (тестовая сеть)</title>
-<script src="https://cdn.jsdelivr.net/npm/bitcore-lib@8.25.40/bitcore-lib.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bitcore-mnemonic@8.25.40/bitcore-mnemonic.min.js"></script>
+<title>Testnet Wallet Lab v2 — генерация, баланс, отправка</title>
 <style>
 :root{--bg:#020408;--panel:#080c14;--text:#c9d1d9;--btc:#f7931a;--cyan:#00f0ff;--green:#00ff66;--red:#ff3333;--border:#162235;--quake:#ff9900}
 *{box-sizing:border-box}
@@ -19,77 +17,69 @@ canvas{display:block;width:100%;height:auto}
 .note{background:rgba(0,240,255,.05);border:1px solid var(--cyan);border-radius:6px;padding:10px;font-size:11px;color:var(--cyan);line-height:1.5}
 .section{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:16px;display:flex;flex-direction:column;gap:10px}
 .section h2{margin:0;font-size:13px;color:var(--quake);letter-spacing:1px;border-bottom:1px solid var(--border);padding-bottom:8px}
-button{background:transparent;border:1px solid var(--quake);color:var(--quake);padding:14px;font:bold 11px 'Courier New',monospace;letter-spacing:1.5px;border-radius:6px;cursor:pointer;text-transform:uppercase;transition:.25s;width:100%}
-button:hover{background:rgba(255,153,0,.08);color:#fff;box-shadow:0 0 18px rgba(255,153,0,.25)}
-button:disabled{opacity:.4;cursor:not-allowed}
+button{background:transparent;border:1px solid var(--quake);color:var(--quake);padding:13px;font:bold 11px 'Courier New',monospace;letter-spacing:1.5px;border-radius:6px;cursor:pointer;text-transform:uppercase;transition:.25s;width:100%}
+button:hover{background:rgba(255,153,0,.08);color:#fff}
+button:disabled{opacity:.35;cursor:not-allowed}
 button.cy{border-color:var(--cyan);color:var(--cyan)}
-button.cy:hover{background:rgba(0,240,255,.08);box-shadow:0 0 18px rgba(0,240,255,.25)}
-button.danger{border-color:var(--red);color:var(--red);padding:10px;font-size:10px}
-textarea{background:#010306;border:1px solid var(--border);color:var(--cyan);padding:12px;border-radius:6px;font:13px monospace;width:100%;resize:vertical;outline:none}
-textarea:focus{border-color:var(--cyan)}
-.row{background:#010306;border:1px solid var(--border);border-radius:6px;padding:10px;display:flex;flex-direction:column;gap:5px}
-.label{color:#8b949e;font-size:10px;letter-spacing:.5px}
+button.gr{border-color:var(--green);color:var(--green)}
+button.danger{border-color:var(--red);color:var(--red);padding:9px;font-size:10px}
+input,textarea{background:#010306;border:1px solid var(--border);color:var(--cyan);padding:12px;border-radius:6px;font:13px monospace;width:100%;outline:none}
+input:focus,textarea:focus{border-color:var(--cyan)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.row{background:#010306;border:1px solid var(--border);border-radius:6px;padding:10px;display:flex;flex-direction:column;gap:5px;margin-top:8px}
+.label{color:#8b949e;font-size:10px}
 .value{color:#fff;word-break:break-all;font-weight:bold;font-size:12px}
 .value.addr{color:var(--cyan);font-size:14px}
 .value.mn{color:var(--green);letter-spacing:1px;line-height:1.7}
-.copy{align-self:flex-start;background:transparent;border:1px solid var(--border);color:var(--cyan);padding:4px 10px;font-size:10px;border-radius:4px;cursor:pointer;width:auto}
-.copy:hover{background:rgba(0,240,255,.1)}
+.copy{align-self:flex-start;border:1px solid var(--border);color:var(--cyan);padding:4px 10px;font-size:10px;border-radius:4px;width:auto}
 .hud{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
 @media(min-width:560px){.hud{grid-template-columns:repeat(4,1fr)}}
 .hud-item{background:#010306;border:1px solid var(--border);border-radius:6px;padding:10px;font-size:9px;color:#8b949e;letter-spacing:1px}
 .hud-item span{display:block;margin-top:4px;font-size:15px;font-weight:bold;color:var(--cyan)}
-.hud-item.total span{color:var(--btc);text-shadow:0 0 8px rgba(247,147,26,.4)}
-.tx{display:flex;justify-content:space-between;gap:8px;align-items:center;background:#010306;border:1px solid var(--border);border-radius:6px;padding:8px 10px;font-size:11px;flex-wrap:wrap}
+.hud-item.total span{color:var(--btc)}
+.tx{display:flex;justify-content:space-between;gap:8px;align-items:center;background:#010306;border:1px solid var(--border);border-radius:6px;padding:8px 10px;font-size:11px;flex-wrap:wrap;margin-top:6px}
 .tx a{color:#58a6ff;text-decoration:none}
-.tx .amt{font-weight:bold}
 .plus{color:var(--green)}.minus{color:var(--red)}
 .st{font-size:9px;padding:2px 6px;border-radius:10px;border:1px solid}
-.ok{color:var(--green);border-color:var(--green)}
-.pend{color:var(--quake);border-color:var(--quake)}
+.ok{color:var(--green);border-color:var(--green)}.pend{color:var(--quake);border-color:var(--quake)}
 .faucets a{display:block;color:var(--cyan);font-size:12px;padding:8px;border:1px solid var(--border);border-radius:6px;text-decoration:none;margin-bottom:6px}
-.faucets a:hover{background:rgba(0,240,255,.06)}
-#log{background:#010306;border:1px solid var(--border);border-radius:6px;padding:10px;font-size:11px;color:var(--quake);max-height:130px;overflow-y:auto;white-space:pre-line;line-height:1.45}
+#pending{background:rgba(0,255,102,.05);border:1px solid var(--green);border-radius:6px;padding:10px;font-size:11px;color:var(--green);line-height:1.6}
+#log{background:#010306;border:1px solid var(--border);border-radius:6px;padding:10px;font-size:11px;color:var(--quake);max-height:150px;overflow-y:auto;white-space:pre-line;line-height:1.45}
 footer{font-size:10px;color:#5b6570;text-align:center;line-height:1.6}
 .hidden{display:none}
 </style>
 </head>
 <body>
 <div class="container">
-<header>
-<h1>TESTNET WALLET LAB</h1>
-<div class="badge">REAL CRYPTO • BITCOIN TESTNET • tBTC</div>
-</header>
-
-<div class="canvas-wrap"><canvas id="cv" width="800" height="140"></canvas></div>
-
-<div class="note">Это настоящая криптография Bitcoin в тестовой сети. Адреса валидны, баланс — реальные данные сети. Монеты tBTC бесплатны и не имеют ценности. Не используй этот кошелёк для реальных средств: ключи отображаются в браузере.</div>
+<header><h1>TESTNET WALLET LAB v2</h1><div class="badge">NOBLE/SCURE CRYPTO • GENERATE • RECEIVE • SEND</div></header>
+<div class="canvas-wrap"><canvas id="cv" width="800" height="120"></canvas></div>
+<div class="note">Настоящая криптография Bitcoin (secp256k1, BIP39/32/44) в тестовой сети. Монеты tBTC бесплатны и ничего не стоят. Не вставляй сюда мнемонику от кошелька с реальными средствами.</div>
 
 <div class="section">
 <h2>1. КОШЕЛЁК</h2>
-<button id="btn-gen">✨ Сгенерировать новый testnet-кошелёк</button>
-<textarea id="mn-in" rows="2" placeholder="…или вставь свою мнемонику (12/24 слова) для восстановления"></textarea>
-<button id="btn-rec" class="cy">🔐 Восстановить из мнемоники</button>
-
+<button id="btn-gen" disabled>✨ Сгенерировать testnet-кошелёк</button>
+<button id="btn-retry" class="danger hidden">↻ Повторить загрузку ядра</button>
+<textarea id="mn-in" rows="2" placeholder="…или вставь свою мнемонику (12/24 слова)"></textarea>
+<button id="btn-rec" class="cy" disabled>🔐 Восстановить из мнемоники</button>
 <div id="wallet-box" class="hidden">
-<div class="row"><span class="label">// АДРЕС (TESTNET P2PKH, версия 0x6F):</span><span class="value addr" id="w-addr"></span><button class="copy" data-t="w-addr">📋 копировать</button></div>
-<div class="row" style="margin-top:8px"><span class="label">// МНЕМОНИКА BIP39 — СОХРАНИ:</span><span class="value mn" id="w-mn"></span><button class="copy" data-t="w-mn">📋 копировать</button></div>
-<div class="row" style="margin-top:8px"><span class="label">// WIF (testnet, префикс 0xEF → «c»):</span><span class="value" id="w-wif"></span><button class="copy" data-t="w-wif">📋 копировать</button></div>
-<div class="row" style="margin-top:8px"><span class="label">// ПУБЛИЧНЫЙ КЛЮЧ (HEX):</span><span class="value" id="w-pk" style="font-size:10px;color:#8b949e"></span></div>
-<div class="row" style="margin-top:8px"><span class="label">// ПУТЬ ДЕРИВАЦИИ (BIP44, coin type 1 = testnet):</span><span class="value" id="w-path" style="color:#8b949e"></span></div>
-<button id="btn-wipe" class="danger" style="margin-top:10px">🗑 Стереть кошелёк из браузера</button>
+<div class="row"><span class="label">// АДРЕС (testnet P2PKH):</span><span class="value addr" id="w-addr"></span><button class="copy" data-t="w-addr">📋 копировать</button></div>
+<div class="row"><span class="label">// МНЕМОНИКА BIP39:</span><span class="value mn" id="w-mn"></span><button class="copy" data-t="w-mn">📋 копировать</button></div>
+<div class="row"><span class="label">// WIF (testnet, «c…»):</span><span class="value" id="w-wif"></span><button class="copy" data-t="w-wif">📋 копировать</button></div>
+<div class="row"><span class="label">// ПУБЛИЧНЫЙ КЛЮЧ:</span><span class="value" id="w-pk" style="font-size:10px;color:#8b949e"></span></div>
+<div class="row"><span class="label">// ПУТЬ:</span><span class="value" id="w-path" style="color:#8b949e"></span></div>
+<button id="btn-wipe" class="danger" style="margin-top:10px">🗑 Стереть кошелёк</button>
 </div>
 </div>
 
 <div class="section faucets">
-<h2>2. ПОЛУЧИТЬ БЕСПЛАТНЫЕ tBTC (FAUCET)</h2>
-<div style="font-size:11px;color:#8b949e">Скопируй адрес выше и вставь на одном из сайтов. Может быть капча и суточный лимит.</div>
-<a href="https://coinfaucet.eu/en/btc-testnet/" target="_blank" rel="noopener">🚰 coinfaucet.eu — btc-testnet</a>
+<h2>2. ПОЛУЧИТЬ tBTC</h2>
+<a href="https://coinfaucet.eu/en/btc-testnet/" target="_blank" rel="noopener">🚰 coinfaucet.eu</a>
 <a href="https://testnet-faucet.mempool.co/" target="_blank" rel="noopener">🚰 testnet-faucet.mempool.co</a>
 <a href="https://bitcoinfaucet.uo1.net/" target="_blank" rel="noopener">🚰 bitcoinfaucet.uo1.net</a>
 </div>
 
 <div class="section">
-<h2>3. РЕАЛЬНЫЙ БАЛАНС ИЗ СЕТИ</h2>
+<h2>3. БАЛАНС (РЕАЛЬНЫЕ ДАННЫЕ СЕТИ)</h2>
 <button id="btn-bal" class="cy">📊 Обновить баланс</button>
 <div class="hud">
 <div class="hud-item">ПОДТВЕРЖДЕНО<span id="b-conf">—</span></div>
@@ -100,137 +90,222 @@ footer{font-size:10px;color:#5b6570;text-align:center;line-height:1.6}
 <div id="txs"></div>
 </div>
 
-<div id="log">[Система] Загрузка криптографического ядра…</div>
-<footer>Testnet Wallet Lab • Настоящие BIP39/BIP32/secp256k1 • Данные сети: mempool.space / blockstream.info (testnet)<br>Монеты testnet не имеют ценности. Учебный инструмент.</footer>
+<div class="section">
+<h2>4. ОТПРАВИТЬ tBTC ✍️</h2>
+<input id="s-to" placeholder="Адрес получателя: m…/n…/2… или tb1q…/tb1p…">
+<div class="grid2">
+<input id="s-amt" type="text" inputmode="decimal" placeholder="Сумма, tBTC (напр. 0.0005)">
+<button id="btn-max" class="cy">MAX (всё минус комиссия)</button>
+</div>
+<button id="btn-build" class="gr">🔧 Собрать и подписать транзакцию</button>
+<div id="pending" class="hidden"></div>
+<div class="grid2 hidden" id="confirm-row">
+<button id="btn-send" class="gr">✅ Подтвердить и отправить</button>
+<button id="btn-cancel" class="danger">✖ Отмена</button>
+</div>
+</div>
+
+<div id="log">[Система] Загрузка криптоядра (noble/scure)…</div>
+<footer>Testnet Wallet Lab • @noble/curves + @scure/bip39/bip32 • API: mempool.space / blockstream.info (testnet)<br>Монеты testnet не имеют ценности. Учебный инструмент с настоящей криптографией.</footer>
 </div>
 
 <script>
 const $=id=>document.getElementById(id);
 const logEl=$('log');
-function log(t){const l=(logEl.innerText+'\n> '+t).split('\n');logEl.innerText=l.slice(-40).join('\n');logEl.scrollTop=logEl.scrollHeight;}
-let audioCtx=null;
-function snd(f,t,d,v=.05){try{if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume();const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=t;o.frequency.setValueAtTime(f,audioCtx.currentTime);g.gain.setValueAtTime(v,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.00001,audioCtx.currentTime+d);o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+d);}catch(e){}}
+function log(t){const l=(logEl.innerText+'\n> '+t).split('\n');logEl.innerText=l.slice(-50).join('\n');logEl.scrollTop=logEl.scrollHeight;}
+let AC=null;function snd(f,t,d,v=.05){try{if(!AC)AC=new(window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume();const o=AC.createOscillator(),g=AC.createGain();o.type=t;o.frequency.setValueAtTime(f,AC.currentTime);g.gain.setValueAtTime(v,AC.currentTime);g.gain.exponentialRampToValueAtTime(.00001,AC.currentTime+d);o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+d);}catch(e){}}
 
-// ---- фоновая анимация ----
-const cv=$('cv'),ctx=cv.getContext('2d'),W=cv.width,H=cv.height;
-const pts=[];for(let i=0;i<60;i++)pts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.8,vy:(Math.random()-.5)*.8,s:1+Math.random()*1.5});
-function frame(ts){
- ctx.fillStyle='rgba(2,4,8,.3)';ctx.fillRect(0,0,W,H);
- ctx.strokeStyle='rgba(22,34,53,.6)';ctx.lineWidth=1;
- for(let x=0;x<W;x+=40){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
- ctx.strokeStyle='rgba(0,240,255,.2)';ctx.lineWidth=2;ctx.beginPath();let f=true;
- for(let px=0;px<W;px+=4){const x=(px-W/2)/10,y2=x*x*x-8*x+4+Math.sin(ts*.001)*2;if(y2>=0){const y=Math.sqrt(y2)*7;f?ctx.moveTo(px,H/2-y):ctx.lineTo(px,H/2-y);f=false;}}
- ctx.stroke();
- pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;ctx.fillStyle='rgba(255,153,0,.6)';ctx.beginPath();ctx.arc(p.x,p.y,p.s,0,6.283);ctx.fill();});
- const nx=W/2+Math.sin(ts*.0004)*180,ny=H/2;
- ctx.fillStyle='#ff9900';ctx.shadowBlur=16;ctx.shadowColor='#ff9900';ctx.beginPath();ctx.arc(nx,ny,5+Math.sin(ts*.008)*1.5,0,6.283);ctx.fill();ctx.shadowBlur=0;
- requestAnimationFrame(frame);
+// ---------- canvas ----------
+const cv=$('cv'),ctx=cv.getContext('2d'),W=cv.width,H=cv.height,pts=[];
+for(let i=0;i<50;i++)pts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.8,vy:(Math.random()-.5)*.8,s:1+Math.random()*1.5});
+(function frame(ts){ctx.fillStyle='rgba(2,4,8,.3)';ctx.fillRect(0,0,W,H);
+ctx.strokeStyle='rgba(22,34,53,.6)';for(let x=0;x<W;x+=40){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+ctx.strokeStyle='rgba(0,240,255,.2)';ctx.lineWidth=2;ctx.beginPath();let f=true;
+for(let px=0;px<W;px+=4){const x=(px-W/2)/10,y2=x*x*x-8*x+4+Math.sin(ts*.001)*2;if(y2>=0){const y=Math.sqrt(y2)*6;f?ctx.moveTo(px,H/2-y):ctx.lineTo(px,H/2-y);f=false;}}ctx.stroke();
+pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;ctx.fillStyle='rgba(255,153,0,.6)';ctx.beginPath();ctx.arc(p.x,p.y,p.s,0,6.283);ctx.fill();});
+requestAnimationFrame(frame);})(0);
+
+// ---------- загрузка ядра: два ESM-CDN ----------
+let LIB=null;
+const CDNS=[p=>`https://esm.sh/${p}?target=es2020`,p=>`https://esm.run/${p}`];
+async function loadCore(){
+ $('btn-retry').classList.add('hidden');
+ for(let c=0;c<CDNS.length;c++){
+  const mk=CDNS[c];
+  log(`CDN ${c+1}/2: загрузка модулей…`);
+  try{
+   const [cu,sh,ri,b9,wl,b32]=await Promise.all([
+    import(mk('@noble/curves@1.4.2/secp256k1')),
+    import(mk('@noble/hashes@1.4.0/sha256')),
+    import(mk('@noble/hashes@1.4.0/ripemd160')),
+    import(mk('@scure/bip39@1.3.0')),
+    import(mk('@scure/bip39@1.3.0/wordlists/english')),
+    import(mk('@scure/bip32@1.4.0'))
+   ]);
+   LIB={secp:cu.secp256k1,sha256:sh.sha256,ripemd:ri.ripemd160,gen:b9.generateMnemonic,toSeed:b9.mnemonicToSeedSync,valid:b9.validateMnemonic,words:wl.wordlist,HDKey:b32.HDKey};
+   log('✅ Ядро загружено (noble/scure). Генерация работает даже офлайн.');
+   ['btn-gen','btn-rec'].forEach(i=>$(i).disabled=false);
+   const saved=localStorage.getItem('tn_wallet');
+   if(saved){try{showWallet(JSON.parse(saved));log('Кошелёк из браузера: '+wallet.address);checkBalance();}catch(e){localStorage.removeItem('tn_wallet');}}
+   return;
+  }catch(e){log(`CDN ${c+1} не ответил: ${e.message||e}`);}
+ }
+ log('[Ошибка] Оба CDN недоступны. Проверь интернет/блокировщик и нажми «Повторить».');
+ $('btn-retry').classList.remove('hidden');
 }
-requestAnimationFrame(frame);
+$('btn-retry').addEventListener('click',loadCore);
+loadCore();
 
-// ---- криптография ----
+// ---------- байты/кодировки ----------
+const hex=b=>[...b].map(x=>x.toString(16).padStart(2,'0')).join('');
+const hb=s=>Uint8Array.from(s.match(/../g).map(x=>parseInt(x,16)));
+const cat=(...a)=>{const n=a.reduce((s,x)=>s+x.length,0),o=new Uint8Array(n);let p=0;a.forEach(x=>{o.set(x,p);p+=x.length;});return o;};
+const rev=b=>Uint8Array.from([...b].reverse());
+const B58='123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+function b58enc(b){let n=0n;for(const x of b)n=(n<<8n)+BigInt(x);let s='';while(n>0n){s=B58[Number(n%58n)]+s;n/=58n;}for(const x of b){if(x===0)s='1'+s;else break;}return s;}
+function b58dec(s){let n=0n;for(const ch of s){const i=B58.indexOf(ch);if(i<0)throw Error('base58 char');n=n*58n+BigInt(i);}const b=[];while(n>0n){b.unshift(Number(n%256n));n/=256n;}for(const ch of s){if(ch==='1')b.unshift(0);else break;}return Uint8Array.from(b);}
+function b58check(p){const c=LIB.sha256(LIB.sha256(p)).slice(0,4);return b58enc(cat(p,c));}
+function b58checkDec(s){const b=b58dec(s);if(b.length<5)throw Error('short');const p=b.slice(0,-4),c=b.slice(-4),cc=LIB.sha256(LIB.sha256(p)).slice(0,4);if(hex(c)!==hex(cc))throw Error('checksum');return p;}
+// bech32/bech32m (testnet hrp=tb)
+const BC='qpzry9x8gf2tvdw0s3jn54khce6mua7l';
+function polymod(v){const G=[0x3b6a57b2,0x26508e6d,0x1ea119fa,0x3d4233dd,0x2a1462b3];let c=1;for(const x of v){const b=c>>25;c=((c&0x1ffffff)<<5)^x;for(let i=0;i<5;i++)if((b>>i)&1)c^=G[i];}return c;}
+const hrpExp=h=>{const a=[],b=[];for(const ch of h){a.push(ch.charCodeAt(0)>>5);b.push(ch.charCodeAt(0)&31);}return a.concat([0],b);};
+function conv(data,from,to,pad){let acc=0,bits=0;const out=[],max=(1<<to)-1;for(const v of data){acc=(acc<<from)|v;bits+=from;while(bits>=to){bits-=to;out.push((acc>>bits)&max);}}if(pad){if(bits>0)out.push((acc<<(to-bits))&max);}else if(bits>=from||((acc<<(to-bits))&max))throw Error('bits');return out;}
+function segwitSpk(addr){
+ if(addr!==addr.toLowerCase()&&addr!==addr.toUpperCase())throw Error('case');
+ const a=addr.toLowerCase();if(!a.startsWith('tb1'))throw Error('hrp');
+ const pos=a.lastIndexOf('1'),hrp=a.slice(0,pos);
+ const data=[...a.slice(pos+1)].map(c=>{const i=BC.indexOf(c);if(i<0)throw Error('b32 char');return i;});
+ const ver=data[0],k=ver===0?1:0x2bc830a3;
+ if(polymod(hrpExp(hrp).concat(data))!==k)throw Error('bech32 checksum');
+ const prog=Uint8Array.from(conv(data.slice(1),5,8,false));
+ if(ver===0&&prog.length===20)return cat([0x00,0x14],prog);
+ if(ver===0&&prog.length===32)return cat([0x00,0x20],prog);
+ if(ver===1&&prog.length===32)return cat([0x51,0x20],prog);
+ throw Error('witness');
+}
+function destSpk(addr){
+ addr=addr.trim();
+ if(addr.toLowerCase().startsWith('tb1'))return segwitSpk(addr);
+ const p=b58checkDec(addr);
+ if(p[0]===0x6f)return cat([0x76,0xa9,0x14],p.slice(1),[0x88,0xac]);
+ if(p[0]===0xc4)return cat([0xa9,0x14],p.slice(1),[0x87]);
+ throw Error('version byte');
+}
+
+// ---------- кошелёк ----------
 const PATH="m/44'/1'/0'/0/0";
-let wallet=null;
-function libsOk(){return typeof bitcore!=='undefined'&&typeof bitcore.Mnemonic!=='undefined';}
+let wallet=null,pending=null;
+function derive(m){
+ m=m.trim().toLowerCase().replace(/\s+/g,' ');
+ if(!LIB.valid(m,LIB.words))throw Error('Неверная мнемоника (слова/контрольная сумма BIP39)');
+ const node=LIB.HDKey.fromMasterSeed(LIB.toSeed(m)).derive(PATH);
+ const priv=node.privateKey,pub=LIB.secp.getPublicKey(priv,true);
+ const h160=LIB.ripemd(LIB.sha256(pub));
+ return {mnemonic:m,wif:b58check(cat([0xef],priv,[1])),address:b58check(cat([0x6f],h160)),pubkey:hex(pub),priv:hex(priv),path:PATH};
+}
+function showWallet(w){wallet=w;$('w-addr').textContent=w.address;$('w-mn').textContent=w.mnemonic;$('w-wif').textContent=w.wif;$('w-pk').textContent=w.pubkey;$('w-path').textContent=w.path;$('wallet-box').classList.remove('hidden');localStorage.setItem('tn_wallet',JSON.stringify(w));}
+function generate(){if(!LIB)return;log('Энтропия 128 бит → BIP39 → PBKDF2 → BIP32 '+PATH);showWallet(derive(LIB.gen(LIB.words,128)));log('✅ '+wallet.address);snd(523,'sine',.1);setTimeout(()=>snd(784,'sine',.15),90);checkBalance();}
+function restore(){if(!LIB)return;try{showWallet(derive($('mn-in').value));log('✅ Восстановлен: '+wallet.address);snd(659,'sine',.12);checkBalance();}catch(e){log('[Ошибка] '+e.message);snd(140,'sawtooth',.2);}}
+function wipe(){localStorage.removeItem('tn_wallet');wallet=null;pending=null;$('wallet-box').classList.add('hidden');$('mn-in').value='';['b-conf','b-memp','b-total','b-tx'].forEach(i=>$(i).textContent='—');$('txs').innerHTML='';hidePending();log('🗑 Стёрто.');}
 
-function derive(mnStr){
- const mn=new bitcore.Mnemonic(mnStr);
- const hd=mn.toHDPrivateKey('',bitcore.Networks.testnet);
- const pk=hd.deriveChild(PATH).privateKey;
- return {mnemonic:mn.toString(),wif:pk.toWIF(),address:pk.toAddress().toString(),pubkey:pk.publicKey.toString(),path:PATH};
-}
-function showWallet(w){
- wallet=w;
- $('w-addr').textContent=w.address;$('w-mn').textContent=w.mnemonic;
- $('w-wif').textContent=w.wif;$('w-pk').textContent=w.pubkey;$('w-path').textContent=w.path;
- $('wallet-box').classList.remove('hidden');
- localStorage.setItem('tn_wallet',JSON.stringify(w));
-}
-function generate(){
- if(!libsOk()){log('[Ошибка] Библиотеки не загружены. Проверь интернет и обнови страницу.');return;}
- log('Сбор энтропии: window.crypto.getRandomValues(128 бит)…');
- const w=derive(new bitcore.Mnemonic(128).toString());
- log('PBKDF2-HMAC-SHA512 (2048 итераций) → seed');
- log('BIP32 деривация: '+PATH+' (coin type 1 = testnet)');
- log('secp256k1: privkey → pubkey → HASH160 → Base58Check(0x6F)');
- showWallet(w);
- log('✅ Кошелёк создан: '+w.address);
- snd(523,'sine',.1);setTimeout(()=>snd(784,'sine',.15),90);
- checkBalance();
-}
-function restore(){
- if(!libsOk()){log('[Ошибка] Библиотеки не загружены.');return;}
- const s=$('mn-in').value.trim().toLowerCase().replace(/\s+/g,' ');
- if(!s){log('[Ошибка] Вставь мнемонику.');return;}
- try{const w=derive(s);showWallet(w);log('✅ Восстановлен: '+w.address);snd(659,'sine',.12);checkBalance();}
- catch(e){log('[Ошибка] Неверная мнемоника (проверь слова и контрольную сумму BIP39).');snd(140,'sawtooth',.25);}
-}
-function wipe(){
- localStorage.removeItem('tn_wallet');wallet=null;
- $('wallet-box').classList.add('hidden');$('mn-in').value='';
- ['b-conf','b-memp','b-total','b-tx'].forEach(i=>$(i).textContent='—');$('txs').innerHTML='';
- log('🗑 Кошелёк стёрт из браузера.');
-}
-
-// ---- сеть (реальные данные testnet) ----
-async function api(path){
- const bases=['https://mempool.space/testnet/api','https://blockstream.info/testnet/api'];
- let err;
- for(const b of bases){try{const r=await fetch(b+path,{cache:'no-store'});if(!r.ok)throw new Error('HTTP '+r.status);return await r.json();}catch(e){err=e;}}
- throw err;
-}
+// ---------- сеть ----------
+const API=['https://mempool.space/testnet/api','https://blockstream.info/testnet/api'];
+async function api(path,opt){let err;for(const b of API){try{const r=await fetch(b+path,Object.assign({cache:'no-store'},opt));if(!r.ok)throw Error('HTTP '+r.status+': '+(await r.text()).slice(0,120));return r;}catch(e){err=e;}}throw err;}
 const fmt=s=>(s/1e8).toFixed(8);
-function flow(tx,addr){let s=0;(tx.vin||[]).forEach(i=>{if(i.prevout&&i.prevout.scriptpubkey_address===addr)s-=i.prevout.value;});(tx.vout||[]).forEach(o=>{if(o.scriptpubkey_address===addr)s+=o.value;});return s;}
-
+function flow(tx,a){let s=0;(tx.vin||[]).forEach(i=>{if(i.prevout&&i.prevout.scriptpubkey_address===a)s-=i.prevout.value;});(tx.vout||[]).forEach(o=>{if(o.scriptpubkey_address===a)s+=o.value;});return s;}
 async function checkBalance(){
- if(!wallet){log('Сначала создай или восстанови кошелёк.');return;}
- const btn=$('btn-bal');btn.disabled=true;
- log('Запрос: /testnet/api/address/'+wallet.address.slice(0,14)+'…');
+ if(!wallet){log('Сначала создай кошелёк.');return;}
+ $('btn-bal').disabled=true;
  try{
-  const d=await api('/address/'+wallet.address);
-  const conf=d.chain_stats.funded_txo_sum-d.chain_stats.spent_txo_sum;
-  const mem=d.mempool_stats.funded_txo_sum-d.mempool_stats.spent_txo_sum;
-  $('b-conf').textContent=fmt(conf);$('b-memp').textContent=fmt(mem);
-  $('b-total').textContent=fmt(conf+mem);$('b-tx').textContent=d.chain_stats.tx_count+d.mempool_stats.tx_count;
-  log('✅ Баланс: '+fmt(conf+mem)+' tBTC'+(mem!==0?' (есть неподтверждённые!)':''));
-  if(conf+mem>0){snd(523,'square',.1);setTimeout(()=>snd(659,'square',.1),90);setTimeout(()=>snd(784,'square',.18),180);}
-  const txs=await api('/address/'+wallet.address+'/txs');
+  const d=await (await api('/address/'+wallet.address)).json();
+  const c=d.chain_stats.funded_txo_sum-d.chain_stats.spent_txo_sum,m=d.mempool_stats.funded_txo_sum-d.mempool_stats.spent_txo_sum;
+  $('b-conf').textContent=fmt(c);$('b-memp').textContent=fmt(m);$('b-total').textContent=fmt(c+m);$('b-tx').textContent=d.chain_stats.tx_count+d.mempool_stats.tx_count;
+  log('✅ Баланс: '+fmt(c+m)+' tBTC'+(m?' (есть в мемпуле)':''));
+  if(c+m>0){snd(523,'square',.1);setTimeout(()=>snd(784,'square',.15),100);}
+  const txs=await (await api('/address/'+wallet.address+'/txs')).json();
   const box=$('txs');box.innerHTML='';
-  txs.slice(0,5).forEach(tx=>{
-   const s=flow(tx,wallet.address),ok=tx.status&&tx.status.confirmed;
-   const div=document.createElement('div');div.className='tx';div.style.marginTop='6px';
-   div.innerHTML='<a href="https://mempool.space/testnet/tx/'+tx.txid+'" target="_blank" rel="noopener">'+tx.txid.slice(0,10)+'…'+tx.txid.slice(-6)+'</a>'+
-   '<span class="amt '+(s>=0?'plus':'minus')+'">'+(s>=0?'+':'')+fmt(s)+' tBTC</span>'+
-   '<span class="st '+(ok?'ok':'pend')+'">'+(ok?'подтверждено':'в мемпуле')+'</span>';
-   box.appendChild(div);
-  });
-  if(txs.length===0)log('Транзакций пока нет. Возьми tBTC в faucet выше ☝️');
-  else log('Показаны последние '+Math.min(5,txs.length)+' транзакций.');
- }catch(e){log('[Ошибка сети] '+e.message+'. Попробуй ещё раз.');snd(140,'sawtooth',.2);}
- btn.disabled=false;
+  txs.slice(0,5).forEach(t=>{const s=flow(t,wallet.address),ok=t.status&&t.status.confirmed,el=document.createElement('div');el.className='tx';
+   el.innerHTML=`<a href="https://mempool.space/testnet/tx/${t.txid}" target="_blank" rel="noopener">${t.txid.slice(0,10)}…${t.txid.slice(-6)}</a><span class="${s>=0?'plus':'minus'}">${s>=0?'+':''}${fmt(s)} tBTC</span><span class="st ${ok?'ok':'pend'}">${ok?'подтверждено':'в мемпуле'}</span>`;box.appendChild(el);});
+  if(!txs.length)log('Транзакций нет — возьми tBTC в faucet ☝️');
+ }catch(e){log('[Сеть] '+e.message);snd(140,'sawtooth',.2);}
+ $('btn-bal').disabled=false;
 }
 
-// ---- UI ----
+// ---------- сборка и подпись транзакции (legacy P2PKH) ----------
+const vi=n=>n<0xfd?[n]:n<=0xffff?[0xfd,n&255,n>>8]:[0xfe,...u32(n)];
+const u32=n=>[n&255,(n>>>8)&255,(n>>>16)&255,(n>>>24)&255];
+const u64=n=>{n=BigInt(n);const b=[];for(let i=0;i<8;i++){b.push(Number(n&255n));n>>=8n;}return b;};
+function serTx(vin,vout,sigIdx,spk){
+ let b=[...u32(2),...vi(vin.length)];
+ vin.forEach((i,j)=>{b.push(...rev(hb(i.txid)),...u32(i.vout));const s=sigIdx===j?spk:(sigIdx===-1?i.scriptSig:[]);b.push(...vi(s.length),...s,...u32(0xffffffff));});
+ b.push(...vi(vout.length));vout.forEach(o=>b.push(...u64(o.value),...vi(o.spk.length),...o.spk));b.push(...u32(0));
+ if(sigIdx>=0)b.push(...u32(1));
+ return Uint8Array.from(b);
+}
+function hidePending(){pending=null;$('pending').classList.add('hidden');$('confirm-row').classList.add('hidden');}
+async function buildSend(sendMax){
+ if(!LIB||!wallet){log('Нужен кошелёк и загруженное ядро.');return;}
+ hidePending();$('btn-build').disabled=true;
+ try{
+  const to=$('s-to').value.trim();const spkTo=destSpk(to);
+  const utxos=await (await api('/address/'+wallet.address+'/utxo')).json();
+  if(!utxos.length)throw Error('Нет UTXO. Сначала получи tBTC из faucet.');
+  const total=utxos.reduce((s,u)=>s+u.value,0);
+  const fe=await (await api('/fee-estimates')).json();
+  const rate=Math.max(1,Math.ceil(fe['6']||fe['3']||1));
+  const nIn=utxos.length;
+  let amt,nOut=2,fee=Math.ceil((10+148*nIn+34*nOut)*rate);
+  if(sendMax){nOut=1;fee=Math.ceil((10+148*nIn+34)*rate);amt=total-fee;}
+  else{amt=Math.round(parseFloat($('s-amt').value.replace(',','.'))*1e8);}
+  if(!Number.isFinite(amt)||amt<=0)throw Error('Укажи сумму.');
+  if(amt<546)throw Error('Сумма ниже dust (546 sat).');
+  let change=total-amt-fee;
+  if(change<0)throw Error(`Не хватает: есть ${fmt(total)}, нужно ${fmt(amt+fee)} (с комиссией).`);
+  if(change>0&&change<546){fee+=change;change=0;nOut=1;}
+  const vin=utxos.map(u=>({txid:u.txid,vout:u.vout}));
+  const vout=[{value:amt,spk:spkTo}];if(change>0)vout.push({value:change,spk:destSpk(wallet.address)});
+  const priv=hb(wallet.priv),pub=hb(wallet.pubkey);
+  const spkOwn=cat([0x76,0xa9,0x14],LIB.ripemd(LIB.sha256(pub)),[0x88,0xac]);
+  vin.forEach((i,idx)=>{
+   const sigh=LIB.sha256(LIB.sha256(serTx(vin,vout,idx,spkOwn)));
+   const der=LIB.secp.sign(sigh,priv,{lowS:true}).toDERRawBytes();
+   const sig=cat(der,[1]);
+   i.scriptSig=cat(vi(sig.length),sig,vi(33),pub);
+  });
+  const raw=hex(serTx(vin,vout,-1));
+  const vsize=Math.ceil(raw.length/2);
+  pending={raw,to,amt,fee,nIn,nOut};
+  $('pending').innerHTML=`Получатель: <b>${to.slice(0,16)}…</b><br>Сумма: <b>${fmt(amt)} tBTC</b> • Комиссия: <b>${fee} sat</b> (~${rate} sat/vB, ${vsize} vB)<br>Входов: ${nIn} • Выходов: ${nOut}${change?` • Сдача: ${fmt(change)}`:''}<br>Транзакция подписана. Проверь и подтверди:`;
+  $('pending').classList.remove('hidden');$('confirm-row').classList.remove('hidden');
+  log(`🔧 Собрано и подписано: ${fmt(amt)} tBTC, fee ${fee} sat.`);snd(659,'sine',.1);
+ }catch(e){log('[Ошибка сборки] '+e.message);snd(140,'sawtooth',.2);}
+ $('btn-build').disabled=false;
+}
+async function broadcast(){
+ if(!pending)return;
+ $('btn-send').disabled=true;log('📡 Broadcast raw tx в testnet…');
+ try{
+  const r=await api('/tx',{method:'POST',headers:{'Content-Type':'text/plain'},body:pending.raw});
+  const txid=(await r.text()).trim();
+  log('✅ ОТПРАВЛЕНО! txid: '+txid);
+  log('https://mempool.space/testnet/tx/'+txid);
+  snd(523,'square',.1);setTimeout(()=>snd(659,'square',.1),90);setTimeout(()=>snd(784,'square',.2),180);
+  hidePending();$('s-amt').value='';setTimeout(checkBalance,1500);
+ }catch(e){log('[Ошибка broadcast] '+e.message);}
+ $('btn-send').disabled=false;
+}
+
+// ---------- UI ----------
 $('btn-gen').addEventListener('click',generate);
 $('btn-rec').addEventListener('click',restore);
-$('btn-bal').addEventListener('click',checkBalance);
 $('btn-wipe').addEventListener('click',wipe);
-document.querySelectorAll('.copy').forEach(b=>b.addEventListener('click',async()=>{
- const t=$(b.dataset.t).textContent;
- try{await navigator.clipboard.writeText(t);log('📋 Скопировано.');}
- catch(e){const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');log('📋 Скопировано.');}catch(_){log('Скопируй вручную.');}ta.remove();}
-}));
-
-window.addEventListener('load',()=>{
- setTimeout(()=>{
-  if(libsOk()){
-   log('[Система] bitcore-lib + bitcore-mnemonic загружены. Сеть: TESTNET.');
-   const saved=localStorage.getItem('tn_wallet');
-   if(saved){try{showWallet(JSON.parse(saved));log('Кошелёк загружен из браузера: '+wallet.address);checkBalance();}catch(e){localStorage.removeItem('tn_wallet');}}
-   else log('Нажми «Сгенерировать» — получишь настоящий testnet-кошелёк.');
-  }else log('[Ошибка] CDN не загрузился. Обнови страницу с интернетом.');
- },600);
-});
+$('btn-bal').addEventListener('click',checkBalance);
+$('btn-build').addEventListener('click',()=>buildSend(false));
+$('btn-max').addEventListener('click',()=>buildSend(true));
+$('btn-send').addEventListener('click',broadcast);
+$('btn-cancel').addEventListener('click',()=>{hidePending();log('Отменено.');});
+document.querySelectorAll('.copy').forEach(b=>b.addEventListener('click',async()=>{const t=$(b.dataset.t).textContent;try{await navigator.clipboard.writeText(t);log('📋 Скопировано.');}catch(e){const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');log('📋 Скопировано.');}catch(_){log('Скопируй вручную.');}ta.remove();}}));
 </script>
 </body>
 </html>
