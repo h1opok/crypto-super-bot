@@ -3,135 +3,143 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#04070d">
-<title>TESTNET LAB — настоящий Bitcoin-кошелёк (тестовая сеть)</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 29 9.5v13L16 30 3 22.5v-13z' fill='%23ff9900'/%3E%3Ctext x='16' y='21' font-size='14' font-family='monospace' font-weight='bold' text-anchor='middle' fill='%2304070d'%3E%E2%82%BF%3C/text%3E%3C/svg%3E">
+<meta name="theme-color" content="#070503">
+<title>BITCOIN WALLET LAB — реальная сеть · настоящий кошелёк</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='%23f7931a'/%3E%3Ctext x='16' y='22' font-size='17' font-family='monospace' font-weight='bold' text-anchor='middle' fill='%23070503'%3E%E2%82%BF%3C/text%3E%3C/svg%3E">
 <style>
 :root{
-  --bg:#04070d; --bg2:#070c15; --surface:#0a101c; --surface2:#0e1626; --overlay:#121c30;
-  --line:#1a2333; --line2:#243147;
-  --amber:#ff9900; --btc:#f7931a; --gold:#ffc24b;
+  --bg:#070503; --bg2:#0c0805; --surface:#120c07; --surface2:#1a120a; --overlay:#221709;
+  --line:#2b1d0e; --line2:#3d2a14;
+  --btc:#f7931a; --amber:#ff9900; --gold:#ffc24b; --deep:#c96a00;
   --cyan:#00e5ff; --green:#22ff88; --red:#ff3b5c; --violet:#8b7bff;
-  --text:#d7e0ea; --muted:#7d8aa0; --dim:#4d5a70;
+  --text:#f0e6d8; --muted:#a08b6e; --dim:#6b5a42;
   --mono:ui-monospace,'Cascadia Code','JetBrains Mono','SF Mono',Consolas,'Courier New',monospace;
-  --r:12px; --topbar:54px;
+  --r:13px; --topbar:56px;
+  --accent:var(--btc); --accent2:var(--gold);
+}
+body.net-test{
+  --bg:#04070d; --bg2:#070c15; --surface:#0a101c; --surface2:#0e1626; --overlay:#121c30;
+  --line:#1a2333; --line2:#243147; --text:#d7e0ea; --muted:#7d8aa0; --dim:#4d5a70;
+  --accent:var(--cyan); --accent2:var(--violet);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{
-  font-family:var(--mono); background:var(--bg); color:var(--text);
-  min-height:100vh; overflow-x:hidden; font-size:14px; line-height:1.5;
-  background-image:
-    radial-gradient(900px 500px at 85% -10%, rgba(139,123,255,.10), transparent 60%),
-    radial-gradient(800px 520px at -10% 20%, rgba(255,153,0,.09), transparent 60%),
-    radial-gradient(700px 600px at 50% 110%, rgba(0,229,255,.07), transparent 60%);
-}
-body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.5;
-  background-image:linear-gradient(rgba(26,35,51,.35) 1px,transparent 1px),linear-gradient(90deg,rgba(26,35,51,.35) 1px,transparent 1px);
-  background-size:44px 44px;
-  mask-image:radial-gradient(ellipse at 50% 0%,#000 0%,transparent 75%);}
+body{font-family:var(--mono);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;font-size:14px;line-height:1.5;transition:background .5s}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.55;
+  background:
+   radial-gradient(900px 520px at 88% -12%, rgba(247,147,26,.14), transparent 62%),
+   radial-gradient(760px 540px at -12% 22%, rgba(255,153,0,.09), transparent 60%),
+   radial-gradient(700px 620px at 50% 112%, rgba(201,106,0,.10), transparent 62%);
+  transition:.5s}
+body.net-test::before{background:
+   radial-gradient(900px 520px at 88% -12%, rgba(139,123,255,.11), transparent 62%),
+   radial-gradient(760px 540px at -12% 22%, rgba(0,229,255,.09), transparent 60%),
+   radial-gradient(700px 620px at 50% 112%, rgba(0,229,255,.06), transparent 62%)}
 body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.05;mix-blend-mode:overlay;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");}
-::selection{background:rgba(255,153,0,.35)}
-*{scrollbar-width:thin;scrollbar-color:var(--amber) var(--surface)}
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E")}
+.gridbg{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.4;
+  background-image:linear-gradient(rgba(247,147,26,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(247,147,26,.06) 1px,transparent 1px);
+  background-size:46px 46px;mask-image:radial-gradient(ellipse at 50% 0%,#000,transparent 78%)}
+body.net-test .gridbg{background-image:linear-gradient(rgba(0,229,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,.06) 1px,transparent 1px)}
+::selection{background:rgba(247,147,26,.4)}
+*{scrollbar-width:thin;scrollbar-color:var(--accent) var(--surface)}
 ::-webkit-scrollbar{width:9px;height:9px}
 ::-webkit-scrollbar-track{background:var(--surface);border-radius:8px}
-::-webkit-scrollbar-thumb{background:linear-gradient(var(--btc),var(--amber));border-radius:8px;border:2px solid var(--surface)}
-::-webkit-scrollbar-thumb:hover{background:var(--gold)}
+::-webkit-scrollbar-thumb{background:linear-gradient(var(--accent),var(--deep));border-radius:8px;border:2px solid var(--surface)}
+::-webkit-scrollbar-thumb:hover{background:var(--accent2)}
 
-/* ---------- topbar ---------- */
-.topbar{position:fixed;top:0;left:0;right:0;height:var(--topbar);z-index:50;
-  display:flex;align-items:center;gap:12px;padding:0 14px;
-  background:rgba(7,12,21,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-  border-bottom:1px solid var(--line)}
-.logo{display:flex;align-items:center;gap:9px;font-weight:800;letter-spacing:2px;font-size:13px;color:var(--gold);white-space:nowrap}
-.logo svg{filter:drop-shadow(0 0 8px rgba(255,153,0,.6))}
-.net{display:flex;align-items:center;gap:8px;margin-left:auto;font-size:11px;color:var(--muted);letter-spacing:1px;min-width:0}
-.net b{color:var(--cyan);font-weight:700}
-.dot{width:9px;height:9px;border-radius:50%;background:var(--green);box-shadow:0 0 10px var(--green);animation:pulse 2s infinite;flex:none}
-.dot.off{background:var(--red);box-shadow:0 0 10px var(--red);animation:none}
-.dot.wait{background:var(--gold);box-shadow:0 0 10px var(--gold)}
-@keyframes pulse{50%{opacity:.45}}
-.iconbtn{flex:none;display:flex;align-items:center;gap:7px;height:36px;padding:0 12px;border-radius:9px;cursor:pointer;
-  border:1px solid var(--line2);background:var(--surface);color:var(--cyan);font:700 11px var(--mono);letter-spacing:1px;transition:.2s}
-.iconbtn:hover{border-color:var(--cyan);box-shadow:0 0 14px rgba(0,229,255,.25)}
-.iconbtn.muted{color:var(--dim);border-color:var(--line)}
-@media(max-width:560px){.net .netlabel{display:none}.logo span{display:none}}
+.topbar{position:fixed;top:0;left:0;right:0;height:var(--topbar);z-index:60;display:flex;align-items:center;gap:10px;padding:0 12px;
+  background:rgba(12,8,5,.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+body.net-test .topbar{background:rgba(7,12,21,.85)}
+.logo{display:flex;align-items:center;gap:8px;font-weight:800;letter-spacing:1.5px;font-size:12px;color:var(--gold);white-space:nowrap}
+body.net-test .logo{color:var(--cyan)}
+.logo svg{filter:drop-shadow(0 0 8px rgba(247,147,26,.6))}
+.seg{display:flex;border:1px solid var(--line2);border-radius:9px;overflow:hidden;margin-left:auto;flex:none}
+.seg button{border:0;background:transparent;color:var(--muted);font:800 10px var(--mono);letter-spacing:1px;padding:9px 12px;cursor:pointer;transition:.2s;min-height:36px}
+.seg button.on{background:linear-gradient(135deg,var(--btc),var(--deep));color:#0c0805}
+body.net-test .seg button.on{background:linear-gradient(135deg,var(--cyan),#0090b0);color:#04070d}
+.seg button:not(.on):hover{color:var(--text)}
+.netstat{display:flex;align-items:center;gap:7px;font-size:10px;color:var(--muted);letter-spacing:1px;flex:none}
+.netstat b{color:var(--accent2);font-weight:700}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 9px var(--green);animation:pulse 2s infinite;flex:none}
+.dot.off{background:var(--red);box-shadow:0 0 9px var(--red);animation:none}
+.dot.wait{background:var(--gold);box-shadow:0 0 9px var(--gold)}
+@keyframes pulse{50%{opacity:.4}}
+.iconbtn{flex:none;display:flex;align-items:center;gap:6px;height:36px;padding:0 11px;border-radius:9px;cursor:pointer;border:1px solid var(--line2);background:var(--surface);color:var(--accent);font:700 10px var(--mono);letter-spacing:1px;transition:.2s}
+.iconbtn:hover{border-color:var(--accent);box-shadow:0 0 12px rgba(247,147,26,.25)}
+.iconbtn.muted{color:var(--dim)}
+@media(max-width:640px){.netstat .nl{display:none}.logo span{display:none}.seg button{padding:9px 9px}}
+@media(max-width:420px){.netstat{display:none}}
 
-/* ---------- layout ---------- */
-.wrap{position:relative;z-index:1;max-width:1060px;margin:0 auto;padding:calc(var(--topbar) + 18px) 16px 60px}
-.hero{padding:18px 4px 14px;animation:rise .6s both}
-.hero h1{font-size:clamp(26px,5.4vw,44px);font-weight:800;letter-spacing:1px;line-height:1.08;
-  background:linear-gradient(92deg,var(--gold) 0%,var(--btc) 34%,var(--amber) 55%,var(--cyan) 110%);
-  -webkit-background-clip:text;background-clip:text;color:transparent;
-  filter:drop-shadow(0 0 22px rgba(255,153,0,.25))}
-.hero p{color:var(--muted);font-size:12.5px;margin-top:8px;max-width:640px}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
-.chip{font-size:10px;letter-spacing:1.5px;padding:5px 11px;border-radius:20px;border:1px solid var(--line2);color:var(--muted);background:rgba(10,16,28,.6)}
-.chip.hot{color:var(--gold);border-color:rgba(255,153,0,.5)}
+.wrap{position:relative;z-index:1;max-width:1080px;margin:0 auto;padding:calc(var(--topbar) + 16px) 15px 60px}
+.hero{padding:16px 4px 12px;animation:rise .6s both}
+.hero h1{font-size:clamp(26px,5.6vw,46px);font-weight:800;letter-spacing:.5px;line-height:1.06;
+  background:linear-gradient(94deg,var(--gold),var(--btc) 40%,var(--deep) 70%,var(--amber));
+  -webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 24px rgba(247,147,26,.3))}
+body.net-test .hero h1{background:linear-gradient(94deg,var(--cyan),var(--violet) 60%,var(--cyan));-webkit-background-clip:text;background-clip:text;filter:drop-shadow(0 0 24px rgba(0,229,255,.25))}
+.hero p{color:var(--muted);font-size:12.5px;margin-top:9px;max-width:680px}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:13px}
+.chip{font-size:9.5px;letter-spacing:1.4px;padding:5px 11px;border-radius:20px;border:1px solid var(--line2);color:var(--muted);background:rgba(18,12,7,.6)}
+.chip.hot{color:var(--gold);border-color:rgba(247,147,26,.55)}
+.chip.red{color:var(--red);border-color:rgba(255,59,92,.5)}
 .chip.cool{color:var(--cyan);border-color:rgba(0,229,255,.4)}
-.chip.warn{color:var(--violet);border-color:rgba(139,123,255,.45)}
+body.net-test .chip{background:rgba(10,16,28,.6)}
 
-.banner{margin:14px 0 18px;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:#02040a;
-  box-shadow:0 0 0 1px rgba(255,153,0,.06),0 18px 50px -22px rgba(0,0,0,.9),inset 0 0 60px rgba(0,0,0,.7);animation:rise .6s .08s both}
+.reality{border:1px solid rgba(255,59,92,.45);background:linear-gradient(120deg,rgba(255,59,92,.07),rgba(247,147,26,.05));border-radius:var(--r);padding:14px 16px;margin:14px 0;font-size:12px;line-height:1.75;animation:rise .5s .05s both;position:relative;overflow:hidden}
+.reality::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(var(--red),var(--btc))}
+.reality b{color:var(--gold)}
+.reality .rt{font-size:10px;letter-spacing:2px;color:var(--red);font-weight:800;margin-bottom:6px}
+.sandbox{border-color:rgba(0,229,255,.4);background:rgba(0,229,255,.05)}
+.sandbox::before{background:linear-gradient(var(--cyan),var(--violet))}
+.sandbox .rt{color:var(--cyan)}
+
+.banner{margin:0 0 18px;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:#050302;box-shadow:0 18px 50px -22px rgba(0,0,0,.9),inset 0 0 60px rgba(0,0,0,.7);animation:rise .6s .08s both}
+body.net-test .banner{background:#02040a}
 .banner canvas{display:block;width:100%;height:auto}
-.banner .cap{display:flex;justify-content:space-between;gap:10px;padding:7px 12px;font-size:9.5px;letter-spacing:1.5px;color:var(--dim);border-top:1px solid var(--line);background:rgba(10,16,28,.7)}
-.banner .cap b{color:var(--violet)}
+.banner .cap{display:flex;justify-content:space-between;gap:10px;padding:7px 12px;font-size:9px;letter-spacing:1.5px;color:var(--dim);border-top:1px solid var(--line);background:rgba(18,12,7,.7)}
+.banner .cap b{color:var(--accent)}
 
 .cols{display:grid;grid-template-columns:1fr;gap:16px}
-@media(min-width:920px){.cols{grid-template-columns:400px 1fr;align-items:start}.colL{position:sticky;top:calc(var(--topbar) + 14px)}}
+@media(min-width:940px){.cols{grid-template-columns:408px 1fr;align-items:start}.colL{position:sticky;top:calc(var(--topbar) + 14px)}}
 .colL,.colR{display:flex;flex-direction:column;gap:16px;min-width:0}
-
-.card{background:linear-gradient(180deg,var(--surface) 0%,var(--bg2) 100%);border:1px solid var(--line);border-radius:var(--r);
-  padding:18px;position:relative;overflow:hidden;animation:rise .55s both;box-shadow:0 14px 40px -20px rgba(0,0,0,.85)}
-.card::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--amber),var(--cyan),transparent);opacity:.55}
-.card:nth-child(2){animation-delay:.06s}.card:nth-child(3){animation-delay:.12s}.card:nth-child(4){animation-delay:.18s}
+.card{background:linear-gradient(180deg,var(--surface),var(--bg2));border:1px solid var(--line);border-radius:var(--r);padding:18px;position:relative;overflow:hidden;animation:rise .55s both;box-shadow:0 14px 40px -20px rgba(0,0,0,.85)}
+.card::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent),var(--accent2),transparent);opacity:.6}
 @keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
-.card h2{display:flex;align-items:center;gap:10px;font-size:12px;letter-spacing:2px;color:var(--gold);margin-bottom:14px;font-weight:800}
-.card h2 .n{flex:none;width:24px;height:24px;border-radius:7px;display:grid;place-items:center;font-size:11px;color:#04070d;background:linear-gradient(135deg,var(--gold),var(--btc));box-shadow:0 0 12px rgba(255,153,0,.4)}
-.card h2 .tail{margin-left:auto;font-size:9px;color:var(--dim);letter-spacing:1px;font-weight:400}
+.card h2{display:flex;align-items:center;gap:10px;font-size:11.5px;letter-spacing:2px;color:var(--accent2);margin-bottom:14px;font-weight:800}
+.card h2 .n{flex:none;width:24px;height:24px;border-radius:7px;display:grid;place-items:center;font-size:11px;color:#0c0805;background:linear-gradient(135deg,var(--accent2),var(--accent));box-shadow:0 0 12px rgba(247,147,26,.4)}
+body.net-test .card h2 .n{color:#04070d}
+.card h2 .tail{margin-left:auto;font-size:8.5px;color:var(--dim);letter-spacing:1px;font-weight:400}
 
-.note{font-size:11px;line-height:1.6;color:var(--cyan);background:rgba(0,229,255,.05);border:1px solid rgba(0,229,255,.25);border-radius:9px;padding:10px 12px;margin-bottom:16px;animation:rise .5s .05s both}
-.note b{color:var(--gold)}
-.fatal{display:none;font-size:12px;color:var(--red);background:rgba(255,59,92,.07);border:1px solid rgba(255,59,92,.4);border-radius:9px;padding:12px;margin-bottom:16px}
-
-/* ---------- controls ---------- */
-.btn{position:relative;display:flex;align-items:center;justify-content:center;gap:9px;width:100%;min-height:46px;padding:12px 14px;
-  border-radius:10px;cursor:pointer;font:800 11.5px var(--mono);letter-spacing:1.6px;text-transform:uppercase;transition:.22s;overflow:hidden;
-  border:1px solid rgba(255,153,0,.55);color:var(--gold);background:linear-gradient(180deg,rgba(255,153,0,.10),rgba(255,153,0,.03))}
-.btn::after{content:"";position:absolute;top:0;left:-120%;width:60%;height:100%;transform:skewX(-20deg);
-  background:linear-gradient(90deg,transparent,rgba(255,255,255,.14),transparent);transition:left .5s}
+.btn{position:relative;display:flex;align-items:center;justify-content:center;gap:9px;width:100%;min-height:46px;padding:12px 14px;border-radius:10px;cursor:pointer;font:800 11.5px var(--mono);letter-spacing:1.5px;text-transform:uppercase;transition:.22s;overflow:hidden;border:1px solid rgba(247,147,26,.6);color:var(--gold);background:linear-gradient(180deg,rgba(247,147,26,.12),rgba(247,147,26,.03))}
+.btn::after{content:"";position:absolute;top:0;left:-120%;width:60%;height:100%;transform:skewX(-20deg);background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);transition:left .5s}
 .btn:hover:not(:disabled)::after{left:130%}
-.btn:hover:not(:disabled){box-shadow:0 0 22px rgba(255,153,0,.3);border-color:var(--amber);color:#fff}
+.btn:hover:not(:disabled){box-shadow:0 0 22px rgba(247,147,26,.32);border-color:var(--amber);color:#fff}
 .btn:active:not(:disabled){transform:translateY(1px)}
 .btn:disabled{opacity:.35;cursor:not-allowed}
 .btn.cy{border-color:rgba(0,229,255,.5);color:var(--cyan);background:linear-gradient(180deg,rgba(0,229,255,.09),rgba(0,229,255,.02))}
-.btn.cy:hover:not(:disabled){box-shadow:0 0 22px rgba(0,229,255,.28);border-color:var(--cyan)}
+.btn.cy:hover:not(:disabled){box-shadow:0 0 22px rgba(0,229,255,.28)}
 .btn.gr{border-color:rgba(34,255,136,.5);color:var(--green);background:linear-gradient(180deg,rgba(34,255,136,.09),rgba(34,255,136,.02))}
-.btn.gr:hover:not(:disabled){box-shadow:0 0 22px rgba(34,255,136,.28);border-color:var(--green)}
+.btn.gr:hover:not(:disabled){box-shadow:0 0 22px rgba(34,255,136,.28)}
 .btn.rd{border-color:rgba(255,59,92,.5);color:var(--red);background:linear-gradient(180deg,rgba(255,59,92,.08),rgba(255,59,92,.02))}
-.btn.rd:hover:not(:disabled){box-shadow:0 0 22px rgba(255,59,92,.28)}
 .btn.ghost{border-color:var(--line2);color:var(--muted);background:var(--surface);min-height:38px;font-size:10px}
-.btn.ghost:hover:not(:disabled){color:var(--text);border-color:var(--dim);box-shadow:none}
+.btn.ghost:hover:not(:disabled){color:var(--text);box-shadow:none}
 .btn.armed{border-color:var(--red);color:var(--red);animation:armblink 1s infinite}
 @keyframes armblink{50%{box-shadow:0 0 18px rgba(255,59,92,.5)}}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-@media(max-width:420px){.row2{grid-template-columns:1fr}}
+@media(max-width:430px){.row2{grid-template-columns:1fr}}
 .stack{display:flex;flex-direction:column;gap:9px}
-
-input,textarea,select{width:100%;background:#050a13;border:1px solid var(--line2);color:var(--text);border-radius:9px;
-  padding:12px;font:16px var(--mono);outline:none;transition:.2s;-webkit-appearance:none;appearance:none}
-input:focus,textarea:focus,select:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(0,229,255,.12)}
+input,textarea,select{width:100%;background:#0a0603;border:1px solid var(--line2);color:var(--text);border-radius:9px;padding:12px;font:16px var(--mono);outline:none;transition:.2s;-webkit-appearance:none;appearance:none}
+body.net-test input,body.net-test textarea,body.net-test select{background:#050a13}
+input:focus,textarea:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(247,147,26,.14)}
 input::placeholder,textarea::placeholder{color:var(--dim);font-size:12.5px}
-textarea{resize:vertical;min-height:64px;font-size:14px}
-select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%2300e5ff' fill='none' stroke-width='1.6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px;font-size:12.5px}
+textarea{resize:vertical;min-height:62px;font-size:14px}
+select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23f7931a' fill='none' stroke-width='1.6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px;font-size:12.5px}
 .field{position:relative}
 .field .vmark{position:absolute;right:11px;top:50%;transform:translateY(-50%);font-size:13px;pointer-events:none}
-.hint{font-size:10.5px;color:var(--dim);margin-top:5px;min-height:14px;letter-spacing:.3px}
+.hint{font-size:10.5px;color:var(--dim);margin-top:5px;min-height:14px}
 .hint.ok{color:var(--green)}.hint.bad{color:var(--red)}
 .shake{animation:shake .3s}
 @keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
-
 .switch{display:flex;align-items:center;gap:9px;cursor:pointer;font-size:10px;letter-spacing:1px;color:var(--muted);user-select:none}
 .switch input{display:none}
 .switch .tr{width:36px;height:20px;border-radius:20px;background:var(--surface2);border:1px solid var(--line2);position:relative;transition:.2s;flex:none}
@@ -139,66 +147,72 @@ select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='htt
 .switch input:checked+.tr{background:rgba(34,255,136,.15);border-color:rgba(34,255,136,.5)}
 .switch input:checked+.tr::after{left:18px;background:var(--green);box-shadow:0 0 8px var(--green)}
 
-/* ---------- wallet ---------- */
-.addrbox{background:#050a13;border:1px solid rgba(0,229,255,.35);border-radius:10px;padding:12px;position:relative;overflow:hidden}
-.addrbox::before{content:"";position:absolute;inset:0;background:linear-gradient(120deg,rgba(0,229,255,.06),transparent 40%,rgba(139,123,255,.06));pointer-events:none}
+.addrbox{background:#0a0603;border:1px solid rgba(247,147,26,.45);border-radius:10px;padding:12px;position:relative;overflow:hidden}
+body.net-test .addrbox{background:#050a13;border-color:rgba(0,229,255,.35)}
+.addrbox::before{content:"";position:absolute;inset:0;background:linear-gradient(120deg,rgba(247,147,26,.07),transparent 40%,rgba(255,194,75,.05));pointer-events:none}
 .lbl{font-size:9px;letter-spacing:1.6px;color:var(--muted);margin-bottom:6px;display:flex;align-items:center;gap:8px}
 .lbl .tag{font-size:8px;padding:2px 6px;border-radius:8px;border:1px solid var(--line2);color:var(--dim)}
-.addr{font-size:13.5px;font-weight:700;color:var(--cyan);word-break:break-all;line-height:1.55;text-shadow:0 0 14px rgba(0,229,255,.3)}
-.copy{margin-top:9px;display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line2);background:var(--surface2);color:var(--cyan);
-  border-radius:7px;padding:6px 11px;font:700 10px var(--mono);letter-spacing:1px;cursor:pointer;transition:.2s}
-.copy:hover{border-color:var(--cyan);box-shadow:0 0 12px rgba(0,229,255,.25)}
+.addr{font-size:13px;font-weight:700;color:var(--gold);word-break:break-all;line-height:1.55;text-shadow:0 0 14px rgba(247,147,26,.35)}
+body.net-test .addr{color:var(--cyan);text-shadow:0 0 14px rgba(0,229,255,.3)}
+.copy{margin-top:9px;display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line2);background:var(--surface2);color:var(--accent);border-radius:7px;padding:6px 11px;font:700 10px var(--mono);letter-spacing:1px;cursor:pointer;transition:.2s}
+.copy:hover{border-color:var(--accent);box-shadow:0 0 12px rgba(247,147,26,.25)}
 .copy.done{color:var(--green);border-color:rgba(34,255,136,.5)}
 .mngrid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}
-@media(max-width:420px){.mngrid{grid-template-columns:repeat(2,1fr)}}
-.mn{background:#050a13;border:1px solid var(--line);border-radius:7px;padding:6px 8px;font-size:11px;display:flex;gap:7px;align-items:baseline;transition:.2s}
+@media(max-width:430px){.mngrid{grid-template-columns:repeat(2,1fr)}}
+.mn{background:#0a0603;border:1px solid var(--line);border-radius:7px;padding:6px 8px;font-size:11px;display:flex;gap:7px;align-items:baseline;transition:.2s}
+body.net-test .mn{background:#050a13}
 .mn:hover{border-color:rgba(34,255,136,.4)}
 .mn i{font-style:normal;color:var(--dim);font-size:9px;min-width:15px}
-.mn b{color:var(--green);font-weight:600;letter-spacing:.5px;overflow:hidden;text-overflow:ellipsis}
+.mn b{color:var(--green);font-weight:600;overflow:hidden;text-overflow:ellipsis}
 .mn.hid b{color:var(--dim);letter-spacing:2px}
-.kv{background:#050a13;border:1px solid var(--line);border-radius:9px;padding:10px 12px;margin-top:9px}
+.kv{background:#0a0603;border:1px solid var(--line);border-radius:9px;padding:10px 12px;margin-top:9px}
+body.net-test .kv{background:#050a13}
 .kv .val{font-size:11px;word-break:break-all;color:var(--text);font-weight:600}
 .kv .val.mask{color:var(--dim);letter-spacing:2px}
 .kv .val.pub{color:var(--muted);font-size:10px;font-weight:400}
 .sep{height:1px;background:linear-gradient(90deg,transparent,var(--line2),transparent);margin:14px 0}
 
-/* ---------- faucet ---------- */
-.faucet a{display:flex;align-items:center;gap:10px;padding:11px 12px;border:1px solid var(--line);border-radius:9px;margin-bottom:8px;
-  color:var(--cyan);text-decoration:none;font-size:12px;transition:.2s;background:rgba(5,10,19,.5)}
-.faucet a:hover{border-color:rgba(0,229,255,.5);background:rgba(0,229,255,.05);transform:translateX(3px)}
-.faucet a .ico{flex:none;width:26px;height:26px;border-radius:7px;display:grid;place-items:center;background:rgba(0,229,255,.1);border:1px solid rgba(0,229,255,.3);font-size:13px}
-.faucet a small{margin-left:auto;color:var(--dim);font-size:9px;letter-spacing:1px}
-.steps{font-size:10.5px;color:var(--muted);line-height:1.8;margin-top:4px}
+.deposit a{display:flex;align-items:center;gap:10px;padding:11px 12px;border:1px solid var(--line);border-radius:9px;margin-bottom:8px;color:var(--accent);text-decoration:none;font-size:12px;transition:.2s;background:rgba(10,6,3,.5)}
+.deposit a:hover{border-color:var(--accent);background:rgba(247,147,26,.05);transform:translateX(3px)}
+.deposit a .ico{flex:none;width:26px;height:26px;border-radius:7px;display:grid;place-items:center;background:rgba(247,147,26,.1);border:1px solid rgba(247,147,26,.3);font-size:13px}
+.deposit a small{margin-left:auto;color:var(--dim);font-size:9px}
+.steps{font-size:11px;color:var(--muted);line-height:1.9}
 .steps b{color:var(--gold)}
+.steps .num{display:inline-grid;place-items:center;width:17px;height:17px;border-radius:5px;background:rgba(247,147,26,.15);border:1px solid rgba(247,147,26,.4);color:var(--gold);font-size:9px;font-weight:800;margin-right:6px}
+.warnline{font-size:10.5px;color:var(--red);line-height:1.7;margin-top:8px;border-top:1px dashed var(--line2);padding-top:8px}
 
-/* ---------- balance ---------- */
 .balhead{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
-.balhead .btn{width:auto;flex:1;min-width:150px}
+.balhead .btn{width:auto;flex:1;min-width:140px}
 .hud{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
-@media(min-width:640px){.hud{grid-template-columns:repeat(4,1fr)}}
-.tile{background:#050a13;border:1px solid var(--line);border-radius:10px;padding:11px 12px;position:relative;overflow:hidden;transition:.25s}
+@media(min-width:660px){.hud{grid-template-columns:repeat(4,1fr)}}
+.tile{background:#0a0603;border:1px solid var(--line);border-radius:10px;padding:11px 12px;position:relative;overflow:hidden;transition:.25s}
+body.net-test .tile{background:#050a13}
 .tile:hover{border-color:var(--line2);transform:translateY(-2px)}
 .tile .t{font-size:8.5px;letter-spacing:1.5px;color:var(--muted)}
-.tile .v{font-size:16px;font-weight:800;margin-top:5px;color:var(--cyan);font-variant-numeric:tabular-nums;word-break:break-all}
-.tile.total{border-color:rgba(255,153,0,.4)}
-.tile.total .v{color:var(--gold);text-shadow:0 0 16px rgba(255,153,0,.4);font-size:17px}
-.tile.total::after{content:"";position:absolute;inset:0;background:radial-gradient(120px 50px at 80% 0%,rgba(255,153,0,.12),transparent);pointer-events:none}
+.tile .v{font-size:15.5px;font-weight:800;margin-top:5px;color:var(--accent);font-variant-numeric:tabular-nums;word-break:break-all}
+.tile.total{border-color:rgba(247,147,26,.5)}
+.tile.total .v{color:var(--gold);text-shadow:0 0 16px rgba(247,147,26,.45);font-size:16.5px}
+.tile.total::after{content:"";position:absolute;inset:0;background:radial-gradient(120px 50px at 80% 0%,rgba(247,147,26,.14),transparent);pointer-events:none}
 .tile.memp .v{color:var(--violet)}
-.upd{font-size:9.5px;color:var(--dim);margin-top:9px;letter-spacing:.5px}
-.filters{display:flex;gap:7px;margin:13px 0 9px;flex-wrap:wrap}
+.fiat{margin-top:8px;font-size:11px;color:var(--muted);display:flex;gap:8px;align-items:baseline}
+.fiat b{color:var(--green);font-size:13px;font-variant-numeric:tabular-nums}
+.upd{font-size:9.5px;color:var(--dim);margin-top:8px}
+.txtools{display:flex;gap:7px;margin:13px 0 9px;flex-wrap:wrap;align-items:center}
 .fchip{font:700 9.5px var(--mono);letter-spacing:1px;padding:6px 12px;border-radius:16px;border:1px solid var(--line2);background:transparent;color:var(--muted);cursor:pointer;transition:.2s}
-.fchip:hover{color:var(--text)}
-.fchip.on{color:#04070d;background:linear-gradient(135deg,var(--gold),var(--btc));border-color:transparent;box-shadow:0 0 12px rgba(255,153,0,.35)}
-.txlist{display:flex;flex-direction:column;gap:7px;max-height:330px;overflow-y:auto;padding-right:3px}
-.tx{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;background:#050a13;border:1px solid var(--line);border-radius:9px;padding:9px 11px;transition:.2s;animation:rise .35s both}
-.tx:hover{border-color:var(--line2);background:var(--surface2)}
+.fchip.on{color:#0c0805;background:linear-gradient(135deg,var(--accent2),var(--accent));border-color:transparent;box-shadow:0 0 12px rgba(247,147,26,.35)}
+body.net-test .fchip.on{color:#04070d}
+.txtools input{flex:1;min-width:120px;padding:7px 10px;font-size:12px}
+.txtools select{width:auto;padding:7px 28px 7px 10px;font-size:11px}
+.txlist{display:flex;flex-direction:column;gap:7px;max-height:340px;overflow-y:auto;padding-right:3px}
+.tx{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;background:#0a0603;border:1px solid var(--line);border-radius:9px;padding:9px 11px;transition:.2s;animation:rise .35s both;cursor:pointer}
+body.net-test .tx{background:#050a13}
+.tx:hover{border-color:var(--accent);background:var(--surface2)}
 .tx .dir{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;font-size:14px;font-weight:800}
 .tx.in .dir{color:var(--green);background:rgba(34,255,136,.1);border:1px solid rgba(34,255,136,.35)}
 .tx.out .dir{color:var(--red);background:rgba(255,59,92,.1);border:1px solid rgba(255,59,92,.35)}
 .tx .mid{min-width:0}
-.tx .mid a{color:#6fb7ff;text-decoration:none;font-size:11px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.tx .mid a:hover{color:var(--cyan)}
-.tx .mid .ago{font-size:9px;color:var(--dim);letter-spacing:.5px}
+.tx .mid .txid{color:var(--accent2);font-size:11px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tx .mid .ago{font-size:9px;color:var(--dim)}
 .tx .right{text-align:right}
 .tx .amt{font-size:12px;font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap}
 .tx.in .amt{color:var(--green)}.tx.out .amt{color:var(--red)}
@@ -209,98 +223,135 @@ select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='htt
 .empty b{color:var(--gold)}
 .empty .big{font-size:22px;display:block;margin-bottom:6px}
 
-/* ---------- send ---------- */
-.feeline{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:10.5px;color:var(--muted);background:#050a13;border:1px solid var(--line);border-radius:9px;padding:9px 12px}
+.feeline{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:10.5px;color:var(--muted);background:#0a0603;border:1px solid var(--line);border-radius:9px;padding:9px 12px}
+body.net-test .feeline{background:#050a13}
 .feeline b{color:var(--gold);font-variant-numeric:tabular-nums}
-.feeline select{width:auto;min-width:130px;padding:7px 30px 7px 10px;font-size:11px}
+.feeline select{width:auto;min-width:132px;padding:7px 30px 7px 10px;font-size:11px}
 .review{background:rgba(34,255,136,.04);border:1px solid rgba(34,255,136,.4);border-radius:10px;padding:13px;font-size:11.5px;line-height:1.9;animation:rise .3s both}
 .review .rrow{display:flex;justify-content:space-between;gap:12px}
 .review .rrow span{color:var(--muted)}
 .review .rrow b{color:var(--text);text-align:right;word-break:break-all;font-variant-numeric:tabular-nums}
 .review .rrow.big b{color:var(--green);font-size:14px}
-.review .warnline{color:var(--violet);font-size:10px;margin-top:6px}
+.review .warnline{border:0;padding:0;margin-top:6px;color:var(--violet)}
 .sent{background:rgba(34,255,136,.06);border:1px solid rgba(34,255,136,.5);border-radius:10px;padding:13px;font-size:11.5px;animation:rise .3s both}
-.sent .txid{color:#6fb7ff;word-break:break-all;font-size:10.5px;display:block;margin:7px 0;text-decoration:none}
-.sent .txid:hover{color:var(--cyan)}
+.sent .txid{color:var(--accent2);word-break:break-all;font-size:10.5px;display:block;margin:7px 0;text-decoration:none}
 .spin{display:inline-block;width:13px;height:13px;border:2px solid rgba(34,255,136,.3);border-top-color:var(--green);border-radius:50%;animation:sp .7s linear infinite;vertical-align:-2px}
 @keyframes sp{to{transform:rotate(360deg)}}
 
-/* ---------- log / toast / footer ---------- */
-details.logcard{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;animation:rise .5s .2s both}
+details.logcard{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
 details.logcard summary{cursor:pointer;list-style:none;padding:13px 16px;font-size:10.5px;letter-spacing:2px;color:var(--muted);display:flex;align-items:center;gap:9px;user-select:none}
 details.logcard summary::-webkit-details-marker{display:none}
-details.logcard summary::before{content:"▸";color:var(--amber);transition:.2s}
+details.logcard summary::before{content:"▸";color:var(--accent);transition:.2s}
 details.logcard[open] summary::before{transform:rotate(90deg)}
-details.logcard summary:hover{color:var(--text)}
-#log{border-top:1px solid var(--line);background:#04080f;padding:12px 14px;font-size:10.5px;line-height:1.65;color:var(--amber);max-height:190px;overflow-y:auto;white-space:pre-wrap;word-break:break-word}
+#log{border-top:1px solid var(--line);background:#080502;padding:12px 14px;font-size:10.5px;line-height:1.65;color:var(--amber);max-height:190px;overflow-y:auto;white-space:pre-wrap;word-break:break-word}
+body.net-test #log{background:#04080f}
 #log .ok{color:var(--green)}#log .err{color:var(--red)}#log .inf{color:var(--cyan)}
-.toasts{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:90;display:flex;flex-direction:column;gap:8px;width:min(92vw,420px);pointer-events:none}
-.toast{pointer-events:auto;background:rgba(14,22,38,.95);backdrop-filter:blur(10px);border:1px solid var(--line2);border-left:3px solid var(--cyan);
-  border-radius:10px;padding:11px 14px;font-size:11.5px;color:var(--text);box-shadow:0 12px 34px rgba(0,0,0,.6);animation:tin .3s both;display:flex;gap:9px;align-items:flex-start}
+
+.scrim{position:fixed;inset:0;background:rgba(4,2,1,.7);backdrop-filter:blur(6px);z-index:80;opacity:0;pointer-events:none;transition:.3s}
+.scrim.on{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(400px,94vw);z-index:85;background:var(--surface);border-left:1px solid var(--line2);transform:translateX(105%);transition:transform .35s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column;box-shadow:-20px 0 60px rgba(0,0,0,.6)}
+.drawer.on{transform:none}
+.drawer .dh{display:flex;align-items:center;gap:10px;padding:16px;border-bottom:1px solid var(--line)}
+.drawer .dh b{font-size:11px;letter-spacing:2px;color:var(--accent2)}
+.drawer .dh button{margin-left:auto;width:34px;height:34px;border-radius:8px;border:1px solid var(--line2);background:transparent;color:var(--muted);cursor:pointer;font-size:15px}
+.drawer .dh button:hover{color:var(--red);border-color:var(--red)}
+.drawer .db{padding:16px;overflow-y:auto;flex:1;font-size:11.5px;line-height:1.9}
+.drawer .bigamt{font-size:22px;font-weight:800;margin:6px 0 12px;font-variant-numeric:tabular-nums}
+.drawer .drow{display:flex;justify-content:space-between;gap:12px;border-bottom:1px dashed var(--line);padding:6px 0}
+.drawer .drow span{color:var(--muted)}
+.drawer .drow b{word-break:break-all;text-align:right}
+.drawer .df{padding:14px 16px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:8px}
+
+.modal{position:fixed;inset:0;z-index:95;display:grid;place-items:center;padding:16px;opacity:0;pointer-events:none;transition:.3s}
+.modal.on{opacity:1;pointer-events:auto}
+.modal .mbox{width:min(560px,100%);max-height:92vh;overflow-y:auto;background:linear-gradient(180deg,var(--surface),var(--bg2));border:1px solid rgba(255,59,92,.5);border-radius:16px;padding:24px;box-shadow:0 30px 90px rgba(0,0,0,.8),0 0 60px rgba(247,147,26,.1);transform:translateY(14px);transition:.3s}
+.modal.on .mbox{transform:none}
+.modal h3{font-size:16px;letter-spacing:1px;color:var(--gold);margin-bottom:4px}
+.modal .sub{font-size:11px;color:var(--red);letter-spacing:2px;font-weight:800;margin-bottom:14px}
+.modal p{font-size:12px;color:var(--muted);line-height:1.8;margin-bottom:14px}
+.modal p b{color:var(--text)}
+.ck{display:flex;gap:11px;align-items:flex-start;border:1px solid var(--line2);border-radius:10px;padding:11px 12px;margin-bottom:9px;cursor:pointer;transition:.2s;font-size:11.5px;line-height:1.65;color:var(--muted)}
+.ck:hover{border-color:var(--accent)}
+.ck input{display:none}
+.ck .box{flex:none;width:20px;height:20px;border-radius:6px;border:1.5px solid var(--dim);display:grid;place-items:center;font-size:12px;color:transparent;transition:.2s;margin-top:1px}
+.ck input:checked~.box{background:var(--green);border-color:var(--green);color:#04140a;box-shadow:0 0 10px rgba(34,255,136,.5)}
+.ck input:checked~.txt{color:var(--text)}
+.modal .mbtns{display:flex;flex-direction:column;gap:9px;margin-top:14px}
+
+.toasts{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:99;display:flex;flex-direction:column;gap:8px;width:min(94vw,440px);pointer-events:none}
+.toast{pointer-events:auto;background:rgba(26,18,10,.96);backdrop-filter:blur(10px);border:1px solid var(--line2);border-left:3px solid var(--accent);border-radius:10px;padding:11px 14px;font-size:11.5px;color:var(--text);box-shadow:0 12px 34px rgba(0,0,0,.6);animation:tin .3s both;display:flex;gap:9px;align-items:center}
+body.net-test .toast{background:rgba(14,22,38,.96)}
 .toast.ok{border-left-color:var(--green)}.toast.err{border-left-color:var(--red)}.toast.warn{border-left-color:var(--violet)}
 .toast.out{animation:tout .3s both}
+.toast button{margin-left:auto;flex:none;border:1px solid var(--accent);background:transparent;color:var(--accent);border-radius:7px;padding:5px 10px;font:700 10px var(--mono);cursor:pointer}
 @keyframes tin{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 @keyframes tout{to{opacity:0;transform:translateY(10px)}}
-footer{margin-top:26px;text-align:center;font-size:9.5px;color:var(--dim);line-height:1.9;letter-spacing:.5px}
+footer{margin-top:26px;text-align:center;font-size:9.5px;color:var(--dim);line-height:1.9}
 footer b{color:var(--muted)}
-:focus-visible{outline:2px solid var(--cyan);outline-offset:2px;border-radius:6px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:6px}
 .hidden{display:none!important}
+.fatal{display:none;font-size:12px;color:var(--red);background:rgba(255,59,92,.07);border:1px solid rgba(255,59,92,.4);border-radius:9px;padding:12px;margin-bottom:16px}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
 </head>
-<body>
+<body class="net-main">
+<div class="gridbg"></div>
 
 <div class="topbar">
   <div class="logo">
-    <svg width="22" height="22" viewBox="0 0 32 32"><path d="M16 2 29 9.5v13L16 30 3 22.5v-13z" fill="none" stroke="#ff9900" stroke-width="2.4"/><path d="M16 8v16M11 12h7a3 3 0 010 6h-7m0 0h8a3 3 0 010 6h-8" stroke="#ffc24b" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg>
-    <span>TESTNET&nbsp;LAB</span>
+    <svg width="22" height="22" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M13 8v16M13 12h6a3 3 0 010 6h-6m0 0h7a3 3 0 010 6h-7M15 6v2m4-2v2m-4 16v2m4-2v2" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+    <span>WALLET&nbsp;LAB</span>
   </div>
-  <div class="net"><span class="dot wait" id="netdot"></span><span class="netlabel">TESTNET</span><b id="tipheight">—</b></div>
-  <button class="iconbtn" id="sndbtn" title="Звук вкл/выкл">🔊 <span id="sndlbl">ЗВУК</span></button>
+  <div class="seg" role="tablist">
+    <button id="seg-test">TESTNET</button>
+    <button id="seg-main" class="on">MAINNET ₿</button>
+  </div>
+  <div class="netstat"><span class="dot wait" id="netdot"></span><span class="nl" id="netname">MAINNET</span><b id="tipheight">—</b></div>
+  <button class="iconbtn" id="sndbtn">🔊 <span id="sndlbl">ЗВУК</span></button>
 </div>
 
 <div class="wrap">
   <div class="hero">
-    <h1>НАСТОЯЩИЙ BITCOIN.<br>БЕЗ РИСКА.</h1>
-    <p>Полноценный кошелёк тестовой сети: генерация ключей, получение tBTC из faucet, live-баланс и отправка подписанных транзакций прямо в блокчейн. Криптоядро встроено в страницу — ноль внешних зависимостей, работает даже офлайн.</p>
-    <div class="chips">
-      <span class="chip hot">secp256k1 · BIP39/32/44</span>
-      <span class="chip cool">СЕТЬ: TESTNET · COIN TYPE 1</span>
-      <span class="chip warn">tBTC = 0 ₽ · ЭТО ПОЛИГОН</span>
-      <span class="chip">0 CDN · ВСЁ В ОДНОМ ФАЙЛЕ</span>
-    </div>
+    <h1 id="hero-title">РЕАЛЬНЫЙ BITCOIN.<br>РЕАЛЬНАЯ ОТВЕТСТВЕННОСТЬ.</h1>
+    <p id="hero-sub">Полноценный кошелёк основной сети: ключи secp256k1, получение BTC, live-баланс с курсом, подписанные транзакции. Криптоядро встроено — ноль CDN, работает офлайн. Но это настоящие деньги, а не игра.</p>
+    <div class="chips" id="chips"></div>
+  </div>
+
+  <div class="reality" id="reality">
+    <div class="rt">⚠ ЗДЕСЬ НЕТ МАГИИ — ЭТО MAINNET</div>
+    Баланс начнётся с <b>0.00000000 BTC</b>. Монеты приходят только тремя путями: <b>купить</b>, <b>заработать</b>, <b>получить переводом</b>. Faucet не существует. «Найти» чужие монеты невозможно — это та же математика, которую мы проверяли на mempool.space. Игра и полигон — во вкладке <b>TESTNET</b>.
   </div>
 
   <div class="banner">
     <canvas id="cv" width="960" height="170"></canvas>
-    <div class="cap"><span>MEMPOOL STREAM · <b>TESTNET</b></span><span id="capstat">ОЖИДАНИЕ СОБЫТИЙ</span></div>
+    <div class="cap"><span>MEMPOOL STREAM · <b id="capnet">MAINNET</b></span><span id="capstat">ОЖИДАНИЕ СОБЫТИЙ</span></div>
   </div>
 
-  <div class="note">⚠️ Это <b>учебный полигон</b>: монеты tBTC бесплатны и ничего не стоят. Никогда не вставляй сюда сид-фразу кошелька с реальными деньгами. Ключи хранятся только в твоём браузере.</div>
   <div class="fatal" id="fatal"></div>
 
   <div class="cols">
     <div class="colL">
 
-      <div class="card" id="walletcard">
+      <div class="card">
         <h2><span class="n">1</span>КОШЕЛЁК<span class="tail" id="wstate">НЕТ КЛЮЧЕЙ</span></h2>
         <div class="stack" id="nowallet">
-          <button class="btn" id="btn-gen">✦ Сгенерировать кошелёк</button>
+          <button class="btn" id="btn-gen">✦ Создать реальный кошелёк</button>
+          <div class="hint" id="genhint">Ключи появятся только после принятия рисков реальной сети.</div>
         </div>
         <div id="haswallet" class="hidden">
           <div class="addrbox">
-            <div class="lbl">АДРЕС ПОЛУЧЕНИЯ <span class="tag">P2PKH · 0x6F</span></div>
+            <div class="lbl">АДРЕС ПОЛУЧЕНИЯ <span class="tag" id="addrtag">P2PKH · 0x00</span></div>
             <div class="addr" id="w-addr">—</div>
             <button class="copy" data-copy="addr">⧉ КОПИРОВАТЬ АДРЕС</button>
           </div>
           <div class="sep"></div>
-          <div class="lbl">СЕКРЕТЫ <span class="tag">BIP39 · m/44'/1'/0'/0/0</span>
+          <div class="lbl">СЕКРЕТЫ <span class="tag" id="pathtag">m/44'/0'/0'/0/0</span>
             <button class="copy" style="margin:0 0 0 auto;padding:4px 9px" id="revealbtn">👁 ПОКАЗАТЬ</button>
           </div>
           <div class="mngrid" id="mngrid"></div>
-          <div class="kv"><div class="lbl">WIF · TESTNET «c…»</div><div class="val mask" id="w-wif">••••••••••••••••••••</div>
+          <div class="kv"><div class="lbl">WIF <span class="tag" id="wiftag">0x80 · K/L</span></div><div class="val mask" id="w-wif">••••••••••••••••••••</div>
             <button class="copy" data-copy="wif">⧉ WIF</button></div>
-          <div class="kv"><div class="lbl">ПУБЛИЧНЫЙ КЛЮЧ · COMPRESSED</div><div class="val pub" id="w-pub">—</div></div>
+          <div class="kv"><div class="lbl">ПУБЛИЧНЫЙ КЛЮЧ</div><div class="val pub" id="w-pub">—</div></div>
           <div class="sep"></div>
           <div class="row2">
             <button class="btn ghost" id="btn-regen">↻ НОВЫЙ</button>
@@ -310,19 +361,11 @@ footer b{color:var(--muted)}
         <div class="sep"></div>
         <div class="lbl">ВОССТАНОВИТЬ СВОЙ КОШЕЛЁК</div>
         <textarea id="mn-in" rows="2" placeholder="12 или 24 слова через пробел…"></textarea>
-        <div class="hint" id="mn-hint">Слова проверяются по контрольной сумме BIP39</div>
+        <div class="hint" id="mn-hint">Проверка по контрольной сумме BIP39. Никогда не вводи сюда сид со сбережениями.</div>
         <button class="btn cy" id="btn-rec" style="margin-top:8px">🔐 Восстановить</button>
       </div>
 
-      <div class="card faucet">
-        <h2><span class="n">2</span>ПОЛУЧИТЬ tBTC<span class="tail">FAUCET</span></h2>
-        <div class="steps">Скопируй адрес выше → вставь на сайте → пройди капчу → монеты придут за ~1 минуту.</div>
-        <div style="height:10px"></div>
-        <a href="https://coinfaucet.eu/en/btc-testnet/" target="_blank" rel="noopener"><span class="ico">🚰</span>coinfaucet.eu<small>↗</small></a>
-        <a href="https://testnet-faucet.mempool.co/" target="_blank" rel="noopener"><span class="ico">🚰</span>testnet-faucet.mempool.co<small>↗</small></a>
-        <a href="https://bitcoinfaucet.uo1.net/" target="_blank" rel="noopener"><span class="ico">🚰</span>bitcoinfaucet.uo1.net<small>↗</small></a>
-        <div class="hint">У faucet есть суточные лимиты и капча — это нормально.</div>
-      </div>
+      <div class="card deposit" id="depositcard"></div>
 
     </div>
     <div class="colR">
@@ -336,32 +379,38 @@ footer b{color:var(--muted)}
         <div class="hud">
           <div class="tile"><div class="t">ПОДТВЕРЖДЕНО</div><div class="v" id="b-conf">—</div></div>
           <div class="tile memp"><div class="t">В МЕМПУЛЕ</div><div class="v" id="b-memp">—</div></div>
-          <div class="tile total"><div class="t">ИТОГО · tBTC</div><div class="v" id="b-total">—</div></div>
+          <div class="tile total"><div class="t" id="total-label">ИТОГО · BTC</div><div class="v" id="b-total">—</div></div>
           <div class="tile"><div class="t">ТРАНЗАКЦИЙ</div><div class="v" id="b-tx">—</div></div>
         </div>
+        <div class="fiat hidden" id="fiatline">≈ <b id="fiatval">—</b> <span id="fiatrate"></span></div>
         <div class="upd" id="upd">ещё не обновлялось</div>
-        <div class="filters">
+        <div class="txtools">
           <button class="fchip on" data-f="all">ВСЕ</button>
-          <button class="fchip" data-f="in">↘ ВХОДЯЩИЕ</button>
-          <button class="fchip" data-f="out">↗ ИСХОДЯЩИЕ</button>
+          <button class="fchip" data-f="in">↘ ВХОД</button>
+          <button class="fchip" data-f="out">↗ ИСХОД</button>
+          <input id="txsearch" placeholder="поиск txid…" autocomplete="off">
+          <select id="txsort">
+            <option value="new">сначала новые</option>
+            <option value="old">сначала старые</option>
+            <option value="amt">по сумме ↓</option>
+          </select>
         </div>
-        <div class="txlist" id="txlist">
-          <div class="empty"><span class="big">⛓</span>Транзакций пока нет.<br>Получи первые tBTC из <b>faucet</b> — они появятся здесь.</div>
-        </div>
+        <div class="txlist" id="txlist"></div>
       </div>
 
       <div class="card">
-        <h2><span class="n">4</span>ОТПРАВИТЬ tBTC<span class="tail">REAL TX</span></h2>
+        <h2><span class="n">4</span><span id="sendtitle">ОТПРАВИТЬ BTC</span><span class="tail">REAL TX</span></h2>
         <div class="stack">
           <div class="field">
-            <input id="s-to" placeholder="Получатель: m… / n… / 2… / tb1q… / tb1p…" autocomplete="off" spellcheck="false">
+            <input id="s-to" placeholder="Получатель: 1… / 3… / bc1q… / bc1p…" autocomplete="off" spellcheck="false">
             <span class="vmark" id="tomark"></span>
           </div>
-          <div class="hint" id="tohint">Адрес проверяется по контрольной сумме Base58Check / bech32</div>
+          <div class="hint" id="tohint">Контрольная сумма Base58Check / bech32 · сеть проверяется</div>
           <div class="row2">
-            <input id="s-amt" inputmode="decimal" placeholder="Сумма, tBTC" autocomplete="off">
+            <input id="s-amt" inputmode="decimal" placeholder="Сумма, BTC" autocomplete="off">
             <button class="btn cy" id="btn-max" style="min-height:46px">MAX</button>
           </div>
+          <div class="hint" id="amtfiat"></div>
           <div class="feeline">
             <span>КОМИССИЯ:</span>
             <select id="feesel">
@@ -389,18 +438,40 @@ footer b{color:var(--muted)}
     </div>
   </div>
 
-  <footer>
-    <b>TESTNET LAB</b> · криптоядро встроено: SHA-256 / RIPEMD-160 / secp256k1 / BIP39 / BIP32 · данные сети: mempool.space → blockstream.info (testnet)<br>
-    Монеты testnet не имеют ценности. Это инструмент для обучения, а не для реальных средств.
-  </footer>
+  <footer><b>BITCOIN WALLET LAB</b> · встроенное криптоядро: SHA-256 / RIPEMD-160 / secp256k1 / BIP39 / BIP32 · данные: mempool.space → blockstream.info<br>
+  Экспериментальный инструмент. Для сбережений используй аппаратный кошелёк. Mainnet — реальные деньги; testnet — безопасный полигон.</footer>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<div class="drawer" id="drawer">
+  <div class="dh"><b>ДЕТАЛИ ТРАНЗАКЦИИ</b><button id="dclose">✕</button></div>
+  <div class="db" id="dbody"></div>
+  <div class="df">
+    <a class="btn cy" id="dexplorer" target="_blank" rel="noopener" style="text-decoration:none">↗ Открыть в обозревателе</a>
+    <button class="btn ghost" id="dcopy">⧉ Копировать txid</button>
+  </div>
+</div>
+
+<div class="modal" id="consent">
+  <div class="mbox">
+    <h3>₿ MAINNET — РЕАЛЬНЫЕ ДЕНЬГИ</h3>
+    <div class="sub">ПРЕЖДЕ ЧЕМ ПРОДОЛЖИТЬ</div>
+    <p>Ты переходишь из полигона в <b>основную сеть Bitcoin</b>. Здесь каждый sat стоит реальных денег, транзакции необратимы, а ошибки не отменяются. Faucet и «поиск монет» здесь не существуют — баланс пополняется только покупкой, заработком или переводом.</p>
+    <label class="ck"><input type="checkbox" class="ckin"><span class="box">✓</span><span class="txt">Я понимаю, что BTC не появляются из воздуха: их нужно купить, заработать или получить. «Найти» чужие монеты математически невозможно.</span></label>
+    <label class="ck"><input type="checkbox" class="ckin"><span class="box">✓</span><span class="txt">Инструмент экспериментальный, криптоядро не проходило аудит, ключи хранятся в браузере. Я буду использовать только небольшие суммы, которые готов потерять.</span></label>
+    <label class="ck"><input type="checkbox" class="ckin"><span class="box">✓</span><span class="txt">Я сохраню сид-фразу офлайн и никогда не введу сюда сид-фразу кошелька со сбережениями.</span></label>
+    <div class="mbtns">
+      <button class="btn" id="ck-accept" disabled>Принимаю риски → перейти в mainnet</button>
+      <button class="btn ghost" id="ck-stay">Остаться в безопасном testnet</button>
+    </div>
+  </div>
 </div>
 
 <div class="toasts" id="toasts" aria-live="polite"></div>
-<noscript><div style="padding:20px;color:#ff3b5c;text-align:center">Для работы кошелька нужен JavaScript.</div></noscript>
+<noscript><div style="padding:20px;color:#ff3b5c;text-align:center">Нужен JavaScript.</div></noscript>
 
 <script>
 "use strict";
-/* ================= UTIL ================= */
 const $=id=>document.getElementById(id);
 const enc=new TextEncoder();
 const hex=b=>[...b].map(x=>x.toString(16).padStart(2,"0")).join("");
@@ -414,16 +485,14 @@ const u32le=n=>[n&255,(n>>>8)&255,(n>>>16)&255,(n>>>24)&255];
 const u64le=n=>{n=BigInt(n);const b=[];for(let i=0;i<8;i++){b.push(Number(n&255n));n>>=8n}return b};
 const vi=n=>n<0xfd?[n]:n<=0xffff?[0xfd,n&255,n>>8]:[0xfe,...u32le(n)];
 const fmtSat=s=>(s/1e8).toFixed(8);
-const now=()=>Math.floor(Date.now()/1000);
-function ago(t){if(!t)return"в мемпуле";const d=now()-t;if(d<60)return d+"с назад";if(d<3600)return Math.floor(d/60)+"м назад";if(d<86400)return Math.floor(d/3600)+"ч назад";return Math.floor(d/86400)+"д назад"}
+const nowS=()=>Math.floor(Date.now()/1000);
+function ago(t){if(!t)return"в мемпуле";const d=nowS()-t;if(d<60)return d+"с назад";if(d<3600)return Math.floor(d/60)+"м назад";if(d<86400)return Math.floor(d/3600)+"ч назад";return Math.floor(d/86400)+"д назад"}
 
-/* ================= SHA-256 (pure JS) ================= */
+/* ---- SHA-256 ---- */
 const K256=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
 function sha256(msg){
-  const l=msg.length,total=((l+9+63)&~63),buf=new Uint8Array(total);
-  buf.set(msg);buf[l]=0x80;
-  const dv=new DataView(buf.buffer);
-  dv.setUint32(total-8,Math.floor(l*8/4294967296));dv.setUint32(total-4,(l*8)>>>0);
+  const l=msg.length,total=((l+9+63)&~63),buf=new Uint8Array(total);buf.set(msg);buf[l]=0x80;
+  const dv=new DataView(buf.buffer);dv.setUint32(total-8,Math.floor(l*8/4294967296));dv.setUint32(total-4,(l*8)>>>0);
   let h0=0x6a09e667,h1=0xbb67ae85,h2=0x3c6ef372,h3=0xa54ff53a,h4=0x510e527f,h5=0x9b05688c,h6=0x1f83d9ab,h7=0x5be0cd19;
   const w=new Uint32Array(64);
   for(let off=0;off<total;off+=64){
@@ -435,50 +504,41 @@ function sha256(msg){
     let a=h0,b=h1,c=h2,d=h3,e=h4,f=h5,g=h6,h=h7;
     for(let i=0;i<64;i++){
       const S1=((e>>>6)|(e<<26))^((e>>>11)|(e<<21))^((e>>>25)|(e<<7));
-      const ch=(e&f)^(~e&g);
-      const t1=(h+S1+ch+K256[i]+w[i])>>>0;
+      const t1=(h+S1+((e&f)^(~e&g))+K256[i]+w[i])>>>0;
       const S0=((a>>>2)|(a<<30))^((a>>>13)|(a<<19))^((a>>>22)|(a<<10));
-      const maj=(a&b)^(a&c)^(b&c);
-      const t2=(S0+maj)>>>0;
+      const t2=(S0+((a&b)^(a&c)^(b&c)))>>>0;
       h=g;g=f;f=e;e=(d+t1)>>>0;d=c;c=b;b=a;a=(t1+t2)>>>0}
     h0=(h0+a)>>>0;h1=(h1+b)>>>0;h2=(h2+c)>>>0;h3=(h3+d)>>>0;h4=(h4+e)>>>0;h5=(h5+f)>>>0;h6=(h6+g)>>>0;h7=(h7+h)>>>0}
   const o=new Uint8Array(32),od=new DataView(o.buffer);
-  od.setUint32(0,h0);od.setUint32(4,h1);od.setUint32(8,h2);od.setUint32(12,h3);od.setUint32(16,h4);od.setUint32(20,h5);od.setUint32(24,h6);od.setUint32(28,h7);
-  return o;
+  od.setUint32(0,h0);od.setUint32(4,h1);od.setUint32(8,h2);od.setUint32(12,h3);od.setUint32(16,h4);od.setUint32(20,h5);od.setUint32(24,h6);od.setUint32(28,h7);return o;
 }
 const dsha=x=>sha256(sha256(x));
 
-/* ================= RIPEMD-160 (pure JS) ================= */
+/* ---- RIPEMD-160 ---- */
 function ripemd160(msg){
   const zl=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,7,4,13,1,10,6,15,3,12,0,9,5,2,14,11,8,3,10,14,4,9,15,8,1,2,7,0,6,13,11,5,12,1,9,11,10,0,8,12,4,13,3,7,15,14,5,6,2,4,0,5,9,7,12,2,10,14,1,3,8,11,6,15,13];
   const zr=[5,14,7,0,9,2,11,4,13,6,15,8,1,10,3,12,6,11,3,7,0,13,5,10,14,15,8,12,4,9,1,2,15,5,1,3,7,14,6,9,11,8,12,2,10,0,4,13,8,6,4,1,3,11,15,0,5,12,2,13,9,7,10,14,12,15,10,4,1,5,8,7,6,2,13,14,0,3,9,11];
   const sl=[11,14,15,12,5,8,7,9,11,13,14,15,6,7,9,8,7,6,8,13,11,9,7,15,7,12,15,9,11,7,13,12,11,13,6,7,14,9,13,15,14,8,13,6,5,12,7,5,11,12,14,15,14,15,9,8,9,14,5,6,8,6,5,12,9,15,5,11,6,8,13,12,5,12,13,14,11,8,5,6];
   const sr=[8,9,9,11,13,15,15,5,7,7,8,11,14,14,12,6,9,13,15,7,12,8,9,11,7,7,12,7,6,15,13,11,9,7,15,11,8,6,6,14,12,13,5,14,13,13,7,5,15,5,8,11,14,14,6,14,6,9,12,9,12,5,15,8,8,5,12,9,12,5,14,6,8,13,6,5,15,13,11,11];
-  const hl=[0x00000000,0x5a827999,0x6ed9eba1,0x8f1bbcdc,0xa953fd4e];
-  const hr=[0x50a28be6,0x5c4dd124,0x6d703ef3,0x7a6d76e9,0x00000000];
+  const hl=[0,0x5a827999,0x6ed9eba1,0x8f1bbcdc,0xa953fd4e],hr=[0x50a28be6,0x5c4dd124,0x6d703ef3,0x7a6d76e9,0];
   const f=(j,x,y,z)=>j<16?x^y^z:j<32?(x&y)|(~x&z):j<48?(x|~y)^z:j<64?(x&z)|(y&~z):x^(y|~z);
   const rl=(x,n)=>((x<<n)|(x>>>(32-n)))>>>0;
-  const l=msg.length,total=((l+9+63)&~63),buf=new Uint8Array(total);
-  buf.set(msg);buf[l]=0x80;
-  const dv=new DataView(buf.buffer);
-  dv.setUint32(total-8,(l*8)>>>0,true);dv.setUint32(total-4,Math.floor(l*8/4294967296),true);
+  const l=msg.length,total=((l+9+63)&~63),buf=new Uint8Array(total);buf.set(msg);buf[l]=0x80;
+  const dv=new DataView(buf.buffer);dv.setUint32(total-8,(l*8)>>>0,true);dv.setUint32(total-4,Math.floor(l*8/4294967296),true);
   let h0=0x67452301,h1=0xefcdab89,h2=0x98badcfe,h3=0x10325476,h4=0xc3d2e1f0;
   for(let off=0;off<total;off+=64){
     const X=[];for(let i=0;i<16;i++)X.push(dv.getUint32(off+i*4,true));
     let al=h0,bl=h1,cl=h2,dl=h3,el=h4,ar=h0,br=h1,cr=h2,dr=h3,er=h4;
     for(let j=0;j<80;j++){
-      let t=(al+f(j,bl,cl,dl)+X[zl[j]]+hl[(j/16)|0])>>>0;t=(rl(t,sl[j])+el)>>>0;
-      al=el;el=dl;dl=rl(cl,10);cl=bl;bl=t;
-      t=(ar+f(79-j,br,cr,dr)+X[zr[j]]+hr[(j/16)|0])>>>0;t=(rl(t,sr[j])+er)>>>0;
-      ar=er;er=dr;dr=rl(cr,10);cr=br;br=t}
+      let t=(al+f(j,bl,cl,dl)+X[zl[j]]+hl[(j/16)|0])>>>0;t=(rl(t,sl[j])+el)>>>0;al=el;el=dl;dl=rl(cl,10);cl=bl;bl=t;
+      t=(ar+f(79-j,br,cr,dr)+X[zr[j]]+hr[(j/16)|0])>>>0;t=(rl(t,sr[j])+er)>>>0;ar=er;er=dr;dr=rl(cr,10);cr=br;br=t}
     const t=(h1+cl+dr)>>>0;h1=(h2+dl+er)>>>0;h2=(h3+el+ar)>>>0;h3=(h4+al+br)>>>0;h4=(h0+bl+cr)>>>0;h0=t}
   const o=new Uint8Array(20),od=new DataView(o.buffer);
-  od.setUint32(0,h0,true);od.setUint32(4,h1,true);od.setUint32(8,h2,true);od.setUint32(12,h3,true);od.setUint32(16,h4,true);
-  return o;
+  od.setUint32(0,h0,true);od.setUint32(4,h1,true);od.setUint32(8,h2,true);od.setUint32(12,h3,true);od.setUint32(16,h4,true);return o;
 }
 const hash160=x=>ripemd160(sha256(x));
 
-/* ================= secp256k1 (BigInt) ================= */
+/* ---- secp256k1 ---- */
 const P=2n**256n-2n**32n-977n;
 const N=0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141n;
 const Gx=0x79BE667EF9DCBBAC55A06295CE870B07029BFCDB2DCE28D959F2815B16F81798n;
@@ -487,101 +547,51 @@ const md=(a,m=P)=>((a%m)+m)%m;
 function mpow(b,e,m){let r=1n;b=md(b,m);while(e>0n){if(e&1n)r=r*b%m;b=b*b%m;e>>=1n}return r}
 const minv=(a,m)=>mpow(a,m-2n,m);
 function jD(p){const[X,Y,Z]=p;if(Y===0n)return[0n,1n,0n];
-  const A=X*X%P,B=Y*Y%P,C=B*B%P;
-  const D=md(2n*(md((X+B)*(X+B))-A-C));
-  const E=3n*A%P,F=E*E%P;
-  const X3=md(F-2n*D),Y3=md(E*(D-X3)-8n*C),Z3=md(2n*Y*Z);
-  return[X3,Y3,Z3]}
-function jA(p,q){if(p[2]===0n)return q;if(q[2]===0n)return p;
-  const[X1,Y1,Z1]=p,[X2,Y2,Z2]=q;
-  const z1=Z1*Z1%P,z2=Z2*Z2%P;
-  const U1=X1*z2%P,U2=X2*z1%P;
-  const S1=Y1*Z2%P*z2%P,S2=Y2*Z1%P*z1%P;
-  if(U1===U2)return S1===S2?jD(p):[0n,1n,0n];
-  const H=md(U2-U1),R=md(S2-S1);
-  const HH=H*H%P,HHH=H*HH%P,V=U1*HH%P;
-  return[md(R*R-HHH-2n*V),md(R*(V-X3fix(V,X3tmp(HH,HHH,R)))-S1*HHH),md(Z1*Z2*H)];
-  function X3tmp(h,hh,r){return md(r*r-hh-2n*md(U1*h))}
-  function X3fix(v,x){return x}}
+  const A=X*X%P,B=Y*Y%P,C=B*B%P,D=md(2n*(md((X+B)*(X+B))-A-C)),E=3n*A%P,F=E*E%P;
+  return[md(F-2n*D),md(E*(D-md(F-2n*D))-8n*C),md(2n*Y*Z)]}
 function jAdd(p,q){if(p[2]===0n)return q;if(q[2]===0n)return p;
-  const[X1,Y1,Z1]=p,[X2,Y2,Z2]=q;
-  const z1=Z1*Z1%P,z2=Z2*Z2%P;
-  const U1=X1*z2%P,U2=X2*z1%P;
-  const S1=Y1*Z2%P*z2%P,S2=Y2*Z1%P*z1%P;
+  const[X1,Y1,Z1]=p,[X2,Y2,Z2]=q,z1=Z1*Z1%P,z2=Z2*Z2%P;
+  const U1=X1*z2%P,U2=X2*z1%P,S1=Y1*Z2%P*z2%P,S2=Y2*Z1%P*z1%P;
   if(U1===U2)return S1===S2?jD(p):[0n,1n,0n];
-  const H=md(U2-U1),R=md(S2-S1);
-  const HH=H*H%P,HHH=H*HH%P,V=U1*HH%P;
-  const X3=md(R*R-HHH-2n*V);
-  const Y3=md(R*(V-X3)-S1*HHH);
-  const Z3=md(Z1*Z2*H);
-  return[X3,Y3,Z3]}
+  const H=md(U2-U1),R=md(S2-S1),HH=H*H%P,HHH=H*HH%P,V=U1*HH%P,X3=md(R*R-HHH-2n*V);
+  return[X3,md(R*(V-X3)-S1*HHH),md(Z1*Z2*H)]}
 function pmul(k,pt){let r=[0n,1n,0n],a=pt;while(k>0n){if(k&1n)r=jAdd(r,a);a=jD(a);k>>=1n}return r}
-function affine(k){const[X,Y,Z]=pmul(k,[Gx,Gy,1n]);const zi=minv(Z,P);
-  return{x:X*zi%P*zi%P,y:Y*zi%P*zi%P*zi%P}}
+function affine(k){const[X,Y,Z]=pmul(k,[Gx,Gy,1n]),zi=minv(Z,P);return{x:X*zi%P*zi%P,y:Y*zi%P*zi%P*zi%P}}
 function pubBytes(k){const{x,y}=affine(k);return cat([y&1n?3:2],n2b32(x))}
 function derInt(x){let h=x.toString(16);if(h.length%2)h="0"+h;let b=hb(h);if(b[0]&0x80)b=cat([0],b);return cat([2,b.length],b)}
-function ecdsaSign(h32,d){
-  const z=b2n(h32);
-  for(let t=0;t<64;t++){
-    const k=b2n(crypto.getRandomValues(new Uint8Array(32)))%N;
-    if(k===0n)continue;
+function ecdsaSign(h32,d){const z=b2n(h32);
+  for(let t=0;t<64;t++){const k=b2n(crypto.getRandomValues(new Uint8Array(32)))%N;if(k===0n)continue;
     const r=affine(k).x%N;if(r===0n)continue;
-    let s=md(minv(k,N)*(z+r*d),N);if(s===0n)continue;
-    if(s>N/2n)s=N-s;
-    const a=derInt(r),b=derInt(s);
-    return cat([0x30,a.length+b.length],a,b);
-  }
-  throw Error("sign retry exhausted");
-}
+    let s=md(minv(k,N)*(z+r*d),N);if(s===0n)continue;if(s>N/2n)s=N-s;
+    const a=derInt(r),b=derInt(s);return cat([0x30,a.length+b.length],a,b)}
+  throw Error("sign retry")}
 
-/* ================= WebCrypto: SHA-512 HMAC / PBKDF2 ================= */
-async function hmac512(key,data){
-  const k=await crypto.subtle.importKey("raw",key,{name:"HMAC",hash:"SHA-512"},false,["sign"]);
-  return new Uint8Array(await crypto.subtle.sign("HMAC",k,data));
-}
-async function seedFromMnemonic(mn){
-  const k=await crypto.subtle.importKey("raw",enc.encode(mn.normalize("NFKD")),"PBKDF2",false,["deriveBits"]);
-  const bits=await crypto.subtle.deriveBits({name:"PBKDF2",salt:enc.encode("mnemonic"),iterations:2048,hash:"SHA-512"},k,512);
-  return new Uint8Array(bits);
-}
+/* ---- WebCrypto SHA-512 ---- */
+async function hmac512(key,data){const k=await crypto.subtle.importKey("raw",key,{name:"HMAC",hash:"SHA-512"},false,["sign"]);return new Uint8Array(await crypto.subtle.sign("HMAC",k,data))}
+async function seedFromMnemonic(mn){const k=await crypto.subtle.importKey("raw",enc.encode(mn.normalize("NFKD")),"PBKDF2",false,["deriveBits"]);
+  return new Uint8Array(await crypto.subtle.deriveBits({name:"PBKDF2",salt:enc.encode("mnemonic"),iterations:2048,hash:"SHA-512"},k,512))}
+async function master(seed){const I=await hmac512(enc.encode("Bitcoin seed"),seed);const k=b2n(I.slice(0,32));if(k===0n||k>=N)throw Error("bad master");return{k,c:I.slice(32)}}
+async function ckd(node,i){const data=i>=0x80000000?cat([0],n2b32(node.k),u32be(i)):cat(pubBytes(node.k),u32be(i));
+  const I=await hmac512(node.c,data);const k=md(b2n(I.slice(0,32))+node.k,N);if(k===0n)throw Error("bad child");return{k,c:I.slice(32)}}
 
-/* ================= BIP32 ================= */
-const PATH_IDX=[0x8000002C,0x80000001,0x80000000,0,0];
-async function master(seed){const I=await hmac512(enc.encode("Bitcoin seed"),seed);
-  const k=b2n(I.slice(0,32));if(k===0n||k>=N)throw Error("bad master");
-  return{k,c:I.slice(32)}}
-async function ckd(node,i){
-  const data=i>=0x80000000?cat([0],n2b32(node.k),u32be(i)):cat(pubBytes(node.k),u32be(i));
-  const I=await hmac512(node.c,data);
-  const k=md(b2n(I.slice(0,32))+node.k,N);
-  if(k===0n)throw Error("bad child");
-  return{k,c:I.slice(32)}}
-
-/* ================= BIP39 wordlist (2048) ================= */
+/* ---- BIP39 ---- */
 const WORDS="abandon ability able about above absent absorb abstract absurd abuse access accident account accuse achieve acid acoustic acquire across act action actor actress actual adapt add addict address adjust admit adult advance advice aerobic affair afford afraid again age agent agree ahead aim air airport aisle alarm album alcohol alert alien all alley allow almost alone alpha already also alter always amateur amazing among amount amused analyst anchor ancient anger angle angry animal ankle announce annual another answer antenna antique anxiety any apart apology appear apple approve april arch arctic area arena argue arm armed armor army around arrange arrest arrive arrow art artefact artist artwork ask aspect assault asset assist assume asthma athlete atom attack attend attitude attract auction audit august aunt author auto autumn average avocado avoid awake aware away awesome awful awkward axis baby bachelor bacon badge bag balance balcony ball bamboo banana banner bar barely bargain barrel base basic basket battle beach bean beauty because become beef before begin behave behind believe below belt bench benefit best betray better between beyond bicycle bid bike bind biology bird birth bitter black blade blame blanket blast bleak bless blind blood blossom blouse blue blur blush board boat body boil bomb bone bonus book boost border boring borrow boss bottom bounce box boy bracket brain brand brass brave bread breeze brick bridge brief bright bring brisk broccoli broken bronze broom brother brown brush bubble buddy budget buffalo build bulb bulk bullet bundle bunker burden burger burst bus business busy butter buyer buzz cabbage cabin cable cactus cage cake call calm camera camp can canal cancel candy cannon canoe canvas canyon capable capital captain car carbon card cargo carpet carry cart case cash casino castle casual cat catalog catch category cattle caught cause caution cave ceiling celery cement census century cereal certain chair chalk champion change chaos chapter charge chase chat cheap check cheese chef cherry chest chicken chief child chimney choice choose chronic chuckle chunk churn cigar cinnamon circle citizen city civil claim clap clarify claw clay clean clerk clever click client cliff climb clinic clip clock clog close cloth cloud clown club clump cluster clutch coach coast coconut code coffee coil coin collect color column combine come comfort comic common company concert conduct confirm congress connect consider control convince cook cool copper copy coral core corn correct cost cotton couch country couple course cousin cover coyote crack cradle craft cram crane crash crater crawl crazy cream credit creek crew cricket crime crisp critic crop cross crouch crowd crucial cruel cruise crumble crunch crush cry crystal cube culture cup cupboard curious current curtain curve cushion custom cute cycle dad damage damp dance danger daring dash daughter dawn day deal debate debris decade december decide decline decorate decrease deer defense define defy degree delay deliver demand demise denial dentist deny depart depend deposit depth deputy derive describe desert design desk despair destroy detail detect develop device devote diagram dial diamond diary dice diesel diet differ digital dignity dilemma dinner dinosaur direct dirt disagree discover disease dish dismiss disorder display distance divert divide divorce dizzy doctor document dog doll dolphin domain donate donkey donor door dose double dove draft dragon drama drastic draw dream dress drift drill drink drip drive drop drum dry duck dumb dune during dust dutch duty dwarf dynamic eager eagle early earn earth easily east easy echo ecology economy edge edit educate effort egg eight either elbow elder electric elegant element elephant elevator elite else embark embody embrace emerge emotion employ empower empty enable enact encourage end endless endorse enemy energy enforce engage engine enhance enjoy enlist enough enrich enroll ensure enter entire entry envelope episode equal equip era erase erode erosion error erupt escape essay essence estate eternal ethics evidence evil evoke evolve exact example excess exchange excite exclude excuse execute exercise exhaust exhibit exile exist exit exotic expand expect expire explain expose express extend extra eye eyebrow fabric face faculty fade faint faith fall false fame family famous fan fancy fantasy farm fashion fat fatal father fatigue fault favorite feature february federal fee feed feel female fence festival fetch fever few fiber fiction field figure file film filter final find fine finger finish fire firm first fiscal fish fit fitness fix flag flame flash flat flavor flee flight flip float flock floor flower fluid flush fly foam focus fog foil fold follow food foot force forest forget fork fortune forum forward fossil foster found fox fragile frame frequent fresh friend fringe frog front frost frown frozen fruit fuel fun funny furnace fury future gadget gain galaxy gallery game gap garage garbage garden garlic garment gas gasp gate gather gauge gaze general genius genre gentle genuine gesture ghost giant gift giggle ginger giraffe girl give glad glance glare glass glide glimpse globe gloom glory glove glow glue goat goddess gold good goose gorilla gospel gossip govern gown grab grace grain grant grape grass gravity great green grid grief grit grocery group grow grunt guard guess guide guilt guitar gun gym habit hair half hammer hamster hand happy harbor hard harsh harvest hat have hawk hazard head health heart heavy hedgehog height hello helmet help hen hero hidden high hill hint hip hire history hobby hockey hold hole holiday hollow home honey hood hope horn horror horse hospital host hotel hour hover hub huge human humble humor hundred hungry hunt hurdle hurry hurt husband hybrid ice icon idea identify idle ignore ill illegal illness image imitate immense immune impact impose improve impulse inch include income increase index indicate indoor industry infant inflict inform inhale inherit initial inject injury inmate inner innocent input inquiry insane insect inside inspire install intact interest into invest invite involve iron island isolate issue item ivory jacket jaguar jar jazz jealous jeans jelly jewel job join joke journey joy judge juice jump jungle junior junk just kangaroo keen keep ketchup key kick kid kidney kind kingdom kiss kit kitchen kite kitten kiwi knee knife knock know lab label labor ladder lady lake lamp language laptop large later latin laugh laundry lava law lawn lawsuit layer lazy leader leaf learn leave lecture left leg legal legend leisure lemon lend length lens leopard lesson letter level liar liberty library license life lift light like limb limit link lion liquid list little live lizard load loan lobster local lock logic lonely long loop lottery loud lounge love loyal lucky luggage lumber lunar lunch luxury lyrics machine mad magic magnet maid mail main major make mammal man manage mandate mango mansion manual maple marble march margin marine market marriage mask mass master match material math matrix matter maximum maze meadow mean measure meat mechanic medal media melody melt member memory mention menu mercy merge merit merry mesh message metal method middle midnight milk million mimic mind minimum minor minute miracle mirror misery miss mistake mix mixed mixture mobile model modify mom moment monitor monkey monster month moon moral more morning mosquito mother motion motor mountain mouse move movie much muffin mule multiply muscle museum mushroom music must mutual myself mystery myth naive name napkin narrow nasty nation nature near neck need negative neglect neither nephew nerve nest net network neutral never news next nice night noble noise nominee noodle normal north nose notable note nothing notice novel now nuclear number nurse nut oak obey object oblige obscure observe obtain obvious occur ocean october odor off offer office often oil okay old olive olympic omit once one onion online only open opera opinion oppose option orange orbit orchard order ordinary organ orient original orphan ostrich other outdoor outer output outside oval oven over own owner oxygen oyster ozone pact paddle page pair palace palm panda panel panic panther paper parade parent park parrot party pass patch path patient patrol pattern pause pave payment peace peanut pear peasant pelican pen penalty pencil people pepper perfect permit person pet phone photo phrase physical piano picnic picture piece pig pigeon pill pilot pink pioneer pipe pistol pitch pizza place planet plastic plate play please pledge pluck plug plunge poem poet point polar pole police pond pony pool popular portion position possible post potato pottery poverty powder power practice praise predict prefer prepare present pretty prevent price pride primary print priority prison private prize problem process produce profit program project promote proof property prosper protect proud provide public pudding pull pulp pulse pumpkin punch pupil puppy purchase purity purpose purse push put puzzle pyramid quality quantum quarter question quick quit quiz quote rabbit raccoon race rack radar radio rail rain raise rally ramp ranch random range rapid rare rate rather raven raw razor ready real reason rebel rebuild recall receive recipe record recycle reduce reflect reform refuse region regret regular reject relax release relief rely remain remember remind remove render renew rent reopen repair repeat replace report require rescue resemble resist resource response result retire retreat return reunion reveal review reward rhythm rib ribbon rice rich ride ridge rifle right rigid ring riot ripple risk ritual rival river road roast robot robust rocket romance roof rookie room rose rotate rough round route royal rubber rude rug rule run runway rural sad saddle sadness safe sail salad salmon salon salt salute same sample sand satisfy satoshi sauce sausage save say scale scan scare scatter scene scheme school science scissors scorpion scout scrap screen script scrub sea search season seat second secret section security seed seek segment select sell seminar senior sense sentence series service session settle setup seven shadow shaft shallow share shed shell sheriff shield shift shine ship shiver shock shoe shoot shop short shoulder shove shrimp shrug shuffle shy sibling sick side siege sight sign silent silk silly silver similar simple since sing siren sister situate six size skate sketch ski skill skin skirt skull slab slam sleep slender slice slide slight slim slogan slot slow slush small smart smile smoke smooth snack snake snap sniff snow soap soccer social sock soda soft solar soldier solid solution solve someone song soon sorry sort soul sound soup source south space spare spatial spawn speak special speed spell spend sphere spice spider spike spin spirit split spoil sponsor spoon sport spot spray spread spring spy square squeeze squirrel stable stadium staff stage stairs stamp stand start state stay steak steel stem step stereo stick still sting stock stomach stone stool story stove strategy street strike strong struggle student stuff stumble style subject submit subway success such sudden suffer sugar suggest suit summer sun sunny sunset super supply supreme sure surface surge surprise surround survey suspect sustain swallow swamp swap swarm swear sweet swift swim swing switch sword symbol symptom syrup system table tackle tag tail talent talk tank tape target task taste tattoo taxi teach team tell ten tenant tennis tent term test text thank that theme then theory there they thing this thought three thrive throw thumb thunder ticket tide tiger tilt timber time tiny tip tired tissue title toast tobacco today toddler toe together toilet token tomato tomorrow tone tongue tonight tool tooth top topic topple torch tornado tortoise toss total tourist toward tower town toy track trade traffic tragic train transfer trap trash travel tray treat tree trend trial tribe trick trigger trim trip trophy trouble truck true truly trumpet trust truth try tube tuition tumble tuna tunnel turkey turn turtle twelve twenty twice twin twist two type typical ugly umbrella unable unaware uncle uncover under undo unfair unfold unhappy uniform unique unit universe unknown unlock until unusual unveil update upgrade uphold upon upper upset urban urge usage use used useful useless usual utility vacant vacuum vague valid valley valve van vanish vapor various vast vault vehicle velvet vendor venture venue verb verify version very vessel veteran viable vibrant vicious victory video view village vintage violin virtual virus visa visit visual vital vivid vocal voice void volcano volume vote voyage wage wagon wait walk wall walnut want warfare warm warrior wash wasp waste water wave way wealth weapon wear weasel weather web wedding weekend weird welcome west wet whale what wheat wheel when where whip whisper wide width wife wild will win window wine wing wink winner winter wire wisdom wise wish witness wolf woman wonder wood wool word work world worry worth wrap wreck wrestle wrist write wrong yard year yellow you young youth zebra zero zone zoo".split(" ");
 const WIDX=new Map(WORDS.map((w,i)=>[w,i]));
-function entropyToMnemonic(ent){
-  const hbits=[...sha256(ent)].map(b=>b.toString(2).padStart(8,"0")).join("");
+function entropyToMnemonic(ent){const hbits=[...sha256(ent)].map(b=>b.toString(2).padStart(8,"0")).join("");
   const bits=[...ent].map(b=>b.toString(2).padStart(8,"0")).join("")+hbits.slice(0,ent.length*8/32);
-  const out=[];for(let i=0;i<bits.length;i+=11)out.push(WORDS[parseInt(bits.slice(i,i+11),2)]);
-  return out.join(" ");
-}
-function validateMnemonic(mn){
-  const w=mn.trim().toLowerCase().split(/\s+/);
+  const out=[];for(let i=0;i<bits.length;i+=11)out.push(WORDS[parseInt(bits.slice(i,i+11),2)]);return out.join(" ")}
+function validateMnemonic(mn){const w=mn.trim().toLowerCase().split(/\s+/);
   if(![12,15,18,21,24].includes(w.length))throw Error("Нужно 12/15/18/21/24 слова (сейчас "+w.length+")");
-  const idx=w.map(x=>WIDX.get(x));
-  const bad=idx.findIndex(i=>i===undefined);
+  const idx=w.map(x=>WIDX.get(x));const bad=idx.findIndex(i=>i===undefined);
   if(bad>=0)throw Error("Слово не из BIP39: «"+w[bad]+"»");
   const bits=idx.map(i=>i.toString(2).padStart(11,"0")).join("");
-  const entLen=bits.length*32/33;
-  const eb=bits.slice(0,entLen),cs=bits.slice(entLen);
+  const entLen=bits.length*32/33,eb=bits.slice(0,entLen),cs=bits.slice(entLen);
   const ent=[];for(let i=0;i<entLen;i+=8)ent.push(parseInt(eb.slice(i,i+8),2));
   const hbits=[...sha256(Uint8Array.from(ent))].map(b=>b.toString(2).padStart(8,"0")).join("");
-  if(hbits.slice(0,cs.length)!==cs)throw Error("Контрольная сумма BIP39 не сходится — опечатка в словах");
-  return w.join(" ");
-}
+  if(hbits.slice(0,cs.length)!==cs)throw Error("Контрольная сумма BIP39 не сходится");
+  return w.join(" ")}
 
-/* ================= Base58 / bech32 ================= */
+/* ---- Base58 / bech32 ---- */
 const B58="123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
 function b58enc(b){let n=b2n(b),s="";while(n>0n){s=B58[Number(n%58n)]+s;n/=58n}for(const x of b){if(x===0)s="1"+s;else break}return s}
 function b58dec(s){let n=0n;for(const c of s){const i=B58.indexOf(c);if(i<0)throw Error("символ вне Base58");n=n*58n+BigInt(i)}
@@ -596,12 +606,11 @@ function polymod(v){const G=[0x3b6a57b2,0x26508e6d,0x1ea119fa,0x3d4233dd,0x2a146
 const hrpExp=h=>{const a=[],b=[];for(const c of h){a.push(c.charCodeAt(0)>>5);b.push(c.charCodeAt(0)&31)}return a.concat([0],b)};
 function conv(data,from,to,pad){let acc=0,bits=0;const out=[],max=(1<<to)-1;
   for(const v of data){acc=(acc<<from)|v;bits+=from;while(bits>=to){bits-=to;out.push((acc>>bits)&max)}}
-  if(pad){if(bits>0)out.push((acc<<(to-bits))&max)}else if(bits>=from||((acc<<(to-bits))&max))throw Error("биты witness");
-  return out}
-function segwitSpk(addr){
+  if(pad){if(bits>0)out.push((acc<<(to-bits))&max)}else if(bits>=from||((acc<<(to-bits))&max))throw Error("биты witness");return out}
+function segwitSpk(addr,hrp){
   if(addr!==addr.toLowerCase()&&addr!==addr.toUpperCase())throw Error("смешанный регистр bech32");
-  const a=addr.toLowerCase();if(!a.startsWith("tb1"))throw Error("нужен hrp tb (testnet)");
-  const pos=a.lastIndexOf("1");if(pos<3)throw Error("формат bech32");
+  const a=addr.toLowerCase();if(!a.startsWith(hrp+"1"))throw Error("нужен префикс "+hrp+"1");
+  const pos=a.lastIndexOf("1");if(pos<hrp.length)throw Error("формат bech32");
   const data=[...a.slice(pos+1)].map(c=>{const i=BC.indexOf(c);if(i<0)throw Error("символ вне bech32");return i});
   if(data.length<7)throw Error("короткий bech32");
   const ver=data[0],k=ver===0?1:0x2bc830a3;
@@ -610,179 +619,177 @@ function segwitSpk(addr){
   if(ver===0&&prog.length===20)return cat([0x00,0x14],prog);
   if(ver===0&&prog.length===32)return cat([0x00,0x20],prog);
   if(ver===1&&prog.length===32)return cat([0x51,0x20],prog);
-  throw Error("неподдерживаемый witness");
-}
-function destSpk(addr){
-  addr=addr.trim();
-  if(!addr)throw Error("пустой адрес");
-  if(addr.toLowerCase().startsWith("tb1"))return segwitSpk(addr);
-  const p=b58checkDec(addr);
-  if(p.length!==21)throw Error("длина хэша ≠ 20 байт");
-  if(p[0]===0x6f)return cat([0x76,0xa9,0x14],p.slice(1),[0x88,0xac]);
-  if(p[0]===0xc4)return cat([0xa9,0x14],p.slice(1),[0x87]);
-  throw Error("это не testnet-адрес (version 0x"+p[0].toString(16)+")");
-}
+  throw Error("неподдерживаемый witness")}
+function destSpk(addr,net){addr=addr.trim();if(!addr)throw Error("пустой адрес");
+  if(addr.toLowerCase().startsWith(net.hrp+"1"))return segwitSpk(addr,net.hrp);
+  const p=b58checkDec(addr);if(p.length!==21)throw Error("длина хэша ≠ 20 байт");
+  if(p[0]===net.p2pkh)return cat([0x76,0xa9,0x14],p.slice(1),[0x88,0xac]);
+  if(p[0]===net.p2sh)return cat([0xa9,0x14],p.slice(1),[0x87]);
+  throw Error("адрес другой сети (version 0x"+p[0].toString(16)+")")}
 
-/* ================= wallet derive ================= */
-async function deriveWallet(mn){
+/* ---- networks ---- */
+const NETS={
+  main:{id:"main",name:"MAINNET",unit:"BTC",p2pkh:0x00,p2sh:0x05,wif:0x80,hrp:"bc",coin:0,
+    api:["https://mempool.space/api","https://blockstream.info/api"],explorer:"https://mempool.space",
+    addrEx:"1… / 3… / bc1q… / bc1p…",store:"wl_mainnet"},
+  test:{id:"test",name:"TESTNET",unit:"tBTC",p2pkh:0x6f,p2sh:0xc4,wif:0xef,hrp:"tb",coin:1,
+    api:["https://mempool.space/testnet/api","https://blockstream.info/testnet/api"],explorer:"https://mempool.space/testnet",
+    addrEx:"m… / n… / 2… / tb1q… / tb1p…",store:"wl_testnet"}
+};
+async function deriveWallet(mn,net){
   mn=validateMnemonic(mn);
   const seed=await seedFromMnemonic(mn);
   let node=await master(seed);
-  for(const i of PATH_IDX)node=await ckd(node,i);
+  for(const i of [0x8000002C,0x80000000|net.coin,0x80000000,0,0])node=await ckd(node,i);
   const priv=node.k,pub=pubBytes(priv),h160=hash160(pub);
-  return{mn,priv:hex(n2b32(priv)),pub:hex(pub),addr:b58check(cat([0x6f],h160)),wif:b58check(cat([0xef],n2b32(priv),[1]))};
+  return{mn,priv:hex(n2b32(priv)),pub:hex(pub),addr:b58check(cat([net.p2pkh],h160)),wif:b58check(cat([net.wif],n2b32(priv),[1]))};
 }
 
-/* ================= tx builder ================= */
-function serTx(vin,vout,sigIdx,spk){
-  let b=[...u32le(2),...vi(vin.length)];
+/* ---- tx ---- */
+function serTx(vin,vout,sigIdx,spk){let b=[...u32le(2),...vi(vin.length)];
   vin.forEach((i,j)=>{b.push(...rev(hb(i.txid)),...u32le(i.vout));
-    const s=sigIdx===j?spk:(sigIdx===-1?i.scriptSig:[]);
-    b.push(...vi(s.length),...s,...u32le(0xffffffff))});
-  b.push(...vi(vout.length));
-  vout.forEach(o=>b.push(...u64le(o.value),...vi(o.spk.length),...o.spk));
-  b.push(...u32le(0));
-  if(sigIdx>=0)b.push(...u32le(1));
-  return Uint8Array.from(b);
-}
-function buildSignedTx(utxos,spkTo,amt,fee,change,w){
+    const s=sigIdx===j?spk:(sigIdx===-1?i.scriptSig:[]);b.push(...vi(s.length),...s,...u32le(0xffffffff))});
+  b.push(...vi(vout.length));vout.forEach(o=>b.push(...u64le(o.value),...vi(o.spk.length),...o.spk));
+  b.push(...u32le(0));if(sigIdx>=0)b.push(...u32le(1));return Uint8Array.from(b)}
+function buildSignedTx(utxos,spkTo,amt,change,w){
   const priv=b2n(hb(w.priv)),pub=hb(w.pub);
   const spkOwn=cat([0x76,0xa9,0x14],hash160(pub),[0x88,0xac]);
   const vin=utxos.map(u=>({txid:u.txid,vout:u.vout}));
-  const vout=[{value:amt,spk:spkTo}];
-  if(change>0)vout.push({value:change,spk:spkOwn});
-  vin.forEach((i,idx)=>{
-    const sigh=dsha(serTx(vin,vout,idx,spkOwn));
-    const sig=cat(ecdsaSign(sigh,priv),[1]);
-    i.scriptSig=cat(vi(sig.length),sig,vi(pub.length),pub);
-  });
+  const vout=[{value:amt,spk:spkTo}];if(change>0)vout.push({value:change,spk:spkOwn});
+  vin.forEach((i,idx)=>{const sigh=dsha(serTx(vin,vout,idx,spkOwn));
+    const sig=cat(ecdsaSign(sigh,priv),[1]);i.scriptSig=cat(vi(sig.length),sig,vi(pub.length),pub)});
   const raw=serTx(vin,vout,-1);
   return{raw:hex(raw),vsize:raw.length,txid:hex(rev(dsha(raw)))};
 }
 
-/* ================= state / api ================= */
-const S={wallet:null,txs:[],utxos:[],fees:{},bal:{conf:0,memp:0,tx:0},filter:"all",pending:null,reveal:false,sound:true,auto:true,online:null,lastUpd:0,busy:false};
-const API=["https://mempool.space/testnet/api","https://blockstream.info/testnet/api"];
-async function api(path,opt={}){
-  let err;
-  for(const base of API){
-    try{
-      const ctl=new AbortController();const t=setTimeout(()=>ctl.abort(),12000);
-      const r=await fetch(base+path,Object.assign({cache:"no-store",signal:ctl.signal},opt));
-      clearTimeout(t);
-      if(!r.ok)throw Error("HTTP "+r.status+" · "+(await r.text()).slice(0,110));
-      setOnline(true);return r;
-    }catch(e){err=e}
-  }
-  setOnline(false);throw err;
-}
+/* ---- state ---- */
+const S={net:NETS.main,wallet:null,txs:[],utxos:[],fees:{},bal:{conf:0,memp:0,tx:0},filter:"all",q:"",sort:"new",
+  pending:null,reveal:false,sound:true,auto:true,online:null,lastUpd:0,busy:false,price:null,consent:false,drawerTx:null};
+async function api(path,opt={}){let err;
+  for(const base of S.net.api){try{
+    const ctl=new AbortController();const t=setTimeout(()=>ctl.abort(),12000);
+    const r=await fetch(base+path,Object.assign({cache:"no-store",signal:ctl.signal},opt));clearTimeout(t);
+    if(!r.ok)throw Error("HTTP "+r.status+" · "+(await r.text()).slice(0,110));
+    setOnline(true);return r}catch(e){err=e}}
+  setOnline(false);throw err}
 const apiJson=async p=>(await api(p)).json();
-function setOnline(v){if(S.online===v)return;S.online=v;
-  $("netdot").className="dot"+(v?"":" off");
-  if(!v)log("сеть недоступна — проверь интернет","err");}
+function setOnline(v){if(S.online===v)return;S.online=v;$("netdot").className="dot"+(v?"":" off");if(!v)log("сеть недоступна","err")}
 
-/* ================= sound ================= */
+/* ---- sound ---- */
 let AC=null;
-function tone(f,type,d,v=.05,delay=0){
-  if(!S.sound)return;
-  try{
-    if(!AC)AC=new(window.AudioContext||window.webkitAudioContext)();
-    if(AC.state==="suspended")AC.resume();
+function tone(f,type,d,v=.05,delay=0){if(!S.sound)return;
+  try{if(!AC)AC=new(window.AudioContext||window.webkitAudioContext)();if(AC.state==="suspended")AC.resume();
     const t=AC.currentTime+delay,o=AC.createOscillator(),g=AC.createGain();
-    o.type=type;o.frequency.setValueAtTime(f,t);
-    g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.00001,t+d);
-    o.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+d);
-  }catch(e){}
-}
-const sfx={
-  gen(){tone(392,"sine",.12);tone(587,"sine",.16,.05,.09);tone(784,"sine",.22,.05,.18)},
+    o.type=type;o.frequency.setValueAtTime(f,t);g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.00001,t+d);
+    o.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+d)}catch(e){}}
+const sfx={gen(){tone(392,"sine",.12);tone(587,"sine",.16,.05,.09);tone(784,"sine",.22,.05,.18)},
   coin(){tone(659,"square",.09,.04);tone(880,"square",.09,.04,.08);tone(1174,"square",.18,.04,.16)},
   send(){tone(523,"triangle",.1);tone(659,"triangle",.1,.05,.09);tone(784,"triangle",.1,.05,.18);tone(1046,"triangle",.25,.05,.27)},
-  err(){tone(150,"sawtooth",.22,.06);tone(110,"sawtooth",.25,.05,.1)},
-  tick(){tone(1200,"sine",.04,.025)}
-};
+  err(){tone(150,"sawtooth",.22,.06);tone(110,"sawtooth",.25,.05,.1)},tick(){tone(1200,"sine",.04,.025)}};
 
-/* ================= log / toast ================= */
-function log(msg,cls=""){
-  const el=$("log"),line=document.createElement("div");
-  if(cls)line.className=cls;
-  line.textContent="["+new Date().toLocaleTimeString("ru-RU")+"] "+msg;
-  el.appendChild(line);
-  while(el.children.length>80)el.removeChild(el.firstChild);
-  el.scrollTop=el.scrollHeight;
-}
-function toast(msg,type="info",ms=3400){
-  const t=document.createElement("div");t.className="toast "+type;
-  t.innerHTML=(type==="ok"?"✅ ":type==="err"?"⛔ ":type==="warn"?"⚠️ ":"ℹ️ ")+msg;
-  $("toasts").appendChild(t);
-  setTimeout(()=>{t.classList.add("out");setTimeout(()=>t.remove(),320)},ms);
-}
+/* ---- log/toast ---- */
+function log(msg,cls=""){const el=$("log"),line=document.createElement("div");if(cls)line.className=cls;
+  line.textContent="["+new Date().toLocaleTimeString("ru-RU")+"] "+msg;el.appendChild(line);
+  while(el.children.length>80)el.removeChild(el.firstChild);el.scrollTop=el.scrollHeight}
+function toast(msg,type="info",ms=3400,action){const t=document.createElement("div");t.className="toast "+type;
+  const span=document.createElement("span");span.textContent=(type==="ok"?"✅ ":type==="err"?"⛔ ":type==="warn"?"⚠️ ":"ℹ️ ")+msg;t.appendChild(span);
+  if(action){const b=document.createElement("button");b.textContent=action.label;b.addEventListener("click",()=>{action.fn();t.remove()});t.appendChild(b)}
+  $("toasts").appendChild(t);setTimeout(()=>{t.classList.add("out");setTimeout(()=>t.remove(),320)},ms)}
 
-/* ================= canvas mempool stream ================= */
+/* ---- canvas ---- */
 const cv=$("cv"),cx=cv.getContext("2d"),CW=cv.width,CH=cv.height;
 const reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
-const lanes=[38,72,106,140];
-const parts=[];for(let i=0;i<70;i++)parts.push(newP());
-function newP(burst){
-  const lane=lanes[(Math.random()*lanes.length)|0];
+const lanes=[38,72,106,140],parts=[];
+function newP(burst){const lane=lanes[(Math.random()*lanes.length)|0];
+  const main=S.net.id==="main";
   return{x:burst?CW/2:Math.random()*CW,y:burst?CH/2:lane+(Math.random()-.5)*14,
     vx:burst?(Math.random()-.5)*6:.4+Math.random()*1.4,vy:burst?(Math.random()-.5)*6:0,
-    s:burst?1.5+Math.random()*2:.8+Math.random()*1.6,
-    life:burst?70:Infinity,max:70,
-    c:burst?(Math.random()<.5?"34,255,136":"255,194,75"):["0,229,255","139,123,255","255,153,0"][(Math.random()*3)|0]};
-}
+    s:burst?1.5+Math.random()*2:.8+Math.random()*1.6,life:burst?70:Infinity,max:70,
+    c:burst?(Math.random()<.5?"34,255,136":"255,194,75"):(main?["247,147,26","255,194,75","201,106,0"]:["0,229,255","139,123,255","255,153,0"])[(Math.random()*3)|0]}}
+for(let i=0;i<70;i++)parts.push(newP());
 let blockX=-60,blockTimer=0;
 function burst(){for(let i=0;i<34;i++)parts.push(newP(true));if(parts.length>220)parts.splice(0,parts.length-220);
-  $("capstat").textContent="СОБЫТИЕ: "+new Date().toLocaleTimeString("ru-RU");}
-function drawCV(ts){
-  cx.fillStyle="rgba(2,4,10,.28)";cx.fillRect(0,0,CW,CH);
-  cx.strokeStyle="rgba(26,35,51,.55)";cx.lineWidth=1;
+  $("capstat").textContent="СОБЫТИЕ: "+new Date().toLocaleTimeString("ru-RU")}
+function drawCV(){cx.fillStyle=S.net.id==="main"?"rgba(5,3,2,.28)":"rgba(2,4,10,.28)";cx.fillRect(0,0,CW,CH);
+  cx.strokeStyle=S.net.id==="main"?"rgba(43,29,14,.6)":"rgba(26,35,51,.55)";cx.lineWidth=1;
   for(let x=0;x<CW;x+=48){cx.beginPath();cx.moveTo(x,0);cx.lineTo(x,CH);cx.stroke()}
-  for(const y of lanes){cx.strokeStyle="rgba(0,229,255,.07)";cx.beginPath();cx.moveTo(0,y);cx.lineTo(CW,y);cx.stroke()}
+  for(const y of lanes){cx.strokeStyle=S.net.id==="main"?"rgba(247,147,26,.08)":"rgba(0,229,255,.07)";cx.beginPath();cx.moveTo(0,y);cx.lineTo(CW,y);cx.stroke()}
   blockTimer++;if(blockTimer>260){blockTimer=0;blockX=-60}
   if(blockX>-60||blockTimer===1){blockX+=2.2;
-    cx.fillStyle="rgba(139,123,255,.14)";cx.strokeStyle="rgba(139,123,255,.7)";cx.lineWidth=1.5;
-    cx.shadowBlur=16;cx.shadowColor="#8b7bff";
-    cx.beginPath();cx.roundRect(blockX,CH/2-26,46,52,7);cx.fill();cx.stroke();cx.shadowBlur=0;
-    cx.fillStyle="rgba(139,123,255,.9)";cx.font="700 9px monospace";cx.textAlign="center";
-    cx.fillText("BLOCK",blockX+23,CH/2+3);
-    if(blockX>CW+60)blockX=-60;}
-  for(let i=parts.length-1;i>=0;i--){const p=parts[i];
-    p.x+=p.vx;p.y+=p.vy;
+    cx.fillStyle="rgba(139,123,255,.14)";cx.strokeStyle="rgba(139,123,255,.7)";cx.lineWidth=1.5;cx.shadowBlur=16;cx.shadowColor="#8b7bff";
+    cx.beginPath();if(cx.roundRect)cx.roundRect(blockX,CH/2-26,46,52,7);else cx.rect(blockX,CH/2-26,46,52);cx.fill();cx.stroke();cx.shadowBlur=0;
+    cx.fillStyle="rgba(139,123,255,.9)";cx.font="700 9px monospace";cx.textAlign="center";cx.fillText("BLOCK",blockX+23,CH/2+3);
+    if(blockX>CW+60)blockX=-60}
+  for(let i=parts.length-1;i>=0;i--){const p=parts[i];p.x+=p.vx;p.y+=p.vy;
     if(p.life!==Infinity){p.life--;p.vx*=.97;p.vy*=.97;if(p.life<=0){parts.splice(i,1);continue}}
     else if(p.x>CW+10){p.x=-10;p.y=lanes[(Math.random()*lanes.length)|0]+(Math.random()-.5)*14}
     const a=p.life===Infinity?.7:(p.life/p.max)*.9;
-    cx.fillStyle=`rgba(${p.c},${a})`;cx.beginPath();cx.arc(p.x,p.y,p.s,0,6.283);cx.fill();}
-  if(!reduced)requestAnimationFrame(drawCV);
-}
-if(reduced){drawCV(0)}else requestAnimationFrame(drawCV);
+    cx.fillStyle=`rgba(${p.c},${a})`;cx.beginPath();cx.arc(p.x,p.y,p.s,0,6.283);cx.fill()}
+  if(!reduced)requestAnimationFrame(drawCV)}
+if(reduced)drawCV();else requestAnimationFrame(drawCV);
 
-/* ================= render ================= */
-function countUp(el,to,fmt){
-  const from=parseFloat(el.dataset.v||"0");el.dataset.v=to;
+/* ---- render ---- */
+function countUp(el,to,fmt){const from=parseFloat(el.dataset.v||"0");el.dataset.v=to;
   if(reduced||from===to){el.textContent=fmt(to);return}
   const t0=performance.now(),dur=550;
-  (function step(t){const k=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-k,3);
-    el.textContent=fmt(from+(to-from)*e);
-    if(k<1)requestAnimationFrame(step)})(t0);
+  (function step(t){const k=Math.min(1,(t-t0)/dur),e=1-Math.pow(1-k,3);el.textContent=fmt(from+(to-from)*e);if(k<1)requestAnimationFrame(step)})(t0)}
+function renderNet(){
+  const main=S.net.id==="main";
+  document.body.className=main?"net-main":"net-test";
+  $("seg-main").classList.toggle("on",main);$("seg-test").classList.toggle("on",!main);
+  $("netname").textContent=S.net.name;$("capnet").textContent=S.net.name;
+  $("hero-title").innerHTML=main?"РЕАЛЬНЫЙ BITCOIN.<br>РЕАЛЬНАЯ ОТВЕТСТВЕННОСТЬ.":"ПОЛИГОН BITCOIN.<br>НУЛЕВОЙ РИСК.";
+  $("hero-sub").textContent=main
+    ?"Полноценный кошелёк основной сети: ключи secp256k1, получение BTC, live-баланс с курсом, подписанные транзакции. Криптоядро встроено — ноль CDN. Но это настоящие деньги, а не игра."
+    :"Та же криптография, что и в mainnet, но монеты tBTC бесплатны и ничего не стоят. Идеальное место, чтобы научиться: faucet, отправка, эксперименты без риска.";
+  $("chips").innerHTML=main
+    ?'<span class="chip hot">secp256k1 · BIP39/32/44</span><span class="chip red">REAL MONEY · НЕОБРАТИМО</span><span class="chip hot">COIN TYPE 0 · 0x00/0x80</span><span class="chip">0 CDN · ОФЛАЙН-ГЕНЕРАЦИЯ</span>'
+    :'<span class="chip cool">secp256k1 · BIP39/32/44</span><span class="chip cool">СЕТЬ: TESTNET · COIN TYPE 1</span><span class="chip">tBTC = 0 ₽ · ПОЛИГОН</span><span class="chip">0 CDN · ОФЛАЙН-ГЕНЕРАЦИЯ</span>';
+  const r=$("reality");
+  if(main){r.className="reality";r.innerHTML='<div class="rt">⚠ ЗДЕСЬ НЕТ МАГИИ — ЭТО MAINNET</div>Баланс начнётся с <b>0.00000000 BTC</b>. Монеты приходят только тремя путями: <b>купить</b>, <b>заработать</b>, <b>получить переводом</b>. Faucet не существует. «Найти» чужие монеты невозможно — это та же математика, которую мы проверяли на mempool.space. Игра и полигон — во вкладке <b>TESTNET</b>.'}
+  else{r.className="reality sandbox";r.innerHTML='<div class="rt">🧪 БЕЗОПАСНЫЙ ПОЛИГОН — TESTNET</div>Монеты tBTC <b>бесплатны</b> и не имеют ценности. Бери их в faucet, отправляй, экспериментируй. Криптография настоящая — риска ноль.'}
+  $("btn-gen").textContent=main?"✦ Создать реальный кошелёк":"✦ Сгенерировать testnet-кошелёк";
+  $("genhint").textContent=main?"Ключи появятся только после принятия рисков реальной сети.":"Генерация мгновенная, монеты потом бесплатно в faucet.";
+  $("addrtag").textContent=main?"P2PKH · 0x00":"P2PKH · 0x6F";
+  $("pathtag").textContent="m/44'/"+S.net.coin+"'/0'/0/0";
+  $("wiftag").textContent=main?"0x80 · K/L":"0xEF · c";
+  $("total-label").textContent="ИТОГО · "+S.net.unit;
+  $("sendtitle").textContent="ОТПРАВИТЬ "+S.net.unit;
+  $("s-to").placeholder="Получатель: "+S.net.addrEx;
+  $("s-amt").placeholder="Сумма, "+S.net.unit;
+  $("fiatline").classList.toggle("hidden",!main);
+  renderDeposit();renderWallet();renderTxs();renderFeeEst();
 }
-function renderWallet(){
-  const w=S.wallet;
-  $("nowallet").classList.toggle("hidden",!!w);
-  $("haswallet").classList.toggle("hidden",!w);
-  $("wstate").textContent=w?"АКТИВЕН · TESTNET":"НЕТ КЛЮЧЕЙ";
+function renderDeposit(){
+  const c=$("depositcard");
+  if(S.net.id==="main"){
+    c.innerHTML=`<h2><span class="n">2</span>ПОЛУЧИТЬ BTC<span class="tail">РЕАЛЬНЫЕ ПУТИ</span></h2>
+    <div class="steps">
+      <div><span class="num">1</span><b>Купи BTC</b> на бирже, где ты торгуешь (Bybit, Binance и др.) — за USDT или фиат.</div>
+      <div><span class="num">2</span>Вывод → сеть <b>Bitcoin (BTC)</b> → вставь свой адрес выше. Не перепутай сеть: BEP20/ERC20 — не Bitcoin.</div>
+      <div><span class="num">3</span>Сначала <b>маленькая тестовая сумма</b>. Убедись, что дошла — потом остальное.</div>
+      <div><span class="num">4</span>Или <b>заработай / получи переводом</b> от другого человека на этот адрес.</div>
+    </div>
+    <div class="warnline">Никаких faucet и «найденных кошельков» в mainnet не существует. Если кто-то обещает бесплатные BTC — это мошенничество.</div>`;
+  }else{
+    c.innerHTML=`<h2><span class="n">2</span>ПОЛУЧИТЬ tBTC<span class="tail">FAUCET</span></h2>
+    <div class="steps">Скопируй адрес → вставь на сайте → капча → монеты за ~1 минуту.</div><div style="height:10px"></div>
+    <a href="https://coinfaucet.eu/en/btc-testnet/" target="_blank" rel="noopener"><span class="ico">🚰</span>coinfaucet.eu<small>↗</small></a>
+    <a href="https://testnet-faucet.mempool.co/" target="_blank" rel="noopener"><span class="ico">🚰</span>testnet-faucet.mempool.co<small>↗</small></a>
+    <a href="https://bitcoinfaucet.uo1.net/" target="_blank" rel="noopener"><span class="ico">🚰</span>bitcoinfaucet.uo1.net<small>↗</small></a>
+    <div class="hint">Суточные лимиты и капча — нормально.</div>`;
+  }
+}
+function renderWallet(){const w=S.wallet;
+  $("nowallet").classList.toggle("hidden",!!w);$("haswallet").classList.toggle("hidden",!w);
+  $("wstate").textContent=w?("АКТИВЕН · "+S.net.name):"НЕТ КЛЮЧЕЙ";
   if(!w)return;
-  $("w-addr").textContent=w.addr;
-  $("w-pub").textContent=w.pub;
-  $("w-wif").textContent=S.reveal?w.wif:"•".repeat(51);
-  $("w-wif").classList.toggle("mask",!S.reveal);
+  $("w-addr").textContent=w.addr;$("w-pub").textContent=w.pub;
+  $("w-wif").textContent=S.reveal?w.wif:"•".repeat(51);$("w-wif").classList.toggle("mask",!S.reveal);
   $("revealbtn").textContent=S.reveal?"🙈 СКРЫТЬ":"👁 ПОКАЗАТЬ";
   const g=$("mngrid");g.innerHTML="";
-  w.mn.split(" ").forEach((word,i)=>{
-    const d=document.createElement("div");d.className="mn"+(S.reveal?"":" hid");
-    d.innerHTML=`<i>${String(i+1).padStart(2,"0")}</i><b>${S.reveal?word:"•••••"}</b>`;
-    g.appendChild(d);
-  });
+  w.mn.split(" ").forEach((word,i)=>{const d=document.createElement("div");d.className="mn"+(S.reveal?"":" hid");
+    d.innerHTML=`<i>${String(i+1).padStart(2,"0")}</i><b>${S.reveal?word:"•••••"}</b>`;g.appendChild(d)});
 }
 function renderBalance(){
   countUp($("b-conf"),S.bal.conf,v=>fmtSat(Math.round(v)));
@@ -790,206 +797,190 @@ function renderBalance(){
   countUp($("b-total"),S.bal.conf+S.bal.memp,v=>fmtSat(Math.round(v)));
   countUp($("b-tx"),S.bal.tx,v=>String(Math.round(v)));
   $("upd").textContent=S.lastUpd?("обновлено "+new Date(S.lastUpd).toLocaleTimeString("ru-RU")+" · mempool.space / blockstream"):"ещё не обновлялось";
+  if(S.net.id==="main"&&S.price){const total=(S.bal.conf+S.bal.memp)/1e8;
+    $("fiatval").textContent="$"+(total*S.price).toLocaleString("en-US",{maximumFractionDigits:2});
+    $("fiatrate").textContent="· курс $"+S.price.toLocaleString("en-US",{maximumFractionDigits:0})+"/BTC";
+    $("amtfiat").textContent="";}
 }
 function txFlow(t,a){let s=0;(t.vin||[]).forEach(i=>{if(i.prevout&&i.prevout.scriptpubkey_address===a)s-=i.prevout.value});
   (t.vout||[]).forEach(o=>{if(o.scriptpubkey_address===a)s+=o.value});return s}
-function renderTxs(){
-  const box=$("txlist");box.innerHTML="";
+function renderTxs(){const box=$("txlist");box.innerHTML="";
   if(!S.wallet){box.innerHTML='<div class="empty"><span class="big">🔑</span>Сначала создай кошелёк — история появится здесь.</div>';return}
-  const rows=S.txs.map(t=>({t,f:txFlow(t,S.wallet.addr)}))
-    .filter(r=>S.filter==="all"||(S.filter==="in"?r.f>=0:r.f<0));
-  if(!rows.length){
-    box.innerHTML=S.txs.length
-      ?'<div class="empty"><span class="big">🔍</span>Нет транзакций в этой категории.</div>'
-      :'<div class="empty"><span class="big">⛓</span>Транзакций пока нет.<br>Получи первые tBTC из <b>faucet</b> — они появятся здесь.</div>';
-    return;
-  }
-  rows.slice(0,12).forEach(({t,f},i)=>{
-    const ok=t.status&&t.status.confirmed,income=f>=0;
-    const d=document.createElement("div");d.className="tx "+(income?"in":"out");d.style.animationDelay=(i*.04)+"s";
-    d.innerHTML=`<div class="dir">${income?"↘":"↗"}</div>
-      <div class="mid"><a href="https://mempool.space/testnet/tx/${t.txid}" target="_blank" rel="noopener">${t.txid.slice(0,14)}…${t.txid.slice(-8)}</a>
-      <div class="ago">${ok?ago(t.status.block_time):"ожидает блок"}</div></div>
-      <div class="right"><div class="amt">${income?"+":""}${fmtSat(f)} tBTC</div>
-      <span class="st ${ok?"ok":"pend"}">${ok?"ПОДТВЕРЖДЕНО":"МЕМПУЛ"}</span></div>`;
-    box.appendChild(d);
-  });
+  let rows=S.txs.map(t=>({t,f:txFlow(t,S.wallet.addr)}));
+  rows=rows.filter(r=>S.filter==="all"||(S.filter==="in"?r.f>=0:r.f<0));
+  if(S.q)rows=rows.filter(r=>r.t.txid.includes(S.q.toLowerCase()));
+  if(S.sort==="old")rows.reverse();
+  if(S.sort==="amt")rows.sort((a,b)=>Math.abs(b.f)-Math.abs(a.f));
+  if(!rows.length){box.innerHTML=S.txs.length
+    ?'<div class="empty"><span class="big">🔍</span>Ничего не найдено по фильтрам.</div>'
+    :'<div class="empty"><span class="big">⛓</span>Транзакций пока нет.<br>'+(S.net.id==="main"?"Получи BTC одним из путей выше — они появятся здесь.":"Получи tBTC из <b>faucet</b> — они появятся здесь.")+'</div>';return}
+  rows.slice(0,14).forEach(({t,f},i)=>{const ok=t.status&&t.status.confirmed,inc=f>=0;
+    const d=document.createElement("div");d.className="tx "+(inc?"in":"out");d.style.animationDelay=(i*.04)+"s";
+    d.innerHTML=`<div class="dir">${inc?"↘":"↗"}</div>
+      <div class="mid"><span class="txid">${t.txid.slice(0,14)}…${t.txid.slice(-8)}</span><div class="ago">${ok?ago(t.status.block_time):"ожидает блок"}</div></div>
+      <div class="right"><div class="amt">${inc?"+":""}${fmtSat(f)} ${S.net.unit}</div><span class="st ${ok?"ok":"pend"}">${ok?"ПОДТВЕРЖДЕНО":"МЕМПУЛ"}</span></div>`;
+    d.addEventListener("click",()=>openDrawer(t,f));box.appendChild(d)});
 }
 function feeRate(){const k=$("feesel").value;return Math.max(1,Math.ceil(S.fees[k]||S.fees["6"]||1))}
-function renderFeeEst(){
-  if(!S.utxos.length){$("feeest").textContent="≈ — sat (нет UTXO)";return}
-  const vs=10+148*S.utxos.length+34*2;
-  $("feeest").textContent="≈ "+Math.ceil(vs*feeRate())+" sat · "+feeRate()+" sat/vB";
-}
+function renderFeeEst(){if(!S.utxos.length){$("feeest").textContent="≈ — sat (нет UTXO)";return}
+  $("feeest").textContent="≈ "+Math.ceil((10+148*S.utxos.length+68)*feeRate())+" sat · "+feeRate()+" sat/vB"}
 function hidePending(){S.pending=null;$("review").classList.add("hidden");$("confirmrow").classList.add("hidden")}
-function renderReview(p){
-  $("review").innerHTML=`
-    <div class="rrow big"><span>ПОЛУЧАТЕЛЬ СУММА</span><b>${fmtSat(p.amt)} tBTC</b></div>
-    <div class="rrow"><span>адрес</span><b>${p.to}</b></div>
-    <div class="rrow"><span>комиссия</span><b>${p.fee} sat · ${p.rate} sat/vB</b></div>
-    <div class="rrow"><span>размер</span><b>${p.vsize} vB · ${p.nIn} вх / ${p.nOut} вых</b></div>
-    ${p.change?`<div class="rrow"><span>сдача себе</span><b>${fmtSat(p.change)} tBTC</b></div>`:""}
-    <div class="warnline">Транзакция подписана локально. Проверь адрес и подтверди отправку.</div>`;
-  $("review").classList.remove("hidden");
-  $("confirmrow").classList.remove("hidden");
-  $("sentbox").classList.add("hidden");
-}
+function renderReview(p){$("review").innerHTML=`
+  <div class="rrow big"><span>ПОЛУЧАЕТ</span><b>${fmtSat(p.amt)} ${S.net.unit}</b></div>
+  <div class="rrow"><span>адрес</span><b>${p.to}</b></div>
+  <div class="rrow"><span>комиссия</span><b>${p.fee} sat · ${p.rate} sat/vB</b></div>
+  <div class="rrow"><span>размер</span><b>${p.vsize} vB · ${p.nIn} вх / ${p.nOut} вых</b></div>
+  ${p.change?`<div class="rrow"><span>сдача себе</span><b>${fmtSat(p.change)} ${S.net.unit}</b></div>`:""}
+  <div class="warnline">${S.net.id==="main"?"⚠ Реальные деньги. Проверь адрес дважды — транзакция необратима.":"Транзакция подписана локально. Проверь и подтверди."}</div>`;
+  $("review").classList.remove("hidden");$("confirmrow").classList.remove("hidden");$("sentbox").classList.add("hidden")}
 
-/* ================= actions ================= */
-async function refreshAll(silent){
-  if(!S.wallet||S.busy)return;
-  S.busy=true;$("btn-bal").disabled=true;
+/* ---- drawer ---- */
+function openDrawer(t,f){S.drawerTx=t;const ok=t.status&&t.status.confirmed,inc=f>=0;
+  $("dbody").innerHTML=`
+    <div class="lbl">${inc?"ВХОДЯЩАЯ":"ИСХОДЯЩАЯ"} · ${S.net.name}</div>
+    <div class="bigamt" style="color:${inc?"var(--green)":"var(--red)"}">${inc?"+":""}${fmtSat(f)} ${S.net.unit}</div>
+    <div class="drow"><span>статус</span><b style="color:${ok?"var(--green)":"var(--violet)"}">${ok?"подтверждено":"в мемпуле"}</b></div>
+    ${ok?`<div class="drow"><span>блок</span><b>#${t.status.block_height}</b></div><div class="drow"><span>время</span><b>${new Date(t.status.block_time*1000).toLocaleString("ru-RU")}</b></div>`:""}
+    <div class="drow"><span>комиссия</span><b>${t.fee!=null?t.fee+" sat":"—"}</b></div>
+    <div class="drow"><span>входов / выходов</span><b>${(t.vin||[]).length} / ${(t.vout||[]).length}</b></div>
+    <div class="drow"><span>txid</span><b style="font-size:10px">${t.txid}</b></div>`;
+  $("dexplorer").href=S.net.explorer+"/tx/"+t.txid;
+  $("scrim").classList.add("on");$("drawer").classList.add("on")}
+function closeDrawer(){$("scrim").classList.remove("on");$("drawer").classList.remove("on");S.drawerTx=null}
+
+/* ---- actions ---- */
+async function refreshAll(silent){if(!S.wallet||S.busy)return;S.busy=true;$("btn-bal").disabled=true;
   try{
-    const tipP=apiJson("/blocks/tip/height").then(h=>{$("tipheight").textContent="#"+h}).catch(()=>{});
+    apiJson("/blocks/tip/height").then(h=>$("tipheight").textContent="#"+h).catch(()=>{});
+    if(S.net.id==="main")apiJson("/v1/prices").then(p=>{S.price=p.USD;renderBalance()}).catch(()=>{});
     const d=await apiJson("/address/"+S.wallet.addr);
     const conf=d.chain_stats.funded_txo_sum-d.chain_stats.spent_txo_sum;
     const memp=d.mempool_stats.funded_txo_sum-d.mempool_stats.spent_txo_sum;
-    const prevTotal=S.bal.conf+S.bal.memp;
-    S.bal={conf,memp,tx:d.chain_stats.tx_count+d.mempool_stats.tx_count};
-    S.lastUpd=Date.now();
+    const prev=S.bal.conf+S.bal.memp;S.bal={conf,memp,tx:d.chain_stats.tx_count+d.mempool_stats.tx_count};S.lastUpd=Date.now();
     const[utxos,txs,fees]=await Promise.all([
       apiJson("/address/"+S.wallet.addr+"/utxo").catch(()=>S.utxos),
       apiJson("/address/"+S.wallet.addr+"/txs").catch(()=>S.txs),
-      apiJson("/fee-estimates").catch(()=>S.fees)
-    ]);
+      apiJson("/fee-estimates").catch(()=>S.fees)]);
     S.utxos=utxos;S.txs=txs;S.fees=fees;
     renderBalance();renderTxs();renderFeeEst();
-    await tipP;
     const total=conf+memp;
-    if(total>prevTotal&&prevTotal>0||total>0&&prevTotal===0&&!silent){
-      sfx.coin();burst();toast("Получено "+fmtSat(total-prevTotal>0?total-prevTotal:total)+" tBTC!","ok");
-      log("входящие средства: +"+fmtSat(total-prevTotal>0?total-prevTotal:total)+" tBTC","ok");
-    }
-    if(!silent)log("баланс: "+fmtSat(total)+" tBTC · tx "+S.bal.tx,"ok");
-  }catch(e){
-    if(!silent){log("ошибка сети: "+e.message,"err");toast("Не удалось получить данные сети","err")}
-  }
-  S.busy=false;$("btn-bal").disabled=false;
-}
+    if(total>prev&&prev>=0&&!silent){sfx.coin();burst();toast("Получено "+fmtSat(total-prev)+" "+S.net.unit+"!","ok");log("входящие: +"+fmtSat(total-prev)+" "+S.net.unit,"ok")}
+    if(!silent)log("баланс: "+fmtSat(total)+" "+S.net.unit+" · tx "+S.bal.tx,"ok");
+  }catch(e){if(!silent){log("ошибка сети: "+e.message,"err");toast("Не удалось получить данные сети","err")}}
+  S.busy=false;$("btn-bal").disabled=false}
+function gateMain(){if(S.net.id==="main"&&!S.consent){openConsent();return false}return true}
 async function doGenerate(){
-  if(!crypto.subtle){fatal("WebCrypto недоступен. Открой страницу по HTTPS (GitHub Pages) — это требование браузера для криптографии.");return}
+  if(!crypto.subtle){fatal("WebCrypto недоступен. Открой по HTTPS (GitHub Pages).");return}
+  if(!gateMain())return;
   $("btn-gen").disabled=true;
-  try{
-    log("энтропия 128 бит → BIP39 → PBKDF2-SHA512 → BIP32 m/44'/1'/0'/0/0");
-    const mn=entropyToMnemonic(crypto.getRandomValues(new Uint8Array(16)));
-    const w=await deriveWallet(mn);
+  try{log("энтропия 128 бит → BIP39 → PBKDF2-SHA512 → BIP32 m/44'/"+S.net.coin+"'/0'/0/0");
+    const w=await deriveWallet(entropyToMnemonic(crypto.getRandomValues(new Uint8Array(16))),S.net);
     S.wallet=w;S.reveal=false;S.txs=[];S.utxos=[];S.bal={conf:0,memp:0,tx:0};
-    localStorage.setItem("tnw_wallet",JSON.stringify(w));
+    localStorage.setItem(S.net.store,JSON.stringify(w));
     hidePending();renderWallet();renderBalance();renderTxs();renderFeeEst();
-    sfx.gen();burst();
-    log("кошелёк создан: "+w.addr,"ok");
-    toast("Кошелёк создан. Скопируй адрес и возьми tBTC в faucet.","ok");
+    sfx.gen();burst();log("кошелёк создан: "+w.addr,"ok");
+    toast(S.net.id==="main"?"Реальный кошелёк создан. Сохрани сид-фразу офлайн!":"Кошелёк создан. Возьми tBTC в faucet.","ok",5000);
     refreshAll(true);
   }catch(e){log("ошибка генерации: "+e.message,"err");toast(e.message,"err");sfx.err()}
-  $("btn-gen").disabled=false;
-}
-async function doRestore(){
-  const raw=$("mn-in").value;
-  if(!raw.trim()){$("mn-hint").textContent="Вставь мнемонику."; $("mn-hint").className="hint bad";return}
+  $("btn-gen").disabled=false}
+async function doRestore(){if(!gateMain())return;
+  const raw=$("mn-in").value;if(!raw.trim()){$("mn-hint").textContent="Вставь мнемонику.";$("mn-hint").className="hint bad";return}
   $("btn-rec").disabled=true;
-  try{
-    const w=await deriveWallet(raw);
+  try{const w=await deriveWallet(raw,S.net);
     S.wallet=w;S.reveal=false;S.txs=[];S.utxos=[];
-    localStorage.setItem("tnw_wallet",JSON.stringify(w));
+    localStorage.setItem(S.net.store,JSON.stringify(w));
     hidePending();renderWallet();renderTxs();renderFeeEst();
-    $("mn-hint").textContent="✓ Восстановлен: "+w.addr;$("mn-hint").className="hint ok";
-    $("mn-in").value="";
-    sfx.gen();burst();log("восстановлен: "+w.addr,"ok");toast("Кошелёк восстановлен","ok");
-    refreshAll(true);
-  }catch(e){
-    $("mn-hint").textContent="✗ "+e.message;$("mn-hint").className="hint bad";
-    $("mn-in").classList.add("shake");setTimeout(()=>$("mn-in").classList.remove("shake"),350);
-    sfx.err();log("восстановление: "+e.message,"err");
-  }
-  $("btn-rec").disabled=false;
-}
-function armConfirm(btn,label,fn){
-  if(btn.dataset.armed){delete btn.dataset.armed;btn.classList.remove("armed");btn.textContent=btn.dataset.orig;fn();return}
+    $("mn-hint").textContent="✓ Восстановлен: "+w.addr;$("mn-hint").className="hint ok";$("mn-in").value="";
+    sfx.gen();burst();log("восстановлен: "+w.addr,"ok");toast("Кошелёк восстановлен","ok");refreshAll(true);
+  }catch(e){$("mn-hint").textContent="✗ "+e.message;$("mn-hint").className="hint bad";
+    $("mn-in").classList.add("shake");setTimeout(()=>$("mn-in").classList.remove("shake"),350);sfx.err();log("восстановление: "+e.message,"err")}
+  $("btn-rec").disabled=false}
+function armConfirm(btn,label,fn){if(btn.dataset.armed){delete btn.dataset.armed;btn.classList.remove("armed");btn.textContent=btn.dataset.orig;fn();return}
   btn.dataset.orig=btn.textContent;btn.dataset.armed="1";btn.classList.add("armed");btn.textContent=label;
-  setTimeout(()=>{if(btn.dataset.armed){delete btn.dataset.armed;btn.classList.remove("armed");btn.textContent=btn.dataset.orig}},3200);
-}
-function doWipe(){
-  localStorage.removeItem("tnw_wallet");
+  setTimeout(()=>{if(btn.dataset.armed){delete btn.dataset.armed;btn.classList.remove("armed");btn.textContent=btn.dataset.orig}},3200)}
+function doWipe(){const backup=S.wallet?{net:S.net.id,w:S.wallet}:null;
+  localStorage.removeItem(S.net.store);
   S.wallet=null;S.txs=[];S.utxos=[];S.bal={conf:0,memp:0,tx:0};S.reveal=false;
   hidePending();$("sentbox").classList.add("hidden");
   ["b-conf","b-memp","b-total","b-tx"].forEach(i=>{$(i).textContent="—";$(i).dataset.v="0"});
-  renderWallet();renderTxs();renderFeeEst();
-  log("кошелёк стёрт из браузера","inf");toast("Кошелёк стёрт","warn");
-}
-async function doBuild(max){
-  if(!S.wallet){toast("Сначала создай кошелёк","warn");return}
-  hidePending();$("sentbox").classList.add("hidden");
-  $("btn-build").disabled=true;$("btn-max").disabled=true;
-  try{
-    const to=$("s-to").value.trim();
-    const spkTo=destSpk(to);
-    if(!S.utxos.length){const u=await apiJson("/address/"+S.wallet.addr+"/utxo");S.utxos=u}
-    if(!S.utxos.length)throw Error("Нет UTXO — сначала получи tBTC из faucet");
+  renderWallet();renderTxs();renderFeeEst();log("кошелёк стёрт","inf");
+  if(backup)toast("Кошелёк стёрт","warn",8000,{label:"ВЕРНУТЬ",fn:()=>{S.wallet=backup.w;localStorage.setItem(NETS[backup.net].store,JSON.stringify(backup.w));renderWallet();refreshAll(true);toast("Кошелёк возвращён","ok")}});
+  else toast("Кошелёк стёрт","warn")}
+async function doBuild(max){if(!S.wallet){toast("Сначала создай кошелёк","warn");return}if(!gateMain())return;
+  hidePending();$("sentbox").classList.add("hidden");$("btn-build").disabled=true;$("btn-max").disabled=true;
+  try{const to=$("s-to").value.trim();const spkTo=destSpk(to,S.net);
+    if(!S.utxos.length)S.utxos=await apiJson("/address/"+S.wallet.addr+"/utxo");
+    if(!S.utxos.length)throw Error("Нет UTXO — сначала получи "+S.net.unit);
     if(!Object.keys(S.fees).length)S.fees=await apiJson("/fee-estimates").catch(()=>({"6":1}));
-    const rate=feeRate(),nIn=S.utxos.length;
-    const total=S.utxos.reduce((s,u)=>s+u.value,0);
-    let amt,nOut=2,fee=Math.ceil((10+148*nIn+34*nOut)*rate);
+    const rate=feeRate(),nIn=S.utxos.length,total=S.utxos.reduce((s,u)=>s+u.value,0);
+    let amt,nOut=2,fee=Math.ceil((10+148*nIn+68)*rate);
     if(max){nOut=1;fee=Math.ceil((10+148*nIn+34)*rate);amt=total-fee;$("s-amt").value=fmtSat(Math.max(0,amt))}
     else amt=Math.round(parseFloat($("s-amt").value.replace(",","."))*1e8);
-    if(!Number.isFinite(amt)||amt<=0)throw Error("Укажи сумму в tBTC");
-    if(amt<546)throw Error("Сумма ниже dust-лимита (546 sat)");
+    if(!Number.isFinite(amt)||amt<=0)throw Error("Укажи сумму");
+    if(amt<546)throw Error("Сумма ниже dust (546 sat)");
     let change=total-amt-fee;
     if(change<0)throw Error("Не хватает: есть "+fmtSat(total)+", нужно "+fmtSat(amt+fee)+" с комиссией");
     if(change>0&&change<546){fee+=change;change=0;nOut=1}
-    const tx=buildSignedTx(S.utxos,spkTo,amt,fee,change,S.wallet);
-    S.pending={...tx,to,amt,fee,change,rate,nIn,nOut};
-    renderReview(S.pending);
-    sfx.tick();log("собрано и подписано: "+fmtSat(amt)+" tBTC · fee "+fee+" sat · "+tx.vsize+" vB","ok");
-  }catch(e){
-    log("сборка: "+e.message,"err");toast(e.message,"err");sfx.err();
-    $("tohint").textContent="✗ "+e.message;$("tohint").className="hint bad";
-  }
-  $("btn-build").disabled=false;$("btn-max").disabled=false;
-}
-async function doSend(){
-  if(!S.pending)return;
+    const tx=buildSignedTx(S.utxos,spkTo,amt,change,S.wallet);
+    S.pending={...tx,to,amt,fee,change,rate,nIn,nOut,utxos:S.utxos.slice()};
+    renderReview(S.pending);sfx.tick();log("подписано: "+fmtSat(amt)+" "+S.net.unit+" · fee "+fee+" sat","ok");
+  }catch(e){log("сборка: "+e.message,"err");toast(e.message,"err");sfx.err();$("tohint").textContent="✗ "+e.message;$("tohint").className="hint bad"}
+  $("btn-build").disabled=false;$("btn-max").disabled=false}
+async function doSend(){if(!S.pending)return;
   const b=$("btn-send");b.disabled=true;b.innerHTML='<span class="spin"></span> BROADCAST…';
-  log("отправка raw tx в testnet…");
-  try{
-    const r=await api("/tx",{method:"POST",headers:{"Content-Type":"text/plain"},body:S.pending.raw});
-    const txid=(await r.text()).trim();
-    $("sentbox").innerHTML=`✅ <b>ТРАНЗАКЦИЯ В СЕТИ!</b><br>Сумма: <b>${fmtSat(S.pending.amt)} tBTC</b> · комиссия ${S.pending.fee} sat
-      <a class="txid" href="https://mempool.space/testnet/tx/${txid}" target="_blank" rel="noopener">${txid}</a>
-      <button class="copy" id="copytxid">⧉ КОПИРОВАТЬ TXID</button>`;
+  log("отправка raw tx в "+S.net.name+"…");
+  try{const r=await api("/tx",{method:"POST",headers:{"Content-Type":"text/plain"},body:S.pending.raw});
+    const txid=(await r.text()).trim();const p=S.pending;
+    const optimistic={txid,fee:p.fee,status:{confirmed:false},
+      vin:p.utxos.map(u=>({prevout:{scriptpubkey_address:S.wallet.addr,value:u.value}})),
+      vout:[{scriptpubkey_address:p.to,value:p.amt}].concat(p.change?[{scriptpubkey_address:S.wallet.addr,value:p.change}]:[])};
+    S.txs.unshift(optimistic);renderTxs();
+    $("sentbox").innerHTML=`✅ <b>ТРАНЗАКЦИЯ В СЕТИ!</b><br>${fmtSat(p.amt)} ${S.net.unit} · комиссия ${p.fee} sat
+      <a class="txid" href="${S.net.explorer}/tx/${txid}" target="_blank" rel="noopener">${txid}</a>
+      <button class="copy" id="copytxid">⧉ TXID</button>`;
     $("sentbox").classList.remove("hidden");
     $("copytxid").addEventListener("click",()=>copyText(txid,$("copytxid")));
-    hidePending();$("s-amt").value="";
-    sfx.send();burst();
-    log("ОТПРАВЛЕНО · txid "+txid,"ok");
-    toast("Транзакция отправлена в testnet!","ok");
-    setTimeout(()=>refreshAll(true),1500);
-  }catch(e){
-    log("broadcast: "+e.message,"err");toast("Сеть отклонила tx: "+e.message,"err",6000);sfx.err();
-  }
-  b.disabled=false;b.textContent="✅ Отправить в сеть";
-}
-async function copyText(text,btn){
-  try{await navigator.clipboard.writeText(text)}
+    hidePending();$("s-amt").value="";sfx.send();burst();
+    log("ОТПРАВЛЕНО · "+txid,"ok");toast("Транзакция отправлена в "+S.net.name+"!","ok");
+    setTimeout(()=>refreshAll(true),1800);
+  }catch(e){log("broadcast: "+e.message,"err");toast("Сеть отклонила tx: "+e.message,"err",6000);sfx.err()}
+  b.disabled=false;b.textContent="✅ Отправить в сеть"}
+async function copyText(text,btn){try{await navigator.clipboard.writeText(text)}
   catch(e){const ta=document.createElement("textarea");ta.value=text;document.body.appendChild(ta);ta.select();try{document.execCommand("copy")}catch(_){}ta.remove()}
-  if(btn){const o=btn.textContent;btn.classList.add("done");btn.textContent="✓ СКОПИРОВАНО";
-    setTimeout(()=>{btn.classList.remove("done");btn.textContent=o},1400)}
-  sfx.tick();
-}
+  if(btn){const o=btn.textContent;btn.classList.add("done");btn.textContent="✓ СКОПИРОВАНО";setTimeout(()=>{btn.classList.remove("done");btn.textContent=o},1400)}sfx.tick()}
 function fatal(msg){const f=$("fatal");f.textContent="⛔ "+msg;f.style.display="block";log(msg,"err")}
 
-/* ================= self-test ================= */
-function selfTest(){
+/* ---- consent / network switch ---- */
+function openConsent(){$("consent").classList.add("on");document.querySelectorAll(".ckin").forEach(c=>c.checked=false);$("ck-accept").disabled=true}
+function closeConsent(){$("consent").classList.remove("on")}
+function switchNet(id){if(S.net.id===id)return;
+  if(id==="main"&&!S.consent){openConsent();return}
+  applyNet(id)}
+function applyNet(id){S.net=NETS[id];localStorage.setItem("wl_net",id);
+  S.wallet=null;S.txs=[];S.utxos=[];S.fees={};S.bal={conf:0,memp:0,tx:0};S.reveal=false;S.price=null;S.pending=null;
+  hidePending();$("sentbox").classList.add("hidden");
+  ["b-conf","b-memp","b-total","b-tx"].forEach(i=>{$(i).textContent="—";$(i).dataset.v="0"});
+  renderNet();
+  const saved=localStorage.getItem(S.net.store);
+  if(saved){try{const w=JSON.parse(saved);if(w&&w.addr&&w.priv){S.wallet=w;renderWallet();log("кошелёк загружен: "+w.addr,"inf");refreshAll(true);return}}catch(e){}localStorage.removeItem(S.net.store)}
+  if(id==="test"){log("testnet: создаю кошелёк автоматически…","inf");doGenerate()}
+  else log("mainnet: нажми «Создать реальный кошелёк»","inf");
+  apiJson("/blocks/tip/height").then(h=>$("tipheight").textContent="#"+h).catch(()=>{});}
+
+/* ---- self-test ---- */
+async function selfTest(){
   const abc=enc.encode("abc");
   if(hex(sha256(abc))!=="ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad")throw Error("SHA-256 vector");
   if(hex(ripemd160(abc))!=="8eb208f7e05d987a9b044a8e98c6b087f15a0bfc")throw Error("RIPEMD-160 vector");
-  if(WORDS.length!==2048)throw Error("BIP39 list length "+WORDS.length);
+  if(WORDS.length!==2048)throw Error("BIP39 list "+WORDS.length);
   const g=affine(1n);if(g.x!==Gx||g.y!==Gy)throw Error("secp256k1 G");
-  const rt=b58checkDec(b58check(cat([0x6f],hash160(pubBytes(1n)))));
-  if(rt[0]!==0x6f||rt.length!==21)throw Error("base58check roundtrip");
-  return true;
-}
+  const rt=b58checkDec(b58check(cat([0x00],hash160(pubBytes(1n)))));
+  if(rt[0]!==0||rt.length!==21)throw Error("base58check");
+  const vec=await deriveWallet("abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about",NETS.main);
+  if(vec.addr!=="1LqBGSKuX5yYUonjxT5qGfpUsXKYYWeabA")throw Error("BIP39/32/44 end-to-end vector");
+  return true}
 
-/* ================= bindings / init ================= */
+/* ---- bindings ---- */
 $("btn-gen").addEventListener("click",doGenerate);
 $("btn-rec").addEventListener("click",doRestore);
 $("btn-regen").addEventListener("click",e=>armConfirm(e.currentTarget,"ТОЧНО? СТАРЫЙ СТРЕТСЯ",doGenerate));
@@ -1001,67 +992,50 @@ $("btn-send").addEventListener("click",doSend);
 $("btn-cancel").addEventListener("click",()=>{hidePending();log("отправка отменена","inf")});
 $("revealbtn").addEventListener("click",()=>{S.reveal=!S.reveal;renderWallet();sfx.tick()});
 $("feesel").addEventListener("change",()=>{hidePending();renderFeeEst();sfx.tick()});
-$("autochk").addEventListener("change",e=>{S.auto=e.target.checked;localStorage.setItem("tnw_auto",S.auto?"1":"0");log("автообновление: "+(S.auto?"вкл":"выкл"),"inf")});
-$("sndbtn").addEventListener("click",()=>{
-  S.sound=!S.sound;localStorage.setItem("tnw_sound",S.sound?"1":"0");
-  $("sndbtn").classList.toggle("muted",!S.sound);
-  $("sndbtn").firstChild.textContent=S.sound?"🔊 ":"🔇 ";
-  $("sndlbl").textContent=S.sound?"ЗВУК":"ТИХО";
-  if(S.sound)sfx.tick();
-});
-document.querySelectorAll(".copy[data-copy]").forEach(b=>b.addEventListener("click",()=>{
-  if(!S.wallet)return;
-  copyText(b.dataset.copy==="addr"?S.wallet.addr:S.wallet.wif,b);
-}));
-document.querySelectorAll(".fchip").forEach(c=>c.addEventListener("click",()=>{
-  document.querySelectorAll(".fchip").forEach(x=>x.classList.remove("on"));
-  c.classList.add("on");S.filter=c.dataset.f;renderTxs();sfx.tick();
-}));
+$("autochk").addEventListener("change",e=>{S.auto=e.target.checked;localStorage.setItem("wl_auto",S.auto?"1":"0")});
+$("sndbtn").addEventListener("click",()=>{S.sound=!S.sound;localStorage.setItem("wl_sound",S.sound?"1":"0");
+  $("sndbtn").classList.toggle("muted",!S.sound);$("sndbtn").firstChild.textContent=S.sound?"🔊 ":"🔇 ";$("sndlbl").textContent=S.sound?"ЗВУК":"ТИХО";if(S.sound)sfx.tick()});
+document.querySelectorAll(".copy[data-copy]").forEach(b=>b.addEventListener("click",()=>{if(!S.wallet)return;copyText(b.dataset.copy==="addr"?S.wallet.addr:S.wallet.wif,b)}));
+document.querySelectorAll(".fchip").forEach(c=>c.addEventListener("click",()=>{document.querySelectorAll(".fchip").forEach(x=>x.classList.remove("on"));c.classList.add("on");S.filter=c.dataset.f;renderTxs();sfx.tick()}));
+$("txsearch").addEventListener("input",e=>{S.q=e.target.value.trim();renderTxs()});
+$("txsort").addEventListener("change",e=>{S.sort=e.target.value;renderTxs();sfx.tick()});
+$("seg-test").addEventListener("click",()=>switchNet("test"));
+$("seg-main").addEventListener("click",()=>switchNet("main"));
+$("dclose").addEventListener("click",closeDrawer);
+$("scrim").addEventListener("click",closeDrawer);
+$("dcopy").addEventListener("click",()=>{if(S.drawerTx)copyText(S.drawerTx.txid,$("dcopy"))});
+window.addEventListener("keydown",e=>{if(e.key==="Escape"){closeDrawer();closeConsent()}});
+document.querySelectorAll(".ckin").forEach(c=>c.addEventListener("change",()=>{$("ck-accept").disabled=![...document.querySelectorAll(".ckin")].every(x=>x.checked)}));
+$("ck-accept").addEventListener("click",()=>{S.consent=true;localStorage.setItem("wl_consent","1");closeConsent();sfx.gen();applyNet("main")});
+$("ck-stay").addEventListener("click",()=>{closeConsent();applyNet("test")});
 let toTimer=null;
-$("s-to").addEventListener("input",()=>{
-  clearTimeout(toTimer);
-  const v=$("s-to").value.trim();
-  if(!v){$("tomark").textContent="";$("tohint").textContent="Адрес проверяется по контрольной сумме Base58Check / bech32";$("tohint").className="hint";return}
-  toTimer=setTimeout(()=>{
-    try{destSpk(v);$("tomark").textContent="✓";$("tomark").style.color="var(--green)";
-      $("tohint").textContent="✓ Адрес валиден (testnet)";$("tohint").className="hint ok"}
-    catch(e){$("tomark").textContent="✗";$("tomark").style.color="var(--red)";
-      $("tohint").textContent="✗ "+e.message;$("tohint").className="hint bad"}
-  },220);
-});
-$("mn-in").addEventListener("input",()=>{
-  const n=$("mn-in").value.trim().split(/\s+/).filter(Boolean).length;
-  $("mn-hint").textContent=n?("слов: "+n+" · нужно 12/15/18/21/24"):"Слова проверяются по контрольной сумме BIP39";
-  $("mn-hint").className="hint";
-});
+$("s-to").addEventListener("input",()=>{clearTimeout(toTimer);const v=$("s-to").value.trim();
+  if(!v){$("tomark").textContent="";$("tohint").textContent="Контрольная сумма Base58Check / bech32 · сеть проверяется";$("tohint").className="hint";return}
+  toTimer=setTimeout(()=>{try{destSpk(v,S.net);$("tomark").textContent="✓";$("tomark").style.color="var(--green)";$("tohint").textContent="✓ Адрес валиден ("+S.net.name+")";$("tohint").className="hint ok"}
+    catch(e){$("tomark").textContent="✗";$("tomark").style.color="var(--red)";$("tohint").textContent="✗ "+e.message;$("tohint").className="hint bad"}},220)});
+$("s-amt").addEventListener("input",()=>{if(S.net.id==="main"&&S.price){const a=parseFloat($("s-amt").value.replace(",","."));$("amtfiat").textContent=Number.isFinite(a)?"≈ $"+(a*S.price).toLocaleString("en-US",{maximumFractionDigits:2}):""}});
+$("mn-in").addEventListener("input",()=>{const n=$("mn-in").value.trim().split(/\s+/).filter(Boolean).length;
+  $("mn-hint").textContent=n?("слов: "+n+" · нужно 12/15/18/21/24"):"Проверка по контрольной сумме BIP39. Никогда не вводи сюда сид со сбережениями.";$("mn-hint").className="hint"});
 window.addEventListener("online",()=>{log("соединение восстановлено","ok");refreshAll(true)});
 window.addEventListener("offline",()=>setOnline(false));
-
-setInterval(()=>{
-  if(document.hidden)return;
+setInterval(()=>{if(document.hidden)return;
   apiJson("/blocks/tip/height").then(h=>$("tipheight").textContent="#"+h).catch(()=>{});
-  if(S.auto&&S.wallet)refreshAll(true);
-},30000);
+  if(S.auto&&S.wallet)refreshAll(true)},30000);
 
-(function init(){
-  S.sound=localStorage.getItem("tnw_sound")!=="0";
-  S.auto=localStorage.getItem("tnw_auto")!=="0";
+/* ---- init ---- */
+(async function init(){
+  S.sound=localStorage.getItem("wl_sound")!=="0";S.auto=localStorage.getItem("wl_auto")!=="0";S.consent=localStorage.getItem("wl_consent")==="1";
   $("autochk").checked=S.auto;
   if(!S.sound){$("sndbtn").classList.add("muted");$("sndbtn").firstChild.textContent="🔇 ";$("sndlbl").textContent="ТИХО"}
-  log("ядро встроено: SHA-256 · RIPEMD-160 · secp256k1 · BIP39/32 · 0 внешних зависимостей","inf");
-  try{selfTest();log("самопроверка криптоядра: OK (векторы SHA/RIPEMD/secp/Base58)","ok")}
-  catch(e){fatal("Самопроверка криптоядра провалена: "+e.message);return}
-  if(!crypto.subtle){fatal("WebCrypto недоступен — открой страницу по HTTPS (например, GitHub Pages). Генерация ключей требует безопасного контекста браузера.");return}
-  const saved=localStorage.getItem("tnw_wallet");
-  if(saved){
-    try{
-      const w=JSON.parse(saved);
-      if(w&&w.addr&&w.priv&&w.mn){S.wallet=w;renderWallet();log("кошелёк загружен из браузера: "+w.addr,"inf");refreshAll(true);return}
-    }catch(e){}
-    localStorage.removeItem("tnw_wallet");
-  }
-  log("первый запуск — создаю кошелёк автоматически…","inf");
-  doGenerate();
+  log("ядро встроено: SHA-256 · RIPEMD-160 · secp256k1 · BIP39/32 · 0 CDN","inf");
+  if(!crypto.subtle){fatal("WebCrypto недоступен — открой страницу по HTTPS (GitHub Pages).");renderNet();return}
+  try{await selfTest();log("самопроверка: OK · BIP39/32/44 end-to-end вектор совпал","ok")}
+  catch(e){fatal("Самопроверка криптоядра провалена: "+e.message);renderNet();return}
+  const savedNet=localStorage.getItem("wl_net")||"main";
+  S.net=NETS[savedNet];renderNet();
+  if(savedNet==="main"&&!S.consent){openConsent();log("mainnet заблокирован до принятия рисков","inf");
+    apiJson("/blocks/tip/height").then(h=>$("tipheight").textContent="#"+h).catch(()=>{});return}
+  applyNet(savedNet);
 })();
 </script>
 </body>
