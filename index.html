@@ -2,15 +2,16 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#070503">
 <title>BITCOIN WALLET LAB</title>
 <style>
-:root{--bg:#070503;--sf:#120c07;--sf2:#1a120a;--ln:#2b1d0e;--ln2:#3d2a14;--btc:#f7931a;--gold:#ffc24b;--deep:#c96a00;--cy:#00e5ff;--gr:#22ff88;--rd:#ff3b5c;--vi:#8b7bff;--mg:#ff4fd8;--tx:#f0e6d8;--mu:#a08b6e;--dm:#6b5a42;--mo:ui-monospace,'Cascadia Code',Consolas,monospace;--ac:#f7931a;--ac2:#ffc24b;--tb:54px}
-body.test{--bg:#04070d;--sf:#0a101c;--sf2:#0e1626;--ln:#1a2333;--ln2:#243147;--tx:#d7e0ea;--mu:#7d8aa0;--dm:#4d5a70;--ac:#00e5ff;--ac2:#8b7bff}
-body.demo{--bg:#0a0410;--sf:#160a22;--sf2:#1e0f2e;--ln:#33164a;--ln2:#472063;--tx:#f0e2f5;--mu:#a684b8;--dm:#6d5380;--ac:#ff4fd8;--ac2:#8b7bff}
-body.mine{--bg:#050a05;--sf:#0d1a0d;--sf2:#152615;--ln:#1e3a1e;--ln2:#2a4f2a;--tx:#e0f0e0;--mu:#8aaa8a;--dm:#5a7a5a;--ac:#22ff88;--ac2:#66ffaa}
+:root{--bg:#070503;--bg2:#0c0805;--sf:#120c07;--sf2:#1a120a;--ln:#2b1d0e;--ln2:#3d2a14;--btc:#f7931a;--gold:#ffc24b;--deep:#c96a00;--cy:#00e5ff;--gr:#22ff88;--rd:#ff3b5c;--vi:#8b7bff;--mg:#ff4fd8;--tx:#f0e6d8;--mu:#a08b6e;--dm:#6b5a42;--mo:ui-monospace,'Cascadia Code','JetBrains Mono','SF Mono',Consolas,monospace;--ac:#f7931a;--ac2:#ffc24b;--tb:56px}
+body.test{--bg:#04070d;--bg2:#070c15;--sf:#0a101c;--sf2:#0e1626;--ln:#1a2333;--ln2:#243147;--tx:#d7e0ea;--mu:#7d8aa0;--dm:#4d5a70;--ac:#00e5ff;--ac2:#8b7bff}
+body.demo{--bg:#0a0410;--bg2:#10061a;--sf:#160a22;--sf2:#1e0f2e;--ln:#33164a;--ln2:#472063;--tx:#f0e2f5;--mu:#a684b8;--dm:#6d5380;--ac:#ff4fd8;--ac2:#8b7bff}
+body.mine{--bg:#050a05;--bg2:#081208;--sf:#0d1a0d;--sf2:#152615;--ln:#1e3a1e;--ln2:#2a4f2a;--tx:#e0f0e0;--mu:#8aaa8a;--dm:#5a7a5a;--ac:#22ff88;--ac2:#66ffaa}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--mo);background:var(--bg);color:var(--tx);min-height:100vh;font-size:14px;line-height:1.5;overflow-x:hidden}
+body{font-family:var(--mo);background:var(--bg);color:var(--tx);min-height:100vh;overflow-x:hidden;font-size:14px;line-height:1.5}
 body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;background:radial-gradient(900px 520px at 88% -12%,rgba(247,147,26,.12),transparent 62%),radial-gradient(700px 620px at 50% 112%,rgba(201,106,0,.08),transparent 62%)}
 body.test::before{background:radial-gradient(900px 520px at 88% -12%,rgba(139,123,255,.1),transparent 62%),radial-gradient(700px 620px at 50% 112%,rgba(0,229,255,.08),transparent 62%)}
 body.demo::before{background:radial-gradient(900px 520px at 88% -12%,rgba(255,79,216,.12),transparent 62%),radial-gradient(700px 620px at 50% 112%,rgba(139,123,255,.1),transparent 62%)}
@@ -21,10 +22,10 @@ body.demo .gb{background-image:linear-gradient(rgba(255,79,216,.06) 1px,transpar
 body.mine .gb{background-image:linear-gradient(rgba(34,255,136,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(34,255,136,.06) 1px,transparent 1px)}
 *{scrollbar-width:thin;scrollbar-color:var(--ac) var(--sf)}::-webkit-scrollbar{width:9px}::-webkit-scrollbar-track{background:var(--sf)}::-webkit-scrollbar-thumb{background:linear-gradient(var(--ac),var(--deep));border-radius:8px}
 .top{position:fixed;top:0;left:0;right:0;height:var(--tb);z-index:60;display:flex;align-items:center;gap:8px;padding:0 10px;background:rgba(12,8,5,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--ln)}
-body.test .top{background:rgba(7,12,21,.9)}body.demo .top{background:rgba(16,6,26,.9)}body.mine .top{background:rgba(5,15,5,.9)}
+body.test .top,body.demo .top,body.mine .top{background:rgba(5,15,5,.9)}
 .lg{display:flex;align-items:center;gap:7px;font-weight:800;letter-spacing:1.5px;font-size:11px;color:var(--ac2);white-space:nowrap}
 .seg{display:flex;border:1px solid var(--ln2);border-radius:8px;overflow:hidden;margin-left:auto}
-.seg button{border:0;background:transparent;color:var(--mu);font:800 9px var(--mo);letter-spacing:1px;padding:8px 9px;cursor:pointer;min-height:34px;white-space:nowrap;transition:.2s}
+.seg button{border:0;background:transparent;color:var(--mu);font:800 9px var(--mo);letter-spacing:1px;padding:8px 9px;cursor:pointer;min-height:36px;transition:.2s}
 .seg button.on{background:linear-gradient(135deg,var(--ac),var(--deep));color:#0c0805}
 body.test .seg button.on,body.demo .seg button.on,body.mine .seg button.on{color:#04070d}
 .seg button:not(.on):hover{color:var(--tx)}
@@ -32,271 +33,309 @@ body.test .seg button.on,body.demo .seg button.on,body.mine .seg button.on{color
 .dt{width:7px;height:7px;border-radius:50%;background:var(--gr);box-shadow:0 0 8px var(--gr);animation:pl 2s infinite}
 @keyframes pl{50%{opacity:.4}}
 .ib{display:flex;align-items:center;gap:5px;height:32px;padding:0 9px;border-radius:8px;cursor:pointer;border:1px solid var(--ln2);background:var(--sf);color:var(--ac);font:700 9px var(--mo)}
-.wr{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:calc(var(--tb) + 12px) 12px 40px}
-.hr{padding:10px 4px 8px}.hr h1{font-size:clamp(22px,5vw,38px);font-weight:800;background:linear-gradient(94deg,var(--ac2),var(--ac) 55%,var(--deep));-webkit-background-clip:text;background-clip:text;color:transparent}
-.hr p{color:var(--mu);font-size:11px;margin-top:6px;max-width:680px}
-.ch{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
-.cp{font-size:8.5px;letter-spacing:1.2px;padding:3px 9px;border-radius:18px;border:1px solid var(--ln2);color:var(--mu)}
-.cp.h{color:var(--gold);border-color:rgba(247,147,26,.5)}.cp.r{color:var(--rd);border-color:rgba(255,59,92,.5)}
-.cp.c{color:var(--cy);border-color:rgba(0,229,255,.4)}.cp.s{color:var(--mg);border-color:rgba(255,79,216,.5)}
-.cp.g{color:var(--gr);border-color:rgba(34,255,136,.5)}.cp.m{color:var(--ac);border-color:rgba(34,255,136,.5)}
-.rl{border:1px solid rgba(255,59,92,.4);background:linear-gradient(120deg,rgba(255,59,92,.06),rgba(247,147,26,.04));border-radius:11px;padding:11px 14px;margin:11px 0;font-size:11px;line-height:1.7;position:relative;overflow:hidden}
+.wr{position:relative;z-index:1;max-width:1080px;margin:0 auto;padding:calc(var(--tb) + 16px) 15px 60px}
+.hr{padding:14px 4px 10px;animation:ri .6s both}
+.hr h1{font-size:clamp(25px,5.4vw,44px);font-weight:800;line-height:1.06;background:linear-gradient(94deg,var(--ac2),var(--ac) 55%,var(--deep));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hr p{color:var(--mu);font-size:12.5px;margin-top:9px;max-width:690px}
+.ch{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+.cp0{font-size:9.5px;letter-spacing:1.4px;padding:5px 11px;border-radius:20px;border:1px solid var(--ln2);color:var(--mu)}
+.cp0.h{color:var(--gold);border-color:rgba(247,147,26,.55)}.cp0.r{color:var(--rd);border-color:rgba(255,59,92,.5)}
+.cp0.c{color:var(--cy);border-color:rgba(0,229,255,.4)}.cp0.s{color:var(--mg);border-color:rgba(255,79,216,.5)}
+.cp0.g{color:var(--gr);border-color:rgba(34,255,136,.5)}.cp0.m{color:var(--ac);border-color:rgba(34,255,136,.5)}
+.rl{border:1px solid rgba(255,59,92,.45);background:linear-gradient(120deg,rgba(255,59,92,.07),rgba(247,147,26,.05));border-radius:13px;padding:13px 16px;margin:13px 0;font-size:12px;line-height:1.75;position:relative;overflow:hidden;animation:ri .5s both}
 .rl::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(var(--rd),var(--btc))}
-.rl b{color:var(--gold)}.rl .rt{font-size:9px;letter-spacing:2px;color:var(--rd);font-weight:800;margin-bottom:5px}
+.rl b{color:var(--gold)}.rl .rt{font-size:10px;letter-spacing:2px;color:var(--rd);font-weight:800;margin-bottom:6px}
 .rl.sb{border-color:rgba(0,229,255,.4);background:rgba(0,229,255,.05)}.rl.sb::before{background:linear-gradient(var(--cy),var(--vi))}.rl.sb .rt{color:var(--cy)}
-.rl.sm{border-color:rgba(255,79,216,.4);background:rgba(255,79,216,.05)}.rl.sm::before{background:linear-gradient(var(--mg),var(--vi))}.rl.sm .rt{color:var(--mg)}
+.rl.sm{border-color:rgba(255,79,216,.5);background:rgba(255,79,216,.06)}.rl.sm::before{background:linear-gradient(var(--mg),var(--vi))}.rl.sm .rt{color:var(--mg)}
 .rl.mi{border-color:rgba(34,255,136,.4);background:rgba(34,255,136,.05)}.rl.mi::before{background:linear-gradient(var(--ac),#00aa55)}.rl.mi .rt{color:var(--ac)}
-.bn{margin:10px 0;border:1px solid var(--ln);border-radius:10px;overflow:hidden;background:#050302;box-shadow:0 12px 36px -18px #000}
+.bn{margin:0 0 16px;border:1px solid var(--ln);border-radius:13px;overflow:hidden;background:#050302;box-shadow:0 18px 50px -22px #000;animation:ri .6s .08s both}
 body.test .bn{background:#02040a}body.demo .bn{background:#0a0410}body.mine .bn{background:#030a03}
 .bn canvas{display:block;width:100%;height:auto}
-.bn .cap{display:flex;justify-content:space-between;padding:5px 10px;font-size:8px;letter-spacing:1.4px;color:var(--dm);border-top:1px solid var(--ln)}.bn .cap b{color:var(--ac)}
-.co{display:grid;grid-template-columns:1fr;gap:12px}
-@media(min-width:920px){.co{grid-template-columns:380px 1fr;align-items:start}.cL{position:sticky;top:calc(var(--tb) + 10px)}}
-.cL,.cR{display:flex;flex-direction:column;gap:12px}
-.cd{background:linear-gradient(180deg,var(--sf),var(--bg));border:1px solid var(--ln);border-radius:10px;padding:14px;position:relative;overflow:hidden}
-.cd::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--ac),var(--ac2),transparent);opacity:.5}
-.cd h2{display:flex;align-items:center;gap:8px;font-size:10.5px;letter-spacing:2px;color:var(--ac2);margin-bottom:10px;font-weight:800}
-.cd h2 .n{flex:none;width:20px;height:20px;border-radius:5px;display:grid;place-items:center;font-size:10px;color:#0c0805;background:linear-gradient(135deg,var(--ac2),var(--ac))}
-.cd h2 .tl{margin-left:auto;font-size:7.5px;color:var(--dm);letter-spacing:1px}
-.bt{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;min-height:42px;padding:10px 11px;border-radius:8px;cursor:pointer;font:800 10.5px var(--mo);letter-spacing:1.3px;text-transform:uppercase;border:1px solid rgba(247,147,26,.5);color:var(--gold);background:linear-gradient(180deg,rgba(247,147,26,.1),rgba(247,147,26,.02));transition:.2s;margin-bottom:7px}
-.bt:hover:not(:disabled){box-shadow:0 0 18px rgba(247,147,26,.25);color:#fff}
-.bt:disabled{opacity:.3;cursor:not-allowed}
-.bt.c{border-color:rgba(0,229,255,.4);color:var(--cy);background:rgba(0,229,255,.06)}
-.bt.g{border-color:rgba(34,255,136,.4);color:var(--gr);background:rgba(34,255,136,.06)}
-.bt.m{border-color:rgba(255,79,216,.4);color:var(--mg);background:rgba(255,79,216,.06)}
-.bt.r{border-color:rgba(255,59,92,.4);color:var(--rd);background:rgba(255,59,92,.05)}
-.bt.gh{border-color:var(--ln2);color:var(--mu);background:var(--sf2)}
-.bt.ar{border-color:var(--rd);color:var(--rd);animation:ab 1s infinite}@keyframes ab{50%{box-shadow:0 0 14px rgba(255,59,92,.4)}}
-.bt.sm{min-height:34px;font-size:9.5px;padding:7px 9px}
-.r2{display:grid;grid-template-columns:1fr 1fr;gap:7px}
-.st{display:flex;flex-direction:column;gap:7px}
-input,textarea,select{width:100%;background:#0a0603;border:1px solid var(--ln2);color:var(--tx);border-radius:7px;padding:10px;font:14px var(--mo);outline:none}
+.bn .cap{display:flex;justify-content:space-between;padding:7px 12px;font-size:9px;letter-spacing:1.5px;color:var(--dm);border-top:1px solid var(--ln)}.bn .cap b{color:var(--ac)}
+.co{display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:940px){.co{grid-template-columns:404px 1fr;align-items:start}.cL{position:sticky;top:calc(var(--tb) + 14px)}}
+.cL,.cR{display:flex;flex-direction:column;gap:16px;min-width:0}
+.cd{background:linear-gradient(180deg,var(--sf),var(--bg2));border:1px solid var(--ln);border-radius:13px;padding:18px;position:relative;overflow:hidden;animation:ri .55s both;box-shadow:0 14px 40px -20px #000}
+.cd::before{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--ac),var(--ac2),transparent);opacity:.6}
+@keyframes ri{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.cd h2{display:flex;align-items:center;gap:10px;font-size:11.5px;letter-spacing:2px;color:var(--ac2);margin-bottom:14px;font-weight:800}
+.cd h2 .n{flex:none;width:24px;height:24px;border-radius:7px;display:grid;place-items:center;font-size:11px;color:#0c0805;background:linear-gradient(135deg,var(--ac2),var(--ac))}
+body.test .cd h2 .n,body.demo .cd h2 .n,body.mine .cd h2 .n{color:#04070d}
+.cd h2 .tl{margin-left:auto;font-size:8.5px;color:var(--dm);letter-spacing:1px;font-weight:400}
+.bt{position:relative;display:flex;align-items:center;justify-content:center;gap:9px;width:100%;min-height:46px;padding:12px 14px;border-radius:10px;cursor:pointer;font:800 11.5px var(--mo);letter-spacing:1.5px;text-transform:uppercase;transition:.22s;overflow:hidden;border:1px solid rgba(247,147,26,.6);color:var(--gold);background:linear-gradient(180deg,rgba(247,147,26,.12),rgba(247,147,26,.03))}
+.bt:hover:not(:disabled){box-shadow:0 0 22px rgba(247,147,26,.3);color:#fff}
+.bt:disabled{opacity:.35;cursor:not-allowed}
+.bt.c{border-color:rgba(0,229,255,.5);color:var(--cy);background:rgba(0,229,255,.06)}
+.bt.g{border-color:rgba(34,255,136,.5);color:var(--gr);background:rgba(34,255,136,.06)}
+.bt.m{border-color:rgba(255,79,216,.55);color:var(--mg);background:rgba(255,79,216,.07)}
+.bt.r{border-color:rgba(255,59,92,.5);color:var(--rd);background:rgba(255,59,92,.06)}
+.bt.gh{border-color:var(--ln2);color:var(--mu);background:var(--sf);min-height:38px;font-size:10px}
+.bt.ar{border-color:var(--rd);color:var(--rd);animation:ab 1s infinite}@keyframes ab{50%{box-shadow:0 0 18px rgba(255,59,92,.5)}}
+.bt.mg{border-color:rgba(255,194,75,.8);color:#1a0f04;background:linear-gradient(135deg,var(--gold),var(--btc) 55%,var(--deep));box-shadow:0 0 26px rgba(247,147,26,.35)}
+.bt.sm{min-height:38px;font-size:10px;padding:8px 10px}
+.r2{display:grid;grid-template-columns:1fr 1fr;gap:9px}@media(max-width:430px){.r2{grid-template-columns:1fr}}
+.st{display:flex;flex-direction:column;gap:9px}
+input,textarea,select{width:100%;background:#0a0603;border:1px solid var(--ln2);color:var(--tx);border-radius:9px;padding:12px;font:16px var(--mo);outline:none;-webkit-appearance:none;appearance:none}
 body.test input,body.test textarea,body.test select{background:#050a13}body.demo input,body.demo textarea,body.demo select{background:#0d0517}body.mine input,body.mine textarea,body.mine select{background:#0a1a0a}
-input:focus,textarea:focus,select:focus{border-color:var(--ac);box-shadow:0 0 0 2px rgba(247,147,26,.1)}
-input::placeholder{color:var(--dm);font-size:11px}
-textarea{resize:vertical;min-height:52px;font-size:12.5px}
-select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23f7931a' fill='none' stroke-width='1.6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 9px center;padding-right:26px;font-size:11px}
-.fd{position:relative}.fd .vm{position:absolute;right:9px;top:50%;transform:translateY(-50%);font-size:11px}
-.hn{font-size:9.5px;color:var(--dm);margin-top:3px;min-height:12px}.hn.ok{color:var(--gr)}.hn.bad{color:var(--rd)}
-.ax{background:#0a0603;border:1px solid rgba(247,147,26,.4);border-radius:8px;padding:10px}
-body.test .ax{background:#050a13;border-color:rgba(0,229,255,.3)}body.demo .ax{background:#0d0517;border-color:rgba(255,79,216,.3)}body.mine .ax{background:#0a1a0a;border-color:rgba(34,255,136,.3)}
-.lb{font-size:8px;letter-spacing:1.4px;color:var(--mu);margin-bottom:4px;display:flex;align-items:center;gap:6px}
-.lb .tg{font-size:7px;padding:2px 5px;border-radius:6px;border:1px solid var(--ln2);color:var(--dm)}
-.ad{font-size:12px;font-weight:700;color:var(--ac2);word-break:break-all;line-height:1.4}
-.cb{margin-top:7px;display:inline-flex;align-items:center;gap:5px;border:1px solid var(--ln2);background:var(--sf2);color:var(--ac);border-radius:5px;padding:4px 8px;font:700 9px var(--mo);cursor:pointer}
-.cb:hover{border-color:var(--ac)}.cb.dn{color:var(--gr);border-color:rgba(34,255,136,.4)}
-.mg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-top:6px}
-@media(max-width:400px){.mg{grid-template-columns:repeat(2,1fr)}}
-.mw{background:#0a0603;border:1px solid var(--ln);border-radius:5px;padding:4px 6px;font-size:10px;display:flex;gap:5px;align-items:baseline}
+input:focus,textarea:focus,select:focus{border-color:var(--ac);box-shadow:0 0 0 3px rgba(247,147,26,.14)}
+input::placeholder,textarea::placeholder{color:var(--dm);font-size:12.5px}
+textarea{resize:vertical;min-height:60px;font-size:14px}
+select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23f7931a' fill='none' stroke-width='1.6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px;font-size:12.5px}
+.fd{position:relative}.fd .vm{position:absolute;right:11px;top:50%;transform:translateY(-50%);font-size:13px;pointer-events:none}
+.hn{font-size:10.5px;color:var(--dm);margin-top:5px;min-height:14px}.hn.ok{color:var(--gr)}.hn.bad{color:var(--rd)}
+.ax{background:#0a0603;border:1px solid rgba(247,147,26,.45);border-radius:10px;padding:12px}
+body.test .ax{background:#050a13;border-color:rgba(0,229,255,.35)}body.demo .ax{background:#0d0517;border-color:rgba(255,79,216,.4)}body.mine .ax{background:#0a1a0a;border-color:rgba(34,255,136,.3)}
+.lb{font-size:9px;letter-spacing:1.6px;color:var(--mu);margin-bottom:6px;display:flex;align-items:center;gap:8px}
+.lb .tg{font-size:8px;padding:2px 6px;border-radius:8px;border:1px solid var(--ln2);color:var(--dm)}
+.ad{font-size:13px;font-weight:700;color:var(--ac2);word-break:break-all;line-height:1.55}
+.cb{margin-top:9px;display:inline-flex;align-items:center;gap:6px;border:1px solid var(--ln2);background:var(--sf2);color:var(--ac);border-radius:7px;padding:6px 11px;font:700 10px var(--mo);letter-spacing:1px;cursor:pointer}
+.cb:hover{border-color:var(--ac)}.cb.dn{color:var(--gr);border-color:rgba(34,255,136,.5)}
+.mg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}@media(max-width:430px){.mg{grid-template-columns:repeat(2,1fr)}}
+.mw{background:#0a0603;border:1px solid var(--ln);border-radius:7px;padding:6px 8px;font-size:11px;display:flex;gap:7px;align-items:baseline}
 body.test .mw{background:#050a13}body.demo .mw{background:#0d0517}body.mine .mw{background:#0a1a0a}
-.mw i{font-style:normal;color:var(--dm);font-size:8px;min-width:13px}.mw b{color:var(--gr);font-weight:600;overflow:hidden;text-overflow:ellipsis}
+.mw i{font-style:normal;color:var(--dm);font-size:9px;min-width:15px}.mw b{color:var(--gr);font-weight:600;overflow:hidden;text-overflow:ellipsis}
 .mw.hd b{color:var(--dm);letter-spacing:2px}
-.kv{background:#0a0603;border:1px solid var(--ln);border-radius:7px;padding:8px 10px;margin-top:7px}
+.kv{background:#0a0603;border:1px solid var(--ln);border-radius:9px;padding:10px 12px;margin-top:9px}
 body.test .kv{background:#050a13}body.demo .kv{background:#0d0517}body.mine .kv{background:#0a1a0a}
-.kv .v{font-size:10px;word-break:break-all;color:var(--tx);font-weight:600}.kv .v.mk{color:var(--dm);letter-spacing:2px}.kv .v.pb{color:var(--mu);font-size:9px}
-.sp{height:1px;background:linear-gradient(90deg,transparent,var(--ln2),transparent);margin:10px 0}
-.dp a{display:flex;align-items:center;gap:8px;padding:9px 10px;border:1px solid var(--ln);border-radius:7px;margin-bottom:6px;color:var(--ac);text-decoration:none;font-size:11px}
-.dp a:hover{border-color:var(--ac);transform:translateX(2px)}
-.dp a .ic{flex:none;width:22px;height:22px;border-radius:6px;display:grid;place-items:center;background:rgba(247,147,26,.1);border:1px solid rgba(247,147,26,.3)}
-.dp a small{margin-left:auto;color:var(--dm);font-size:8px}
-.stp{font-size:10px;color:var(--mu);line-height:1.8}.stp b{color:var(--gold)}
-.stp .nu{display:inline-grid;place-items:center;width:15px;height:15px;border-radius:4px;background:rgba(247,147,26,.15);border:1px solid rgba(247,147,26,.4);color:var(--gold);font-size:8px;font-weight:800;margin-right:5px}
-.wl{font-size:9.5px;color:var(--rd);line-height:1.6;margin-top:6px;border-top:1px dashed var(--ln2);padding-top:6px}
-.hu{display:grid;grid-template-columns:repeat(2,1fr);gap:6px}
-@media(min-width:600px){.hu{grid-template-columns:repeat(4,1fr)}}
-.ti{background:#0a0603;border:1px solid var(--ln);border-radius:8px;padding:9px 10px}
+.kv .v{font-size:11px;word-break:break-all;color:var(--tx);font-weight:600}.kv .v.mk{color:var(--dm);letter-spacing:2px}.kv .v.pb{color:var(--mu);font-size:10px;font-weight:400}
+.sp{height:1px;background:linear-gradient(90deg,transparent,var(--ln2),transparent);margin:14px 0}
+.dp a{display:flex;align-items:center;gap:10px;padding:11px 12px;border:1px solid var(--ln);border-radius:9px;margin-bottom:8px;color:var(--ac);text-decoration:none;font-size:12px;transition:.2s}
+.dp a:hover{border-color:var(--ac);transform:translateX(3px)}
+.dp a .ic{flex:none;width:26px;height:26px;border-radius:7px;display:grid;place-items:center;background:rgba(247,147,26,.1);border:1px solid rgba(247,147,26,.3)}
+.dp a small{margin-left:auto;color:var(--dm);font-size:9px}
+.stp{font-size:11px;color:var(--mu);line-height:1.9}.stp b{color:var(--gold)}
+.stp .nu{display:inline-grid;place-items:center;width:17px;height:17px;border-radius:5px;background:rgba(247,147,26,.15);border:1px solid rgba(247,147,26,.4);color:var(--gold);font-size:9px;font-weight:800;margin-right:6px}
+.wl{font-size:10.5px;color:var(--rd);line-height:1.7;margin-top:8px;border-top:1px dashed var(--ln2);padding-top:8px}
+.bh{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}.bh .bt{width:auto;flex:1;min-width:130px}
+.hu{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}@media(min-width:660px){.hu{grid-template-columns:repeat(4,1fr)}}
+.ti{background:#0a0603;border:1px solid var(--ln);border-radius:10px;padding:11px 12px;transition:.25s}
 body.test .ti{background:#050a13}body.demo .ti{background:#0d0517}body.mine .ti{background:#0a1a0a}
-.ti .t{font-size:7.5px;letter-spacing:1.3px;color:var(--mu)}
-.ti .v{font-size:14px;font-weight:800;margin-top:3px;color:var(--ac);font-variant-numeric:tabular-nums;word-break:break-all}
-.ti.tt{border-color:rgba(247,147,26,.4)}.ti.tt .v{color:var(--gold);font-size:15px}
-body.mine .ti.tt .v{color:var(--ac2)}
-.up{font-size:8.5px;color:var(--dm);margin-top:6px}
-.tt{display:flex;gap:5px;margin:10px 0 7px;flex-wrap:wrap;align-items:center}
-.fc{font:700 8.5px var(--mo);letter-spacing:1px;padding:4px 9px;border-radius:14px;border:1px solid var(--ln2);background:transparent;color:var(--mu);cursor:pointer}
+.ti:hover{border-color:var(--ln2);transform:translateY(-2px)}
+.ti .t{font-size:8.5px;letter-spacing:1.5px;color:var(--mu)}
+.ti .v{font-size:15.5px;font-weight:800;margin-top:5px;color:var(--ac);font-variant-numeric:tabular-nums;word-break:break-all}
+.ti.tt{border-color:rgba(247,147,26,.5)}.ti.tt .v{color:var(--gold);font-size:16.5px}
+body.demo .ti.tt .v{color:var(--mg)}.ti.mm .v{color:var(--vi)}
+.ti.mm.act{border-color:rgba(139,123,255,.6);box-shadow:0 0 18px rgba(139,123,255,.2)}
+.fi{margin-top:8px;font-size:11px;color:var(--mu);display:flex;gap:8px;align-items:baseline}.fi b{color:var(--gr);font-size:13px}
+.up{font-size:9.5px;color:var(--dm);margin-top:8px}
+.tt{display:flex;gap:7px;margin:13px 0 9px;flex-wrap:wrap;align-items:center}
+.fc{font:700 9.5px var(--mo);letter-spacing:1px;padding:6px 12px;border-radius:16px;border:1px solid var(--ln2);background:transparent;color:var(--mu);cursor:pointer}
 .fc.on{color:#0c0805;background:linear-gradient(135deg,var(--ac2),var(--ac));border-color:transparent}
-.tt input{flex:1;min-width:90px;padding:5px 8px;font-size:10px}
-.tl{display:flex;flex-direction:column;gap:5px;max-height:300px;overflow-y:auto}
-.tx{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;background:#0a0603;border:1px solid var(--ln);border-radius:7px;padding:7px 9px;cursor:pointer}
+.tt input{flex:1;min-width:110px;padding:7px 10px;font-size:12px}.tt select{width:auto;padding:7px 28px 7px 10px;font-size:11px}
+.tl{display:flex;flex-direction:column;gap:7px;max-height:340px;overflow-y:auto;padding-right:3px}
+.tx{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;background:#0a0603;border:1px solid var(--ln);border-radius:9px;padding:9px 11px;cursor:pointer;animation:ri .35s both}
 body.test .tx{background:#050a13}body.demo .tx{background:#0d0517}body.mine .tx{background:#0a1a0a}
 .tx:hover{border-color:var(--ac)}
-.tx .d{width:26px;height:26px;border-radius:6px;display:grid;place-items:center;font-size:12px;font-weight:800}
-.tx.i .d{color:var(--gr);background:rgba(34,255,136,.1);border:1px solid rgba(34,255,136,.3)}
-.tx.o .d{color:var(--rd);background:rgba(255,59,92,.1);border:1px solid rgba(255,59,92,.3)}
-.tx .m{min-width:0}.tx .m .id{color:var(--ac2);font-size:10px;display:block;overflow:hidden;text-overflow:ellipsis}
-.tx .m .ag{font-size:8px;color:var(--dm)}.tx .r{text-align:right}
-.tx .am{font-size:11px;font-weight:800;white-space:nowrap;color:var(--ac)}
-.bg{display:inline-block;font-size:7px;letter-spacing:1px;padding:2px 5px;border-radius:7px;border:1px solid;margin-top:2px}
-.bg.ok{color:var(--gr);border-color:rgba(34,255,136,.4)}.bg.pd{color:var(--vi);border-color:rgba(139,123,255,.5);animation:pl 1s infinite}.bg.sm{color:var(--mg);border-color:rgba(255,79,216,.4)}
-.em{border:1.5px dashed var(--ln2);border-radius:8px;padding:16px 10px;text-align:center;color:var(--mu);font-size:10.5px;line-height:1.6}
-.em b{color:var(--gold)}.em .big{font-size:18px;display:block;margin-bottom:4px}
-.fl{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:9.5px;color:var(--mu);background:#0a0603;border:1px solid var(--ln);border-radius:7px;padding:7px 10px}
-body.test .fl,body.demo .fl,body.mine .fl{background:#050a13}
-.fl b{color:var(--gold)}.fl select{width:auto;min-width:100px;padding:5px 24px 5px 8px;font-size:10px}
-.rv{background:rgba(34,255,136,.03);border:1px solid rgba(34,255,136,.3);border-radius:8px;padding:10px;font-size:10.5px;line-height:1.7}
-.rv .rr{display:flex;justify-content:space-between;gap:9px}.rv .rr span{color:var(--mu)}.rv .rr b{color:var(--tx);text-align:right;word-break:break-all}
-.rv .rr.big b{color:var(--gr);font-size:12px}.rv .wl{border:0;padding:0;margin-top:5px;color:var(--vi)}
-.sn{background:rgba(34,255,136,.05);border:1px solid rgba(34,255,136,.4);border-radius:8px;padding:10px;font-size:10.5px;line-height:1.6}
-.sn.sim{background:rgba(255,79,216,.05);border-color:rgba(255,79,216,.4)}
-.sn .id{color:var(--ac2);word-break:break-all;font-size:9.5px;display:block;margin:5px 0}
-details.lc{background:var(--sf);border:1px solid var(--ln);border-radius:10px;overflow:hidden}
-details.lc summary{cursor:pointer;list-style:none;padding:10px 12px;font-size:9.5px;letter-spacing:2px;color:var(--mu);display:flex;gap:7px}
+.tx.pend{border-color:rgba(139,123,255,.45);box-shadow:inset 0 0 22px rgba(139,123,255,.07)}
+.tx .d{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;font-size:14px;font-weight:800}
+.tx.i .d{color:var(--gr);background:rgba(34,255,136,.1);border:1px solid rgba(34,255,136,.35)}
+.tx.o .d{color:var(--rd);background:rgba(255,59,92,.1);border:1px solid rgba(255,59,92,.35)}
+.tx .m{min-width:0}.tx .m .id{color:var(--ac2);font-size:11px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tx .m .ag{font-size:9px;color:var(--dm)}.tx .r{text-align:right}
+.tx .am{font-size:12px;font-weight:800;white-space:nowrap}.tx.i .am{color:var(--gr)}.tx.o .am{color:var(--rd)}
+.bg{display:inline-block;font-size:8px;letter-spacing:1px;padding:2px 7px;border-radius:9px;border:1px solid;margin-top:3px}
+.bg.ok{color:var(--gr);border-color:rgba(34,255,136,.45)}.bg.pd{color:var(--vi);border-color:rgba(139,123,255,.6);animation:pl 1.2s infinite}.bg.sm{color:var(--mg);border-color:rgba(255,79,216,.5)}
+.em{border:1.5px dashed var(--ln2);border-radius:10px;padding:22px 14px;text-align:center;color:var(--mu);font-size:11.5px;line-height:1.8}
+.em b{color:var(--gold)}.em .big{font-size:22px;display:block;margin-bottom:6px}
+.fl{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:10.5px;color:var(--mu);background:#0a0603;border:1px solid var(--ln);border-radius:9px;padding:9px 12px}
+body.test .fl{background:#050a13}body.demo .fl{background:#0d0517}body.mine .fl{background:#0a1a0a}
+.fl b{color:var(--gold)}.fl select{width:auto;min-width:128px;padding:7px 30px 7px 10px;font-size:11px}
+.rv{background:rgba(34,255,136,.04);border:1px solid rgba(34,255,136,.4);border-radius:10px;padding:13px;font-size:11.5px;line-height:1.9;animation:ri .3s both}
+.rv .rr{display:flex;justify-content:space-between;gap:12px}.rv .rr span{color:var(--mu)}.rv .rr b{color:var(--tx);text-align:right;word-break:break-all}
+.rv .rr.big b{color:var(--gr);font-size:14px}.rv .wl{border:0;padding:0;margin-top:6px;color:var(--vi)}
+.sn{background:rgba(34,255,136,.06);border:1px solid rgba(34,255,136,.5);border-radius:10px;padding:13px;font-size:11.5px;animation:ri .3s both}
+.sn.sim{background:rgba(255,79,216,.06);border-color:rgba(255,79,216,.5)}
+.sn .id{color:var(--ac2);word-break:break-all;font-size:10.5px;display:block;margin:7px 0;text-decoration:none}
+.spn{display:inline-block;width:13px;height:13px;border:2px solid rgba(34,255,136,.3);border-top-color:var(--gr);border-radius:50%;animation:sr .7s linear infinite;vertical-align:-2px}@keyframes sr{to{transform:rotate(360deg)}}
+.mp{height:5px;border-radius:5px;background:rgba(139,123,255,.15);overflow:hidden;margin-top:9px}
+.mp i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--vi),var(--mg));transition:width .9s linear}
+.src{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px}
+.src button{border:1px solid var(--ln2);background:var(--sf2);color:var(--mu);border-radius:9px;padding:10px 6px;font:800 10px var(--mo);letter-spacing:1px;cursor:pointer;transition:.2s}
+.src button.on{color:#0c0805;background:linear-gradient(135deg,var(--ac2),var(--ac));border-color:transparent;box-shadow:0 0 14px rgba(255,79,216,.3)}
+.src button small{display:block;font-size:8px;opacity:.75;margin-top:3px;letter-spacing:.5px}
+#simcv{display:block;width:100%;height:auto;border-radius:10px;background:#0b0512;border:1px solid var(--ln)}
+.simcap{display:flex;justify-content:space-between;font-size:9px;letter-spacing:1.5px;color:var(--dm);margin-top:7px}
+.simcap b{color:var(--mg)}
+.livebtn{display:flex;align-items:center;gap:8px;padding:12px;border-radius:10px;border:1px solid rgba(255,79,216,.5);background:rgba(255,79,216,.07);color:var(--mg);text-decoration:none;font:800 11px var(--mo);letter-spacing:1px;transition:.2s;margin-top:9px}
+.livebtn:hover{box-shadow:0 0 20px rgba(255,79,216,.35);transform:translateY(-2px)}
+.livebtn .pulse{width:9px;height:9px;border-radius:50%;background:var(--mg);box-shadow:0 0 10px var(--mg);animation:pl 1.1s infinite}
+details.lc{background:var(--sf);border:1px solid var(--ln);border-radius:13px;overflow:hidden}
+details.lc summary{cursor:pointer;list-style:none;padding:13px 16px;font-size:10.5px;letter-spacing:2px;color:var(--mu);display:flex;gap:9px;user-select:none}
 details.lc summary::-webkit-details-marker{display:none}
-details.lc summary::before{content:"▸";color:var(--ac)}details.lc[open] summary::before{transform:rotate(90deg)}
-#log{border-top:1px solid var(--ln);background:#080502;padding:9px 11px;font-size:9.5px;line-height:1.5;color:var(--btc);max-height:150px;overflow-y:auto;white-space:pre-wrap;word-break:break-word}
+details.lc summary::before{content:"▸";color:var(--ac);transition:.2s}details.lc[open] summary::before{transform:rotate(90deg)}
+#log{border-top:1px solid var(--ln);background:#080502;padding:12px 14px;font-size:10.5px;line-height:1.65;color:var(--btc);max-height:190px;overflow-y:auto;white-space:pre-wrap;word-break:break-word}
 body.test #log{background:#04080f}body.demo #log{background:#0a0410}body.mine #log{background:#030a03;color:var(--ac)}
-#log .ok{color:var(--gr)}#log .err{color:var(--rd)}#log .inf{color:var(--cy)}
-.sc{position:fixed;inset:0;background:rgba(4,2,1,.7);backdrop-filter:blur(5px);z-index:80;opacity:0;pointer-events:none;transition:.3s}.sc.on{opacity:1;pointer-events:auto}
-.dr{position:fixed;top:0;right:0;bottom:0;width:min(360px,92vw);z-index:85;background:var(--sf);border-left:1px solid var(--ln2);transform:translateX(105%);transition:transform .3s;display:flex;flex-direction:column}
+#log .ok{color:var(--gr)}#log .err{color:var(--rd)}#log .inf{color:var(--cy)}#log .warn{color:var(--gold)}
+.sc{position:fixed;inset:0;background:rgba(4,2,1,.72);backdrop-filter:blur(6px);z-index:80;opacity:0;pointer-events:none;transition:.3s}.sc.on{opacity:1;pointer-events:auto}
+.dr{position:fixed;top:0;right:0;bottom:0;width:min(400px,94vw);z-index:85;background:var(--sf);border-left:1px solid var(--ln2);transform:translateX(105%);transition:transform .35s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column}
 .dr.on{transform:none}
-.dr .dh{display:flex;align-items:center;gap:8px;padding:12px;border-bottom:1px solid var(--ln)}
-.dr .dh b{font-size:10px;letter-spacing:2px;color:var(--ac2)}
-.dr .dh button{margin-left:auto;width:30px;height:30px;border-radius:6px;border:1px solid var(--ln2);background:transparent;color:var(--mu);cursor:pointer;font-size:13px}
-.dr .db{padding:12px;overflow-y:auto;flex:1;font-size:10.5px;line-height:1.7}
-.dr .ba{font-size:18px;font-weight:800;margin:4px 0 8px}
-.dr .drr{display:flex;justify-content:space-between;gap:9px;border-bottom:1px dashed var(--ln);padding:4px 0}
-.dr .drr span{color:var(--mu)}.dr .drr b{word-break:break-all;text-align:right;font-size:9.5px}
-.dr .df{padding:10px 12px;border-top:1px solid var(--ln);display:flex;flex-direction:column;gap:6px}
-.ts{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);z-index:99;display:flex;flex-direction:column;gap:6px;width:min(90vw,400px);pointer-events:none}
-.to{pointer-events:auto;background:rgba(26,18,10,.95);border:1px solid var(--ln2);border-left:3px solid var(--ac);border-radius:8px;padding:9px 11px;font-size:10.5px;color:var(--tx);box-shadow:0 8px 24px #000;animation:ti .3s both;display:flex;gap:7px;align-items:center}
-body.test .to,body.demo .to,body.mine .to{background:rgba(14,22,38,.95)}
+.dr .dh{display:flex;align-items:center;gap:10px;padding:16px;border-bottom:1px solid var(--ln)}
+.dr .dh b{font-size:11px;letter-spacing:2px;color:var(--ac2)}
+.dr .dh button{margin-left:auto;width:34px;height:34px;border-radius:8px;border:1px solid var(--ln2);background:transparent;color:var(--mu);cursor:pointer;font-size:15px}
+.dr .db{padding:16px;overflow-y:auto;flex:1;font-size:11.5px;line-height:1.9}
+.dr .ba{font-size:22px;font-weight:800;margin:6px 0 12px}
+.dr .drr{display:flex;justify-content:space-between;gap:12px;border-bottom:1px dashed var(--ln);padding:6px 0}
+.dr .drr span{color:var(--mu)}.dr .drr b{word-break:break-all;text-align:right}
+.dr .df{padding:14px 16px;border-top:1px solid var(--ln);display:flex;flex-direction:column;gap:8px}
+.md{position:fixed;inset:0;z-index:95;display:grid;place-items:center;padding:16px;opacity:0;pointer-events:none;transition:.3s}.md.on{opacity:1;pointer-events:auto}
+.mb{width:min(560px,100%);max-height:92vh;overflow-y:auto;background:linear-gradient(180deg,var(--sf),var(--bg2));border:1px solid rgba(255,59,92,.5);border-radius:16px;padding:24px;box-shadow:0 30px 90px #000;transform:translateY(14px);transition:.3s}
+.md.on .mb{transform:none}.mb.sim{border-color:rgba(255,79,216,.55)}
+.mb h3{font-size:16px;color:var(--gold);margin-bottom:4px}.mb.sim h3{color:var(--mg)}
+.mb .sub{font-size:11px;color:var(--rd);letter-spacing:2px;font-weight:800;margin-bottom:14px}.mb.sim .sub{color:var(--mg)}
+.mb p{font-size:12px;color:var(--mu);line-height:1.8;margin-bottom:14px}.mb p b{color:var(--tx)}
+.ck{display:flex;gap:11px;align-items:flex-start;border:1px solid var(--ln2);border-radius:10px;padding:11px 12px;margin-bottom:9px;cursor:pointer;font-size:11.5px;line-height:1.65;color:var(--mu)}
+.ck input{display:none}
+.ck .bx{flex:none;width:20px;height:20px;border-radius:6px;border:1.5px solid var(--dm);display:grid;place-items:center;font-size:12px;color:transparent;margin-top:1px}
+.ck input:checked~.bx{background:var(--gr);border-color:var(--gr);color:#04140a}.ck input:checked~.txt{color:var(--tx)}
+.mbs{display:flex;flex-direction:column;gap:9px;margin-top:14px}
+.qk{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0}
+.qk button{border:1px solid var(--ln2);background:var(--sf2);color:var(--ac2);border-radius:8px;padding:10px 4px;font:700 12px var(--mo);cursor:pointer}
+.qk button:hover{border-color:var(--ac)}
+.ts{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:99;display:flex;flex-direction:column;gap:8px;width:min(94vw,440px);pointer-events:none}
+.to{pointer-events:auto;background:rgba(26,18,10,.97);border:1px solid var(--ln2);border-left:3px solid var(--ac);border-radius:10px;padding:11px 14px;font-size:11.5px;color:var(--tx);box-shadow:0 12px 34px #000;animation:ti .3s both;display:flex;gap:9px;align-items:center}
+body.test .to{background:rgba(14,22,38,.97)}body.demo .to{background:rgba(30,15,46,.97)}body.mine .to{background:rgba(10,26,10,.97)}
 .to.ok{border-left-color:var(--gr)}.to.err{border-left-color:var(--rd)}.to.warn{border-left-color:var(--vi)}
-.to.out{animation:tou .3s both}
-@keyframes ti{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}@keyframes tou{to{opacity:0;transform:translateY(6px)}}
-footer{margin-top:20px;text-align:center;font-size:8.5px;color:var(--dm);line-height:1.7}footer b{color:var(--mu)}
+.to.out{animation:tou .3s both}.to button{margin-left:auto;flex:none;border:1px solid var(--ac);background:transparent;color:var(--ac);border-radius:7px;padding:5px 10px;font:700 10px var(--mo);cursor:pointer}
+@keyframes ti{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}@keyframes tou{to{opacity:0;transform:translateY(10px)}}
+footer{margin-top:26px;text-align:center;font-size:9.5px;color:var(--dm);line-height:1.9}footer b{color:var(--mu)}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px;border-radius:6px}
 .hid{display:none!important}
-.mp-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
-@media(min-width:580px){.mp-grid{grid-template-columns:repeat(4,1fr)}}
-.ms{background:#051a0a;border:1px solid rgba(34,255,136,.2);border-radius:8px;padding:8px}
-.ms .l{font-size:7.5px;letter-spacing:1.3px;color:var(--mu);text-transform:uppercase}
-.ms .v{font-size:15px;font-weight:800;color:var(--ac);margin-top:2px;font-variant-numeric:tabular-nums;word-break:break-all;text-shadow:0 0 8px rgba(34,255,136,.2)}
-.ms .v.big{font-size:17px}
-.ms .v.small{font-size:10px;color:var(--mu)}
-.mctrl{display:flex;gap:7px;margin-top:8px}
-.mctrl .bt{flex:1;margin-bottom:0}
-.mctrl .bt.go{background:linear-gradient(135deg,var(--ac),#00aa55);color:#051a0a}
-.mctrl .bt.stop{background:linear-gradient(135deg,var(--rd),#aa0033);color:#fff;border-color:rgba(255,59,92,.4)}
-.dslider{display:flex;align-items:center;gap:8px;background:#051a0a;border:1px solid var(--ln);border-radius:7px;padding:8px 10px;margin-top:8px}
-.dslider label{font-size:8.5px;color:var(--mu);letter-spacing:1px;min-width:70px}
-.dslider input[type=range]{flex:1;accent-color:var(--ac)}
-.dslider b{color:var(--ac);font-size:9.5px;min-width:100px;text-align:right;font-variant-numeric:tabular-nums}
-.hdisp{background:#030a03;border:1px solid var(--ln);border-radius:7px;padding:8px 10px;font:9.5px var(--mo);color:var(--mu);word-break:break-all;line-height:1.4;margin-top:8px}
-.hdisp b{color:var(--ac)}.hdisp .hl{color:var(--ac)}.hdisp .hl.bad{color:var(--rd)}
-.mlog{background:#030a03;border:1px solid var(--ln);border-radius:7px;padding:8px 10px;font:9px var(--mo);color:var(--ac);max-height:140px;overflow-y:auto;white-space:pre-wrap;word-break:break-word;line-height:1.4;margin-top:8px}
-.mlog .ok{color:var(--ac)}.mlog .err{color:var(--rd)}.mlog .inf{color:var(--tx)}
-.bl-list{display:flex;flex-direction:column;gap:4px;max-height:220px;overflow-y:auto}
-.bl-item{background:#051a0a;border:1px solid rgba(34,255,136,.15);border-radius:6px;padding:7px 9px;font-size:9.5px;cursor:pointer}
-.bl-item:hover{border-color:var(--ac);background:#0a2a0a}
-.bl-item .bh{display:flex;justify-content:space-between;gap:6px;margin-bottom:2px}
-.bl-item .bh b{color:var(--ac);font-size:10px}
-.bl-item .bh span{color:var(--mu);font-size:8px}
-.bl-item .hh{font-size:8px;color:var(--mu);word-break:break-all}
-.bl-item .hh b{color:var(--ac);font-weight:600}
+.ft{display:none;font-size:12px;color:var(--rd);background:rgba(255,59,92,.07);border:1px solid rgba(255,59,92,.4);border-radius:9px;padding:12px;margin-bottom:16px}
+#gen{position:fixed;inset:0;z-index:120;background:radial-gradient(1200px 800px at 50% 40%,#1a0f04,#070503 70%);opacity:0;pointer-events:none;transition:opacity .45s;display:flex;flex-direction:column}
+#gen.on{opacity:1;pointer-events:auto}
+#gv{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:0}
+.gw{position:relative;z-index:2;flex:1;overflow-y:auto;display:flex;flex-direction:column;padding:60px 20px 20px}
+.gin{margin:auto;width:100%;max-width:820px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.gsf{position:relative;z-index:3;flex:none;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;padding:14px 16px calc(14px + env(safe-area-inset-bottom));border-top:1px solid rgba(255,194,75,.25);background:rgba(7,5,3,.82);backdrop-filter:blur(10px)}
+.gsf .bt{width:auto;min-width:190px}
+.gs{font-size:10px;letter-spacing:4px;color:var(--cy);font-weight:800;margin-bottom:10px;min-height:14px}
+.gt{font-size:clamp(21px,4.6vw,38px);font-weight:800;line-height:1.15;background:linear-gradient(94deg,var(--gold),var(--btc),var(--mg));-webkit-background-clip:text;background-clip:text;color:transparent;min-height:1.2em}
+.gd{font-size:12px;color:var(--mu);margin-top:10px;max-width:560px;line-height:1.7;min-height:1.4em}
+.gd.err{color:var(--rd)}
+.gm{width:min(340px,80vw);height:8px;border-radius:8px;background:rgba(255,255,255,.07);border:1px solid var(--ln2);margin:18px auto 6px;overflow:hidden}
+.gm i{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--cy),var(--vi),var(--gold));transition:width .15s}
+.gh{font-size:10px;color:var(--dm);letter-spacing:1px}
+.gx{font-size:clamp(11px,2.6vw,15px);color:var(--cy);letter-spacing:2px;word-break:break-all;margin:14px auto 0}
+.gws{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin:16px auto 0}
+.gwi{border:1px solid rgba(34,255,136,.4);background:rgba(34,255,136,.06);color:var(--gr);border-radius:8px;padding:6px 10px;font-size:12px;font-weight:700;opacity:0;transform:translateY(10px) scale(.9);transition:.35s}
+.gwi.on{opacity:1;transform:none}.gwi i{font-style:normal;color:var(--dm);font-size:9px;margin-right:6px}
+.gp{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:16px auto 0;font-size:13px}
+.gpi{border:1px solid var(--ln2);border-radius:7px;padding:6px 10px;color:var(--dm);transition:.3s}
+.gpi.lit{color:var(--gold);border-color:rgba(247,147,26,.6)}
+.gpb{font-size:10px;color:var(--mu);word-break:break-all;margin:12px auto 0}
+.ga{font-size:clamp(14px,3.6vw,25px);font-weight:800;color:var(--gold);word-break:break-all;margin:12px auto 0;text-shadow:0 0 24px rgba(255,194,75,.6)}
+.gc{font-size:clamp(19px,4.6vw,32px);font-weight:800;color:var(--vi);margin-top:12px}
+.gr{margin-top:16px;border:1px solid rgba(255,194,75,.5);background:linear-gradient(120deg,rgba(247,147,26,.1),rgba(255,79,216,.05));border-radius:14px;padding:16px;opacity:0;transform:translateY(14px);transition:.5s}
+.gr.on{opacity:1;transform:none}.gr .bl{font-size:clamp(19px,4.6vw,30px);font-weight:800;color:var(--gold)}
+.gr .tr2{font-size:12px;color:var(--tx);line-height:1.8;margin-top:9px}.gr .tr2 b{color:var(--gold)}
+.gps{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}@media(max-width:520px){.gps{grid-template-columns:1fr}}
+.gpc{border:1px solid var(--ln2);border-radius:10px;padding:10px 8px;font-size:10.5px;color:var(--mu);line-height:1.5;background:rgba(10,6,3,.5)}
+.gpc .ic{font-size:19px;display:block;margin-bottom:4px}.gpc b{color:var(--tx);display:block;font-size:11px;margin-bottom:2px}
+.gsk{position:absolute;top:12px;right:12px;z-index:4;width:auto;min-height:34px;font-size:10px;padding:8px 12px}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
 </head>
 <body>
 <div class="gb"></div>
 <div class="top">
-<div class="lg">₿ <span>WALLET LAB</span></div>
+<div class="lg"><svg width="22" height="22" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M13 8v16M13 12h6a3 3 0 010 6h-6m0 0h7a3 3 0 010 6h-7M15 6v2m4-2v2m-4 16v2m4-2v2" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg><span>WALLET&nbsp;LAB</span></div>
 <div class="seg"><button id="sgT">TESTNET</button><button id="sgM">MAINNET</button><button id="sgD">DEMO</button><button id="sgN" class="on">MINENET</button></div>
-<div class="ns"><span class="dt"></span><span class="nl" id="nname">MINENET</span><b id="tip">PoW</b></div>
+<div class="ns"><span class="dt" id="dot"></span><span class="nl" id="nname">MINENET</span><b id="tip">PoW</b></div>
 <button class="ib" id="snd">🔊 <span id="sndl">ЗВУК</span></button>
 </div>
 <div class="wr">
 <div class="hr"><h1 id="h1">⛏ MINENET — PoW-МАЙНИНГ</h1><p id="hsub">Локальная сеть с настоящим proof-of-work (SHA-256d), coinbase 50 BTC, хэш-цепочкой блоков.</p>
-<div class="ch" id="chips"><span class="cp m">SHA-256d PoW</span><span class="cp m">COINBASE 50 BTC</span><span class="cp m">ХЭШ-ЦЕПОЧКА</span><span class="cp m">ОФЛАЙН</span></div></div>
-<div class="rl mi" id="real"><div class="rt">⛏ MINENET — НАСТОЯЩИЙ МАЙНИНГ</div>Локальная сеть с <b>реальным proof-of-work</b> (SHA-256d), coinbase-транзакциями с наградой <b>50 BTC</b>, хэш-цепочкой блоков. Монеты создаются <b>только через майнинг</b>. Переключай вкладки TESTNET/MAINNET/DEMO для других режимов.</div>
-<div class="bn"><canvas id="cv" width="960" height="150"></canvas><div class="cap"><span>MINENET STREAM · <b>MINENET</b></span><span id="caps">ОЖИДАНИЕ БЛОКОВ</span></div></div>
+<div class="ch" id="chips"><span class="cp0 m">SHA-256d PoW</span><span class="cp0 m">COINBASE 50 BTC</span><span class="cp0 m">ХЭШ-ЦЕПОЧКА</span><span class="cp0 m">ОПТИМИЗИРОВАНО ДЛЯ МОБИЛЬНЫХ</span></div></div>
+<div class="rl mi" id="real"><div class="rt">⛏ MINENET — НАСТОЯЩИЙ МАЙНИНГ</div>Локальная сеть с <b>реальным proof-of-work</b> (SHA-256d), coinbase-транзакциями с наградой <b>50 BTC</b>, хэш-цепочкой блоков. Монеты создаются <b>только через майнинг</b>. Адреса генерируются в формате <b>bc1...</b> (P2WPKH).</div>
+<div class="bn"><canvas id="cv" width="960" height="170"></canvas><div class="cap"><span>MINENET STREAM · <b>MINENET</b></span><span id="caps">ОЖИДАНИЕ БЛОКОВ</span></div></div>
+<div class="ft" id="fatal"></div>
 <div class="co">
 <div class="cL">
 <div class="cd"><h2><span class="n">1</span>КОШЕЛЁК<span class="tl" id="wst">НЕТ КЛЮЧЕЙ</span></h2>
-<div class="st" id="now">
-<button class="bt g" id="bGen">✦ Сотворить кошелёк</button>
-<button class="bt gh" id="bFast">⚡ Мгновенно</button>
-<div class="hn" id="genh">Ритуал: энтропия → 12 слов → адрес. Награды 50 BTC за блок.</div>
-</div>
+<div class="st" id="now"><button class="bt mg" id="bGen">✦ Сотворить кошелёк</button><button class="bt gh" id="bFast">⚡ Создать мгновенно</button><div class="hn" id="genh">Ритуал: энтропия → 12 слов → bc1 адрес. Награды 50 BTC за блок.</div></div>
 <div id="has" class="hid">
-<div class="ax"><div class="lb">АДРЕС <span class="tg">P2PKH</span></div><div class="ad" id="wAddr">—</div><button class="cb" data-c="addr">⧉ КОПИРОВАТЬ</button></div>
+<div class="ax"><div class="lb">АДРЕС ПОЛУЧЕНИЯ <span class="tg" id="atag">P2WPKH (bc1)</span></div><div class="ad" id="wAddr">—</div><button class="cb" data-c="addr">⧉ КОПИРОВАТЬ</button></div>
 <div class="sp"></div>
-<div class="lb">СЕКРЕТЫ <span class="tg">m/44'/0'/0'/0/0</span><button class="cb" style="margin:0 0 0 auto;padding:3px 7px" id="bRev">👁</button></div>
+<div class="lb">СЕКРЕТЫ <span class="tg">m/84'/0'/0'/0/0</span><button class="cb" style="margin:0 0 0 auto;padding:4px 9px" id="bRev">👁 ПОКАЗАТЬ</button></div>
 <div class="mg" id="mn"></div>
 <div class="kv"><div class="lb">WIF <span class="tg">0x80</span></div><div class="v mk" id="wWif">••••••••••••</div><button class="cb" data-c="wif">⧉ WIF</button></div>
 <div class="kv"><div class="lb">ПУБЛИЧНЫЙ КЛЮЧ</div><div class="v pb" id="wPub">—</div></div>
 <div class="sp"></div>
-<div class="r2"><button class="bt gh" id="bNew">↻ НОВЫЙ</button><button class="bt r" id="bWipe" style="min-height:34px;font-size:9px">🗑 СТЕРЕТЬ</button></div>
+<div class="r2"><button class="bt gh" id="bNew">↻ НОВЫЙ</button><button class="bt r" id="bWipe" style="min-height:38px;font-size:10px">🗑 СТЕРЕТЬ</button></div>
 </div>
 <div class="sp"></div>
-<div class="lb">ВОССТАНОВИТЬ (BIP39)</div>
-<textarea id="mnIn" rows="2" placeholder="12 или 24 слова BIP39…"></textarea>
-<div class="hn" id="mnH">Electrum-сид не восстанавливается.</div>
-<button class="bt c" id="bRec" style="margin-top:6px">🔐 Восстановить</button>
+<div class="lb">ВОССТАНОВИТЬ КОШЕЛЁК (BIP39)</div>
+<textarea id="mnIn" rows="2" placeholder="12 или 24 слова BIP39 через пробел…"></textarea>
+<div class="hn" id="mnH">Electrum-сид (не BIP39) не восстанавливается.</div>
+<button class="bt c" id="bRec" style="margin-top:8px">🔐 Восстановить</button>
 </div>
-
-<div class="cd" id="mineCard"><h2><span class="n">⛏</span>ПАНЕЛЬ МАЙНЕРА<span class="tl" id="mineStatus">IDLE</span></h2>
-<div class="mp-grid">
-<div class="ms"><div class="l">БАЛАНС</div><div class="v big" id="mBal">0.00000000 BTC</div><div class="v small" id="mBalSat">0 sat · 0 блоков</div></div>
-<div class="ms"><div class="l">ХЭШРЕЙТ</div><div class="v big" id="mHash">0 H/s</div><div class="v small" id="mHashAvg">средний: 0 H/s</div></div>
-<div class="ms"><div class="l">БЛОКОВ</div><div class="v big" id="mBlocks">0</div><div class="v small" id="mHeight">высота: 0</div></div>
-<div class="ms"><div class="l">NONCE</div><div class="v" id="mNonce" style="font-size:11px">0</div><div class="v small" id="mTarget">target: —</div></div>
-</div>
-<div class="mctrl">
-<button class="bt go" id="mStart">▶ МАЙНИНГ</button>
-<button class="bt gh" id="mStop">⏹ СТОП</button>
-</div>
-<div class="dslider">
-<label>СЛОЖНОСТЬ:</label>
-<input type="range" id="mDiff" min="1" max="5" value="2" step="1">
-<b id="mDiffVal">2 нулевых байт</b>
-</div>
-<div class="hdisp">
-<div><b>ЗАГОЛОВОК БЛОКА:</b></div>
-<div style="margin-top:4px"><b>prev:</b> <span id="mhPrev" class="hl">000…000</span></div>
-<div><b>merkle:</b> <span id="mhMerk" class="hl">—</span></div>
-<div><b>time:</b> <span id="mhTime">—</span> <b>bits:</b> <span id="mhBits">—</span></div>
-<div><b>nonce:</b> <span id="mhNonce">—</span></div>
-<div style="margin-top:4px"><b>hash:</b> <span id="mhHash" class="hl bad">—</span></div>
-</div>
-<details class="lc" style="margin-top:8px" open><summary style="padding:8px 10px">ЖУРНАЛ МАЙНЕРА</summary><div class="mlog" id="mineLog">[minenet] Ожидание…</div></details>
-</div>
-
-<div class="cd" id="blockCard"><h2><span class="n">📦</span>ЦЕПОЧКА БЛОКОВ<span class="tl" id="chainLen">0 блоков</span></h2>
-<div class="bl-list" id="blockList"><div class="em"><span class="big">⛏</span>Цепочка пуста.</div></div>
+<div class="cd dp" id="dep"></div>
+<div class="cd hid" id="simcard"><h2><span class="n">◉</span>СИМ-МЕМПУЛ<span class="tl">ТОЧКИ = TX</span></h2>
+<canvas id="simcv" width="900" height="150"></canvas>
+<div class="simcap"><span>⏳ в мемпуле: <b id="simn">0</b></span><span>⛓ блоки: <b id="simm">0</b></span></div>
+<div class="hn" id="simh">Каждая точка — транзакция. Через ~10 сек блок захватывает её.</div>
+<a class="livebtn" id="live" href="https://mempool.space/testnet" target="_blank" rel="noopener"><span class="pulse"></span>🗺 ЖИВАЯ КАРТА</a>
 </div>
 </div>
-
 <div class="cR">
-<div class="cd" id="sendCard"><h2><span class="n">3</span>ОТПРАВКА МОНЕТ<span class="tl">LOCAL TX</span></h2>
+<div class="cd"><h2><span class="n">3</span><span id="bTitle">БАЛАНС И ТРАНЗАКЦИИ</span><span class="tl" id="bTail">MINENET</span></h2>
+<div class="bh"><button class="bt c" id="bBal">⟳ Обновить</button><button class="bt m hid" id="bAdd">➕ Добавить монеты</button><label class="sw" id="autoW"><input type="checkbox" id="auto" checked><span class="tr"></span>АВТО 30с</label></div>
+<div class="hu">
+<div class="ti"><div class="t" id="t1">ПОДТВЕРЖДЕНО</div><div class="v" id="bC">—</div></div>
+<div class="ti mm" id="tileM"><div class="t" id="t2">В ОЧЕРЕДИ</div><div class="v" id="bM">—</div></div>
+<div class="ti tt"><div class="t" id="t3">ИТОГО</div><div class="v" id="bT">—</div></div>
+<div class="ti"><div class="t">ТРАНЗАКЦИЙ</div><div class="v" id="bN">—</div></div>
+</div>
+<div class="up" id="upd">minenet · 0 блоков</div>
+<div class="tt"><button class="fc on" data-f="all">ВСЕ</button><button class="fc" data-f="in">↘ ВХОД</button><button class="fc" data-f="out">↗ ИСХОД</button><button class="fc hid" data-f="pend" id="fcP">⏳ МЕМПУЛ</button><input id="q" placeholder="поиск txid…"><select id="srt"><option value="new">новые</option><option value="old">старые</option><option value="amt">по сумме ↓</option></select></div>
+<div class="tl" id="txs"><div class="em"><span class="big">⛏</span>Намайни первый блок.</div></div>
+</div>
+<div class="cd"><h2><span class="n">4</span><span id="sTitle">ОТПРАВИТЬ МОНЕТЫ</span><span class="tl" id="sTail">LOCAL TX</span></h2>
 <div class="st">
-<div class="fd"><input id="to" placeholder="Адрес получателя…" autocomplete="off"><span class="vm" id="tom"></span></div>
-<div class="hn" id="toh">Проверка Base58Check</div>
-<div class="r2"><input id="amt" inputmode="decimal" placeholder="Сумма, BTC" autocomplete="off"><button class="bt c" id="bMax" style="min-height:42px">MAX</button></div>
-<div class="fl"><span>КОМИССИЯ:</span><select id="fee"><option value="0">0</option><option value="1000" selected>1000 sat</option></select><b id="fe">1000 sat</b></div>
+<div class="src hid" id="srcBox"><button id="srcV" class="on">ВИРТУАЛЬНЫЕ<small>симуляция · свои точки</small></button><button id="srcR">РЕАЛЬНЫЕ tBTC<small>в НАСТОЯЩИЙ мемпул</small></button></div>
+<div class="fd"><input id="to" placeholder="Получатель (bc1...)…" autocomplete="off" spellcheck="false"><span class="vm" id="tom"></span></div>
+<div class="hn" id="toh">Проверка Bech32 / Base58Check</div>
+<button class="bt gh sm hid" id="bRand">🎲 Случайный адрес</button>
+<div class="r2"><input id="amt" inputmode="decimal" placeholder="Сумма, BTC" autocomplete="off"><button class="bt c" id="bMax" style="min-height:46px">MAX</button></div>
+<div class="hn" id="af"></div>
+<div class="fl"><span>КОМИССИЯ:</span><select id="fee"><option value="1">🚀 быстро</option><option value="6" selected>⚖ обычно</option><option value="24">🐢 эконом</option></select><b id="fe">≈ — sat</b></div>
 <button class="bt g" id="bBuild">🔧 Собрать транзакцию</button>
 <div class="rv hid" id="rev"></div>
 <div class="r2 hid" id="crow"><button class="bt g" id="bSend">✅ Включить в блок</button><button class="bt gh" id="bCanc">✖ Отмена</button></div>
 <div class="sn hid" id="sent"></div>
 </div>
 </div>
-
-<div class="cd" id="balCard"><h2><span class="n">4</span>БАЛАНС И ТРАНЗАКЦИИ<span class="tl">MINENET</span></h2>
-<div class="hu">
-<div class="ti tt"><div class="t">БАЛАНС</div><div class="v" id="bC">—</div></div>
-<div class="ti"><div class="t">В ОЧЕРЕДИ</div><div class="v" id="bM">—</div></div>
-<div class="ti tt"><div class="t">ИТОГО</div><div class="v" id="bT">—</div></div>
-<div class="ti"><div class="t">ТРАНЗАКЦИЙ</div><div class="v" id="bN">—</div></div>
-</div>
-<div class="up" id="upd">minenet · 0 блоков</div>
-<div class="tt"><button class="fc on" data-f="all">ВСЕ</button><button class="fc" data-f="in">↘ ВХОД</button><button class="fc" data-f="out">↗ ИСХОД</button></div>
-<div class="tl" id="txs"><div class="em"><span class="big">⛏</span>Намайни первый блок.</div></div>
-</div>
-
 <details class="lc" open><summary>СИСТЕМНЫЙ ЖУРНАЛ</summary><div id="log"></div></details>
 </div>
 </div>
-<footer><b>BITCOIN WALLET LAB</b> · SHA-256 · RIPEMD-160 · secp256k1 · BIP39/32/44 · PoW · 0 CDN<br>MINENET: настоящий PoW-майнинг. TESTNET/MAINNET/DEMO — другие режимы.</footer>
+<footer><b>BITCOIN WALLET LAB</b> · SHA-256 · RIPEMD-160 · secp256k1 · BIP39/32/44 · PoW · 0 CDN<br>MINENET: настоящий PoW-майнинг с оптимизацией под мобильные устройства. Адреса: bc1...</footer>
 </div>
 <div class="sc" id="sc"></div>
-<div class="dr" id="dr"><div class="dh"><b id="drTitle">ДЕТАЛИ</b><button id="dcl">✕</button></div><div class="db" id="db"></div><div class="df"><button class="bt gh" id="dcp">⧉ Копировать</button></div></div>
-<div class="ts" id="ts"></div>
+<div class="dr" id="dr"><div class="dh"><b>ДЕТАЛИ</b><button id="dcl">✕</button></div><div class="db" id="db"></div><div class="df"><button class="bt gh" id="dcp">⧉ Копировать</button></div></div>
+<div class="md" id="cons"><div class="mb"><h3>₿ MAINNET — РЕАЛЬНЫЕ ДЕНЬГИ</h3><div class="sub">ПРЕЖДЕ ЧЕМ ПРОДОЛЖИТЬ</div>
+<p>Основная сеть Bitcoin: каждый sat стоит реальных денег. Для виртуальных экспериментов используй вкладку <b>MINENET</b> или <b>DEMO</b>.</p>
+<label class="ck"><input type="checkbox" class="cki"><span class="bx">✓</span><span class="txt">BTC не появляются из воздуха: их покупают, зарабатывают или получают.</span></label>
+<label class="ck"><input type="checkbox" class="cki"><span class="bx">✓</span><span class="txt">Инструмент экспериментальный, не аудирован, ключи в браузере.</span></label>
+<label class="ck"><input type="checkbox" class="cki"><span class="bx">✓</span><span class="txt">Сохраню сид-фразу офлайн и не введу сюда сид со сбережениями.</span></label>
+<div class="mbs"><button class="bt" id="ckOk" disabled>Принимаю → mainnet</button><button class="bt gh" id="ckNo">Остаться в minenet</button></div></div></div>
+<div class="md" id="addm"><div class="mb sim"><h3>➕ ВИРТУАЛЬНЫЕ МОНЕТЫ</h3><div class="sub">DEMO · СИМУЛЯЦИЯ</div>
+<p>Монеты добавляются в виртуальный баланс. Чтобы увидеть настоящую точку на живой карте — возьми tBTC из faucet и переключись на «РЕАЛЬНЫЕ tBTC».</p>
+<div class="lb">КОЛИЧЕСТВО (DEMO BTC)</div><input id="acA" inputmode="decimal" placeholder="напр. 1.5" autocomplete="off">
+<div class="qk"><button data-q="0.1">0.1</button><button data-q="0.5">0.5</button><button data-q="1">1</button><button data-q="5">5</button></div>
+<div class="mbs"><button class="bt m" id="acOk">➕ Добавить</button><button class="bt gh" id="acNo">✖ Закрыть</button></div></div></div>
+<div id="gen"><canvas id="gv"></canvas>
+<button class="bt gh gsk" id="gsk">⏭ пропустить</button>
+<div class="gw"><div class="gin">
+<div class="gs" id="gs">РИТУАЛ РОЖДЕНИЯ</div><div class="gt" id="gt">Собери хаос</div><div class="gd" id="gd">Води пальцем или мышью — каждое движение вплетается в энтропию кошелька.</div>
+<div class="gm" id="gmw"><i id="gm"></i></div><div class="gh" id="gh">НАСЫЩЕНИЕ ЭНТРОПИИ</div>
+<div class="gx hid" id="gx"></div><div class="gws hid" id="gws"></div><div class="gc hid" id="gc"></div><div class="gp hid" id="gp"></div><div class="gpb hid" id="gpb"></div><div class="ga hid" id="ga"></div>
+<div class="gr" id="grv"><div class="lb" style="justify-content:center">БАЛАНС НОВОГО КОШЕЛЬКА</div><div class="bl">0.00000000 BTC</div>
+<div class="tr2">✨ Магия создала <b>сосуд</b>. Адрес существует в блокчейне и готов принимать.</div>
+<div class="gps"><div class="gpc"><span class="ic">💱</span><b>КУПИТЬ</b>на бирже и вывести в сеть</div><div class="gpc"><span class="ic">⚒</span><b>ЗАРАБОТАТЬ</b>получить оплату на адрес</div><div class="gpc"><span class="ic">🤝</span><b>ПОЛУЧИТЬ</b>перевод от другого человека</div></div></div>
+</div></div>
+<div class="gsf"><button class="bt mg hid" id="gok">₿ Войти в кошелёк</button><button class="bt gh" id="gfast">⚡ Создать мгновенно</button><button class="bt gh" id="gclose">✖ Закрыть</button></div>
+</div>
+<div class="ts" id="ts" aria-live="polite"></div>
 
 <script>
 "use strict";
@@ -318,6 +357,7 @@ const slp=m=>new Promise(r=>setTimeout(r,m));
 const rh=n=>hex(crypto.getRandomValues(new U8(n)));
 const ago=t=>{if(!t)return"только что";const d=nowS()-t;return d<5?"только что":d<60?d+"с назад":d<3600?(d/60|0)+"м назад":d<86400?(d/3600|0)+"ч назад":(d/86400|0)+"д назад"};
 
+// SHA-256
 const K=[0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
 function sha(m){const l=m.length,T=(l+9+63)&~63,b=new U8(T);b.set(m);b[l]=128;const d=new DataView(b.buffer);d.setUint32(T-8,Math.floor(l*8/4294967296));d.setUint32(T-4,(l*8)>>>0);
 let h=[0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];const w=new Uint32Array(64);
@@ -330,6 +370,7 @@ h=[(h[0]+a)>>>0,(h[1]+b2)>>>0,(h[2]+c)>>>0,(h[3]+e)>>>0,(h[4]+f)>>>0,(h[5]+g)>>>
 const o=new U8(32),dv=new DataView(o.buffer);h.forEach((x,i)=>dv.setUint32(i*4,x));return o}
 const ds=x=>sha(sha(x));
 
+// RIPEMD-160
 function rmd(m){const zl=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,7,4,13,1,10,6,15,3,12,0,9,5,2,14,11,8,3,10,14,4,9,15,8,1,2,7,0,6,13,11,5,12,1,9,11,10,0,8,12,4,13,3,7,15,14,5,6,2,4,0,5,9,7,12,2,10,14,1,3,8,11,6,15,13],zr=[5,14,7,0,9,2,11,4,13,6,15,8,1,10,3,12,6,11,3,7,0,13,5,10,14,15,8,12,4,9,1,2,15,5,1,3,7,14,6,9,11,8,12,2,10,0,4,13,8,6,4,1,3,11,15,0,5,12,2,13,9,7,10,14,12,15,10,4,1,5,8,7,6,2,13,14,0,3,9,11],sl=[11,14,15,12,5,8,7,9,11,13,14,15,6,7,9,8,7,6,8,13,11,9,7,15,7,12,15,9,11,7,13,12,11,13,6,7,14,9,13,15,14,8,13,6,5,12,7,5,11,12,14,15,14,15,9,8,9,14,5,6,8,6,5,12,9,15,5,11,6,8,13,12,5,12,13,14,11,8,5,6],sr=[8,9,9,11,13,15,15,5,7,7,8,11,14,14,12,6,9,13,15,7,12,8,9,11,7,7,12,7,6,15,13,11,9,7,15,11,8,6,6,14,12,13,5,14,13,13,7,5,15,5,8,11,14,14,6,14,6,9,12,9,12,5,15,8,8,5,12,9,12,5,14,6,8,13,6,5,15,13,11,11],hl=[0,0x5a827999,0x6ed9eba1,0x8f1bbcdc,0xa953fd4e],hr=[0x50a28be6,0x5c4dd124,0x6d703ef3,0x7a6d76e9,0],f=(j,x,y,z)=>j<16?x^y^z:j<32?(x&y)|(~x&z):j<48?(x|~y)^z:j<64?(x&z)|(y&~z):x^(y|~z),rl=(x,n)=>((x<<n)|(x>>>(32-n)))>>>0;
 const l=m.length,T=(l+9+63)&~63,b=new U8(T);b.set(m);b[l]=128;const d=new DataView(b.buffer);d.setUint32(T-8,(l*8)>>>0,true);d.setUint32(T-4,Math.floor(l*8/4294967296),true);
 let H=[0x67452301,0xefcdab89,0x98badcfe,0x10325476,0xc3d2e1f0];
@@ -340,6 +381,7 @@ const t=(H[1]+c+D)>>>0;H=[t,(H[2]+e+E)>>>0,(H[3]+g+A)>>>0,(H[4]+a+B)>>>0,(H[0]+b
 const o=new U8(20),dv=new DataView(o.buffer);H.forEach((x,i)=>dv.setUint32(i*4,x,true));return o}
 const h160=x=>rmd(sha(x));
 
+// secp256k1
 const P=2n**256n-2n**32n-977n,N=0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141n,Gx=0x79BE667EF9DCBBAC55A06295CE870B07029BFCDB2DCE28D959F2815B16F81798n,Gy=0x483ADA7726A3C4655DA4FBFC0E1108A8FD17B448A68554199C47D08FFB10D4B8n;
 const md=(a,m=P)=>((a%m)+m)%m;
 function pw(b,e,m){let r=1n;b=md(b,m);while(e>0n){if(e&1n)r=r*b%m;b=b*b%m;e>>=1n}return r}
@@ -357,6 +399,56 @@ async function pb(m,salt){const k=await crypto.subtle.importKey("raw",enc.encode
 async function mst(s){const I=await hm(enc.encode("Bitcoin seed"),s),k=b2n(I.slice(0,32));if(!k||k>=N)throw Error("master");return{k,c:I.slice(32)}}
 async function ckd(n,i){const d=i>=0x80000000?cat([0],n32(n.k),be32(i)):cat(pub(n.k),be32(i)),I=await hm(n.c,d),k=md(b2n(I.slice(0,32))+n.k,N);if(!k)throw Error("child");return{k,c:I.slice(32)}}
 
+// Bech32 Encoder for bc1 addresses
+const CHARSET = "qpzry9x8gf2tvdw0s3jn54khce6mua7l";
+function bech32_polymod(values) {
+    let chk = 1;
+    const GENERATOR = [0x3b6a57b2, 0x26508e6d, 0x1ea119fa, 0x3d4233dd, 0x2a1462b3];
+    for (let p = 0; p < values.length; ++p) {
+        let top = chk >> 25;
+        chk = (chk & 0x1ffffff) << 5 ^ values[p];
+        for (let i = 0; i < 5; ++i) if ((top >> i) & 1) chk ^= GENERATOR[i];
+    }
+    return chk;
+}
+function bech32_hrp_expand(hrp) {
+    let ret = [];
+    for (let i = 0; i < hrp.length; ++i) ret.push(hrp.charCodeAt(i) >> 5);
+    ret.push(0);
+    for (let i = 0; i < hrp.length; ++i) ret.push(hrp.charCodeAt(i) & 31);
+    return ret;
+}
+function bech32_encode(hrp, data) {
+    let values = bech32_hrp_expand(hrp).concat(data);
+    let polymod = bech32_polymod(values.concat([0,0,0,0,0,0])) ^ 1;
+    let checksum = [];
+    for(let i=0; i<6; i++) checksum.push((polymod >> (5 * (5 - i))) & 31);
+    let result = "";
+    for(let i=0; i<data.length; i++) result += CHARSET[data[i]];
+    result += "1";
+    for(let i=0; i<6; i++) result += CHARSET[checksum[i]];
+    return hrp + result;
+}
+function convertbits(data, frombits, tobits, pad=true) {
+    let acc = 0, bits = 0, ret = [], maxv = (1 << tobits) - 1;
+    for (let i = 0; i < data.length; i++) {
+        let value = data[i];
+        if (value < 0 || (value >> frombits) !== 0) return null;
+        acc = (acc << frombits) | value; bits += frombits;
+        while (bits >= tobits) { bits -= tobits; ret.push((acc >> bits) & maxv); }
+    }
+    if (pad) { if (bits > 0) ret.push((acc << (tobits - bits)) & maxv); }
+    else if (bits >= frombits || ((acc << (tobits - bits)) & maxv)) return null;
+    return ret;
+}
+function getBc1Address(pubKeyHex) {
+    const h = h160(hb(pubKeyHex));
+    const data = [0].concat(Array.from(h));
+    const words = convertbits(data, 8, 5, true);
+    return bech32_encode("bc", words);
+}
+
+// BIP39
 const RAW="abandon ability able about above absent absorb abstract absurd abuse access accident account accuse achieve acid acoustic acquire across act action actor actress actual adapt add addict address adjust admit adult advance advice aerobic affair afford afraid again age agent agree ahead aim air airport aisle alarm album alcohol alert alien all alley allow almost alone alpha already also alter always amateur amazing among amount amused analyst anchor ancient anger angle angry animal ankle announce annual another answer antenna antique anxiety any apart apology appear apple approve april arch arctic area arena argue arm armed armor army around arrange arrest arrive arrow art artefact artist artwork ask aspect assault asset assist assume asthma athlete atom attack attend attitude attract auction audit august aunt author auto autumn average avocado avoid awake aware away awesome awful awkward axis baby bachelor bacon badge bag balance balcony ball bamboo banana banner bar barely bargain barrel base basic basket battle beach bean beauty because become beef before begin behave behind believe below belt bench benefit best betray better between beyond bicycle bid bike bind biology bird birth bitter black blade blame blanket blast bleak bless blind blood blossom blouse blue blur blush board boat body boil bomb bone bonus book boost border boring borrow boss bottom bounce box boy bracket brain brand brass brave bread breeze brick bridge brief bright bring brisk broccoli broken bronze broom brother brown brush bubble buddy budget buffalo build bulb bulk bullet bundle bunker burden burger burst bus business busy butter buyer buzz cabbage cabin cable cactus cage cake call calm camera camp can canal cancel candy cannon canoe canvas canyon capable capital captain car carbon card cargo carpet carry cart case cash casino castle casual cat catalog catch category cattle caught cause caution cave ceiling celery cement census century cereal certain chair chalk champion change chaos chapter charge chase chat cheap check cheese chef cherry chest chicken chief child chimney choice choose chronic chuckle chunk churn cigar cinnamon circle citizen city civil claim clap clarify claw clay clean clerk clever click client cliff climb clinic clip clock clog close cloth cloud clown club clump cluster clutch coach coast coconut code coffee coil coin collect color column combine come comfort comic common company concert conduct confirm congress connect consider control convince cook cool copper copy coral core corn correct cost cotton couch country couple course cousin cover coyote crack cradle craft cram crane crash crater crawl crazy cream credit creek crew cricket crime crisp critic crop cross crouch crowd crucial cruel cruise crumble crunch crush cry crystal cube culture cup cupboard curious current curtain curve cushion custom cute cycle dad damage damp dance danger daring dash daughter dawn day deal debate debris decade december decide decline decorate decrease deer defense define defy degree delay deliver demand demise denial dentist deny depart depend deposit depth deputy derive describe desert design desk despair destroy detail detect develop device devote diagram dial diamond diary dice diesel diet differ digital dignity dilemma dinner dinosaur direct dirt disagree discover disease dish dismiss disorder display distance divert divide divorce dizzy doctor document dog doll dolphin domain donate donkey donor door dose double dove draft dragon drama drastic draw dream dress drift drill drink drip drive drop drum dry duck dumb dune during dust dutch duty dwarf dynamic eager eagle early earn earth easily east easy echo ecology economy edge edit educate effort egg eight either elbow elder electric elegant element elephant elevator elite else embark embody embrace emerge emotion employ empower empty enable enact encourage end endless endorse enemy energy enforce engage engine enhance enjoy enlist enough enrich enroll ensure enter entire entry envelope episode equal equip era erase erode erosion error erupt escape essay essence estate eternal ethics evidence evil evoke evolve exact example excess exchange excite exclude excuse execute exercise exhaust exhibit exile exist exit exotic expand expect expire explain expose express extend extra eye eyebrow fabric face faculty fade faint faith fall false fame family famous fan fancy fantasy farm fashion fat fatal father fatigue fault favorite feature february federal fee feed feel female fence festival fetch fever few fiber fiction field figure file film filter final find fine finger finish fire firm first fiscal fish fit fitness fix flag flame flash flat flavor flee flight flip float flock floor flower fluid flush fly foam focus fog foil fold follow food foot force forest forget fork fortune forum forward fossil foster found fox fragile frame frequent fresh friend fringe frog front frost frown frozen fruit fuel fun funny furnace fury future gadget gain galaxy gallery game gap garage garbage garden garlic garment gas gasp gate gather gauge gaze general genius genre gentle genuine gesture ghost giant gift giggle ginger giraffe girl give glad glance glare glass glide glimpse globe gloom glory glove glow glue goat goddess gold good goose gorilla gospel gossip govern gown grab grace grain grant grape grass gravity great green grid grief grit grocery group grow grunt guard guess guide guilt guitar gun gym habit hair half hammer hamster hand happy harbor hard harsh harvest hat have hawk hazard head health heart heavy hedgehog height hello helmet help hen hero hidden high hill hint hip hire history hobby hockey hold hole holiday hollow home honey hood hope horn horror horse hospital host hotel hour hover hub huge human humble humor hundred hungry hunt hurdle hurry hurt husband hybrid ice icon idea identify idle ignore ill illegal illness image imitate immense immune impact impose improve impulse inch include income increase index indicate indoor industry infant inflict inform inhale inherit initial inject injury inmate inner innocent input inquiry insane insect inside inspire install intact interest into invest invite involve iron island isolate issue item ivory jacket jaguar jar jazz jealous jeans jelly jewel job join joke journey joy judge juice jump jungle junior junk just kangaroo keen keep ketchup key kick kid kidney kind kingdom kiss kit kitchen kite kitten kiwi knee knife knock know lab label labor ladder lady lake lamp language laptop large later latin laugh laundry lava law lawn lawsuit layer lazy leader leaf learn leave lecture left leg legal legend leisure lemon lend length lens leopard lesson letter level liar liberty library license life lift light like limb limit link lion liquid list little live lizard load loan lobster local lock logic lonely long loop lottery loud lounge love loyal lucky luggage lumber lunar lunch luxury lyrics machine mad magic magnet maid mail main major make mammal man manage mandate mango mansion manual maple marble march margin marine market marriage mask mass master match material math matrix matter maximum maze meadow mean measure meat mechanic medal media melody melt member memory mention menu mercy merge merit merry mesh message metal method middle midnight milk million mimic mind minimum minor minute miracle mirror misery miss mistake mix mixed mixture mobile model modify mom moment monitor monkey monster month moon moral more morning mosquito mother motion motor mountain mouse move movie much muffin mule multiply muscle museum mushroom music must mutual myself mystery myth naive name napkin narrow nasty nation nature near neck need negative neglect neither nephew nerve nest net network neutral never news next nice night noble noise nominee noodle normal north nose notable note nothing notice novel now nuclear number nurse nut oak obey object oblige obscure observe obtain obvious occur ocean october odor off offer office often oil okay old olive olympic omit once one onion online only open opera opinion oppose option orange orbit orchard order ordinary organ orient original orphan ostrich other outdoor outer output outside oval oven over own owner oxygen oyster ozone pact paddle page pair palace palm panda panel panic panther paper parade parent park parrot party pass patch path patient patrol pattern pause pave payment peace peanut pear peasant pelican pen penalty pencil people pepper perfect permit person pet phone photo phrase physical piano picnic picture piece pig pigeon pill pilot pink pioneer pipe pistol pitch pizza place planet plastic plate play please pledge pluck plug plunge poem poet point polar pole police pond pony pool popular portion position possible post potato pottery poverty powder power practice praise predict prefer prepare present pretty prevent price pride primary print priority prison private prize problem process produce profit program project promote proof property prosper protect proud provide public pudding pull pulp pulse pumpkin punch pupil puppy purchase purity purpose purse push put puzzle pyramid quality quantum quarter question quick quit quiz quote rabbit raccoon race rack radar radio rail rain raise rally ramp ranch random range rapid rare rate rather raven raw razor ready real reason rebel rebuild recall receive recipe record recycle reduce reflect reform refuse region regret regular reject relax release relief rely remain remember remind remove render renew rent reopen repair repeat replace report require rescue resemble resist resource response result retire retreat return reunion reveal review reward rhythm rib ribbon rice rich ride ridge rifle right rigid ring riot ripple risk ritual rival river road roast robot robust rocket romance roof rookie room rose rotate rough round route royal rubber rude rug rule run runway rural sad saddle sadness safe sail salad salmon salon salt salute same sample sand satisfy satoshi sauce sausage save say scale scan scare scatter scene scheme school science scissors scorpion scout scrap screen script scrub sea search season seat second secret section security seed seek segment select sell seminar senior sense sentence series service session settle setup seven shadow shaft shallow share shed shell sheriff shield shift shine ship shiver shock shoe shoot shop short shoulder shove shrimp shrug shuffle shy sibling sick side siege sight sign silent silk silly silver similar simple since sing siren sister situate six size skate sketch ski skill skin skirt skull slab slam sleep slender slice slide slight slim slogan slot slow slush small smart smile smoke smooth snack snake snap sniff snow soap soccer social sock soda soft solar soldier solid solution solve someone song soon sorry sort soul sound soup source south space spare spatial spawn speak special speed spell spend sphere spice spider spike spin spirit split spoil sponsor spoon sport spot spray spread spring spy square squeeze squirrel stable stadium staff stage stairs stamp stand start state stay steak steel stem step stereo stick still sting stock stomach stone stool story stove strategy street strike strong struggle student stuff stumble style subject submit subway success such sudden suffer sugar suggest suit summer sun sunny sunset super supply supreme sure surface surge surprise surround survey suspect sustain swallow swamp swap swarm swear sweet swift swim swing switch sword symbol symptom syrup system table tackle tag tail talent talk tank tape target task taste tattoo taxi teach team tell ten tenant tennis tent term test text thank that theme then theory there they thing this thought three thrive throw thumb thunder ticket tide tiger tilt timber time tiny tip tired tissue title toast tobacco today toddler toe together toilet token tomato tomorrow tone tongue tonight tool tooth top topic topple torch tornado tortoise toss total tourist toward tower town toy track trade traffic tragic train transfer trap trash travel tray treat tree trend trial tribe trick trigger trim trip trophy trouble truck true truly trumpet trust truth try tube tuition tumble tuna tunnel turkey turn turtle twelve twenty twice twin twist two type typical ugly umbrella unable unaware uncle uncover under undo unfair unfold unhappy uniform unique unit universe unknown unlock until unusual unveil update upgrade uphold upon upper upset urban urge usage use used useful useless usual utility vacant vacuum vague valid valley valve van vanish vapor various vast vault vehicle velvet vendor venture venue verb verify version very vessel veteran viable vibrant vicious victory video view village vintage violin virtual virus visa visit visual vital vivid vocal voice void volcano volume vote voyage wage wagon wait walk wall walnut want warfare warm warrior wash wasp waste water wave way wealth weapon wear weasel weather web wedding weekend weird welcome west wet whale what wheat wheel when where whip whisper wide width wife wild will win window wine wing wink winner winter wire wisdom wise wish witness wolf woman wonder wood wool word work world worry worth wrap wreck wrestle wrist write wrong yard year yellow you young youth zebra zero zone zoo";
 const VEC=[["ffffffffffffffffffffffffffffffff","zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo zoo wrong"],["7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f","legal winner thank year wave sausage worth useful legal winner thank yellow"],["80808080808080808080808080808080","letter advice cage absurd amount doctor acoustic avoid letter advice cage above"],["00000000000000000000000000000000","abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about"]];
 let W=null,WI=null;
@@ -372,7 +464,24 @@ function b58e(b){let n=b2n(b),s="";while(n>0n){s=B58[Number(n%58n)]+s;n/=58n}for
 function b58d(s){let n=0n;for(const c of s){const i=B58.indexOf(c);if(i<0)throw Error("bad char");n=n*58n+BigInt(i)}const b=[];while(n>0n){b.unshift(Number(n%256n));n/=256n}for(const c of s){if(c==="1")b.unshift(0);else break}return U8.from(b)}
 const b58c=p=>b58e(cat(p,ds(p).slice(0,4)));
 function b58cd(s){const b=b58d(s);if(b.length<5)throw Error("short");const p=b.slice(0,-4);if(hex(b.slice(-4))!==hex(ds(p).slice(0,4)))throw Error("checksum");return p}
-function spk(ad){ad=(ad||"").trim();if(!ad)throw Error("пустой адрес");const p=b58cd(ad);if(p.length!==21)throw Error("длина ≠ 20");if(p[0]===0)return cat([118,169,20],p.slice(1),[136,172]);if(p[0]===5)return cat([169,20],p.slice(1),[135]);throw Error("не minenet (0x"+p[0].toString(16)+")")}
+const BC="qpzry9x8gf2tvdw0s3jn54khce6mua7l";
+function pmod(v){const G=[0x3b6a57b2,0x26508e6d,0x1ea119fa,0x3d4233dd,0x2a1462b3];let c=1;for(const x of v){const b=c>>25;c=((c&0x1ffffff)<<5)^x;for(let i=0;i<5;i++)if((b>>i)&1)c^=G[i]}return c}
+const hexp=h=>{const a=[],b=[];for(const c of h){a.push(c.charCodeAt(0)>>5);b.push(c.charCodeAt(0)&31)}return a.concat([0],b)};
+function conv(d,f,t,pad){let a=0,b=0;const o=[],mx=(1<<t)-1;for(const v of d){a=(a<<f)|v;b+=f;while(b>=t){b-=t;o.push((a>>b)&mx)}}
+if(pad){if(b>0)o.push((a<<(t-b))&mx)}else if(b>=f||((a<<(t-b))&mx))throw Error("выравнивание бит witness");return o}
+function segSpk(ad,hrp){if(ad!==ad.toLowerCase()&&ad!==ad.toUpperCase())throw Error("смешанный регистр bech32");
+const s=ad.toLowerCase(),p=s.lastIndexOf("1");if(!s.startsWith(hrp+"1")||p<hrp.length)throw Error("нужен префикс "+hrp+"1");
+const d=[...s.slice(p+1)].map(c=>{const i=BC.indexOf(c);if(i<0)throw Error("символ вне bech32");return i});
+if(d.length<8)throw Error("короткий bech32");const v=d[0],k=v===0?1:0x2bc830a3;
+if(pmod(hexp(s.slice(0,p)).concat(d))!==k)throw Error("контрольная сумма bech32");
+const pr=U8.from(conv(d.slice(1,-6),5,8,false));
+if(v===0&&pr.length===20)return cat([0,20],pr);if(v===0&&pr.length===32)return cat([0,32],pr);if(v===1&&pr.length===32)return cat([81,32],pr);
+throw Error("witness v"+v+" len"+pr.length)}
+function spk(ad,net){ad=(ad||"").trim();if(!ad)throw Error("пустой адрес");
+if(ad.toLowerCase().startsWith(net.hrp+"1"))return segSpk(ad,net.hrp);
+const p=b58cd(ad);if(p.length!==21)throw Error("длина ≠ 20");
+if(p[0]===net.pk)return cat([118,169,20],p.slice(1),[136,172]);if(p[0]===net.sh)return cat([169,20],p.slice(1),[135]);
+throw Error("не minenet (0x"+p[0].toString(16)+")")}
 function addrH160(ad){return b58cd(ad).slice(1)}
 const randAddr=()=>b58c(cat([0],crypto.getRandomValues(new U8(20))));
 
@@ -392,11 +501,49 @@ function createCoinbase(height,minerH160,rewardSat,extraNonce){return{version:1,
 function createBlockCandidate(prevBlock,txs,rewardSat,minerAddr){const minerH=addrH160(minerAddr);const txHashes=[];const allTxs=[];const cb=createCoinbase(prevBlock.height+1,minerH,rewardSat,rh(8));allTxs.push(cb);txHashes.push(hex(hashTx(cb)));for(const tx of txs){allTxs.push(tx);txHashes.push(hex(hashTx(tx)))}const merkle=computeMerkle(txHashes);return{version:1,prevHash:prevBlock.hashBytes,prevHashHex:hex(prevBlock.hashBytes),merkleRoot:merkle,timestamp:nowS(),bits:difficultyToBits(MN.difficulty),nonce:0,height:prevBlock.height+1,txs:allTxs,txHashes,hashBytes:null,hashHex:null,miner:minerAddr}}
 function genesisBlock(){return{version:1,prevHash:new U8(32),prevHashHex:"0000000000000000000000000000000000000000000000000000000000000000",merkleRoot:new U8(32),timestamp:nowS(),bits:difficultyToBits(2),nonce:0,height:0,txs:[],txHashes:[],hashBytes:new U8(32),hashHex:"0000000000000000000000000000000000000000000000000000000000000000",miner:"genesis",minedAt:Date.now()}}
 
-let mineRAF=null,mineChunk=20000;
-function mineStep(block,target){const hdr0=serializeHeader(block);let hashes=0;for(let i=0;i<mineChunk;i++){const hdr=new U8(hdr0);new DataView(hdr.buffer).setUint32(76,block.nonce,true);const h=ds(hdr);let ok=true;for(let b=0;b<MN.difficulty;b++){if(h[b]!==0){ok=false;break}}hashes++;if(ok){const hashBig=b2n(h);if(hashBig<target){block.nonce+=i;block.hashBytes=rev(h);block.hashHex=hex(block.hashBytes);return{found:true,hashes}}}block.nonce++;if(block.nonce>0xFFFFFFFF){block.timestamp++;block.nonce=0}}return{found:false,hashes,nonce:block.nonce}}
+// Mobile-optimized time-sliced miner
+function mineStep(block, target) {
+    const start = performance.now();
+    let hashes = 0;
+    const headerBase = serializeHeader(block).slice(0, 76); // Everything except nonce
+    const batchSize = 1500; // Optimized for mobile to prevent UI freeze
 
-function startMining(){if(MN.mining)return;if(!S.w){toast("Сначала создай кошелёк","warn");return}MN.mining=true;MN.hashStart=performance.now();MN.hashes=0;$("mStart").textContent="⛏ МАЙНИНГ…";$("mStart").className="bt stop";$("mineStatus").textContent="MINING";$("mineStatus").style.color="var(--ac)";mineLog("⛏ Майнинг запущен. Адрес: "+S.w.addr,"ok");mineLog("Сложность: "+MN.difficulty+" нулевых байт · награда: "+(MN.reward/1e8)+" BTC","inf");const prevBlock=MN.blocks.length?MN.blocks[MN.blocks.length-1]:genesisBlock();let block=createBlockCandidate(prevBlock,MN.txPool,MN.reward,S.w.addr);MN.txPool=[];const target=bitsToTarget(block.bits);$("mTarget").textContent=targetToHex(target);mineLog("Target: "+targetToHex(target).slice(0,32)+"…","inf");$("mhPrev").textContent=block.prevHashHex.slice(0,32)+"…";$("mhMerk").textContent=hex(block.merkleRoot).slice(0,32)+"…";$("mhTime").textContent=block.timestamp;$("mhBits").textContent="0x"+block.bits.toString(16).padStart(8,"0");
-function step(){if(!MN.mining)return;const res=mineStep(block,target);MN.hashes+=res.hashes;MN.totalHashes+=res.hashes;const elapsed=(performance.now()-MN.hashStart)/1000;MN.hashrate=Math.round(MN.hashes/Math.max(0.1,elapsed));$("mNonce").textContent=block.nonce.toLocaleString("ru-RU");$("mHash").textContent=formatHR(MN.hashrate);$("mhNonce").textContent=block.nonce.toString(16).padStart(8,"0");const curHash=hex(ds(serializeHeader(block)));$("mhHash").textContent=curHash.slice(0,32)+"…";if(res.found){block.minedAt=Date.now();MN.blocks.push(block);MN.lastBlockTime=performance.now();saveMN();mineLog("✅ БЛОК #"+block.height+" НАЙДЕН!","ok");mineLog("   Hash: "+block.hashHex.slice(0,32)+"…","ok");mineLog("   Nonce: "+block.nonce,"ok");mineLog("   Награда: "+(MN.reward/1e8)+" BTC → "+S.w.addr,"ok");sfxBlock();burst(20);toast("⛏ Блок #"+block.height+" найден! +"+(MN.reward/1e8)+" BTC","ok",5000);MN.mining=false;$("mStart").textContent="▶ МАЙНИНГ";$("mStart").className="bt go";$("mineStatus").textContent="BLOCK FOUND";$("mineStatus").style.color="var(--gold)";setTimeout(()=>{$("mineStatus").textContent="IDLE";$("mineStatus").style.color="var(--mu)"},3000);renderBlocks();rWallet();rBal();rTxs();return}mineRAF=requestAnimationFrame(step)}mineRAF=requestAnimationFrame(step)}
+    while (true) {
+        for (let i = 0; i < batchSize; i++) {
+            block.nonce++;
+            if (block.nonce > 0xFFFFFFFF) {
+                block.timestamp++;
+                block.nonce = 0;
+            }
+            const h = new U8(80);
+            h.set(headerBase, 0);
+            h[76] = block.nonce & 0xff;
+            h[77] = (block.nonce >> 8) & 0xff;
+            h[78] = (block.nonce >> 16) & 0xff;
+            h[79] = (block.nonce >> 24) & 0xff;
+
+            const hash = ds(h);
+            hashes++;
+
+            let ok = true;
+            for (let b = 0; b < MN.difficulty; b++) {
+                if (hash[b] !== 0) { ok = false; break; }
+            }
+            if (ok) {
+                block.hashBytes = rev(hash);
+                block.hashHex = hex(block.hashBytes);
+                return { found: true, hashes };
+            }
+        }
+        // Yield to browser every ~16ms to keep mobile UI smooth
+        if (performance.now() - start > 16) {
+            return { found: false, hashes, nonce: block.nonce };
+        }
+    }
+}
+
+function startMining(){if(MN.mining)return;if(!S.w){toast("Сначала создай кошелёк","warn");return}MN.mining=true;MN.hashStart=performance.now();MN.hashes=0;$("mStart").textContent="⛏ МАЙНИНГ…";$("mStart").className="bt stop";$("mineStatus").textContent="MINING";$("mineStatus").style.color="var(--ac)";mineLog("⛏ Майнинг запущен. Адрес: "+getBc1Address(S.w.pub),"ok");mineLog("Сложность: "+MN.difficulty+" нулевых байт · награда: "+(MN.reward/1e8)+" BTC","inf");const prevBlock=MN.blocks.length?MN.blocks[MN.blocks.length-1]:genesisBlock();let block=createBlockCandidate(prevBlock,MN.txPool,MN.reward,S.w.addr);MN.txPool=[];const target=bitsToTarget(block.bits);$("mTarget").textContent=targetToHex(target);mineLog("Target: "+targetToHex(target).slice(0,32)+"…","inf");$("mhPrev").textContent=block.prevHashHex.slice(0,32)+"…";$("mhMerk").textContent=hex(block.merkleRoot).slice(0,32)+"…";$("mhTime").textContent=block.timestamp;$("mhBits").textContent="0x"+block.bits.toString(16).padStart(8,"0");
+function step(){if(!MN.mining)return;const res=mineStep(block,target);MN.hashes+=res.hashes;MN.totalHashes+=res.hashes;const elapsed=(performance.now()-MN.hashStart)/1000;MN.hashrate=Math.round(MN.hashes/Math.max(0.1,elapsed));$("mNonce").textContent=block.nonce.toLocaleString("ru-RU");$("mHash").textContent=formatHR(MN.hashrate);$("mhNonce").textContent=block.nonce.toString(16).padStart(8,"0");const curHash=hex(ds(serializeHeader(block)));$("mhHash").textContent=curHash.slice(0,32)+"…";if(res.found){block.minedAt=Date.now();MN.blocks.push(block);MN.lastBlockTime=performance.now();saveMN();mineLog("✅ БЛОК #"+block.height+" НАЙДЕН!","ok");mineLog("   Hash: "+block.hashHex.slice(0,32)+"…","ok");mineLog("   Nonce: "+block.nonce,"ok");mineLog("   Награда: "+(MN.reward/1e8)+" BTC → "+getBc1Address(S.w.pub),"ok");sfxBlock();burst(20);toast("⛏ Блок #"+block.height+" найден! +"+(MN.reward/1e8)+" BTC","ok",5000);MN.mining=false;$("mStart").textContent="▶ МАЙНИНГ";$("mStart").className="bt go";$("mineStatus").textContent="BLOCK FOUND";$("mineStatus").style.color="var(--gold)";setTimeout(()=>{$("mineStatus").textContent="IDLE";$("mineStatus").style.color="var(--mu)"},3000);renderBlocks();rWallet();rBal();rTxs();return}mineRAF=requestAnimationFrame(step)}mineRAF=requestAnimationFrame(step)}
 function stopMining(){MN.mining=false;if(mineRAF)cancelAnimationFrame(mineRAF);$("mStart").textContent="▶ МАЙНИНГ";$("mStart").className="bt go";$("mineStatus").textContent="IDLE";$("mineStatus").style.color="var(--mu)";mineLog("⏹ Майнинг остановлен. Хэшей: "+MN.hashes,"warn")}
 function formatHR(h){if(h<1000)return h+" H/s";if(h<1e6)return(h/1e3).toFixed(1)+" KH/s";if(h<1e9)return(h/1e6).toFixed(2)+" MH/s";return(h/1e9).toFixed(2)+" GH/s"}
 function mineLog(m,c=""){const e=$("mineLog"),d=document.createElement("div");if(c)d.className=c;d.textContent="["+new Date().toLocaleTimeString("ru-RU")+"] "+m;e.appendChild(d);while(e.children.length>40)e.removeChild(e.firstChild);e.scrollTop=e.scrollHeight}
@@ -415,23 +562,33 @@ function tn(f,t,d,v=.05,dl=0){if(!S.snd)return;try{if(!AC)AC=new(window.AudioCon
 const sfx={gen(){tn(392,"sine",.12);tn(587,"sine",.16,.05,.09);tn(784,"sine",.22,.05,.18)},block(){tn(196,"sine",.3,.06);tn(392,"sine",.35,.05,.06);tn(587,"triangle",.4,.04,.14)},err(){tn(150,"sawtooth",.22,.06)},tick(){tn(1200,"sine",.04,.025)}};
 function burst(n){$("caps").textContent="БЛОК: "+new Date().toLocaleTimeString("ru-RU")}
 
-const cv=$("cv"),cx=cv.getContext("2d"),CW=960,CH=150,RM=matchMedia("(prefers-reduced-motion:reduce)").matches,ln=[38,72,106,140],ps=[];
+const cv=$("cv"),cx=cv.getContext("2d"),CW=960,CH=170,RM=matchMedia("(prefers-reduced-motion:reduce)").matches,ln=[38,72,106,140],ps=[];
 function np(bu){return{x:bu?CW/2:Math.random()*CW,y:bu?CH/2:ln[Math.random()*4|0]+(Math.random()-.5)*14,vx:bu?(Math.random()-.5)*6:.4+Math.random()*1.4,vy:bu?(Math.random()-.5)*6:0,s:bu?1.5+Math.random()*2:.8+Math.random()*1.6,l:bu?70:1/0,mx:70,c:bu?(Math.random()<.5?"34,255,136":"102,255,170"):["34,255,136","102,255,170","0,200,100"][Math.random()*3|0]}}
 for(let i=0;i<60;i++)ps.push(np());let bx=-60,bt=0;
 function loop(){cx.fillStyle="rgba(5,15,5,.25)";cx.fillRect(0,0,CW,CH);cx.strokeStyle="rgba(42,79,42,.15)";cx.lineWidth=1;for(let x=0;x<CW;x+=44){cx.beginPath();cx.moveTo(x,0);cx.lineTo(x,CH);cx.stroke()}for(const y of ln){cx.strokeStyle="rgba(255,255,255,.03)";cx.beginPath();cx.moveTo(0,y);cx.lineTo(CW,y);cx.stroke()}bt++;if(bt>240){bt=0;bx=-60}if(bx>-60||bt===1){bx+=2;cx.fillStyle="rgba(34,255,136,.12)";cx.strokeStyle="rgba(34,255,136,.5)";cx.lineWidth=1.5;cx.shadowBlur=14;cx.shadowColor="#22ff88";cx.beginPath();cx.rect(bx,CH/2-24,42,48);cx.fill();cx.stroke();cx.shadowBlur=0;cx.fillStyle="rgba(34,255,136,.85)";cx.font="700 8px monospace";cx.textAlign="center";cx.fillText("MINE",bx+21,CH/2+3);if(bx>CW+60)bx=-60}for(let i=ps.length-1;i>=0;i--){const p=ps[i];p.x+=p.vx;p.y+=p.vy;if(p.l!==1/0){p.l--;p.vx*=.97;p.vy*=.97;if(p.l<=0){ps.splice(i,1);continue}}else if(p.x>CW+10){p.x=-10;p.y=ln[Math.random()*4|0]+(Math.random()-.5)*14}cx.fillStyle="rgba("+p.c+","+(p.l===1/0?.6:p.l/p.mx*.8)+")";cx.beginPath();cx.arc(p.x,p.y,p.s,0,6.283);cx.fill()}if(!RM)requestAnimationFrame(loop)}
 RM?loop():requestAnimationFrame(loop);
 
-function rWallet(){const w=S.w;$("now").classList.toggle("hid",!!w);$("has").classList.toggle("hid",!w);$("wst").textContent=w?"АКТИВЕН · MINENET":"НЕТ КЛЮЧЕЙ";if(!w)return;$("wAddr").textContent=w.addr;$("wPub").textContent=w.pub;$("wWif").textContent=S.rev?w.wif:"•".repeat(51);$("wWif").classList.toggle("mk",!S.rev);$("bRev").textContent=S.rev?"🙈":"👁";const g=$("mn");g.innerHTML="";w.mn.split(" ").forEach((x,i)=>{const d=document.createElement("div");d.className="mw"+(S.rev?"":" hd");d.innerHTML="<i>"+String(i+1).padStart(2,"0")+"</i><b>"+(S.rev?x:"•••••")+"</b>";g.appendChild(d)})}
+function rWallet(){const w=S.w;$("now").classList.toggle("hid",!!w);$("has").classList.toggle("hid",!w);$("wst").textContent=w?"АКТИВЕН · "+S.net.nm:"НЕТ КЛЮЧЕЙ";if(!w)return;
+let displayAddr = w.addr;
+if (S.net.id === 'mine') {
+    displayAddr = getBc1Address(w.pub);
+    $("atag").textContent = "P2WPKH (bc1)";
+    $("ptag").textContent = "m/84'/0'/0'/0/0";
+} else {
+    $("atag").textContent = S.net.id==="main"?"P2PKH · 0x00":"P2PKH · 0x6F";
+    $("ptag").textContent = "m/44'/"+S.net.coin+"'/0'/0/0";
+}
+$("wAddr").textContent=displayAddr;$("wPub").textContent=w.pub;$("wWif").textContent=S.rev?w.wif:"•".repeat(51);$("wWif").classList.toggle("mk",!S.rev);$("bRev").textContent=S.rev?"🙈":"👁";const g=$("mn");g.innerHTML="";w.mn.split(" ").forEach((x,i)=>{const d=document.createElement("div");d.className="mw"+(S.rev?"":" hd");d.innerHTML="<i>"+String(i+1).padStart(2,"0")+"</i><b>"+(S.rev?x:"•••••")+"</b>";g.appendChild(d)})}
 function rBal(){const bal=mineBalance(S.w?S.w.addr:"");$("mBal").textContent=fmt(bal)+" BTC";$("mBalSat").textContent=Math.round(bal)+" sat · "+MN.blocks.length+" блоков";$("bC").textContent=fmt(bal)+" BTC";$("bT").textContent=fmt(bal)+" BTC";$("bN").textContent=MN.blocks.length;$("upd").textContent="minenet · "+MN.blocks.length+" блоков · сложность "+MN.difficulty}
 function rTxs(){const b=$("txs");b.innerHTML="";if(!S.w){b.innerHTML='<div class="em"><span class="big">🔑</span>Сначала создай кошелёк.</div>';return}const myTxs=[];for(const bl of MN.blocks)if(bl.miner===S.w.addr)myTxs.push({txid:bl.hashHex.slice(0,64),dir:1,amt:MN.reward,time:bl.minedAt||bl.timestamp*1000,fee:0,conf:true,height:bl.height});if(myTxs.length===0){b.innerHTML='<div class="em"><span class="big">⛏</span>Намайни первый блок.</div>';return}myTxs.slice(0,12).forEach((t,i)=>{const d=document.createElement("div");d.className="tx i";d.innerHTML='<div class="d">↘</div><div class="m"><span class="id">coinbase #'+t.height+'</span><div class="ag">'+ago(t.time/1000)+'</div></div><div class="r"><div class="am">+'+fmt(t.amt)+' BTC</div><span class="bg ok">БЛОК #'+t.height+'</span></div>';b.appendChild(d)})}
 function rFee(){$("fe").textContent=$("fee").value+" sat"}
 
-async function gen(){if(!S.ready)return toast("Ядро не готово","warn");$("bGen").disabled=true;try{const w=await derive(e2m(crypto.getRandomValues(new U8(16))));S.w=w;localStorage.setItem("wl_mine_wallet",JSON.stringify(w));rWallet();rBal();rTxs();sfx.gen();burst();toast("Кошелёк создан","ok",4000);log("кошелёк: "+w.addr,"ok")}catch(e){log("генерация: "+e.message,"err");toast(e.message,"err");sfx.err()}$("bGen").disabled=false}
+async function gen(){if(!S.ready)return toast("Ядро не готово","warn");$("bGen").disabled=true;try{const w=await derive(e2m(crypto.getRandomValues(new U8(16))));S.w=w;localStorage.setItem("wl_mine_wallet",JSON.stringify(w));rWallet();rBal();rTxs();sfx.gen();burst();toast("Кошелёк создан","ok",4000);log("кошелёк: "+(S.net.id==='mine'?getBc1Address(w.pub):w.addr),"ok")}catch(e){log("генерация: "+e.message,"err");toast(e.message,"err");sfx.err()}$("bGen").disabled=false}
 async function fastGen(){if(!S.ready)return toast("Ядро не готово","warn");try{const w=await derive(e2m(crypto.getRandomValues(new U8(16))));S.w=w;localStorage.setItem("wl_mine_wallet",JSON.stringify(w));rWallet();rBal();rTxs();sfx.gen();burst();toast("Кошелёк создан","ok",4000)}catch(e){log("генерация: "+e.message,"err");toast(e.message,"err");sfx.err()}}
-async function rec(){if(!S.ready)return toast("Ядро не готово","warn");const raw=$("mnIn").value;if(!raw.trim()){$("mnH").textContent="Вставь мнемонику.";$("mnH").className="hn bad";return}$("bRec").disabled=true;try{const w=await derive(raw);S.w=w;localStorage.setItem("wl_mine_wallet",JSON.stringify(w));rWallet();rBal();rTxs();$("mnH").textContent="✓ Восстановлен: "+w.addr;$("mnH").className="hn ok";$("mnIn").value="";sfx.gen();burst();toast("Кошелёк восстановлен","ok")}catch(e){$("mnH").textContent="✗ "+e.message;$("mnH").className="hn bad";$("mnIn").classList.add("sk");setTimeout(()=>$("mnIn").classList.remove("sk"),350);sfx.err()}$("bRec").disabled=false}
+async function rec(){if(!S.ready)return toast("Ядро не готово","warn");const raw=$("mnIn").value;if(!raw.trim()){$("mnH").textContent="Вставь мнемонику.";$("mnH").className="hn bad";return}$("bRec").disabled=true;try{const w=await derive(raw);S.w=w;localStorage.setItem("wl_mine_wallet",JSON.stringify(w));rWallet();rBal();rTxs();$("mnH").textContent="✓ Восстановлен: "+(S.net.id==='mine'?getBc1Address(w.pub):w.addr);$("mnH").className="hn ok";$("mnIn").value="";sfx.gen();burst();toast("Кошелёк восстановлен","ok")}catch(e){$("mnH").textContent="✗ "+e.message;$("mnH").className="hn bad";$("mnIn").classList.add("sk");setTimeout(()=>$("mnIn").classList.remove("sk"),350);sfx.err()}$("bRec").disabled=false}
 function arm(b,l,f){if(b.dataset.a){delete b.dataset.a;b.classList.remove("ar");b.textContent=b.dataset.o;f();return}b.dataset.o=b.textContent;b.dataset.a="1";b.classList.add("ar");b.textContent=l;setTimeout(()=>{if(b.dataset.a){delete b.dataset.a;b.classList.remove("ar");b.textContent=b.dataset.o}},3000)}
 function wipe(){if(!S.w)return;const bk=S.w;S.w=null;localStorage.removeItem("wl_mine_wallet");rWallet();rBal();rTxs();log("кошелёк стёрт","inf");toast("Кошелёк стёрт","warn",4000,{l:"ВЕРНУТЬ",f:()=>{S.w=bk;localStorage.setItem("wl_mine_wallet",JSON.stringify(bk));rWallet();rBal();rTxs();toast("Возвращён","ok")}})}
-function validateTo(){const v=$("to").value.trim();if(!v){$("tom").textContent="";$("toh").className="hn";$("toh").textContent="Проверка Base58Check";return}try{spk(v);$("tom").textContent="✓";$("tom").style.color="var(--ac)";$("toh").textContent="✓ Адрес валиден";$("toh").className="hn ok"}catch(e){$("tom").textContent="✗";$("tom").style.color="var(--rd)";$("toh").textContent="✗ "+e.message;$("toh").className="hn bad"}}
+function validateTo(){const v=$("to").value.trim();if(!v){$("tom").textContent="";$("toh").className="hn";$("toh").textContent="Проверка Bech32 / Base58Check";return}try{spk(v,S.net);$("tom").textContent="✓";$("tom").style.color="var(--ac)";$("toh").textContent="✓ Адрес валиден";$("toh").className="hn ok"}catch(e){$("tom").textContent="✗";$("tom").style.color="var(--rd)";$("toh").textContent="✗ "+e.message;$("toh").className="hn bad"}}
 async function build(max){if(!S.w)return toast("Сначала создай кошелёк","warn");$("rev").classList.add("hid");$("crow").classList.add("hid");$("sent").classList.add("hid");$("bBuild").disabled=true;$("bMax").disabled=true;try{const to=$("to").value.trim();if(!to)throw Error("Укажи адрес получателя");spk(to);const parse=()=>Math.round(parseFloat($("amt").value.replace(",","."))*1e8);const fee=parseInt($("fee").value)||0,bal=mineBalance(S.w.addr);let amt;if(max){amt=bal-fee;$("amt").value=fmt(Math.max(0,amt))}else amt=parse();if(!Number.isFinite(amt)||amt<=0)throw Error("Укажи сумму");if(amt<546)throw Error("Сумма ниже dust (546 sat)");if(amt+fee>bal)throw Error("Не хватает: баланс "+fmt(bal));S.pend={to,amt,fee};$("rev").innerHTML='<div class="rr big"><span>ПОЛУЧАЕТ</span><b>'+fmt(amt)+' BTC</b></div><div class="rr"><span>адрес</span><b>'+to+'</b></div><div class="rr"><span>комиссия</span><b>'+fee+' sat</b></div><div class="wl">🔒 Локальная транзакция minenet — будет включена в следующий намайненный блок.</div>';$("rev").classList.remove("hid");$("crow").classList.remove("hid");sfx.tick();log("tx собрана: "+fmt(amt)+" BTC","ok")}catch(e){log("сборка: "+e.message,"err");toast(e.message,"err");sfx.err()}$("bBuild").disabled=false;$("bMax").disabled=false}
 function send(){if(!S.pend)return toast("Сначала собери транзакцию","warn");const p=S.pend;const tx={version:1,inputs:[{prevHash:p.prevTxid||rh(32),prevIndex:0,script:new U8(0),sequence:0xFFFFFFFF,spentAddr:S.w.addr}],outputs:[{value:p.amt,script:cat([118,169,20],addrH160(p.to),[136,172])},{value:Math.max(0,mineBalance(S.w.addr)-p.amt-p.fee),script:cat([118,169,20],addrH160(S.w.addr),[136,172])}],locktime:0,fee:p.fee};MN.txPool.push(tx);saveMN();$("sent").className="sn";$("sent").innerHTML='✅ <b>ТРАНЗАКЦИЯ В ОЧЕРЕДИ MINENET</b><br>'+fmt(p.amt)+' BTC → '+p.to+'<br><span style="color:var(--mu);font-size:9.5px">Будет включена в следующий намайненный блок.</span>';$("sent").classList.remove("hid");$("rev").classList.add("hid");$("crow").classList.add("hid");$("amt").value="";sfx.tick();log("MINENET: tx в пуле","ok");toast("Транзакция добавлена в пул","ok")}
 async function copy(t,b){try{await navigator.clipboard.writeText(t)}catch(e){const a=document.createElement("textarea");a.value=t;document.body.appendChild(a);a.select();try{document.execCommand("copy")}catch(x){}a.remove()}if(b){const o=b.textContent;b.classList.add("dn");b.textContent="✓ СКОПИРОВАНО";setTimeout(()=>{b.classList.remove("dn");b.textContent=o},1400)}sfx.tick()}
@@ -444,7 +601,7 @@ $("bBuild").onclick=()=>build(false);$("bMax").onclick=()=>build(true);$("bSend"
 $("bCanc").onclick=()=>{$("rev").classList.add("hid");$("crow").classList.add("hid");log("отменено","inf")};
 $("fee").onchange=()=>rFee();
 $("snd").onclick=()=>{S.snd=!S.snd;localStorage.setItem("wl_snd",S.snd?"1":"0");$("snd").classList.toggle("mu",!S.snd);$("snd").firstChild.textContent=S.snd?"🔊 ":"🔇 ";$("sndl").textContent=S.snd?"ЗВУК":"ТИХО"};
-document.querySelectorAll(".cb[data-c]").forEach(b=>b.onclick=()=>{if(S.w)copy(b.dataset.c==="addr"?S.w.addr:S.w.wif,b)});
+document.querySelectorAll(".cb[data-c]").forEach(b=>b.onclick=()=>{if(S.w)copy(b.dataset.c==="addr"?(S.net.id==='mine'?getBc1Address(S.w.pub):S.w.addr):S.w.wif,b)});
 document.querySelectorAll(".fc").forEach(c=>c.onclick=()=>{document.querySelectorAll(".fc").forEach(x=>x.classList.remove("on"));c.classList.add("on")});
 $("dcl").onclick=()=>{$("sc").classList.remove("on");$("dr").classList.remove("on")};$("sc").onclick=()=>{$("sc").classList.remove("on");$("dr").classList.remove("on")};$("dcp").onclick=()=>{if(S.dtx)copy(S.dtx.hashHex||S.dtx.txid,$("dcp"))};
 $("to").oninput=()=>validateTo();
@@ -463,7 +620,7 @@ if(!b){log("⛔ BIP39 не загружен","err");return}
 W=b.w;log("BIP39: 2048 ✓"+(b.n?" (восстановлен)":"")+" · 4 вектора OK","ok");
 WI=new Map(W.map((w,i)=>[w,i]));S.ready=true;
 try{const a=enc.encode("abc");if(hex(sha(a))!=="ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad")throw Error("SHA");if(hex(rmd(a))!=="8eb208f7e05d987a9b044a8e98c6b087f15a0bfc")throw Error("RIPEMD");if(aff(1n).x!==Gx)throw Error("secp G");if(aff(2n).x!==0xC6047F9441ED7D6D3045406E95C07CD85C778E4B8CEF3CA7ABAC09B95C709EE5n)throw Error("secp 2G");for(const[e,m]of VEC)if(e2m(hb(e))!==m)throw Error("BIP39 vec "+e);const v=await derive("abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon abandon about");if(v.addr!=="1LqBGSKuX5yYUonjxT5qGfpUsXKYYWeabA")throw Error("BIP44 vec got "+v.addr);log("самопроверка: ВСЁ OK","ok")}catch(e){log("⛔ самопроверка: "+e.message,"err");return}
-if(S.w){rWallet();rBal();rTxs();log("кошелёк загружен: "+S.w.addr,"inf")}
+if(S.w){rWallet();rBal();rTxs();log("кошелёк загружен: "+(S.net.id==='mine'?getBc1Address(S.w.pub):S.w.addr),"inf")}
 if(MN.blocks.length===0){MN.blocks.push(genesisBlock());saveMN();mineLog("⛏ Genesis-блок создан","inf")}
 renderBlocks();
 const bits=difficultyToBits(MN.difficulty);const target=bitsToTarget(bits);$("mDiffVal").textContent=MN.difficulty+" нулевых байт";$("mTarget").textContent=targetToHex(target).slice(0,32)+"…";$("mhBits").textContent="0x"+bits.toString(16).padStart(8,"0");
